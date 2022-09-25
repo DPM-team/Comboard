@@ -1,0 +1,11 @@
+{
+  "name": "comboard",
+  "version": "1.0.0",
+  "description": "A simpler way of communicating for all your work related activities!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "DPM",
+  "license": "ISC"
+}
