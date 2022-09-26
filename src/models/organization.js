@@ -33,7 +33,7 @@ const organizationSchema = mongoose.Schema({
   },
 });
 
-const Organization = mongoose.model("Organization");
+const Organization = mongoose.model("Organization", organizationSchema);
 
 module.exports = {
   Organization,

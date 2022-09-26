@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 const { organizationSchema } = require("./organization");
 const { accountSchema } = require("./account");
+const { profileSchema } = require("./profile.js");
 
 const userSchema = mongoose.Schema({
   account: {
     type: accountSchema,
   },
   profile: {
-    type: new Schema(), //Profile Schema
+    type: profileSchema,
     required: true,
   },
   organizations: {
