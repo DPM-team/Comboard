@@ -4,14 +4,12 @@ class Email {
   #to;
   #from;
   #subject;
-  #text;
   #html;
 
-  constructor(to, from, subject, text, html) {
+  constructor(to, subject, html) {
     this.#to = to;
-    this.#from = from;
+    this.#from = "dpmcomboard@gmail.com";
     this.#subject = subject;
-    this.#text = text;
     this.#html = html;
   }
 
@@ -25,10 +23,6 @@ class Email {
 
   get subject() {
     return this.#subject;
-  }
-
-  get text() {
-    return this.#text;
   }
 
   get html() {
