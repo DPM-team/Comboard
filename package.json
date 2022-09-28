@@ -4,8 +4,16 @@
   "description": "A simpler way of communicating for all your work related activities!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "env-cmd -f ./config/dev.env node src/server/index.js",
+    "dev": "env-cmd -f ./config/dev.env nodemon src/server/index.js"
   },
   "author": "DPM",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "nodemon": "^2.0.20"
+  }
 }
