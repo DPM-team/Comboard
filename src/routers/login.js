@@ -1,6 +1,6 @@
 const express = require("");
 const User = require("../models/user");
-const auth = require("../middleware/authentication");
+const authentication = require("../middleware/authentication");
 const router = new express.Router();
 
 //This is the router which runs when one user tries to login.User informaton will be sent back to client.
