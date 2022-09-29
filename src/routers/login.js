@@ -7,6 +7,7 @@ const router = new express.Router();
 router.post("/users/login", async (req, res) => {
   try {
     const user = User.checkCredentials(req.body.username, req.body.password);
+    const generateToken = user.generateAuthenticationToken();
     res.send();
   } catch (e) {
     res.status(400).send();
