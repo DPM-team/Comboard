@@ -57,6 +57,18 @@ userSchema.statics.checkCredentials = async (username, password) => {
   return user;
 };
 
+/**
+ * This ia a method which generates a token for each existing connection of user in the app.
+ * @returns {generatedToken} Returns the generated token.
+ */
+userSchema.methods.generateAuthenticationToken = async () => {
+  const generatedToken = jwt.sign({ _id: this._id.toString() }, process.env.JWT_SECRET);
+
+  //add token in user's array
+
+  return generatedToken;
+};
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
