@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const { organizationSchema } = require("./organization");
 const { accountSchema } = require("./account");
 const { profileSchema } = require("./profile.js");
-const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema({
   account: {
@@ -16,6 +17,23 @@ const userSchema = mongoose.Schema({
     type: [organizationSchema],
   },
 });
+
+/**
+ * This is a method that generates a jwt token for a user when
+ * he successfully logs into his account. The method doesn't have any parameters.
+ * The "jsonwebtoken" package was used to implement the functionality
+ * @returns {string} A jwt token in string format
+ * @this {User} Reference to a User instance
+ */
+userSchema.methods.generateAuthToken = async function () {
+  const user = this;
+
+  const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
+  user.tokens = user.tokens.concat({ token });
+  await user.save();
+
+  return token;
+};
 
 /**
  * This is a static function that checks the credentials of user.
