@@ -25,14 +25,14 @@ const userSchema = mongoose.Schema({
  * @returns {string} A jwt token in string format
  * @this {User} Reference to a User instance
  */
-userSchema.methods.generateAuthToken = async function () {
+userSchema.methods.generateAuthenticationToken = async function () {
   const user = this;
 
-  const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
-  user.tokens = user.tokens.concat({ token });
+  const generatedToken = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
+  user.tokens = user.tokens.concat({ generatedToken });
   await user.save();
 
-  return token;
+  return generatedToken;
 };
 
 /**
@@ -55,18 +55,6 @@ userSchema.statics.checkCredentials = async (username, password) => {
   }
 
   return user;
-};
-
-/**
- * This ia a method which generates a token for each existing connection of user in the app.
- * @returns {generatedToken} Returns the generated token.
- */
-userSchema.methods.generateAuthenticationToken = async () => {
-  const generatedToken = jwt.sign({ _id: this._id.toString() }, process.env.JWT_SECRET);
-
-  //add token in user's array
-
-  return generatedToken;
 };
 
 const User = mongoose.model("User", userSchema);

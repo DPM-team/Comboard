@@ -12,7 +12,7 @@ router.get("/register", async function (req, res) {
   try {
     await user.save();
     sendEmail(new Email(user.email, "dpmcomboard@gmail.com", "TestSubject", "<h1>Test content</h1>"));
-    const token = await user.generateAuthToken();
+    const token = await user.generateAuthenticationToken();
     res.status(201).send({ user, token });
   } catch (error) {
     res.status(400).send(error);
