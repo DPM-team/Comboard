@@ -29,7 +29,8 @@ form input[type="button"] {
   font-weight: bold;
 }
 
-form button {
+form button,
+.btn {
   padding: 0.75rem;
   display: block;
   cursor: pointer;
@@ -43,7 +44,8 @@ form button {
 }
 
 form input[type="button"]:hover,
-form button:hover {
+form button:hover,
+.btn:hover {
   filter: brightness(0.8);
 }
 
