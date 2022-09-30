@@ -1,7 +1,10 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-//This function will serve as middleware for user authentication before any action related to the routers
+/**
+ *This function will serve as middleware for user authentication
+ *before any action related to the routers
+ */
 const authentication = async (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");

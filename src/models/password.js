@@ -16,7 +16,9 @@ const passwordSchema = new mongoose.Schema({
   },
 });
 
-//Middleware function for password security
+/**
+ * Middleware function for password security
+ */
 passwordSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 8);
