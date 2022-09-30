@@ -1,0 +1,73 @@
+:root {
+  --primary-color: #1a75ff;
+  --primary-bright-color: #ffffff;
+  --secondary-bright-color: #ccc;
+  --primary-dark-color: #000000;
+  --secondary-dark-color: #747474;
+  --primary-red-color: red;
+  --primary-green-color: green;
+}
+
+/* Form in general */
+form input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1.5px solid var(--secondary-bright-color);
+  border-radius: 0.25rem;
+  margin: 1rem 0;
+}
+
+/* Button in form */
+form input[type="button"] {
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: var(--primary-bright-color);
+  text-align: center;
+  border: 2px solid var(--primary-dark-color);
+  transition-duration: 0.4s;
+  font-weight: bold;
+}
+
+form button {
+  padding: 0.75rem;
+  display: block;
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: var(--primary-bright-color);
+  text-align: center;
+  border-radius: 0.25rem;
+  border: 2px solid var(--primary-dark-color);
+  transition-duration: 0.4s;
+  font-weight: bold;
+}
+
+form input[type="button"]:hover,
+form button:hover {
+  filter: brightness(0.8);
+}
+
+/* Images for inputs */
+#email {
+  padding-left: 25px;
+  background: url("../../resources/images/common-images/at-sign-30px.png") no-repeat left;
+  background-size: 20px;
+}
+
+#code {
+  padding-left: 25px;
+  background: url("../../resources/images/forgot-password/verification-code-30px.png") no-repeat left;
+  background-size: 20px;
+}
+
+#password {
+  padding-left: 25px;
+  background: url("../../resources/images/forgot-password/reset-password-30px.png") no-repeat left;
+  background-size: 20px;
+}
+
+#confirmPassword {
+  padding-left: 25px;
+  background: url("../../resources/images/forgot-password/confirm-password-30px.png") no-repeat left;
+  background-size: 20px;
+}
