@@ -1,0 +1,260 @@
+nav {
+  display: flex;
+  justify-content: left;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-size: small;
+}
+
+.box {
+  display: block;
+  margin: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 25%;
+  box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+}
+
+.box > img,
+input {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
+
+input {
+  border-radius: 5px;
+  border: solid 1.5px;
+  border-color: #0a3c5f;
+  width: 65%;
+  height: 30px;
+  margin-top: 22px;
+}
+
+.login-form {
+  background-repeat: no-repeat;
+  background-size: 20px;
+  padding-left: 27px;
+  background-position: left;
+}
+
+#username {
+  background-image: url("image/icons8_user_24px.png");
+}
+
+#password,
+#confirm-password {
+  background-image: url("image/icons8_password_24px.png");
+}
+
+h2,
+h4 {
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 2px;
+}
+
+h4 {
+  color: #a0a6b0;
+}
+
+#alternative-sign-in {
+  background-color: #d9d9d9;
+  border-radius: 15px;
+  margin: auto;
+  width: 30%;
+}
+
+form {
+  margin-top: 10px;
+}
+
+.raw-line {
+  margin-top: -5px;
+  display: flex;
+  justify-content: space-around;
+}
+
+hr {
+  width: 100px;
+}
+
+#forgot-password {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  padding-right: 160px;
+  color: #1a75ff;
+  position: relative;
+  bottom: 80px;
+}
+
+#login-btn {
+  background-color: #1a75ff;
+  color: white;
+  border-radius: 0px;
+  margin-top: 20px;
+  width: 71%;
+}
+
+#login-btn:hover {
+  background-color: rgba(26, 117, 255, 0.85);
+  cursor: pointer;
+}
+
+ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.alternative-login {
+  border: none;
+  background-color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.alternative-login-img {
+  width: 35px;
+  height: 35px;
+}
+
+#create-account {
+  text-align: center;
+  font-size: medium;
+}
+
+#email {
+  background-image: url("image/icons8_at_sign_26px.png");
+}
+
+#join-now {
+  color: #1a75ff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+#agreement,
+#password-mandatory {
+  text-align: center;
+
+  font-size: x-small;
+  width: 290px;
+}
+
+#agreement {
+  position: relative;
+  padding-left: 40px;
+  bottom: 35px;
+}
+
+#password {
+  margin-bottom: 40px;
+}
+
+#password-mandatory {
+  position: relative;
+  padding-left: 40px;
+  bottom: 130px;
+}
+
+@media screen and (max-width: 1283.2px) {
+  .box {
+    width: 30%;
+  }
+
+  input {
+    width: 70%;
+  }
+
+  #forgot-password {
+    padding-right: 115px;
+  }
+}
+
+@media screen and (max-width: 1310px) {
+  #agreement,
+  #password-mandatory {
+    padding-left: 0px;
+    font-size: 0.6rem;
+  }
+}
+
+@media screen and (max-width: 919.11px) {
+  .box {
+    width: 40%;
+  }
+}
+
+@media screen and (max-width: 803.56px) {
+  .box {
+    width: 42%;
+  }
+}
+
+@media screen and (max-width: 576.89px) {
+  .box {
+    width: 80%;
+  }
+
+  hr {
+    width: 50px;
+  }
+
+  #forgot-password {
+    padding-right: 80px;
+  }
+
+  #agreement,
+  #password-mandatory {
+    font-size: 0.34rem;
+  }
+
+  #agreement {
+    bottom: 10px;
+    right: 20px;
+  }
+
+  #password-mandatory {
+    left: 20px;
+  }
+
+  nav > img {
+    width: 0px;
+  }
+}
+
+@media screen and (max-width: 326.4px) {
+  .box {
+    width: 85%;
+  }
+
+  hr {
+    width: 20px;
+  }
+
+  #forgot-password {
+    padding-right: 0px;
+  }
+
+  .alternative-login-img {
+    width: 24px;
+  }
+
+  #agreement,
+  #password-mandatory {
+    font-size: 0.34rem;
+  }
+
+  #agreement {
+    bottom: 10px;
+    right: 10px;
+  }
+}
