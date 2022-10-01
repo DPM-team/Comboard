@@ -60,14 +60,23 @@ form button:hover {
   background-size: 20px;
 }
 
-#password {
+#newPassword {
   padding-left: 25px;
   background: url("../../resources/images/forgot-password/reset-password-30px.png") no-repeat left;
   background-size: 20px;
 }
 
-#confirmPassword {
+#newConfirmPassword {
   padding-left: 25px;
   background: url("../../resources/images/forgot-password/confirm-password-30px.png") no-repeat left;
   background-size: 20px;
+}
+
+#username {
+  background-image: url("../../resources/images/login-register/user-24px.png");
+}
+
+#password,
+#confirm-password {
+  background-image: url("../../resources/images/login-register/password-24px.png");
 }
