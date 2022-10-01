@@ -4,7 +4,6 @@ nav {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
   font-size: small;
 }
 
@@ -71,11 +70,6 @@ hr {
   color: #1a75ff;
   position: relative;
   bottom: 80px;
-}
-
-#login-btn:hover {
-  background-color: rgba(26, 117, 255, 0.85);
-  cursor: pointer;
 }
 
 ul {
@@ -192,10 +186,6 @@ ul {
 
   #password-mandatory {
     left: 20px;
-  }
-
-  nav > img {
-    width: 0px;
   }
 }
 
