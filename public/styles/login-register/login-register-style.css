@@ -4,7 +4,6 @@ nav {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
   font-size: small;
 }
 
@@ -18,37 +17,17 @@ body {
   border-radius: 15px;
 }
 
-.box > img,
-input {
+.box > img {
   display: block;
   margin-left: auto;
   margin-right: auto;
   margin-top: 10px;
 }
 
-input {
-  border-radius: 5px;
-  border: solid 1.5px;
-  border-color: #0a3c5f;
-  width: 65%;
-  height: 30px;
-  margin-top: 22px;
-}
-
 .login-form {
   background-repeat: no-repeat;
-  background-size: 20px;
   padding-left: 27px;
   background-position: left;
-}
-
-#username {
-  background-image: url("image/icons8_user_24px.png");
-}
-
-#password,
-#confirm-password {
-  background-image: url("image/icons8_password_24px.png");
 }
 
 h2,
@@ -93,19 +72,6 @@ hr {
   bottom: 80px;
 }
 
-#login-btn {
-  background-color: #1a75ff;
-  color: white;
-  border-radius: 0px;
-  margin-top: 20px;
-  width: 71%;
-}
-
-#login-btn:hover {
-  background-color: rgba(26, 117, 255, 0.85);
-  cursor: pointer;
-}
-
 ul {
   display: flex;
   justify-content: space-around;
@@ -129,10 +95,6 @@ ul {
 #create-account {
   text-align: center;
   font-size: medium;
-}
-
-#email {
-  background-image: url("image/icons8_at_sign_26px.png");
 }
 
 #join-now {
@@ -224,10 +186,6 @@ ul {
 
   #password-mandatory {
     left: 20px;
-  }
-
-  nav > img {
-    width: 0px;
   }
 }
 
