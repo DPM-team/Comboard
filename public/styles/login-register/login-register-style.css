@@ -18,7 +18,7 @@ body {
 }
 
 input {
-  width: 80% !important;
+  width: 70% !important;
 }
 
 .box > img {
@@ -69,10 +69,10 @@ hr {
   display: flex;
   justify-content: center;
   margin-top: 10px;
-  padding-right: 160px;
+  padding-right: 190px;
   color: #1a75ff;
   position: relative;
-  bottom: 80px;
+  bottom: 100px;
 }
 
 ul {
@@ -166,7 +166,7 @@ ul {
 
 @media screen and (max-width: 576.89px) {
   .box {
-    width: 80%;
+    width: 60%;
   }
 
   hr {
