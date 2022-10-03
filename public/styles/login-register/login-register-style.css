@@ -17,6 +17,10 @@ body {
   border-radius: 15px;
 }
 
+input {
+  width: 80% !important;
+}
+
 .box > img {
   display: block;
   margin-left: auto;
@@ -26,7 +30,6 @@ body {
 
 .login-form {
   background-repeat: no-repeat;
-  padding-left: 27px;
   background-position: left;
 }
 
