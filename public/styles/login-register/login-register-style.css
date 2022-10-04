@@ -67,12 +67,9 @@ hr {
 
 #forgot-password {
   display: flex;
-  justify-content: center;
-  margin-top: 10px;
-  padding-right: 190px;
+  justify-content: space-around;
+  padding-right: 140px;
   color: #1a75ff;
-  position: relative;
-  bottom: 100px;
 }
 
 ul {
@@ -111,44 +108,13 @@ ul {
   text-align: center;
 
   font-size: x-small;
-  width: 290px;
-}
-
-#agreement {
-  position: relative;
   padding-left: 40px;
-  bottom: 35px;
-}
-
-#password {
-  margin-bottom: 40px;
-}
-
-#password-mandatory {
-  position: relative;
-  padding-left: 40px;
-  bottom: 130px;
+  width: 75%;
 }
 
 @media screen and (max-width: 1283.2px) {
   .box {
     width: 30%;
-  }
-
-  input {
-    width: 70%;
-  }
-
-  #forgot-password {
-    padding-right: 115px;
-  }
-}
-
-@media screen and (max-width: 1310px) {
-  #agreement,
-  #password-mandatory {
-    padding-left: 0px;
-    font-size: 0.6rem;
   }
 }
 
@@ -158,9 +124,13 @@ ul {
   }
 }
 
-@media screen and (max-width: 803.56px) {
+@media screen and (max-width: 750.4px) {
   .box {
-    width: 42%;
+    width: 45%;
+  }
+
+  #forgot-password {
+    padding-right: 70px;
   }
 }
 
@@ -171,24 +141,6 @@ ul {
 
   hr {
     width: 50px;
-  }
-
-  #forgot-password {
-    padding-right: 80px;
-  }
-
-  #agreement,
-  #password-mandatory {
-    font-size: 0.34rem;
-  }
-
-  #agreement {
-    bottom: 10px;
-    right: 20px;
-  }
-
-  #password-mandatory {
-    left: 20px;
   }
 }
 
@@ -207,15 +159,5 @@ ul {
 
   .alternative-login-img {
     width: 24px;
-  }
-
-  #agreement,
-  #password-mandatory {
-    font-size: 0.34rem;
-  }
-
-  #agreement {
-    bottom: 10px;
-    right: 10px;
   }
 }
