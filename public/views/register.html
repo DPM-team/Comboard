@@ -2,18 +2,19 @@
 <html>
   <head>
     <title>Sign Up Page</title>
+    <link rel="stylesheet" href="../styles/common-styles/default-font-styles.css" />
     <link rel="stylesheet" href="../styles/common-styles/form.css" />
     <link rel="stylesheet" href="../styles/login-register/login-register-style.css" />
-    <link rel="icon" type="image/x-icon" href="../resources/images/login-register/comboard_favicon-removebg.png" />
+    <link rel="icon" type="image/x-icon" href="../resources/favicon/comboard-favicon.ico" />
   </head>
 
   <body>
     <nav>
-      <img src="../resources/images/login-register/logo.png" width="100" />
+      <img src="../resources/comboard-logo/main-logo-transparent.png" width="100" />
     </nav>
 
     <div class="box">
-      <img src="../resources/images/login-register/comboard_favicon.png" width="70" />
+      <img src="../resources/favicon/comboard-favicon.ico" width="70" />
       <h2>Join Our Community!</h2>
       <h4>Create an acount fast and simple!</h4>
       <form>
@@ -22,14 +23,11 @@
         <input id="username" class="login-form" type="text" placeholder="Username" />
         <input id="email" class="login-form" type="email" placeholder="Email" />
         <input id="password" class="login-form" type="password" placeholder="Password" />
+        <p id="password-mandatory">Use 8 or more characters with a combination of letters, numbers and symbols</p>
         <input id="confirm-password" class="login-form" type="password" placeholder="Confirm Password" />
         <input id="login-btn" type="button" value="Agree & Join" />
+        <p id="agreement">By clicking Agree & Join, you agree to the comboard <a href="">User Agrement</a>, <a href="#">Privacy Policy</a> and <a href="#">CooKie Policy</a></p>
       </form>
-      <p id="password-mandatory">Use 8 or more characters with a combination of letters, numbers and symbols</p>
-      <p id="agreement">
-        By clicking Agree & Join, you agree to the comboard <a href="">User Agrement</a>, <a href="#">Privacy Policy</a> and
-        <a href="#">CooKie Policy</a>
-      </p>
 
       <div class="raw-line">
         <div class="hr-line">
@@ -49,13 +47,13 @@
           <button class="alternative-login"><img class="alternative-login-img" src="../resources/images/login-register/google-logo-32px.png" /></button>
         </li>
         <li>
-          <button class="alternative-login"><img class="alternative-login-img" src="../resources/images/login-register/icons8_linkedin_2_50px.png" /></button>
+          <button class="alternative-login"><img class="alternative-login-img" src="../resources/images/login-register/linkedin-logo-50px.png" /></button>
         </li>
         <li>
-          <button class="alternative-login"><img class="alternative-login-img" src="../resources/images/login-register/icons8_Apple_Logo_64px.png" /></button>
+          <button class="alternative-login"><img class="alternative-login-img" src="../resources/images/login-register/apple-logo-64px.png" /></button>
         </li>
       </ul>
     </div>
-    <p id="create-account">Already member of comboard?<a id="join-now" href="#">Login!</a></p>
+    <p id="create-account">Already member of comboard?<a id="join-now" href="../views/login.html">Login!</a></p>
   </body>
 </html>
