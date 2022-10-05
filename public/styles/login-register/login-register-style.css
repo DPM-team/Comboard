@@ -17,20 +17,18 @@ body {
   border-radius: 15px;
 }
 
+.box img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 input {
   width: 70% !important;
 }
 
-.box > img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+form {
   margin-top: 10px;
-}
-
-.login-form {
-  background-repeat: no-repeat;
-  background-position: left;
 }
 
 h2,
@@ -51,24 +49,19 @@ h4 {
   width: 30%;
 }
 
-form {
-  margin-top: 10px;
-}
-
 .raw-line {
-  margin-top: -5px;
   display: flex;
   justify-content: space-around;
 }
 
 hr {
-  width: 100px;
+  width: 6rem;
 }
 
 #forgot-password {
   display: flex;
   justify-content: space-around;
-  padding-right: 140px;
+  padding-right: 170px;
   color: #1a75ff;
 }
 
@@ -106,7 +99,6 @@ ul {
 #agreement,
 #password-mandatory {
   text-align: center;
-
   font-size: x-small;
   padding-left: 40px;
   width: 75%;
@@ -115,6 +107,10 @@ ul {
 @media screen and (max-width: 1283.2px) {
   .box {
     width: 30%;
+  }
+
+  #forgot-password {
+    padding-right: 60px;
   }
 }
 
@@ -138,10 +134,6 @@ ul {
   .box {
     width: 60%;
   }
-
-  hr {
-    width: 50px;
-  }
 }
 
 @media screen and (max-width: 326.4px) {
@@ -150,7 +142,7 @@ ul {
   }
 
   hr {
-    width: 20px;
+    width: 3.9rem;
   }
 
   #forgot-password {
