@@ -21,10 +21,9 @@ btnScrollTo.addEventListener("click", function (e) {
 });
 
 document.querySelector(".nav__links").addEventListener("click", function (e) {
-  e.preventDefault();
-
   // Matching strategy
   if (e.target.classList.contains("nav__link")) {
+    e.preventDefault();
     const id = e.target.getAttribute("href");
     document.querySelector(id).scrollIntoView({ behavior: "smooth" });
   }
@@ -99,12 +98,12 @@ headerObserver.observe(header);
 //   observer.unobserve(entry.target);
 // };
 
-const sectionObserver = new IntersectionObserver(revealSection, {
-  root: null,
-  threshold: 0.15,
-});
+// const sectionObserver = new IntersectionObserver(revealSection, {
+//   root: null,
+//   threshold: 0.15,
+// });
 
-allSections.forEach(function (section) {
-  sectionObserver.observe(section);
-  section.classList.add("section--hidden");
-});
+// allSections.forEach(function (section) {
+//   sectionObserver.observe(section);
+//   section.classList.add("section--hidden");
+// });

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content=width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width" , initial-scale="1.0" />
     <title>Comboard - For your own comfort!</title>
     <link rel="stylesheet" href="styles/index/index-style.css" />
     <script src="js/index/index.js" defer></script>
@@ -11,13 +11,7 @@
   <body>
     <header class="header">
       <nav class="nav">
-        <img
-          src="./resources/comboard-logo/logo.jpg"
-          alt="Comboard logo"
-          class="nav__logo"
-          id="logo"
-        />
-        
+        <img src="./resources/comboard-logo/logo-transparent-moto.png" alt="Comboard logo" class="nav__logo" id="logo" />
         <ul class="nav__links">
           <li class="nav__item">
             <a class="nav__link" href="#section--features">Features</a>
@@ -29,14 +23,13 @@
             <a class="nav__link" href="#section--testimonials">Testimonials</a>
           </li>
           <li class="nav__item">
-            <a href="#user--profile"
-                <div style="float: left;">
-                    <img id="user__icon" src="./resources/images/index/user.png" alt="Login">
-                </div>
+            <a href="./views/login.html">
+              <img id="user__icon" src="./resources/images/index/user.png" alt="Login" />
+            </a>
           </li>
-          <li class="nav__item">
+          <!-- <li class="nav__item">
             <a class="nav__link" href="#"></a>
-          </li>
+          </li> -->
         </ul>
       </nav>
     </header>
@@ -45,98 +38,67 @@
         <h1>
           When&nbsp;
           <!-- Blue highlight effect -->
-          <span class="highlight">Communication</span><br>
-          meets 
+          <span class="highlight">Communication</span><br />
+          meets
           <span class="highlight">simplicity.</span>
         </h1>
         <h4 id="text--explanation">A simpler way of communicating for all your work related activites.</h4>
         <button class="btn--text btn--scroll-to">Learn more &DownArrow;</button>
       </div>
       <div class="column--40perc" id="welcome--photo">
-        <img
-          src="./resources/images/index/people.png"
-          class="header__img"
-          alt="People around the table sketch."
-        />
+        <img src="./resources/images/index/people.png" class="header__img" alt="People around the table sketch." />
       </div>
     </section>
     <section class="section" id="section--features">
       <div class="section__title">
         <h2 class="section__description">Features</h2>
-        <h3 class="section__header">
-          Every functionality you need in order to do your job, lies inside the Comboard universe.
-        </h3>
+        <h3 class="section__header">Every functionality you need in order to do your job, lies inside the Comboard universe.</h3>
       </div>
       <section class="first__feature">
         <div class="column--40perc" id="feature-networking--photo">
-          <img
-          src="./resources/images/index/networking.jpg"
-          data-src="resources/index/networking.jpg"
-          alt="Networking inside your organization"
-          class="features__img lazy-img"
-        />
+          <img src="./resources/images/index/networking.jpg" data-src="resources/index/networking.jpg" alt="Networking inside your organization" class="features__img lazy-img" />
         </div>
         <div class="column--60perc" id="feature-networking--text">
           <div class="features__feature">
             <div class="features__icon">
-              <img
-                src="./resources/images/index/networking_icon.png"
-              />
+              <img src="./resources/images/index/networking_icon.png" />
             </div>
             <h5 class="features__header">Networking</h5>
             <p>
-              Networking inside your organization has never been easier.. Think about it as if all organization members 
-              are in the same building. Since that cannot happen, your only option is Comboard!
+              Networking inside your organization has never been easier.. Think about it as if all organization members are in the same building. Since that cannot happen, your only option is
+              Comboard!
             </p>
           </div>
         </div>
       </section>
       <section class="second__feature">
-          <div class="column--60perc2" id="feature-communication--text">
-            <div class="features__feature">
-              <div class="features__icon">
-                <img
-                  src="./resources/images/index/communication_icon.png"
-                />
-              </div>
-              <h5 class="features__header">Communication</h5>
-              <p>
-                We would probably guess that by now you are tired of using lots of different application for your everyday
-                communication (Chatting, Online Meetings etc.) with your organization members. So, why not do all that with 
-                a single application?
-              </p>
+        <div class="column--60perc2" id="feature-communication--text">
+          <div class="features__feature">
+            <div class="features__icon">
+              <img src="./resources/images/index/communication_icon.png" />
             </div>
+            <h5 class="features__header">Communication</h5>
+            <p>
+              We would probably guess that by now you are tired of using lots of different application for your everyday communication (Chatting, Online Meetings etc.) with your organization members.
+              So, why not do all that with a single application?
+            </p>
           </div>
-          <div class="column--40perc2" id="feature-communication--photo">
-              <img
-              src="./resources/images/index/communication.jpg"
-              data-src="resources/index/communication.jpg"
-              alt="Communication"
-              class="features__img lazy-img"
-            />
-          </div>
+        </div>
+        <div class="column--40perc2" id="feature-communication--photo">
+          <img src="./resources/images/index/communication.jpg" data-src="resources/index/communication.jpg" alt="Communication" class="features__img lazy-img" />
         </div>
       </section>
       <section class="third__feature">
-        <div class="column--40perc"id="feature-organizing--photo">
-          <img
-          src="./resources/images/index/organizing.jpg"
-          data-src="resources/index/organizing.jpg"
-          alt="Organizing"
-          class="features__img lazy-img"
-        />
+        <div class="column--40perc" id="feature-organizing--photo">
+          <img src="./resources/images/index/organizing.jpg" data-src="resources/index/organizing.jpg" alt="Organizing" class="features__img lazy-img" />
         </div>
         <div class="column--60perc" id="feature-organizing--text">
           <div class="features__feature">
             <div class="features__icon">
-              <img
-                src="./resources/images/index/organizing_icon.png"
-              />
+              <img src="./resources/images/index/organizing_icon.png" />
             </div>
             <h5 class="features__header">Organizing</h5>
-            <p>
-              Keep your schedule organized and clean, have easy access to all your organization related tasks and much more.
-            </p>
+            <p>Keep your schedule organized and clean, have easy access to all your organization related tasks and much more.</p>
           </div>
         </div>
       </section>
@@ -144,77 +106,52 @@
     <section class="section" id="section--pricing">
       <div class="section__title">
         <h2 class="section__description">Billing</h2>
-        <h3 class="section__header">
-          Choose the correct plan for your organization.
-        </h3>
+        <h3 class="section__header">Choose the correct plan for your organization.</h3>
       </div>
-  
+
       <div class="pricing">
         <div class="pricing__tab-container">
-          <button
-            class="btn pricing__tab pricing__tab--1 pricing__tab--active"
-            data-tab="1"
-          >
-            <span>01</span>Educational
-          </button>
-          <button class="btn pricing__tab pricing__tab--2" data-tab="2">
-            <span>02</span>Basic
-          </button>
-          <button class="btn pricing__tab pricing__tab--3" data-tab="3">
-            <span>03</span>Professional
-          </button>
+          <button class="btn pricing__tab pricing__tab--1 pricing__tab--active" data-tab="1"><span>01</span>Educational</button>
+          <button class="btn pricing__tab pricing__tab--2" data-tab="2"><span>02</span>Basic</button>
+          <button class="btn pricing__tab pricing__tab--3" data-tab="3"><span>03</span>Professional</button>
         </div>
-        <div
-          class="pricing__content pricing__content--1 pricing__content--active"
-        >
+        <div class="pricing__content pricing__content--1 pricing__content--active">
           <div class="pricing__icon pricing__icon--1">
-            <img
-                    src="./resources/images/index/school_icon.png"
-            />
-          </div><br>
-          <h5 class="pricing__header">
-            Universities or large educational firms? This plan is for you!
-          </h5><br>
+            <img src="./resources/images/index/school_icon.png" />
+          </div>
+          <br />
+          <h5 class="pricing__header">Universities or large educational firms? This plan is for you!</h5>
+          <br />
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat.
           </p>
           <button class="btn--textt2">Learn more &RightArrow;</button>
         </div>
-  
+
         <div class="pricing__content pricing__content--2">
           <div class="pricing__icon pricing__icon--2">
-            <img
-                    src="./resources/images/index/basic_icon.png"
-            />
-          </div><br>
-          <h5 class="pricing__header">
-            Recommended for your organization's first steps into the Comboard universe.
-          </h5><br>
+            <img src="./resources/images/index/basic_icon.png" />
+          </div>
+          <br />
+          <h5 class="pricing__header">Recommended for your organization's first steps into the Comboard universe.</h5>
+          <br />
           <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-            cupidatat non proident, sunt in culpa qui officia deserunt mollit
-            anim id est laborum.
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+            mollit anim id est laborum.
           </p>
           <button class="btn--textt2">Learn more &RightArrow;</button>
         </div>
         <div class="pricing__content pricing__content--3">
           <div class="pricing__icon pricing__icon--3">
-            <img
-                    src="./resources/images/index/professional_icon.png"
-            />
-          </div><br>
-          <h5 class="pricing__header">
-            Already done your research? Start your professional organization!
-          </h5><br>
+            <img src="./resources/images/index/professional_icon.png" />
+          </div>
+          <br />
+          <h5 class="pricing__header">Already done your research? Start your professional organization!</h5>
+          <br />
           <p>
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
           </p>
           <button class="btn--textt2">Learn more &RightArrow;</button>
         </div>
@@ -224,14 +161,12 @@
       <div class="inner">
         <div class="section__title">
           <h2 class="section__description">Testimonials</h2>
-          <h3 class="section__header">
-            What our happy users have to say!
-          </h3>
+          <h3 class="section__header">What our happy users have to say!</h3>
         </div>
         <div class="row">
           <div class="column--33perc">
             <div class="testimonial">
-              <img src="./resources/images/index/p1.png" alt="">
+              <img src="./resources/images/index/p1.png" alt="" />
               <div class="name">Full name</div>
               <div class="stars">
                 <i class="fas fa-star"></i>
@@ -240,14 +175,12 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
               </div>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-              </p>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
             </div>
           </div>
           <div class="column--33perc">
             <div class="testimonial">
-              <img src="./resources/images/index/p2.png" alt="">
+              <img src="./resources/images/index/p2.png" alt="" />
               <div class="name">Full name</div>
               <div class="stars">
                 <i class="fas fa-star"></i>
@@ -256,15 +189,13 @@
                 <i class="far fa-star"></i>
                 <i class="far fa-star"></i>
               </div>
-  
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-              </p>
+
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
             </div>
           </div>
           <div class="column--33perc">
             <div class="testimonial">
-              <img src="./resources/images/index/p3.png" alt="">
+              <img src="./resources/images/index/p3.png" alt="" />
               <div class="name">Full name</div>
               <div class="stars">
                 <i class="fas fa-star"></i>
@@ -273,9 +204,7 @@
                 <i class="fas fa-star"></i>
                 <i class="far fa-star"></i>
               </div>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-              </p>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
             </div>
           </div>
         </div>
