@@ -12,4 +12,8 @@ const publicDirPath = path.join(__filename, "../../../public");
 app.use(express.static(publicDirPath));
 app.use(express.json());
 
+//Config the routers
+app.use(require("../routers/account.js"));
+app.use(require("../routers/error.js"));
+
 module.exports = server;

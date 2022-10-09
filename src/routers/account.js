@@ -1,12 +1,16 @@
 const express = require("express");
+const path = require("path");
 const User = require("../models/user.js");
 const Email = require("../APIs/emails/email");
 const sendEmail = require("../APIs/emails/send-email.js");
 
 const router = new express.Router();
 
-//For user register
-router.get("/register", async function (req, res) {
+router.get("/account/register", function (req, res) {
+  res.sendFile(path.join(__dirname + "./../../public/views/register.html"));
+});
+
+router.get("/account/register/submit", async function (req, res) {
   const user = new User(req.body);
 
   try {
