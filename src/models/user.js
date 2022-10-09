@@ -7,11 +7,14 @@ const { profileSchema } = require("./profile.js");
 
 const userSchema = mongoose.Schema({
   account: {
-    type: accountSchema,
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Account",
   },
   profile: {
-    type: profileSchema,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
+    red: "Profile",
   },
   organizations: {
     type: [organizationSchema],

@@ -23,7 +23,8 @@ form input {
 }
 
 /* Button in form */
-form input[type="button"] {
+form input[type="button"],
+form input[type="submit"] {
   cursor: pointer;
   background-color: var(--primary-color);
   color: var(--primary-bright-color);
@@ -48,6 +49,7 @@ form button,
 }
 
 form input[type="button"]:hover,
+form input[type="submit"]:hover,
 form button:hover,
 .btn:hover {
   filter: brightness(0.8);
@@ -76,9 +78,11 @@ form button:hover,
 
 #username {
   background-image: url("../../resources/images/login-register/user-24px.png");
+  background-size: 25px;
 }
 
 #password,
 #confirm-password {
   background-image: url("../../resources/images/login-register/password-24px.png");
+  background-size: 25px;
 }

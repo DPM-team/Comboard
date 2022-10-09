@@ -7,28 +7,25 @@
     <link rel="stylesheet" href="../styles/login-register/login-register-style.css" />
     <link rel="icon" type="image/x-icon" href="../resources/favicon/comboard-favicon.ico" />
   </head>
-
   <body>
     <nav>
       <img src="../resources/comboard-logo/main-logo-transparent.png" width="100" />
     </nav>
-
     <div class="box">
       <img src="../resources/favicon/comboard-favicon.ico" width="70" />
       <h2>Join Our Community!</h2>
       <h4>Create an acount fast and simple!</h4>
-      <form>
-        <input id="firstname" type="text" placeholder="Firstname" />
-        <input id="surname" type="text" placeholder="Surname" />
-        <input id="username" type="text" placeholder="Username" />
-        <input id="email" type="email" placeholder="Email" />
-        <input id="password" type="password" placeholder="Password" />
+      <form action="/account/register/submit" method="post">
+        <input id="firstname" name="firstname" type="text" placeholder="Firstname" />
+        <input id="surname" name="surname" type="text" placeholder="Surname" />
+        <input id="username" name="username" type="text" placeholder="Username" />
+        <input id="email" name="email" type="email" placeholder="Email" />
+        <input id="password" name="password" type="password" placeholder="Password" />
         <p id="password-mandatory">Use 8 or more characters with a combination of letters, numbers and symbols</p>
-        <input id="confirm-password" type="password" placeholder="Confirm Password" />
-        <input id="login-btn" type="button" value="Agree & Join" />
+        <input id="confirm-password" name="confirmedPassword" type="password" placeholder="Confirm Password" />
+        <input id="login-btn" type="submit" value="Agree & Join" />
         <p id="agreement">By clicking Agree & Join, you agree to the comboard <a href="">User Agrement</a>, <a href="#">Privacy Policy</a> and <a href="#">CooKie Policy</a></p>
       </form>
-
       <div class="raw-line">
         <div class="hr-line">
           <hr />
@@ -40,7 +37,6 @@
           <hr />
         </div>
       </div>
-
       <h4 id="alternative-sign-in">Join using your:</h4>
       <ul>
         <li>

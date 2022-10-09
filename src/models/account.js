@@ -5,11 +5,18 @@ const accountSchema = new mongoose.Schema({
     type: String,
     unique: true,
     required: true,
+    trim: true,
   },
   email: {
     type: String,
     unique: true,
     required: true,
+    trim: true,
+  },
+  password: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Password",
   },
 });
 
