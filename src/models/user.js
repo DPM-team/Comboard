@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const { organizationSchema } = require("./organization");
 const { accountSchema } = require("./account");
 const { profileSchema } = require("./profile.js");
+const { Account } = require("./account");
+const { ObjectId } = require("mongodb");
 
 const userSchema = mongoose.Schema({
   account: {
@@ -18,6 +20,9 @@ const userSchema = mongoose.Schema({
   },
   organizations: {
     type: [organizationSchema],
+  },
+  tokens: {
+    type: [],
   },
 });
 
@@ -45,17 +50,21 @@ userSchema.methods.generateAuthenticationToken = async function () {
  * @returns {user} A user instance is returned.
  */
 userSchema.statics.checkCredentials = async (username, password) => {
-  const user = await User.findOne({ account: { username } });
+  const userAccount = await Account.findOne({ username });
 
-  if (!user) {
+  if (!userAccount) {
     throw new Error("You can not login.Try again");
   }
 
-  const passwordMatch = bcrypt.compare(password, user.account.password);
+  await userAccount.populate("password");
+
+  const passwordMatch = await bcrypt.compare(password, userAccount.password.password);
 
   if (!passwordMatch) {
     throw new Error("You can not login.Try again");
   }
+
+  const user = await User.findOne({ account: userAccount._id });
 
   return user;
 };
