@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const accountSchema = new mongoose.Schema({
   username: {
@@ -12,6 +13,11 @@ const accountSchema = new mongoose.Schema({
     unique: true,
     required: true,
     trim: true,
+    validate: function (value) {
+      if (!validator.isEmail(value)) {
+        throw new Error("Wrong email format!");
+      }
+    },
   },
   password: {
     type: mongoose.Schema.Types.ObjectId,
