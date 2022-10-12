@@ -18,6 +18,15 @@ const accountSchema = new mongoose.Schema({
     minlength: 7,
     trim: true,
     required: true,
+    validate(value) {
+      if (value.includes("password")) {
+        throw new Error("Please try a different password!");
+      } else if (value.length < 8) {
+        throw new Error("Password must contain at least 8 characters");
+      } else if (!(value.includes("!") || value.includes("@") || value.includes("*"))) {
+        throw new Error("Password must contain at least one special character (!,@,*)");
+      }
+    },
   },
 });
 
