@@ -2,6 +2,7 @@ const path = require("path");
 const http = require("http");
 const express = require("express");
 const login = require("../routers/login");
+const logout = require("../routers/logout");
 const bodyParser = require("body-parser");
 require("../database/mongoose");
 
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 //Config the routers
 app.use("/account", require("../routers/account.js"));
 app.use("/", login);
+app.use("/", logout);
 app.use("/", require("../routers/error.js"));
 
 module.exports = server;
