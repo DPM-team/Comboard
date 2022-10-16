@@ -51,14 +51,13 @@ userSchema.methods.generateAuthenticationToken = async function () {
  */
 userSchema.statics.checkCredentials = async (username, password) => {
   const userAccount = await Account.findOne({ username });
+  const userPassword = userAccount.password;
 
   if (!userAccount) {
     throw new Error("You can not login.Try again");
   }
 
-  await userAccount.populate("password");
-
-  const passwordMatch = await bcrypt.compare(password, userAccount.password.password);
+  const passwordMatch = await bcrypt.compare(password, userPassword);
 
   if (!passwordMatch) {
     throw new Error("You can not login.Try again");
