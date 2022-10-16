@@ -1,4 +1,4 @@
-// const sgMail = require("@sendgrid/mail");
+const sgMail = require("@sendgrid/mail");
 const Email = require("./email");
 
 /**
@@ -8,12 +8,12 @@ const Email = require("./email");
  * @param {Email} emailObj An object with all the information about the email that will be send,
  * like the receiver, the sender, the subject and the main body of the email
  */
-const sendEmail = function (emailObj) {
+const sendEmail = async function (emailObj) {
   //Inform sendGrid which API key will used
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
+  console.log(emailObj);
   sgMail
-    .send(emailObj)
+    .send({ to: emailObj.to, from: emailObj.from, subject: emailObj.subject, html: emailObj.html })
     .then(() => {
       console.log("Email sent");
     })
