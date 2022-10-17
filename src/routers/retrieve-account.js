@@ -1,7 +1,6 @@
 const express = require("express");
 const User = require("../models/user");
 const { Account } = require("../models/account");
-const { Password } = require("../models/password");
 const router = new express.Router();
 const Email = require("../APIs/emails/email");
 const sendEmail = require("../APIs/emails/send-email");
@@ -50,8 +49,6 @@ router.patch("/retrieve-account/step-3", async (req, res) => {
     const newPassword = req.body.password;
     await userAccount.populate("password");
 
-    const password = await Password.findOneAndUpdate({ _id: userAccount.password }, { newPassword });
-    password.save();
   } catch (e) {
     res.status(400).send(e.message);
   }
