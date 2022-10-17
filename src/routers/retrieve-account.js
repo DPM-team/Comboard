@@ -1,18 +1,20 @@
-const express = require("");
+const express = require("express");
 const User = require("../models/user");
+const { Account } = require("../models/account");
+const { Password } = require("../models/password");
 const router = new express.Router();
 const Email = require("../APIs/emails/email");
 const sendEmail = require("../APIs/emails/send-email");
 const generator = require("generate-password");
-const generatedPassword = "";
-const user = null;
+let generatedPassword = "";
+let userAccount = null;
 
 router.post("/retrieve-account", async (req, res) => {
   try {
     const email = req.body.email;
-    user = User.findOne({ account: { email } });
-    if (!user) {
-      throw new Error();
+    userAccount = await Account.findOne({ email });
+    if (!userAccount) {
+      throw new Error("No user with this email");
     }
     const subject = "Retrieve Account";
     generatedPassword = generator.generate({
@@ -22,28 +24,37 @@ router.post("/retrieve-account", async (req, res) => {
       strict: true,
     });
     const html = `<div>${generatedPassword}</div>`;
-    const emailObj = new Email(email, "", subject, html);
-
+    const emailObj = new Email(email, "dpmcomboard@gmail.com", subject, html);
     sendEmail(emailObj);
+    res.send();
   } catch (e) {
-    res.status(400).send();
+    res.status(400).send(e.message);
   }
 });
 
-router.post("/retrive-account/step-2", async (req, res) => {
+router.post("/retrieve-account/step-2", async (req, res) => {
   try {
     const inputedPassword = req.body.password;
 
     if (inputedPassword !== generatedPassword) {
-      throw new Error();
+      throw new Error("Check your email again.");
     }
+    res.send();
   } catch (e) {
-    res.status(400).send();
+    res.status(400).send(e);
   }
 });
 
-router.post("/retrive-account/step-3", async (req, res) => {
-  const newPassword = req.body.password;
+router.patch("/retrieve-account/step-3", async (req, res) => {
+  try {
+    const newPassword = req.body.password;
+    await userAccount.populate("password");
 
-  //save password
+    const password = await Password.findOneAndUpdate({ _id: userAccount.password }, { newPassword });
+    password.save();
+  } catch (e) {
+    res.status(400).send(e.message);
+  }
 });
+
+module.exports = router;
