@@ -3,9 +3,9 @@
 const btnScrollTo = document.querySelector(".btn--scroll-to");
 const section1 = document.querySelector("#section--features");
 const nav = document.querySelector(".nav");
-const tabs = document.querySelectorAll(".pricing__tab");
-const tabsContainer = document.querySelector(".pricing__tab-container");
-const tabsContent = document.querySelectorAll(".pricing__content");
+const tabs = document.querySelectorAll(".packages__tab");
+const tabsContainer = document.querySelector(".packages__tab-container");
+const tabsContent = document.querySelectorAll(".packages__content");
 
 btnScrollTo.addEventListener("click", function (e) {
   const s1coords = section1.getBoundingClientRect();
@@ -30,20 +30,20 @@ document.querySelector(".nav__links").addEventListener("click", function (e) {
 });
 
 tabsContainer.addEventListener("click", function (e) {
-  const clicked = e.target.closest(".pricing__tab");
+  const clicked = e.target.closest(".packages__tab");
 
   // Guard clause
   if (!clicked) return;
 
   // Remove active classes
-  tabs.forEach((t) => t.classList.remove("pricing__tab--active"));
-  tabsContent.forEach((c) => c.classList.remove("pricing__content--active"));
+  tabs.forEach((t) => t.classList.remove("packages__tab--active"));
+  tabsContent.forEach((c) => c.classList.remove("packages__content--active"));
 
   // Activate tab
-  clicked.classList.add("pricing__tab--active");
+  clicked.classList.add("packages__tab--active");
 
   // Activate content area
-  document.querySelector(`.pricing__content--${clicked.dataset.tab}`).classList.add("pricing__content--active");
+  document.querySelector(`.packages__content--${clicked.dataset.tab}`).classList.add("packages__content--active");
 });
 
 const handleHover = function (e) {
