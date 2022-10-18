@@ -13,7 +13,7 @@ router.post("/users/login", async (req, res) => {
   try {
     const user = await User.checkCredentials(req.body.username, req.body.password);
     const generateToken = user.generateAuthenticationToken();
-    res.send();
+    res.send(user);
   } catch (e) {
     res.status(400).send(e);
   }
