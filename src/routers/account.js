@@ -9,7 +9,7 @@ const { Account } = require("../models/account.js");
 const router = new express.Router();
 
 router.get("/register", function (req, res) {
-  res.sendFile(path.join(__dirname + "./../../views/register.html"));
+  res.sendFile(path.join(__dirname + "../../../views/register.html"));
 });
 
 router.post("/register/submit", async function (req, res) {

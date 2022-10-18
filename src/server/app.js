@@ -1,9 +1,6 @@
 const path = require("path");
 const http = require("http");
 const express = require("express");
-const login = require("../routers/login");
-const retriveAccount = require("../routers/retrieve-account");
-const index = require("../routers/index");
 const bodyParser = require("body-parser");
 require("../database/mongoose");
 
@@ -22,10 +19,10 @@ app.use(
 app.use(bodyParser.json());
 
 //Config the routers
-app.use("/", index);
-app.use("/account", require("../routers/account.js"));
-app.use("/", login);
-app.use("/account", retriveAccount);
-app.use("/", require("../routers/error.js"));
+app.use(require("../routers/index"));
+app.use(require("../routers/account.js"));
+app.use(require("../routers/login"));
+app.use(require("../routers/retrieve-account.js"));
+app.use(require("../routers/error.js"));
 
 module.exports = server;

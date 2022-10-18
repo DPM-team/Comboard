@@ -1,14 +1,21 @@
 const express = require("express");
+const path = require("path");
+const generator = require("generate-password");
 const User = require("../models/user");
 const { Account } = require("../models/account");
-const router = new express.Router();
 const Email = require("../APIs/emails/email");
 const sendEmail = require("../APIs/emails/send-email");
-const generator = require("generate-password");
+
 let generatedPassword = "";
 let userAccount = null;
 
-router.post("/retrieve-account", async (req, res) => {
+const router = new express.Router();
+
+router.get("/retrieve-account/step-1", (req, res) => {
+  res.sendFile(path.join(__dirname + "../../../views/forgot-password.html"));
+});
+
+router.post("/retrieve-account/step-1/submit", async (req, res) => {
   try {
     const email = req.body.email;
     userAccount = await Account.findOne({ email });
@@ -48,7 +55,6 @@ router.patch("/retrieve-account/step-3", async (req, res) => {
   try {
     const newPassword = req.body.password;
     await userAccount.populate("password");
-
   } catch (e) {
     res.status(400).send(e.message);
   }
