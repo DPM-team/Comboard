@@ -3,6 +3,7 @@ const http = require("http");
 const express = require("express");
 const login = require("../routers/login");
 const retriveAccount = require("../routers/retrieve-account");
+const index = require("../routers/index");
 const bodyParser = require("body-parser");
 require("../database/mongoose");
 
@@ -12,7 +13,7 @@ const server = http.createServer(app);
 
 const publicDirPath = path.join(__filename, "../../../public");
 
-app.use(express.static(publicDirPath));
+app.use("/public", express.static(publicDirPath));
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -21,6 +22,7 @@ app.use(
 app.use(bodyParser.json());
 
 //Config the routers
+app.use("/", index);
 app.use("/account", require("../routers/account.js"));
 app.use("/", login);
 app.use("/account", retriveAccount);
