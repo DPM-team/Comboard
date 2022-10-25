@@ -4,14 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" , initial-scale="1.0" />
     <title>Comboard - For your own comfort!</title>
-    <link rel="stylesheet" href="styles/index/index-style.css" />
-    <script src="js/index/index.js" defer></script>
-    <link rel="icon" href="resources/favicon/comboard-favicon.ico" />
+    <link rel="stylesheet" href="./public/styles/index/index-style.css" />
+    <script src="public/js/index/index.js" defer></script>
+    <link rel="icon" href="public/resources/favicon/comboard-favicon.ico" />
   </head>
   <body>
     <header class="header">
       <nav class="nav">
-        <img src="./resources/comboard-logo/logo-transparent-moto.png" alt="Comboard logo" class="nav__logo" id="logo" />
+        <img src="./public/resources/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" />
         <ul class="nav__links">
           <li class="nav__item">
             <a class="nav__link" href="#section--features">Features</a>
@@ -23,45 +23,42 @@
             <a class="nav__link" href="#section--testimonials">Testimonials</a>
           </li>
           <li class="nav__item">
-            <a href="./views/login.html">
-              <img id="user__icon" src="./resources/images/index/user.png" alt="Login" />
+            <a href="/users/login">
+              <img id="user__icon" src="./public/resources/images/index/user.png" alt="Login" />
             </a>
           </li>
-          <!-- <li class="nav__item">
-            <a class="nav__link" href="#"></a>
-          </li> -->
         </ul>
       </nav>
     </header>
-    <section class="welcome__section section">
-      <div class="column--60perc" id="welcome--text">
+    <section class="section__welcome section">
+      <div class="column--section-welcome-left" id="welcome__text">
         <h1>
           When&nbsp;
           <!-- Blue highlight effect -->
-          <span class="highlight">Communication</span><br />
+          <span class="highlight">Communication</span>
           meets
           <span class="highlight">simplicity.</span>
         </h1>
         <h4 id="text--explanation">A simpler way of communicating for all your work related activites.</h4>
-        <button class="btn--text btn--scroll-to">Learn more &DownArrow;</button>
+        <button class="btn--text-welcome btn--scroll-to">Learn more &DownArrow;</button>
       </div>
-      <div class="column--40perc" id="welcome--photo">
-        <img src="./resources/images/index/people.png" class="header__img" alt="People around the table sketch." />
+      <div class="column--section-welcome-right">
+        <img src="./public/resources/images/index/people-in-the-office.png" class="header__img" alt="People in the office sketch." />
       </div>
     </section>
     <section class="section" id="section--features">
       <div class="section__title">
         <h2 class="section__description">Features</h2>
-        <h3 class="section__header">Every functionality you need in order to do your job, lies inside the Comboard universe.</h3>
+        <h3 class="section__header">Every tool you need in order to do your job, lies inside the Comboard universe.</h3>
       </div>
       <section class="first__feature">
-        <div class="column--40perc" id="feature-networking--photo">
-          <img src="./resources/images/index/networking.jpg" data-src="resources/index/networking.jpg" alt="Networking inside your organization" class="features__img lazy-img" />
+        <div class="column--section-features-with-image-left" id="feature-networking--photo">
+          <img src="./public/resources/images/index/networking.jpg" data-src="public/resources/index/networking.jpg" alt="Networking inside your organization" class="features__img lazy-img" />
         </div>
-        <div class="column--60perc" id="feature-networking--text">
+        <div class="column--section-features-with-text-right" id="feature-networking--text">
           <div class="features__feature">
             <div class="features__icon">
-              <img src="./resources/images/index/networking_icon.png" />
+              <img src="./public/resources/images/index/networking_icon.png" />
             </div>
             <h5 class="features__header">Networking</h5>
             <p>
@@ -72,10 +69,10 @@
         </div>
       </section>
       <section class="second__feature">
-        <div class="column--60perc2" id="feature-communication--text">
+        <div class="column--section-features-with-text-left" id="feature-communication--text">
           <div class="features__feature">
             <div class="features__icon">
-              <img src="./resources/images/index/communication_icon.png" />
+              <img src="./public/resources/images/index/communication_icon.png" />
             </div>
             <h5 class="features__header">Communication</h5>
             <p>
@@ -84,18 +81,18 @@
             </p>
           </div>
         </div>
-        <div class="column--40perc2" id="feature-communication--photo">
-          <img src="./resources/images/index/communication.jpg" data-src="resources/index/communication.jpg" alt="Communication" class="features__img lazy-img" />
+        <div class="column--section-features-with-image-right" id="feature-communication--photo">
+          <img src="./public/resources/images/index/communication.jpg" data-src="resources/index/communication.jpg" alt="Communication" class="features__img lazy-img" />
         </div>
       </section>
       <section class="third__feature">
-        <div class="column--40perc" id="feature-organizing--photo">
-          <img src="./resources/images/index/organizing.jpg" data-src="resources/index/organizing.jpg" alt="Organizing" class="features__img lazy-img" />
+        <div class="column--section-features-with-image-left" id="feature-organizing--photo">
+          <img src="./public/resources/images/index/organizing.jpg" data-src="public/resources/index/organizing.jpg" alt="Organizing" class="features__img lazy-img" />
         </div>
-        <div class="column--60perc" id="feature-organizing--text">
+        <div class="column--section-features-with-text-right" id="feature-organizing--text">
           <div class="features__feature">
             <div class="features__icon">
-              <img src="./resources/images/index/organizing_icon.png" />
+              <img src="./public/resources/images/index/organizing_icon.png" />
             </div>
             <h5 class="features__header">Organizing</h5>
             <p>Keep your schedule organized and clean, have easy access to all your organization related tasks and much more.</p>
@@ -103,57 +100,57 @@
         </div>
       </section>
     </section>
-    <section class="section" id="section--pricing">
+    <section class="section" id="section--packages">
       <div class="section__title">
-        <h2 class="section__description">Billing</h2>
-        <h3 class="section__header">Choose the correct plan for your organization.</h3>
+        <h2 class="section__description">Packages</h2>
+        <h3 class="section__header">Choose the correct setup for your organization.</h3>
       </div>
 
-      <div class="pricing">
-        <div class="pricing__tab-container">
-          <button class="btn pricing__tab pricing__tab--1 pricing__tab--active" data-tab="1"><span>01</span>Educational</button>
-          <button class="btn pricing__tab pricing__tab--2" data-tab="2"><span>02</span>Basic</button>
-          <button class="btn pricing__tab pricing__tab--3" data-tab="3"><span>03</span>Professional</button>
+      <div class="packages">
+        <div class="packages__tab-container">
+          <button class="btn packages__tab packages__tab--1 packages__tab--active" data-tab="1"><span>01</span>Educational</button>
+          <button class="btn packages__tab packages__tab--2" data-tab="2"><span>02</span>Basic</button>
+          <button class="btn packages__tab packages__tab--3" data-tab="3"><span>03</span>Professional</button>
         </div>
-        <div class="pricing__content pricing__content--1 pricing__content--active">
-          <div class="pricing__icon pricing__icon--1">
-            <img src="./resources/images/index/school_icon.png" />
+        <div class="packages__content packages__content--1 packages__content--active">
+          <div class="packages__icon packages__icon--1">
+            <img src="./public/resources/images/index/school_icon.png" />
           </div>
           <br />
-          <h5 class="pricing__header">Universities or large educational firms? This plan is for you!</h5>
+          <h5 class="packages__header">Universities or large educational firms? This plan is for you!</h5>
           <br />
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
             laboris nisi ut aliquip ex ea commodo consequat.
           </p>
-          <button class="btn--textt2">Learn more &RightArrow;</button>
+          <button class="btn--text-packages">Get started &RightArrow;</button>
         </div>
 
-        <div class="pricing__content pricing__content--2">
-          <div class="pricing__icon pricing__icon--2">
-            <img src="./resources/images/index/basic_icon.png" />
+        <div class="packages__content packages__content--2">
+          <div class="packages__icon packages__icon--2">
+            <img src="./public/resources/images/index/basic_icon.png" />
           </div>
           <br />
-          <h5 class="pricing__header">Recommended for your organization's first steps into the Comboard universe.</h5>
+          <h5 class="packages__header">Recommended for your organization's first steps into the Comboard universe.</h5>
           <br />
           <p>
             Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
             mollit anim id est laborum.
           </p>
-          <button class="btn--textt2">Learn more &RightArrow;</button>
+          <button class="btn--text-packages">Get started &RightArrow;</button>
         </div>
-        <div class="pricing__content pricing__content--3">
-          <div class="pricing__icon pricing__icon--3">
-            <img src="./resources/images/index/professional_icon.png" />
+        <div class="packages__content packages__content--3">
+          <div class="packages__icon packages__icon--3">
+            <img src="./public/resources/images/index/professional_icon.png" />
           </div>
           <br />
-          <h5 class="pricing__header">Already done your research? Start your professional organization!</h5>
+          <h5 class="packages__header">Already done your research? Start your professional organization!</h5>
           <br />
           <p>
             Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
             aliquip ex ea commodo consequat.
           </p>
-          <button class="btn--textt2">Learn more &RightArrow;</button>
+          <button class="btn--text-packages">Get started &RightArrow;</button>
         </div>
       </div>
     </section>
@@ -161,12 +158,12 @@
       <div class="inner">
         <div class="section__title">
           <h2 class="section__description">Testimonials</h2>
-          <h3 class="section__header">What our happy users have to say!</h3>
+          <h3 class="section__header">What's all the fuss about?</h3>
         </div>
         <div class="row">
           <div class="column--33perc">
             <div class="testimonial">
-              <img src="./resources/images/index/p1.png" alt="" />
+              <img src="./public/resources/images/index/p1.png" alt="" />
               <div class="name">Full name</div>
               <div class="stars">
                 <i class="fas fa-star"></i>
@@ -180,7 +177,7 @@
           </div>
           <div class="column--33perc">
             <div class="testimonial">
-              <img src="./resources/images/index/p2.png" alt="" />
+              <img src="./public/resources/images/index/p2.png" alt="" />
               <div class="name">Full name</div>
               <div class="stars">
                 <i class="fas fa-star"></i>
@@ -195,7 +192,7 @@
           </div>
           <div class="column--33perc">
             <div class="testimonial">
-              <img src="./resources/images/index/p3.png" alt="" />
+              <img src="./public/resources/images/index/p3.png" alt="" />
               <div class="name">Full name</div>
               <div class="stars">
                 <i class="fas fa-star"></i>
@@ -225,19 +222,25 @@
           <a class="footer__link" href="#">Privacy Policy</a>
         </li>
         <li class="footer__item">
-          <a class="footer__link" href="#">Blog</a>
+          <a class="footer__link" href="/credits">Credits</a>
         </li>
         <li class="footer__item">
           <a class="footer__link" href="#">Contact Us</a>
         </li>
       </ul>
-      <img src="resources/comboard-logo/logo-white.png" alt="Logo" class="footer__logo" />
+      <img src="public/resources/comboard-logo/logo-white.png" alt="Logo" class="footer__logo" />
       <p class="footer__copyright">
         &copy; Copyright by
         <a class="footer__link" target="_blank" href="https://github.com/DPM-team">DPM team</a>. Comboard is the group thesis application of
         <a class="footer__link" target="_blank" href="https://www.linkedin.com/in/dionisis-lougaris/">Dionisis</a> -
         <a class="footer__link" target="_blank" href="https://www.linkedin.com/in/panagiotis-machairas-9263841b9/">Panos</a> -
-        <a class="footer__link" target="_blank" href="https://www.linkedin.com/in/minas-theodoros-charakopoulos/">Minas</a>
+        <a class="footer__link" target="_blank" href="https://www.linkedin.com/in/minas-theodoros-charakopoulos/">Minas</a>. Supervising professor:<a
+          class="footer__link"
+          target="_blank"
+          href="https://www.linkedin.com/in/alexanderchatzigeorgiou/"
+        >
+          Alexander Chatzigeorgiou</a
+        >
       </p>
     </footer>
   </body>

@@ -1,8 +1,6 @@
 const path = require("path");
 const http = require("http");
 const express = require("express");
-const login = require("../routers/login");
-const retriveAccount = require("../routers/retrieve-account");
 const bodyParser = require("body-parser");
 require("../database/mongoose");
 
@@ -12,7 +10,7 @@ const server = http.createServer(app);
 
 const publicDirPath = path.join(__filename, "../../../public");
 
-app.use(express.static(publicDirPath));
+app.use("/public", express.static(publicDirPath));
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -21,9 +19,11 @@ app.use(
 app.use(bodyParser.json());
 
 //Config the routers
-app.use("/account", require("../routers/account.js"));
-app.use("/", login);
-app.use("/account", retriveAccount);
-app.use("/", require("../routers/error.js"));
+app.use(require("../routers/index"));
+app.use(require("../routers/account.js"));
+app.use(require("../routers/login"));
+app.use(require("../routers/retrieve-account.js"));
+app.use(require("../routers/credits"));
+app.use(require("../routers/error.js"));
 
 module.exports = server;

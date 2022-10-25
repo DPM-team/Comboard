@@ -1,14 +1,19 @@
 const express = require("express");
 const User = require("../models/user");
+const path = require("path");
 const authentication = require("../middleware/authentication");
 const router = new express.Router();
+
+router.get("/users/login", async (req, res) => {
+  res.sendFile(path.join(__dirname + "../../../views/login.html"));
+});
 
 //This is the router which runs when one user tries to login.User informaton will be sent back to client.
 router.post("/users/login", async (req, res) => {
   try {
     const user = await User.checkCredentials(req.body.username, req.body.password);
     const generateToken = user.generateAuthenticationToken();
-    res.send();
+    res.send(user);
   } catch (e) {
     res.status(400).send(e);
   }
