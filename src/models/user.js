@@ -3,54 +3,86 @@ const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const { organizationSchema } = require("./organization");
-const { Account } = require("./account");
 const { ObjectId } = require("mongodb");
 
-const userSchema = mongoose.Schema({
-  username: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true,
-  },
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true,
-    validate: function (value) {
-      if (!validator.isEmail(value)) {
-        throw new Error("Wrong email format!");
-      }
+const userSchema = mongoose.Schema(
+  {
+    username: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
+      validate: function (value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Wrong email format!");
+        }
+      },
+    },
+    password: {
+      type: String,
+      minlength: 7,
+      trim: true,
+      required: true,
+      validate(value) {
+        if (value.includes("password")) {
+          throw new Error("Please try a different password!");
+        } else if (value.length < 8) {
+          throw new Error("Password must contain at least 8 characters");
+        } else if (!(value.includes("!") || value.includes("@") || value.includes("*"))) {
+          throw new Error("Password must contain at least one special character (!,@,*)");
+        }
+      },
+    },
+
+    name: {
+      type: String,
+      required: true,
+    },
+    surname: {
+      type: String,
+      required: true,
+    },
+    telephone: {
+      type: String,
+      required: false,
+    },
+    address: {
+      type: String,
+      required: false,
+    },
+    specialization: {
+      type: String,
+      required: false,
+    },
+    gender: {
+      type: String,
+      required: false,
+    },
+    birthday: {
+      type: Date,
+      required: false,
+    },
+    profilePhoto: {
+      type: Buffer,
+      required: false,
+    },
+    organizations: {
+      type: [organizationSchema],
+    },
+    tokens: {
+      type: [],
     },
   },
-  password: {
-    type: String,
-    minlength: 7,
-    trim: true,
-    required: true,
-    validate(value) {
-      if (value.includes("password")) {
-        throw new Error("Please try a different password!");
-      } else if (value.length < 8) {
-        throw new Error("Password must contain at least 8 characters");
-      } else if (!(value.includes("!") || value.includes("@") || value.includes("*"))) {
-        throw new Error("Password must contain at least one special character (!,@,*)");
-      }
-    },
-  },
-  profile: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    red: "Profile",
-  },
-  organizations: {
-    type: [organizationSchema],
-  },
-  tokens: {
-    type: [],
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 /**
  * Middleware function for password security

@@ -2,7 +2,6 @@ const express = require("express");
 const path = require("path");
 const generator = require("generate-password");
 const User = require("../models/user");
-const { Account } = require("../models/account");
 const Email = require("../APIs/emails/email");
 const sendEmail = require("../APIs/emails/send-email");
 
