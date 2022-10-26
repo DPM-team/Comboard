@@ -19,8 +19,8 @@
       <h2>Login</h2>
       <h4>Sign In to your account</h4>
       <form action="/users/login" method="post">
-        <input id="username" type="text" name="username" placeholder="Username" />
-        <input id="password" type="password" name="password" placeholder="Password" />
+        <input id="username" type="text" name="username" placeholder="Username" required />
+        <input id="password" type="password" name="password" placeholder="Password" minlength="8" required />
         <a id="forgot-password" href="/retrieve-account/step-1">Forgot Password?</a>
         <input id="login-btn" type="submit" value="Login" />
       </form>
