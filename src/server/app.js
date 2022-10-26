@@ -23,7 +23,7 @@ app.use(require("../routers/index"));
 app.use(require("../routers/account.js"));
 app.use(require("../routers/login"));
 app.use(require("../routers/retrieve-account.js"));
-app.use(require("../routers/credits"));
+app.use(require("../routers/policy"))
 app.use(require("../routers/error.js"));
 
 module.exports = server;
