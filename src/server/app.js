@@ -22,7 +22,6 @@ app.use(bodyParser.json());
 app.use(require("../routers/pages.js"));
 app.use(require("../routers/connect.js"));
 app.use(require("../routers/logout.js"));
-app.use(require("../routers/retrieve-account.js"));
 app.use(require("../routers/error.js"));
 
 module.exports = server;
