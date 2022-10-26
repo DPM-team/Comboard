@@ -19,7 +19,8 @@ app.use(
 app.use(bodyParser.json());
 
 //Config the routers
-app.use(require("../routers/pages.js"));
+app.use(require("../routers/pages"));
+app.use(require("../routers/policy"));
 app.use(require("../routers/connect.js"));
 app.use(require("../routers/logout.js"));
 app.use(require("../routers/error.js"));
