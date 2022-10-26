@@ -11,7 +11,6 @@ const Email = require("./email");
 const sendEmail = async function (emailObj) {
   //Inform sendGrid which API key will used
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  console.log(emailObj);
   sgMail
     .send({ to: emailObj.to, from: emailObj.from, subject: emailObj.subject, html: emailObj.html })
     .then(() => {

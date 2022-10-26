@@ -18,6 +18,7 @@ const userSchema = mongoose.Schema(
       unique: true,
       required: true,
       trim: true,
+      lowercase: true,
       validate: function (value) {
         if (!validator.isEmail(value)) {
           throw new Error("Wrong email format!");
@@ -39,7 +40,6 @@ const userSchema = mongoose.Schema(
         }
       },
     },
-
     name: {
       type: String,
       required: true,
@@ -75,9 +75,12 @@ const userSchema = mongoose.Schema(
     organizations: {
       type: [organizationSchema],
     },
-    tokens: {
-      type: [],
-    },
+    tokens: new Array({
+      token: {
+        type: String,
+        required: true,
+      },
+    }),
   },
   {
     timestamps: true,
@@ -118,21 +121,34 @@ userSchema.methods.generateAuthenticationToken = async function () {
  * @param {password} password The password that the user puts in the field.
  * @returns {user} A user instance is returned.
  */
-userSchema.statics.checkCredentials = async (username, password) => {
+userSchema.statics.checkCredentials = async function (username, password) {
   const user = await User.findOne({ username });
-
+  console.log(user);
+  console.log(await bcrypt.hash(password, 8));
   if (!user) {
-    throw new Error("You can not login.Try again");
+    throw new Error("You can not login. Try again");
   }
 
   const passwordMatch = await bcrypt.compare(password, user.password);
 
   if (!passwordMatch) {
-    throw new Error("You can not login.Try again");
+    throw new Error("You can not login. Try again");
   }
 
   return user;
 };
+
+//Hash the plain text password before saving the model
+userSchema.pre("save", async function (next) {
+  const user = this;
+
+  //true when user is created and also true when the field is modified
+  if (user.isModified("password")) {
+    user.password = await bcrypt.hash(user.password, 8);
+  }
+
+  next();
+});
 
 const User = mongoose.model("User", userSchema);
 
