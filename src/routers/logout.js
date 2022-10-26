@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../models/user");
 const authentication = require("../middleware/authentication");
+
 const router = new express.Router();
 
 //This is the router which runs when one user tries to logout from one device.

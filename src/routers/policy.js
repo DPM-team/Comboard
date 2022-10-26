@@ -10,6 +10,7 @@ router.get("/user-agreement", function (req, res) {
   res.sendFile(path.join(__dirname + "../../../views/policy/user-agreement.html"));
 });
 
+//Router for credits page
 router.get("/credits", function (req, res) {
   res.sendFile(path.join(__dirname + "../../../views/policy/credits.html"));
 });
