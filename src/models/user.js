@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const { organizationSchema } = require("./organization");
-const { ObjectId } = require("mongodb");
 
 const userSchema = mongoose.Schema(
   {
@@ -31,12 +30,14 @@ const userSchema = mongoose.Schema(
       trim: true,
       required: true,
       validate(value) {
-        if (value.includes("password")) {
-          throw new Error("Please try a different password!");
-        } else if (value.length < 8) {
-          throw new Error("Password must contain at least 8 characters");
-        } else if (!(value.includes("!") || value.includes("@") || value.includes("*"))) {
-          throw new Error("Password must contain at least one special character (!,@,*)");
+        if (this.isModified("password")) {
+          if (value.includes("password")) {
+            throw new Error("Please try a different password!");
+          } else if (value.length < 8) {
+            throw new Error("Password must contain at least 8 characters");
+          } else if (!(value.includes("!") || value.includes("@") || value.includes("*"))) {
+            throw new Error("Password must contain at least one special character (!,@,*)");
+          }
         }
       },
     },
@@ -72,14 +73,15 @@ const userSchema = mongoose.Schema(
       type: Buffer,
       required: false,
     },
-    organizations: {
-      type: [organizationSchema],
-    },
     tokens: new Array({
       token: {
         type: String,
         required: true,
       },
+    }),
+    organizations: new Array({
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "organizations",
     }),
   },
   {
@@ -91,8 +93,11 @@ const userSchema = mongoose.Schema(
  * Middleware function for password security
  */
 userSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 8);
+  const user = this;
+
+  //true when user is created and also true when the field is modified
+  if (user.isModified("password")) {
+    user.password = await bcrypt.hash(user.password, 8);
   }
 
   next();
@@ -109,7 +114,7 @@ userSchema.methods.generateAuthenticationToken = async function () {
   const user = this;
 
   const generatedToken = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
-  user.tokens = user.tokens.concat({ generatedToken });
+  user.tokens = user.tokens.concat({ token: generatedToken });
   await user.save();
 
   return generatedToken;
@@ -123,33 +128,22 @@ userSchema.methods.generateAuthenticationToken = async function () {
  */
 userSchema.statics.checkCredentials = async function (username, password) {
   const user = await User.findOne({ username });
-  console.log(user);
-  console.log(await bcrypt.hash(password, 8));
+
   if (!user) {
+    console.log("No user");
     throw new Error("You can not login. Try again");
   }
 
   const passwordMatch = await bcrypt.compare(password, user.password);
 
   if (!passwordMatch) {
+    console.log("No match");
     throw new Error("You can not login. Try again");
   }
 
   return user;
 };
 
-//Hash the plain text password before saving the model
-userSchema.pre("save", async function (next) {
-  const user = this;
-
-  //true when user is created and also true when the field is modified
-  if (user.isModified("password")) {
-    user.password = await bcrypt.hash(user.password, 8);
-  }
-
-  next();
-});
-
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("user", userSchema);
 
 module.exports = User;

@@ -5,6 +5,7 @@ const User = require("../models/user.js");
 const Email = require("../APIs/emails/email");
 const sendEmail = require("../APIs/emails/send-email.js");
 const authentication = require("../middleware/authentication");
+const { use } = require("./error.js");
 
 const router = new express.Router();
 
@@ -18,8 +19,8 @@ router.post("/register/submit", async function (req, res) {
     await userObj.save();
 
     // sendEmail(new Email(userObj.email, "dpmcomboard@gmail.com", "TestSubject", "<h1>Test content</h1>"));
-    const token = await userObj.generateAuthenticationToken();
-    res.status(201).send({ userObj, token });
+    const generatedToken = await userObj.generateAuthenticationToken();
+    res.status(201).send({ userObj, generatedToken });
   } catch (error) {
     res.status(400).send(error);
   }

@@ -31,11 +31,12 @@ const organizationSchema = mongoose.Schema({
   website: {
     type: String,
   },
+  users: new Array({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+  }),
 });
 
-const Organization = mongoose.model("Organization", organizationSchema);
+const Organization = mongoose.model("organizations", organizationSchema);
 
-module.exports = {
-  Organization,
-  organizationSchema,
-};
+module.exports = Organization;
