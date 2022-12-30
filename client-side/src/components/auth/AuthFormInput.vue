@@ -1,5 +1,5 @@
 <template>
-  <input :id="id" :type="type" :name="name" :placeholder="placeholder" :minlength="numberLength" />
+  <input :id="id" :type="type" :name="name" :placeholder="placeholder" :minlength="numberLength" :value="value" />
 </template>
 
 <script>
@@ -23,6 +23,10 @@ export default {
     },
     minLength: {
       type: Number,
+      required: false,
+    },
+    value: {
+      type: String,
       required: false,
     },
   },

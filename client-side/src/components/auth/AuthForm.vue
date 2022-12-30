@@ -33,4 +33,16 @@ button {
   transition-duration: 0.4s;
   font-weight: bold;
 }
+
+@media screen and (max-width: 1283.2px) {
+  .box {
+    width: 30%;
+  }
+}
+
+@media screen and (max-width: 919.11px) {
+  .box {
+    width: 40%;
+  }
+}
 </style>
