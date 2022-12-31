@@ -47,8 +47,21 @@ input {
   border-color: var(--primary-blue-color);
   border-radius: 0.25rem;
   background: no-repeat left;
-  padding-left: 25px;
+  padding-left: 35px;
   margin: 1rem auto;
+}
+
+form input[type="submit"] {
+  padding: 0.75rem;
+  display: block;
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: var(--primary-bright-color);
+  text-align: center;
+  border-radius: 0.25rem;
+  border: 2px solid var(--primary-dark-color);
+  transition-duration: 0.4s;
+  font-weight: bold;
 }
 
 input[type="button"]:hover,
