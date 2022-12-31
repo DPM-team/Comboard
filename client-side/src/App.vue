@@ -1,14 +1,17 @@
 <template>
-  <auth-form></auth-form>
+  <!-- <auth-form></auth-form> -->
+  <index-header></index-header>
 </template>
 
 <script>
-import AuthForm from "./components/auth/AuthForm.vue";
+// import AuthForm from "./components/auth/AuthForm.vue";
+import IndexHeader from "./components/headers/IndexHeader.vue";
 
 export default {
   name: "App",
   components: {
-    AuthForm,
+    // AuthForm,
+    IndexHeader,
   },
 };
 </script>
@@ -18,8 +21,8 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
 }
 </style>
