@@ -1,17 +1,19 @@
 <template>
   <!-- <auth-form></auth-form> -->
-  <index-header></index-header>
+  <index-footer></index-footer>
 </template>
 
 <script>
 // import AuthForm from "./components/auth/AuthForm.vue";
-import IndexHeader from "./components/headers/IndexHeader.vue";
+// import IndexHeader from "./components/headers/IndexHeader.vue";
+import IndexFooter from "./components/footers/IndexFooter.vue";
 
 export default {
   name: "App",
   components: {
     // AuthForm,
-    IndexHeader,
+    // IndexHeader,
+    IndexFooter,
   },
 };
 </script>
