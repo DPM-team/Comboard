@@ -51,4 +51,10 @@ button {
     width: 45%;
   }
 }
+
+@media screen and (max-width: 326.4px) {
+  .box {
+    width: 85%;
+  }
+}
 </style>

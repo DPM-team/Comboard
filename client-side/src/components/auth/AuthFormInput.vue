@@ -51,7 +51,7 @@ input {
   margin: 1rem auto;
 }
 
-form input[type="submit"] {
+input[type="submit"] {
   padding: 0.75rem;
   display: block;
   cursor: pointer;
@@ -75,7 +75,7 @@ input[type="submit"]:hover {
 }
 
 #code {
-  background-image: url("../../assets/logo.png");
+  /* background-image: url("../../assets/logo.png"); */
   background-size: 24px;
 }
 
@@ -84,10 +84,12 @@ input[type="submit"]:hover {
 }
 
 #newConfirmPassword {
+  background-image: u;
   background-size: 24px;
 }
 
 #username {
+  background-image: url("../../../../public/resources/images/login-register/user-24px.png");
   background-size: 24px;
 }
 
