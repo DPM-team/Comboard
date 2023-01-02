@@ -43,8 +43,8 @@ input {
   display: block;
   width: 75%;
   padding: 0.75rem;
-  border: 1.5px solid var(--secondary-bright-color);
-  border-color: var(--primary-blue-color);
+  border: 1.5px solid #ccc;
+  border-color: #50a3c5;
   border-radius: 0.25rem;
   background: no-repeat left;
   padding-left: 35px;
@@ -55,11 +55,11 @@ input[type="submit"] {
   padding: 0.75rem;
   display: block;
   cursor: pointer;
-  background-color: var(--primary-color);
-  color: var(--primary-bright-color);
+  background-color: #1a75ff;
+  color: #ffffff;
   text-align: center;
   border-radius: 0.25rem;
-  border: 2px solid var(--primary-dark-color);
+  border: 2px solid #000000;
   transition-duration: 0.4s;
   font-weight: bold;
 }
@@ -71,20 +71,22 @@ input[type="submit"]:hover {
 
 /* Images for inputs */
 #email {
+  background-image: url("../../../../public/resources/images/common-images/at-sign-24px.png");
   background-size: 24px;
 }
 
 #code {
-  /* background-image: url("../../assets/logo.png"); */
+  background-image: url("../../../../public/resources/images/forgot-password/verification-code-24px.png");
   background-size: 24px;
 }
 
 #newPassword {
+  background-image: url("../../../../public/resources/images/forgot-password/reset-password-24px.png");
   background-size: 24px;
 }
 
 #newConfirmPassword {
-  background-image: u;
+  background-image: url("../../../../public/resources/images/forgot-password/confirm-password-24px.png");
   background-size: 24px;
 }
 
@@ -95,6 +97,7 @@ input[type="submit"]:hover {
 
 #password,
 #confirm-password {
+  background-image: url("../../../../public/resources/images/login-register/password-24px.png");
   background-size: 24px;
 }
 </style>
