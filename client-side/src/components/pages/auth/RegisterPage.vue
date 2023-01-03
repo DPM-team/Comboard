@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import AuthForm from "../auth/AuthForm.vue";
-import AuthFormInput from "../auth/AuthFormInput.vue";
-import AuthHeader from "../auth/AuthHeader.vue";
-import AuthChoices from "../auth/AuthChoices.vue";
+import AuthForm from "../../auth/AuthForm.vue";
+import AuthFormInput from "../../auth/AuthFormInput.vue";
+import AuthHeader from "../../auth/AuthHeader.vue";
+import AuthChoices from "../../auth/AuthChoices.vue";
 
 export default {
   components: {

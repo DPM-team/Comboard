@@ -1,25 +1,14 @@
 <template>
-  <div>
-    <index-header></index-header>
-    <index-footer></index-footer>
-  </div>
+  <landing-section></landing-section>
 </template>
 
 <script>
-// import AuthForm from "./components/auth/AuthForm.vue";
-//import LoginPage from "./components/pages/LoginPage.vue";
-// import RegisterPage from "./components/pages/RegisterPage.vue";
-import IndexHeader from "./components/headers/IndexHeader.vue";
-import IndexFooter from "./components/footers/IndexFooter.vue";
+import LandingSection from "./components/sections/index/LandingSection.vue";
 
 export default {
   name: "App",
   components: {
-    //LoginPage,
-    // RegisterPage,
-    // AuthForm,
-    IndexHeader,
-    IndexFooter,
+    LandingSection,
   },
 };
 </script>
