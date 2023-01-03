@@ -1,24 +1,25 @@
 <template>
-  <!-- <login-page></login-page> -->
-  <!-- <index-footer></index-footer> -->
-  <register-page></register-page>
+  <div>
+    <index-header></index-header>
+    <index-footer></index-footer>
+  </div>
 </template>
 
 <script>
 // import AuthForm from "./components/auth/AuthForm.vue";
 //import LoginPage from "./components/pages/LoginPage.vue";
-import RegisterPage from "./components/pages/RegisterPage.vue";
-// import IndexHeader from "./components/headers/IndexHeader.vue";
-// import IndexFooter from "./components/footers/IndexFooter.vue";
+// import RegisterPage from "./components/pages/RegisterPage.vue";
+import IndexHeader from "./components/headers/IndexHeader.vue";
+import IndexFooter from "./components/footers/IndexFooter.vue";
 
 export default {
   name: "App",
   components: {
     //LoginPage,
-    RegisterPage,
+    // RegisterPage,
     // AuthForm,
-    // IndexHeader,
-    // IndexFooter,
+    IndexHeader,
+    IndexFooter,
   },
 };
 </script>
