@@ -5,7 +5,7 @@
       <label for="check" class="checkbtn">
         <i class="fas fa-bars"></i>
       </label>
-      <a class="header-logo" href=""><img src="../../assets/logos/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
+      <a class="header-logo" href=""><img src="../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
       <ul class="header-ul">
         <li class="header-li">
           <a class="header-a" href="">Features</a>
@@ -17,7 +17,7 @@
           <a class="header-a" href="">Testimonials</a>
         </li>
         <li class="header-li">
-          <a class="header-a" href=""><img id="user__icon" src="../../assets/icons/user.png" alt="Login" /></a>
+          <a class="header-a" href=""><img id="user__icon" src="../../assets/images/common-images/user.png" alt="Login" /></a>
         </li>
       </ul>
     </nav>

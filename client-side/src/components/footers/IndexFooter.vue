@@ -14,7 +14,7 @@
         <a class="footer__link" href="">FAQs</a>
       </li>
     </ul>
-    <a href=""><img src="../../assets/logos/main-logo-transparent.png" alt="Comboard Logo" class="footer__logo" /></a>
+    <a href=""><img src="../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard Logo" class="footer__logo" /></a>
     <p class="footer__copyright">
       &copy; Copyright by
       <a class="footer__link" target="_blank" href="https://github.com/DPM-team">DPM team</a>. Comboard is the group thesis application of

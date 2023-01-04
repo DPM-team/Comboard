@@ -55,4 +55,12 @@ hr {
   display: flex;
   justify-content: space-around;
 }
+
+#alternative-sign-in {
+  background-color: #d9d9d9;
+  border-radius: 15px;
+  margin: auto;
+  text-align: center;
+  width: 30%;
+}
 </style>
