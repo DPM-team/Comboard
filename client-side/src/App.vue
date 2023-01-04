@@ -1,21 +1,31 @@
 <template>
-  <login-page></login-page>
-  <!-- <index-footer></index-footer> -->
+  <div>
+    <base-image-box
+      v-for="testimonial in testimonials"
+      :key="testimonial.fullname"
+      :fullname="testimonial.fullname"
+      :pictureLink="testimonial.pictureLink"
+      :description="testimonial.description"
+    ></base-image-box>
+  </div>
 </template>
 
 <script>
-// import AuthForm from "./components/auth/AuthForm.vue";
-import LoginPage from "./components/pages/LoginPage.vue";
-// import IndexHeader from "./components/headers/IndexHeader.vue";
-// import IndexFooter from "./components/footers/IndexFooter.vue";
+import BaseImageBox from "./components/basic-components/BaseImageBox.vue";
 
 export default {
   name: "App",
   components: {
-    LoginPage,
-    // AuthForm,
-    // IndexHeader,
-    // IndexFooter,
+    BaseImageBox,
+  },
+  data() {
+    return {
+      testimonials: [
+        { fullname: "Dionisis Lougaris", pictureLink: "https://cdn-icons-png.flaticon.com/512/1077/1077114.png", description: "This is a description!" },
+        { fullname: "Panagiotis Machairas", pictureLink: "https://cdn-icons-png.flaticon.com/512/1077/1077114.png", description: "This is a description!" },
+        { fullname: "Minas Theodoros Charakopoulos", pictureLink: "https://cdn-icons-png.flaticon.com/512/1077/1077114.png", description: "This is a description!" },
+      ],
+    };
   },
 };
 </script>
