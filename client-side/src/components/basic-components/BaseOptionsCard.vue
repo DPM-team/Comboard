@@ -48,12 +48,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ["fullname", "pictureLink", "description"],
-};
-</script>
-
 <style scoped>
 .btn {
   display: inline-block;
