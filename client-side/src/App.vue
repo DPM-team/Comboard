@@ -1,22 +1,14 @@
 <template>
-  <div>
-    <base-image-box
-      v-for="testimonial in testimonials"
-      :key="testimonial.fullname"
-      :fullname="testimonial.fullname"
-      :pictureLink="testimonial.pictureLink"
-      :description="testimonial.description"
-    ></base-image-box>
-  </div>
+  <base-options-card></base-options-card>
 </template>
 
 <script>
-import BaseImageBox from "./components/basic-components/BaseImageBox.vue";
+import BaseOptionsCard from "./components/basic-components/BaseOptionsCard.vue";
 
 export default {
   name: "App",
   components: {
-    BaseImageBox,
+    BaseOptionsCard,
   },
   data() {
     return {
@@ -44,5 +36,16 @@ export default {
 
 body {
   font-family: "Poppins", sans-serif;
+}
+:root {
+  --color-primary: #1576bb;
+  --color-secondary: #6dcce9;
+  --color-tertiary: #89e9b7;
+  --color-primary-darker: #0a3c5f;
+  --color-secondary-darker: #41b0d1;
+  --color-tertiary-darker: #37a769;
+  --color-primary-opacity: #73b2e371;
+  --color-demo-opacity: #5be28dbf;
+  --gradient-primary: linear-gradient(to top left, #1b91e5, #bbc3c8);
 }
 </style>
