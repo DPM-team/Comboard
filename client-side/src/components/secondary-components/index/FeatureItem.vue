@@ -1,21 +1,47 @@
 <template>
   <section class="feature__item">
     <div class="column--section-features-with-image-left" id="feature-networking--photo">
-      <img src="../../../assets/images/index/networking.jpg" data-src="public/resources/index/networking.jpg" alt="Networking inside your organization" class="features__img lazy-img" />
+      <img :src="formatImagePath(mainImageFileName)" :data-src="formatImagePath(mainImageFileName)" alt="Networking inside your organization" class="features__img lazy-img" />
     </div>
     <div class="column--section-features-with-text-right" id="feature-networking--text">
       <div class="features__feature">
         <div class="features__icon">
-          <img src="../../../assets/images/index/networking_icon.png" />
+          <img :src="formatImagePath(secondaryIconFileName)" />
         </div>
-        <h5 class="features__header">Networking</h5>
-        <p>
-          Networking inside your organization has never been easier.. Think about it as if all organization members are in the same building. Since that cannot happen, your only option is Comboard!
-        </p>
+        <h5 class="features__header">{{ title }}</h5>
+        <p>{{ description }}</p>
       </div>
     </div>
   </section>
 </template>
+
+<script>
+export default {
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    mainImageFileName: {
+      type: String,
+      required: true,
+    },
+    secondaryIconFileName: {
+      type: String,
+      required: true,
+    },
+  },
+  methods: {
+    formatImagePath(imageFileName) {
+      return require("../../../assets/images/index/" + imageFileName);
+    },
+  },
+};
+</script>
 
 <style scoped>
 .feature__item {

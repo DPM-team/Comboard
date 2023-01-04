@@ -1,5 +1,5 @@
 <template>
-  <section class="section__welcome section">
+  <base-section :classNames="'section__welcome'">
     <div class="column--section-welcome-left" id="welcome__text">
       <h1>
         When&nbsp;
@@ -14,28 +14,18 @@
     <div class="column--section-welcome-right">
       <img src="../../../assets/images/index/people-in-the-office.png" class="header__img" alt="People in the office sketch." />
     </div>
-  </section>
+  </base-section>
 </template>
 
+<script>
+import BaseSection from "../../basic-components/ui/BaseSection.vue";
+
+export default {
+  components: { BaseSection },
+};
+</script>
+
 <style scoped>
-.section {
-  padding-top: 10rem;
-  padding-right: 4rem;
-  padding-bottom: 8rem;
-  padding-left: 4rem;
-  border-top: 1px solid #ddd;
-  transition: transform 1s, opacity 1s;
-}
-
-.section__welcome {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  align-items: start;
-  justify-items: start;
-  flex-wrap: wrap;
-}
-
 .column--section-welcome-left {
   flex: 40%;
   max-width: 40%;
