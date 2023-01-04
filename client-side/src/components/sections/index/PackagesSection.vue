@@ -53,3 +53,117 @@
     </div>
   </section>
 </template>
+
+<style scoped>
+.btn {
+  display: inline-block;
+  background-color: var(--color-primary);
+  font-size: 1.6rem;
+  font-family: inherit;
+  font-weight: 500;
+  border: none;
+  padding: 1.25rem 4.5rem;
+  border-radius: 10rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.packages {
+  max-width: 100rem;
+  margin: 12rem auto 0 auto;
+  background-color: rgb(255, 255, 255);
+}
+
+.packages__tab-container {
+  display: flex;
+  justify-content: center;
+}
+
+.packages__tab {
+  margin-right: 2.5rem;
+  transform: translateY(-50%);
+}
+
+.packages__tab span {
+  margin-right: 1rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.packages__tab--1 {
+  background-color: var(--color-secondary);
+}
+
+.packages__tab--1:hover {
+  background-color: var(--color-secondary-darker);
+}
+
+.packages__tab--3 {
+  background-color: var(--color-tertiary);
+  margin: 0;
+}
+
+.packages__tab--3:hover {
+  background-color: var(--color-tertiary-darker);
+}
+
+.packages__tab--active {
+  transform: translateY(-66%);
+}
+
+.packages__content {
+  display: none;
+
+  /* JUST PRESENTATIONAL */
+  font-size: 1.7rem;
+  padding: 2.5rem 7rem 6.5rem 7rem;
+}
+
+.packages__content--active {
+  display: block;
+}
+
+.packages__header {
+  font-size: 2.25rem;
+  font-weight: 500;
+  align-self: center;
+}
+
+.packages__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 7rem;
+  width: 7rem;
+  border-radius: 50%;
+}
+
+.packages__icon img {
+  height: 2.75rem;
+  width: 2.75rem;
+}
+
+.packages__icon--1 {
+  background-color: var(--color-secondary);
+}
+.packages__icon--2 {
+  background-color: var(--color-primary);
+}
+.packages__icon--3 {
+  background-color: var(--color-tertiary);
+}
+.btn--text-packages {
+  float: right;
+  background: none;
+  font-size: 1.7rem;
+  font-family: inherit;
+  font-weight: 500;
+  color: var(--color-primary);
+  border: none;
+  border-bottom: 1px solid currentColor;
+  padding-top: 15px;
+  padding-bottom: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+</style>
