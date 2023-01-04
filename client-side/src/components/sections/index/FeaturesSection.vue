@@ -4,25 +4,34 @@
       <h2 class="section__description">Features</h2>
       <h3 class="section__header">Every tool you need in order to do your job, lies inside the Comboard universe.</h3>
     </div>
-    <feature-item
-      v-for="feature in features"
-      :key="feature.title"
-      :title="feature.title"
-      :description="feature.description"
-      :mainImageFileName="feature.mainImageFileName"
-      :secondaryIconFileName="feature.secondaryIconFileName"
-    ></feature-item>
+    <feature-item v-for="(feature, index) in features" :key="feature.title">
+      <template v-slot:[renderingPosition(index).imageSlotPosition]>
+        <feature-item-image :title="feature.title" :mainImageFileName="feature.mainImageFileName" :position="renderingPosition(index).imagePosition"></feature-item-image>
+      </template>
+      <template v-slot:[renderingPosition(index).textSlotPosition]>
+        <feature-item-text
+          :title="feature.title"
+          :description="feature.description"
+          :secondaryIconFileName="feature.secondaryIconFileName"
+          :position="renderingPosition(index).textPosition"
+        ></feature-item-text>
+      </template>
+    </feature-item>
   </base-section>
 </template>
 
 <script>
 import FeatureItem from "../../secondary-components/index/FeatureItem.vue";
 import BaseSection from "../../basic-components/ui/BaseSection.vue";
+import FeatureItemImage from "../../secondary-components/index/FeatureItemImage.vue";
+import FeatureItemText from "../../secondary-components/index/FeatureItemText.vue";
 
 export default {
   components: {
     FeatureItem,
     BaseSection,
+    FeatureItemImage,
+    FeatureItemText,
   },
   data() {
     return {
@@ -49,6 +58,25 @@ export default {
         }
       ),
     };
+  },
+  methods: {
+    renderingPosition(index) {
+      if (index % 2 === 0) {
+        return {
+          imageSlotPosition: "first",
+          textSlotPosition: "second",
+          imagePosition: "left",
+          textPosition: "right",
+        };
+      }
+
+      return {
+        imageSlotPosition: "second",
+        textSlotPosition: "first",
+        imagePosition: "right",
+        textPosition: "left",
+      };
+    },
   },
 };
 </script>
