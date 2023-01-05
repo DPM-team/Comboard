@@ -5,7 +5,7 @@ const router = new express.Router();
 
 //Router for index page
 router.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + "../../../index.html"));
+  res.sendFile(path.join(__dirname + "../../../../index.html"));
 });
 
 router.get("/terms/privacy-policy", function (req, res) {
