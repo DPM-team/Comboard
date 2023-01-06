@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import IndexHeader from "../headers/IndexHeader.vue";
-import LandingSection from "../sections/index/LandingSection.vue";
-import FeaturesSection from "../sections/index/FeaturesSection.vue";
-import PackagesSection from "../sections/index/PackagesSection.vue";
-import TestimonialsSection from "../sections/index/TestimonialsSection.vue";
-import IndexFooter from "../footers/IndexFooter.vue";
+import IndexHeader from "../layout/headers/IndexHeader.vue";
+import LandingSection from "../layout/sections/index/LandingSection.vue";
+import FeaturesSection from "../layout/sections/index/FeaturesSection.vue";
+import PackagesSection from "../layout/sections/index/PackagesSection.vue";
+import TestimonialsSection from "../layout/sections/index/TestimonialsSection.vue";
+import IndexFooter from "../layout/footers/IndexFooter.vue";
 
 export default {
   components: { IndexHeader, LandingSection, FeaturesSection, PackagesSection, TestimonialsSection, IndexFooter },

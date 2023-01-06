@@ -10,12 +10,11 @@
 </template>
 
 <script>
-import DashboardFooter from "../footers/DashboardFooter.vue";
-import DashboardHeader from "../headers/DashboardHeader.vue";
-import BaseCard from "../basic-components/BaseCard.vue";
+import DashboardFooter from "../layout/footers/DashboardFooter.vue";
+import DashboardHeader from "../layout/headers/DashboardHeader.vue";
 
 export default {
-  components: { DashboardHeader, DashboardFooter, BaseCard },
+  components: { DashboardHeader, DashboardFooter },
 };
 </script>
 
