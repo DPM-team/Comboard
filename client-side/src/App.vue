@@ -1,17 +1,20 @@
 <template>
   <!-- <index-page></index-page> -->
-  <dashboard-header></dashboard-header>
+  <!-- <dashboard-header></dashboard-header> -->
+  <dashboar-footer></dashboar-footer>
 </template>
 
 <script>
 // import IndexPage from "./components/pages/IndexPage.vue";
-import DashboardHeader from "./components/headers/DashboardHeader.vue";
+// import DashboardHeader from "./components/headers/DashboardHeader.vue";
+import DashboarFooter from "./components/footers/DashboardFooter.vue";
 
 export default {
   name: "App",
   components: {
     // IndexPage,
-    DashboardHeader,
+    // DashboardHeader,
+    DashboarFooter,
   },
 };
 </script>

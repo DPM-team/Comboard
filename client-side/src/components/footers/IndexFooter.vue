@@ -17,7 +17,7 @@
     <a href=""><img src="../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard Logo" class="footer__logo" /></a>
     <p class="footer__copyright">
       &copy; Copyright by
-      <a class="footer__link" target="_blank" href="https://github.com/DPM-team">DPM team</a>. Comboard is the group thesis application of
+      <a class="footer__link" target="_blank" href="https://github.com/DPM-team">DPM team</a> Comboard is the group thesis application of
       <a class="footer__link" target="_blank" href="https://www.linkedin.com/in/dionisis-lougaris/">Dionisis</a> -
       <a class="footer__link" target="_blank" href="https://www.linkedin.com/in/panagiotis-machairas-9263841b9/">Panos</a> -
       <a class="footer__link" target="_blank" href="https://www.linkedin.com/in/minas-theodoros-charakopoulos/">Minas</a>. Supervising professor:<a
