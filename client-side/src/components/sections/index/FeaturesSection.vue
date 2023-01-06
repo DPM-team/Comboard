@@ -22,7 +22,7 @@
 
 <script>
 import FeatureItem from "../../secondary-components/index/FeatureItem.vue";
-import BaseSection from "../../basic-components/ui/BaseSection.vue";
+import BaseSection from "../../basic-components/BaseSection.vue";
 import FeatureItemImage from "../../secondary-components/index/FeatureItemImage.vue";
 import FeatureItemText from "../../secondary-components/index/FeatureItemText.vue";
 

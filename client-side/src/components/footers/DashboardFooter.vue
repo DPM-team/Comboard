@@ -12,6 +12,7 @@
 .footer {
   padding: 1rem 0.2rem;
   background-color: #1576bb;
+  border-top: solid 1px white;
 }
 .footer__link {
   color: var(--color-seventh);

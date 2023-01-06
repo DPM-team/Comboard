@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import BaseSection from "../../basic-components/ui/BaseSection.vue";
+import BaseSection from "../../basic-components/BaseSection.vue";
 import TestimonialItem from "../../secondary-components/index/TestimonialItem.vue";
 
 export default {

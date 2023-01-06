@@ -1,20 +1,23 @@
 <template>
   <!-- <index-page></index-page> -->
   <!-- <dashboard-header></dashboard-header> -->
-  <dashboar-footer></dashboar-footer>
+  <!-- <dashboar-footer></dashboar-footer> -->
+  <dashboard-page></dashboard-page>
 </template>
 
 <script>
 // import IndexPage from "./components/pages/IndexPage.vue";
 // import DashboardHeader from "./components/headers/DashboardHeader.vue";
-import DashboarFooter from "./components/footers/DashboardFooter.vue";
+// import DashboarFooter from "./components/footers/DashboardFooter.vue";
+import DashboardPage from "./components/pages/DashboardPage.vue";
 
 export default {
   name: "App",
   components: {
     // IndexPage,
     // DashboardHeader,
-    DashboarFooter,
+    // DashboarFooter,
+    DashboardPage,
   },
 };
 </script>

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import BaseSection from "../../basic-components/ui/BaseSection.vue";
+import BaseSection from "../../basic-components/BaseSection.vue";
 import ComboardPackagesButton from "../../secondary-components/index/ComboardPackagesButton.vue";
 import ComboardPackageItem from "../../secondary-components/index/ComboardPackageItem.vue";
 

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import BaseSection from "../../basic-components/ui/BaseSection.vue";
+import BaseSection from "../../basic-components/BaseSection.vue";
 
 export default {
   components: { BaseSection },
