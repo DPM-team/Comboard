@@ -51,7 +51,8 @@ input {
   margin: 1rem auto;
 }
 
-input[type="submit"] {
+input[type="submit"],
+input[type="button"] {
   padding: 0.75rem;
   display: block;
   cursor: pointer;

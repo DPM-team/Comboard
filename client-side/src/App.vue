@@ -2,14 +2,16 @@
   <!-- <index-page></index-page> -->
   <!-- <dashboard-header></dashboard-header> -->
   <!-- <dashboar-footer></dashboar-footer> -->
-  <dashboard-page></dashboard-page>
+  <!-- <dashboard-page></dashboard-page> -->
+  <forgot-password-page></forgot-password-page>
 </template>
 
 <script>
 // import IndexPage from "./components/pages/IndexPage.vue";
 // import DashboardHeader from "./components/headers/DashboardHeader.vue";
 // import DashboarFooter from "./components/footers/DashboardFooter.vue";
-import DashboardPage from "./components/pages/DashboardPage.vue";
+// import DashboardPage from "./components/pages/DashboardPage.vue";
+import ForgotPasswordPage from "./components/pages/auth/ForgotPasswordPage.vue";
 
 export default {
   name: "App",
@@ -17,7 +19,8 @@ export default {
     // IndexPage,
     // DashboardHeader,
     // DashboarFooter,
-    DashboardPage,
+    // DashboardPage,
+    ForgotPasswordPage,
   },
 };
 </script>
