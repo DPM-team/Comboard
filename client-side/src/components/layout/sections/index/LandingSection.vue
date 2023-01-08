@@ -12,17 +12,13 @@
       <button class="btn--text-welcome btn--scroll-to">Learn more &DownArrow;</button>
     </div>
     <div class="column--section-welcome-right">
-      <img src="../../../assets/images/index/people-in-the-office.png" class="header__img" alt="People in the office sketch." />
+      <img src="../../../../assets/images/index/people-in-the-office.png" class="header__img" alt="People in the office sketch." />
     </div>
   </base-section>
 </template>
 
 <script>
-import BaseSection from "../../basic-components/BaseSection.vue";
-
-export default {
-  components: { BaseSection },
-};
+export default {};
 </script>
 
 <style scoped>

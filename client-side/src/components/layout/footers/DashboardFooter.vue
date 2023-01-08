@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <a href=""><img src="../../assets/comboard-logo/logo-white.png" alt="Comboard Logo" class="footer__logo" /></a>
+    <a href=""><img src="../../../assets/comboard-logo/logo-white.png" alt="Comboard Logo" class="footer__logo" /></a>
     <p class="footer__copyright">
       &copy; Copyright by
       <a class="footer__link" target="_blank" href="https://github.com/DPM-team">DPM team</a>

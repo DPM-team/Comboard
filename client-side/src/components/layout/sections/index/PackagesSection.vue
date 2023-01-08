@@ -29,13 +29,11 @@
 </template>
 
 <script>
-import BaseSection from "../../basic-components/BaseSection.vue";
-import ComboardPackagesButton from "../../secondary-components/index/ComboardPackagesButton.vue";
-import ComboardPackageItem from "../../secondary-components/index/ComboardPackageItem.vue";
+import ComboardPackagesButton from "../../../secondary-components/index/ComboardPackagesButton.vue";
+import ComboardPackageItem from "../../../secondary-components/index/ComboardPackageItem.vue";
 
 export default {
   components: {
-    BaseSection,
     ComboardPackagesButton,
     ComboardPackageItem,
   },

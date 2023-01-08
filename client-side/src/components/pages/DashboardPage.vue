@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import DashboardFooter from "../footers/DashboardFooter.vue";
-import DashboardHeader from "../headers/DashboardHeader.vue";
+import DashboardFooter from "../layout/footers/DashboardFooter.vue";
+import DashboardHeader from "../layout/headers/DashboardHeader.vue";
 import BaseCard from "../basic-components/BaseCard.vue";
 import DashboardSearchbar from "../dashboard/DashboardSearchbar.vue";
 

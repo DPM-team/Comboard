@@ -1,0 +1,178 @@
+<template>
+  <base-section>
+    <auth-form @submit.prevent="submitForm">
+      <auth-header>
+        <h2 id="primary-header--id" class="primary-header text-center">Retrieve your account</h2>
+        <h4 id="secondary-header--id" class="secondary-header text-center">Four simple steps and your account is back!</h4>
+      </auth-header>
+      <div class="progressbar">
+        <div class="progress" id="progress"></div>
+        <div id="step-1" class="progress-step progress-step-active" data-title="Account">1</div>
+        <div id="step-2" class="progress-step" data-title="Confirm">2</div>
+        <div id="step-3" class="progress-step" data-title="New Password">3</div>
+        <div id="step-4" class="progress-step" data-title="Completed!">4</div>
+      </div>
+      <base-card>
+        <div v-if="this.chechActiveStep('one')">
+          <h5 class="form-title">Account Information</h5>
+          <auth-form-input id="email" type="email" name="email" placeholder="Email"></auth-form-input>
+        </div>
+        <div v-else-if="this.chechActiveStep('two')">
+          <h5 class="form-title">Verify the code you received via email</h5>
+          <auth-form-input id="code" type="text" name="code" placeholder="code"></auth-form-input>
+        </div>
+        <div v-else-if="this.chechActiveStep('three')">
+          <h5 class="form-title">Account Information</h5>
+          <auth-form-input id="newPassword" type="text" name="code" placeholder="password"></auth-form-input>
+        </div>
+        <div v-else>
+          <h5 class="form-title">Account Information</h5>
+          <auth-form-input id="newPassword" type="password" name="code" placeholder="New Password"></auth-form-input>
+        </div>
+      </base-card>
+      <div class="btns-group">
+        <auth-form-input type="button" value="Back" v-on:click="this.back"></auth-form-input>
+        <auth-form-input type="submit" value="Next"></auth-form-input>
+      </div>
+    </auth-form>
+  </base-section>
+</template>
+
+<script>
+import BaseCard from "../../basic-components/BaseCard.vue";
+import AuthForm from "../../auth/AuthForm.vue";
+import BaseSection from "../../basic-components/BaseSection.vue";
+import AuthHeader from "../../auth/AuthHeader.vue";
+import AuthFormInput from "../../auth/AuthFormInput.vue";
+export default {
+  components: {
+    BaseCard,
+    AuthForm,
+    AuthHeader,
+    AuthFormInput,
+    BaseSection,
+  },
+  data() {
+    return {
+      activeStep: "one",
+      numberStep: 1,
+      previousStep: "",
+      prevNumberSt: 0,
+    };
+  },
+  methods: {
+    submitForm() {
+      this.calcStep();
+      this.prevNumberSt = this.numberStep;
+      this.numberStep++;
+    },
+    chechActiveStep(step) {
+      return this.activeStep === step ? true : false;
+    },
+    back() {
+      this.setActiveStep(this.previousStep);
+      this.numberStep = this.prevNumberSt;
+      this.prevNumberSt--;
+    },
+    calcStep() {
+      if (this.numberStep === 1) {
+        this.setActiveStep("two");
+        this.setPreviousStep("one");
+      } else if (this.numberStep === 2) {
+        this.setActiveStep("three");
+        this.setPreviousStep("one");
+      } else if (this.numberStep === 3) {
+        this.setActiveStep("four");
+        this.setPreviousStep("one");
+      } else {
+        this.setActiveStep("four");
+      }
+    },
+    setActiveStep(step) {
+      this.activeStep = step;
+    },
+    setPreviousStep(step) {
+      this.previousStep = step;
+    },
+  },
+};
+</script>
+
+<style scoped>
+h4 {
+  color: #a0a6b0;
+}
+
+h2,
+h4 {
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 2px;
+}
+/* Progressbar */
+.progressbar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0 4rem;
+}
+
+.form-title {
+  font-size: 0.85rem;
+  color: var(--primary-dark-color);
+  margin: 5px 0 0 0;
+}
+
+.progressbar::before,
+.progress {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3px;
+  width: 100%;
+  background-color: #ccc;
+  z-index: -1;
+}
+
+div {
+  margin: 10px;
+}
+
+.progress {
+  background-color: #1a75ff;
+  width: 0%;
+  transition: 0.5s;
+}
+
+.progress-step {
+  width: 45px;
+  height: 45px;
+  background-color: #ccc;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.7s;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.progress-step::after {
+  content: attr(data-title);
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  font-size: 0.75rem;
+  color: #000000;
+}
+
+.btns-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.progress-step-active {
+  background-color: #1a75ff;
+}
+</style>
