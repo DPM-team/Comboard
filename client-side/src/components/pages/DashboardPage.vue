@@ -3,7 +3,7 @@
     <dashboard-header></dashboard-header>
     <div class="content">
       <h1>Your available organizations</h1>
-      <base-card style="max-width: 80rem"></base-card>
+      <base-card style="max-width: 80rem"> <dashboard-searchbar></dashboard-searchbar></base-card>
     </div>
     <dashboard-footer></dashboard-footer>
   </div>
@@ -13,9 +13,10 @@
 import DashboardFooter from "../footers/DashboardFooter.vue";
 import DashboardHeader from "../headers/DashboardHeader.vue";
 import BaseCard from "../basic-components/BaseCard.vue";
+import DashboardSearchbar from "../dashboard/DashboardSearchbar.vue";
 
 export default {
-  components: { DashboardHeader, DashboardFooter, BaseCard },
+  components: { DashboardHeader, DashboardFooter, BaseCard, DashboardSearchbar },
 };
 </script>
 
