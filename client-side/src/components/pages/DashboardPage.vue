@@ -28,7 +28,7 @@ export default {
 <style scoped>
 .main {
   min-height: 80vh;
-  background: linear-gradient(#ffffff, #1576bb);
+  background: linear-gradient(#ffffff, var(--color-primary));
   display: flex;
   align-items: center;
   width: 100%;

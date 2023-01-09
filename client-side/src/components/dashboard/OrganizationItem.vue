@@ -2,7 +2,7 @@
   <div class="column--33perc">
     <div class="organization">
       <img :src="formatImagePath" />
-      <div class="title">{{ title }}</div>
+      <h1 class="organization-title">{{ title }}</h1>
     </div>
   </div>
 </template>
@@ -39,19 +39,22 @@ export default {
   padding: 15px;
 }
 .organization {
-  background: #fff;
-  border-radius: 8px;
-  padding: 30px;
-  display: flex;
+  background: rgb(199, 241, 252);
+  border-radius: 10px;
+  padding: 30px 50px;
+  display: inline-block;
   justify-content: center;
+  text-align: center;
+  margin-left: 5px;
 }
 .organization img {
-  width: 100px;
-  height: 100px;
+  width: 125px;
+  height: 125px;
   border-radius: 50%;
   margin: 0 auto;
 }
-.title {
+.organization-title {
+  padding-top: 5px;
   font-size: 17px;
 }
 </style>

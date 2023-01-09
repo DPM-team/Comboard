@@ -10,38 +10,36 @@
 
 <style scoped>
 .footer {
-  padding: 1rem 0.2rem;
-  background-color: #1576bb;
+  padding: 20px 10px;
+  background-color: var(--color-primary);
   border-top: solid 1px white;
 }
 .footer__link {
-  color: var(--color-seventh);
+  color: var(--color-secondary);
   font-size: 0.8rem;
   font-weight: 600;
-  padding: 7px 10px;
+
   border-radius: 3px;
   text-decoration: none;
 }
 .footer__link:hover {
-  background: var(--color-eighth);
-  color: var(--color-seventh);
+  color: white;
   transition: 0.5s;
 }
 
 .footer__logo {
-  height: 6rem;
+  height: 120px;
   display: block;
   margin: 0 auto;
-  /* margin-bottom: 5rem; */
 }
 
 .footer__copyright {
-  font-size: 0.6rem;
+  font-size: 12px;
   color: white;
   text-align: center;
 }
 
 .footer__copyright .footer__link {
-  font-size: 0.7rem;
+  font-size: 12px;
 }
 </style>

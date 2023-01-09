@@ -45,12 +45,12 @@ button {
 }
 
 .primary {
-  background-color: blue;
+  background-color: var(--color-sixth);
   color: white;
   border: 2px solid black;
 }
 .secondary {
-  background-color: red;
+  background-color: var(--color-primary);
   color: white;
   border: 2px solid black;
 }
