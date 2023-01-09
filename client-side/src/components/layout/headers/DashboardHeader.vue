@@ -8,13 +8,13 @@
       <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
       <ul class="header-ul">
         <li class="header-li">
-          <a class="header-a" href=""><img id="user__icon" src="../../../assets/images/common-images/user.png" alt="Login" /></a>
+          <a class="header-a" href=""><img class="image-menu" src="../../../assets/images/common-images/user.png" alt="User profile" /></a>
         </li>
         <li class="header-li">
-          <a class="header-a" href=""><img id="user__icon" src="../../../assets/images/common-images/settings.png" alt="Login" /></a>
+          <a class="header-a" href=""><img class="image-menu" src="../../../assets/images/common-images/settings.png" alt="Settings" /></a>
         </li>
         <li class="header-li">
-          <a class="header-a" href=""><img id="user__icon" src="../../../assets/images/common-images/question_mark.png" alt="Login" /></a>
+          <a class="header-a" href=""><img class="image-menu" src="../../../assets/images/common-images/question_mark.png" alt="Help" /></a>
         </li>
       </ul>
     </nav>
@@ -22,35 +22,13 @@
 </template>
 
 <style scoped>
-:root {
-  --color-primary: #2a4078;
-  --color-secondary: #d6dfed;
-  --color-third: #4dd2c4;
-  --color-fourth: #1fa496;
-  --color-fifth: #063e37;
-  --color-sixth: #f4efb7;
-  --color-seventh: #74330e;
-  --color-eighth: #ffc163;
-  --color-ninth: #dff1db;
-  --color-primary-gradient: #2a407897;
-  --color-secondary-gradient: #ebf3d44a;
-}
-
-* {
-  padding: 0;
-  margin: 0;
-  text-decoration: none;
-  list-style: none;
-  box-sizing: border-box;
-}
-
 /* Bug fix */
 .header-logo:hover {
   background: none;
 }
 .header-nav {
-  background: var(--color-sixth);
-  height: 70px;
+  background: white;
+  height: 100px;
   width: 100%;
 }
 .header-nav .header-ul {
@@ -59,25 +37,27 @@
 }
 .header-nav .header-ul .header-li {
   display: inline-block;
-  line-height: 100px;
+  line-height: 99px;
   margin: 0 5px;
 }
 .header-nav .header-ul .header-li .header-a {
-  color: var(--color-seventh);
   font-size: 15px;
   font-weight: 600;
   padding: 7px 13px;
   border-radius: 3px;
   text-decoration: none;
+  height: 1rem;
 }
 .nav__logo {
-  height: 100px;
+  height: 120px;
   margin-left: 100px;
 }
 
-.header-a:hover {
-  background: var(--color-eighth);
-  transition: 0.5s;
+.image-menu:hover {
+  opacity: 0.8;
+}
+.image-menu {
+  height: 26px;
 }
 .checkbtn {
   font-size: 30px;
@@ -93,10 +73,6 @@
 }
 .no-scrolling {
   overflow: hidden;
-}
-#user__icon {
-  height: 1.8rem;
-  margin-bottom: -5px;
 }
 
 @media (max-width: 858px) {

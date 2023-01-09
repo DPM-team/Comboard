@@ -38,15 +38,19 @@ button {
   border-radius: 0.25rem;
   transition-duration: 0.4s;
   font-weight: bold;
+  height: 40px;
+  width: 80px;
+  margin-top: 20px;
+  margin-left: 5px;
 }
 
 .primary {
-  background-color: blue;
+  background-color: var(--color-sixth);
   color: white;
   border: 2px solid black;
 }
 .secondary {
-  background-color: red;
+  background-color: var(--color-primary);
   color: white;
   border: 2px solid black;
 }
