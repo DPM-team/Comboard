@@ -13,16 +13,16 @@
         <div id="step-4" class="progress-step" data-title="Completed!">4</div>
       </div>
       <base-card>
-        <div v-if="this.chechActiveStep('one')">
+        <div v-if="this.chechActiveStep(1)">
           <h5 class="form-title">Account Information</h5>
           <auth-form-input id="email" type="email" name="email" placeholder="Email"></auth-form-input>
         </div>
-        <div v-else-if="this.chechActiveStep('two')">
+        <div v-else-if="this.chechActiveStep(2)">
           <h5 class="form-title">Verify the code you received via email</h5>
           <auth-form-input id="code" type="text" name="code" placeholder="code"></auth-form-input>
         </div>
 
-        <div v-else-if="this.chechActiveStep('three')">
+        <div v-else-if="this.chechActiveStep(3)">
           <h5 class="form-title">Account Information</h5>
           <auth-form-input id="newPassword" type="text" name="code" placeholder="password"></auth-form-input>
         </div>
@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      steps: ["one"],
+      steps: [1],
     };
   },
   methods: {
@@ -63,31 +63,34 @@ export default {
       this.calcStep();
     },
     chechActiveStep(step) {
-      return this.steps[this.steps.length - 1] === step ? true : false;
+      return this.getStep() === step ? true : false;
     },
     back() {
       if (this.steps.length > 0) {
         this.steps.pop();
       } else {
-        this.steps.push("one");
+        this.steps.push(1);
       }
     },
     showButton() {
-      return this.steps[this.steps.length - 1] !== "one" ? true : false;
+      return this.getStep() !== 1 ? true : false;
+    },
+    redirect() {
+      this.$router.replace(`/retrieve-password/step-${this.getStep()}`);
     },
     calcStep() {
-      if (this.steps.length <= 4) {
-        if (this.steps[this.steps.length - 1] === "one") {
-          this.steps.push("two");
-        } else if (this.steps[this.steps.length - 1] === "two") {
-          this.steps.push("three");
-        } else if (this.steps[this.steps.length - 1] === "three") {
-          this.steps.push("four");
-        }
+      if (this.steps.length < 4) {
+        this.steps.push(this.getStep() + 1);
+        this.redirect();
       } else {
-        this.steps.push("one");
+        this.steps.push(1);
       }
     },
+
+    getStep() {
+      return this.steps[this.steps.length - 1];
+    },
+
     setActiveStep(step) {
       this.activeStep = step;
     },
