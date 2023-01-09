@@ -34,5 +34,8 @@ export default {
 .content {
   display: flex;
   flex-wrap: wrap;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 7%;
 }
 </style>

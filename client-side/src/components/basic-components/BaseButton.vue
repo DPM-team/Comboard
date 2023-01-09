@@ -38,6 +38,10 @@ button {
   border-radius: 0.25rem;
   transition-duration: 0.4s;
   font-weight: bold;
+  height: 40px;
+  width: 80px;
+  margin-top: 20px;
+  margin-left: 5px;
 }
 
 .primary {
