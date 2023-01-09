@@ -68,6 +68,7 @@ export default {
     back() {
       if (this.steps.length > 0) {
         this.steps.pop();
+        this.redirect();
       } else {
         this.steps.push(1);
       }
@@ -91,9 +92,6 @@ export default {
       return this.steps[this.steps.length - 1];
     },
 
-    setActiveStep(step) {
-      this.activeStep = step;
-    },
     setPreviousStep(step) {
       this.previousStep = step;
     },
