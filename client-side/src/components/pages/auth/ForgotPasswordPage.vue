@@ -21,6 +21,7 @@
           <h5 class="form-title">Verify the code you received via email</h5>
           <auth-form-input id="code" type="text" name="code" placeholder="code"></auth-form-input>
         </div>
+
         <div v-else-if="this.chechActiveStep('three')">
           <h5 class="form-title">Account Information</h5>
           <auth-form-input id="newPassword" type="text" name="code" placeholder="password"></auth-form-input>
@@ -31,8 +32,8 @@
         </div>
       </base-card>
       <div class="btns-group">
-        <auth-form-input type="button" value="Back" v-on:click="this.back"></auth-form-input>
-        <auth-form-input type="submit" value="Next"></auth-form-input>
+        <auth-form-input v-if="this.showButton()" type="button" value="Back" v-on:click="this.back"></auth-form-input>
+        <auth-form-input v-if="this" type="submit" value="Next"></auth-form-input>
       </div>
     </auth-form>
   </base-section>
@@ -54,38 +55,37 @@ export default {
   },
   data() {
     return {
-      activeStep: "one",
-      numberStep: 1,
-      previousStep: "",
-      prevNumberSt: 0,
+      steps: ["one"],
     };
   },
   methods: {
     submitForm() {
       this.calcStep();
-      this.prevNumberSt = this.numberStep;
-      this.numberStep++;
     },
     chechActiveStep(step) {
-      return this.activeStep === step ? true : false;
+      return this.steps[this.steps.length - 1] === step ? true : false;
     },
     back() {
-      this.setActiveStep(this.previousStep);
-      this.numberStep = this.prevNumberSt;
-      this.prevNumberSt--;
+      if (this.steps.length > 0) {
+        this.steps.pop();
+      } else {
+        this.steps.push("one");
+      }
+    },
+    showButton() {
+      return this.steps[this.steps.length - 1] !== "one" ? true : false;
     },
     calcStep() {
-      if (this.numberStep === 1) {
-        this.setActiveStep("two");
-        this.setPreviousStep("one");
-      } else if (this.numberStep === 2) {
-        this.setActiveStep("three");
-        this.setPreviousStep("one");
-      } else if (this.numberStep === 3) {
-        this.setActiveStep("four");
-        this.setPreviousStep("one");
+      if (this.steps.length <= 4) {
+        if (this.steps[this.steps.length - 1] === "one") {
+          this.steps.push("two");
+        } else if (this.steps[this.steps.length - 1] === "two") {
+          this.steps.push("three");
+        } else if (this.steps[this.steps.length - 1] === "three") {
+          this.steps.push("four");
+        }
       } else {
-        this.setActiveStep("four");
+        this.steps.push("one");
       }
     },
     setActiveStep(step) {
