@@ -51,7 +51,7 @@ router.get("/retrieve-account/step-1", (req, res) => {
 router.post("/retrieve-account/step-1/submit", async (req, res) => {
   try {
     const email = req.body.email;
-    userAccount = await Account.findOne({ email });
+    userAccount = await User.findOne({ email });
     if (!userAccount) {
       throw new Error("No user with this email");
     }

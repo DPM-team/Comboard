@@ -1,5 +1,5 @@
 <template>
-  <input :id="id" :type="type" :name="name" :placeholder="placeholder" :minlength="numberLength" :value="value" />
+  <input @focus="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :minlength="numberLength" :value="value" v-model="data" />
 </template>
 
 <script>
@@ -28,6 +28,16 @@ export default {
     value: {
       type: String,
       required: false,
+    },
+  },
+  data() {
+    return {
+      data: null,
+    };
+  },
+  methods: {
+    input() {
+      this.$emit("data", this.data);
     },
   },
 };

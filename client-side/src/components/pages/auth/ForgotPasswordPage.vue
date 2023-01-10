@@ -15,20 +15,19 @@
       <base-card>
         <div v-if="this.chechActiveStep(1)">
           <h5 class="form-title">Account Information</h5>
-          <auth-form-input id="email" type="email" name="email" placeholder="Email"></auth-form-input>
+          <auth-form-input @data="getDataInput" id="email" type="email" name="email" placeholder="Email" required></auth-form-input>
         </div>
         <div v-else-if="this.chechActiveStep(2)">
           <h5 class="form-title">Verify the code you received via email</h5>
-          <auth-form-input id="code" type="text" name="code" placeholder="code"></auth-form-input>
+          <auth-form-input id="code" type="text" name="code" placeholder="code" required></auth-form-input>
         </div>
 
         <div v-else-if="this.chechActiveStep(3)">
-          <h5 class="form-title">Account Information</h5>
-          <auth-form-input id="newPassword" type="text" name="code" placeholder="password"></auth-form-input>
+          <h5 class="form-title">Create new Password!</h5>
+          <auth-form-input id="newPassword" type="text" name="code" placeholder="Password" required></auth-form-input>
         </div>
         <div v-else>
-          <h5 class="form-title">Account Information</h5>
-          <auth-form-input id="newPassword" type="password" name="code" placeholder="New Password"></auth-form-input>
+          <a href="" class="btn btn-final width-50 mc-auto">Go to Login</a>
         </div>
       </base-card>
       <div class="btns-group">
@@ -53,10 +52,26 @@ export default {
     AuthFormInput,
     BaseSection,
   },
+  emits: ["data"],
   data() {
     return {
       steps: [1],
+      inputData: null,
     };
+  },
+  beforeUpdate() {
+    console.log(
+      JSON.stringify({
+        email: this.inputData,
+      })
+    );
+    fetch("http://localhost:3000/retrieve-account/step-1/submit", {
+      method: "post",
+      mode: "no-cors",
+      body: JSON.stringify({
+        email: this.inputData,
+      }),
+    });
   },
   methods: {
     submitForm() {
@@ -72,6 +87,9 @@ export default {
       } else {
         this.steps.push(1);
       }
+    },
+    getDataInput(i) {
+      this.inputData = i;
     },
     showButton() {
       return this.getStep() !== 1 ? true : false;
@@ -90,10 +108,6 @@ export default {
 
     getStep() {
       return this.steps[this.steps.length - 1];
-    },
-
-    setPreviousStep(step) {
-      this.previousStep = step;
     },
   },
 };
