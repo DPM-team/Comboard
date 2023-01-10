@@ -17,7 +17,7 @@
           <a class="header-a" href="">Testimonials</a>
         </li>
         <li class="header-li">
-          <a class="header-a" href=""><img id="user__icon" src="../../../assets/images/common-images/user.png" alt="Login" /></a>
+          <router-link class="header-a" to="/login"><img id="user__icon" src="../../../assets/images/common-images/user.png" alt="Login" /></router-link>
         </li>
       </ul>
     </nav>
