@@ -25,35 +25,13 @@
 </template>
 
 <style scoped>
-:root {
-  --color-primary: #2a4078;
-  --color-secondary: #d6dfed;
-  --color-third: #4dd2c4;
-  --color-fourth: #1fa496;
-  --color-fifth: #063e37;
-  --color-sixth: #f4efb7;
-  --color-seventh: #74330e;
-  --color-eighth: #ffc163;
-  --color-ninth: #dff1db;
-  --color-primary-gradient: #2a407897;
-  --color-secondary-gradient: #ebf3d44a;
-}
-
-* {
-  padding: 0;
-  margin: 0;
-  text-decoration: none;
-  list-style: none;
-  box-sizing: border-box;
-}
-
 /* Bug fix */
 .header-logo:hover {
   background: none;
 }
 .header-nav {
-  background: var(--color-sixth);
-  height: 70px;
+  background: white;
+  height: 100px;
   width: 100%;
 }
 .header-nav .header-ul {
@@ -98,7 +76,7 @@
   overflow: hidden;
 }
 #user__icon {
-  height: 1.8rem;
+  height: 24px;
   margin-bottom: -5px;
 }
 
