@@ -2,7 +2,7 @@
   <header>
     <nav class="header-nav">
       <input type="checkbox" id="check" />
-      <label for="check" class="checkbtn">
+      <label v-on:click="noScrolling" for="check" class="checkbtn">
         <i class="fas fa-bars"></i>
       </label>
       <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
@@ -24,6 +24,22 @@
   </header>
 </template>
 
+<script>
+export default {
+  methods: {
+    noScrolling() {
+      document.getElementById("check").addEventListener("change", function () {
+        if (this.checked) {
+          document.body.classList.add("no-scrolling");
+        } else {
+          document.body.classList.remove("no-scrolling");
+        }
+      });
+    },
+  },
+};
+</script>
+
 <style scoped>
 /* Bug fix */
 .header-logo:hover {
@@ -44,7 +60,7 @@
   margin: 0 5px;
 }
 .header-nav .header-ul .header-li .header-a {
-  color: var(--color-seventh);
+  color: var(--color-primary);
   font-size: 15px;
   font-weight: 600;
   padding: 7px 13px;
@@ -57,12 +73,12 @@
 }
 
 .header-a:hover {
-  background: var(--color-eighth);
+  opacity: 0.8;
   transition: 0.5s;
 }
 .checkbtn {
   font-size: 30px;
-  color: var(--color-eighth);
+  color: var(--color-primary);
   float: right;
   line-height: 80px;
   margin-right: 40px;
@@ -72,15 +88,13 @@
 #check {
   display: none;
 }
-.no-scrolling {
-  overflow: hidden;
-}
+
 #user__icon {
   height: 24px;
   margin-bottom: -5px;
 }
 
-@media (max-width: 858px) {
+@media (max-width: 850px) {
   .checkbtn {
     display: block;
   }
@@ -88,15 +102,15 @@
     margin-left: 20px;
   }
   .header-nav {
-    height: 80px;
+    height: 100px;
   }
   .header-nav .header-ul {
     z-index: 10;
     position: fixed;
     width: 100%;
     height: 100vh;
-    background: var(--color-eighth);
-    top: 70px;
+    background: var(--color-primary);
+    top: 100px;
     left: -100%;
     text-align: center;
     transition: all 0.5s;
@@ -110,7 +124,7 @@
     font-size: 20px;
   }
   .header-nav .header-ul .header-li .header-a {
-    color: var(--color-seventh);
+    color: white;
   }
 
   .header-a:hover {

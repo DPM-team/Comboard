@@ -27,10 +27,8 @@ export default {
     noScrolling() {
       document.getElementById("check").addEventListener("change", function () {
         if (this.checked) {
-          console.log("Checkbox is checked..");
           document.body.classList.add("no-scrolling");
         } else {
-          console.log("Checkbox is not checked..");
           document.body.classList.remove("no-scrolling");
         }
       });
@@ -98,7 +96,7 @@ export default {
     margin-left: 20px;
   }
   .header-nav {
-    height: 80px;
+    height: 100px;
   }
   .header-nav .header-ul {
     z-index: 10;
