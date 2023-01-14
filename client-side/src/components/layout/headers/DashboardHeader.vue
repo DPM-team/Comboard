@@ -2,7 +2,7 @@
   <header>
     <nav class="header-nav">
       <input type="checkbox" id="check" />
-      <label for="check" class="checkbtn">
+      <label v-on:click="noScrolling" for="check" class="checkbtn">
         <i class="fas fa-bars"></i>
       </label>
       <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
@@ -20,6 +20,24 @@
     </nav>
   </header>
 </template>
+
+<script>
+export default {
+  methods: {
+    noScrolling() {
+      document.getElementById("check").addEventListener("change", function () {
+        if (this.checked) {
+          console.log("Checkbox is checked..");
+          document.body.classList.add("no-scrolling");
+        } else {
+          console.log("Checkbox is not checked..");
+          document.body.classList.remove("no-scrolling");
+        }
+      });
+    },
+  },
+};
+</script>
 
 <style scoped>
 /* Bug fix */
@@ -49,7 +67,7 @@
   height: 1rem;
 }
 .nav__logo {
-  height: 120px;
+  height: 100px;
   margin-left: 100px;
 }
 
@@ -57,11 +75,11 @@
   opacity: 0.8;
 }
 .image-menu {
-  height: 26px;
+  height: 24px;
 }
 .checkbtn {
   font-size: 30px;
-  color: var(--color-eighth);
+  color: var(--color-primary);
   float: right;
   line-height: 80px;
   margin-right: 40px;
@@ -71,11 +89,8 @@
 #check {
   display: none;
 }
-.no-scrolling {
-  overflow: hidden;
-}
 
-@media (max-width: 858px) {
+@media (max-width: 650px) {
   .checkbtn {
     display: block;
   }
@@ -90,8 +105,8 @@
     position: fixed;
     width: 100%;
     height: 100vh;
-    background: var(--color-eighth);
-    top: 70px;
+    background: var(--color-primary);
+    top: 100px;
     left: -100%;
     text-align: center;
     transition: all 0.5s;
@@ -103,9 +118,6 @@
   }
   .header-nav .header-ul .header-li .header-a {
     font-size: 20px;
-  }
-  .header-nav .header-ul .header-li .header-a {
-    color: var(--color-seventh);
   }
 
   .header-a:hover {

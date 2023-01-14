@@ -27,4 +27,8 @@ export default {
   box-sizing: inherit;
   font-family: "Roboto";
 }
+
+.no-scrolling {
+  overflow: hidden;
+}
 </style>
