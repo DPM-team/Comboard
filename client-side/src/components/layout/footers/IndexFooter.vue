@@ -35,6 +35,9 @@
 .footer {
   padding: 20px 5px;
   background-color: white;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
 }
 
 .footer__nav {
@@ -67,18 +70,39 @@
 
 .footer__logo {
   height: 100px;
-  display: block;
-  margin: 0 auto;
-  /* margin-bottom: 5rem; */
+  margin-bottom: -10px;
 }
 
 .footer__copyright {
   font-size: 11px;
   color: var(--color-primary);
-  text-align: center;
+  margin: 0 auto;
 }
 
 .footer__copyright .footer__link {
   font-size: 12px;
+}
+
+/* Responsiveness */
+
+@media (max-width: 780px) {
+  .footer__copyright {
+    width: 80%;
+  }
+}
+@media (max-width: 420px) {
+  .footer__link {
+    font-size: 13px;
+  }
+  .footer__item {
+    margin-right: 2px;
+  }
+  .footer__copyright {
+    font-size: 9px;
+  }
+
+  .footer__copyright .footer__link {
+    font-size: 10px;
+  }
 }
 </style>
