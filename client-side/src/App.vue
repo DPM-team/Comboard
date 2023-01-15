@@ -15,7 +15,7 @@ export default {
 :root {
   --color-primary: #0a3c5f;
   --color-secondary: #1a75ff;
-  --color-third: #0a3c5f;
+  --color-third: #0f5d94;
   --color-fourth: #0c4771;
   --color-fifth: #bfe2fa;
   --color-sixth: #168630;
