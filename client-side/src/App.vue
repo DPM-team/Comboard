@@ -19,6 +19,7 @@ export default {
   --color-fourth: #0c4771;
   --color-fifth: #bfe2fa;
   --color-sixth: #168630;
+  --gradient-primary: linear-gradient(#ffffff, var(--color-secondary));
 }
 
 * {
