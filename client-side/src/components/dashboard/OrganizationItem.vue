@@ -1,5 +1,5 @@
 <template>
-  <div class="column--33perc">
+  <div class="organization-container">
     <div class="organization">
       <img :src="formatImagePath" />
       <h1 class="organization-title">{{ title }}</h1>
@@ -32,29 +32,65 @@ export default {
 </script>
 
 <style scoped>
-.column--33perc {
+.organization-container {
   flex: 33.33%;
+  text-align: center;
   max-width: 33.33%;
   box-sizing: border-box;
   padding: 15px;
 }
 .organization {
-  background: rgb(199, 241, 252);
-  border-radius: 10px;
-  padding: 30px 50px;
+  background: var(--color-third);
+  border-radius: 50px;
+  border: solid 2px rgb(0, 0, 0);
+  padding: 20px 40px;
   display: inline-block;
   justify-content: center;
   text-align: center;
-  margin-left: 5px;
+}
+.organization:hover {
+  cursor: pointer;
+  scale: 1.05;
+  transition: 0.2s;
 }
 .organization img {
-  width: 125px;
-  height: 125px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   margin: 0 auto;
 }
 .organization-title {
   padding-top: 5px;
   font-size: 17px;
+  color: white;
+}
+
+@media (max-width: 1000px) {
+  .organization-container {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+@media (max-width: 800px) {
+  .organization {
+    padding: 17px 35px;
+  }
+  .organization img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin: 0 auto;
+  }
+  .organization-title {
+    padding-top: 5px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 620px) {
+  .organization-container {
+    flex: 100%;
+    max-width: 100%;
+  }
 }
 </style>

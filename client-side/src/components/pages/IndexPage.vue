@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style>
-html {
+/* html {
   font-size: 62.5%;
   box-sizing: border-box;
 }
@@ -57,8 +57,5 @@ h4 {
 .btn:hover {
   background-color: var(--color-primary-darker);
 }
-
-#text--explanation {
-  padding-top: 10px;
-}
+ */
 </style>
