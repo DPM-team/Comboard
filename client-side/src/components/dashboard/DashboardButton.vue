@@ -31,13 +31,12 @@ export default {
 
 <style scoped>
 button {
-  padding: 0.75rem;
   display: block;
   cursor: pointer;
   text-align: center;
-  border-radius: 0.25rem;
+  border-radius: 5px;
   transition-duration: 0.4s;
-  font-weight: bold;
+  /* font-weight: bold; */
   height: 40px;
   width: 80px;
   margin-top: 20px;
@@ -47,11 +46,31 @@ button {
 .primary {
   background-color: var(--color-sixth);
   color: white;
-  border: 2px solid black;
+  border: 1px solid black;
 }
 .secondary {
-  background-color: var(--color-primary);
+  background-color: var(--color-fourth);
   color: white;
-  border: 2px solid black;
+  border: 1px solid black;
+}
+
+/* Responsiveness */
+@media (max-width: 800px) {
+  button {
+    display: inline-block;
+    height: 35px;
+    width: 55px;
+    margin-top: 20px;
+    margin-left: 5px;
+  }
+}
+@media (max-width: 560px) {
+  button {
+    display: inline-block;
+    height: 35px;
+    width: 55px;
+    margin-top: 20px;
+    margin-left: 5px;
+  }
 }
 </style>

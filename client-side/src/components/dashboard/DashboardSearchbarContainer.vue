@@ -1,17 +1,19 @@
 <template>
   <div class="search-bar-container">
     <dashboard-searchbar></dashboard-searchbar>
-    <base-button mode="primary">Join</base-button>
-    <base-button mode="secondary">Create</base-button>
+    <div class="buttons-container">
+      <dashboard-button mode="primary">Join</dashboard-button>
+      <dashboard-button mode="secondary">Create</dashboard-button>
+    </div>
   </div>
 </template>
 
 <script>
 import DashboardSearchbar from "../dashboard/DashboardSearchbar.vue";
-import BaseButton from "../basic-components/BaseButton.vue";
+import DashboardButton from "./DashboardButton.vue";
 
 export default {
-  components: { DashboardSearchbar, BaseButton },
+  components: { DashboardSearchbar, DashboardButton },
   data() {
     return {};
   },
@@ -27,5 +29,28 @@ export default {
   width: 100%;
   padding-top: 20px;
   padding-right: 20px;
+}
+.buttons-container {
+  display: flex;
+}
+
+/* Responsiveness */
+@media (max-width: 800px) {
+  .search-bar-container {
+    display: block;
+  }
+}
+@media (max-width: 580px) {
+  .buttons-container {
+    /* width: 100%; */
+    display: inline-block;
+    margin-left: 35px;
+    margin-top: -20px;
+  }
+}
+@media (max-width: 430px) {
+  .buttons-container {
+    margin-left: 15px;
+  }
 }
 </style>

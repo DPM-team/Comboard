@@ -18,7 +18,7 @@ export default {
   --color-third: #0a3c5f;
   --color-fourth: #0c4771;
   --color-fifth: #bfe2fa;
-  --color-sixth: #359349;
+  --color-sixth: #168630;
 }
 
 * {
