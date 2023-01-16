@@ -130,15 +130,13 @@ userSchema.statics.checkCredentials = async function (username, password) {
   const user = await User.findOne({ username });
 
   if (!user) {
-    console.log("No user");
-    throw new Error("You can not login. Try again");
+    throw new Error("Wrong username or password, please try again!");
   }
 
   const passwordMatch = await bcrypt.compare(password, user.password);
 
   if (!passwordMatch) {
-    console.log("No match");
-    throw new Error("You can not login. Try again");
+    throw new Error("Wrong username or password, please try again!");
   }
 
   return user;
