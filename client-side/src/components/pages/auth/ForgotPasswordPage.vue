@@ -65,8 +65,11 @@ export default {
     });
     console.log(this.inputData);
 
-    fetch("../retrieve-account/step-1/submit", {
+    fetch("/api/retrieve-account/step-1/submit", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         email: this.inputData,
       }),

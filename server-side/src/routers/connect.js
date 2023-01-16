@@ -41,7 +41,7 @@ router.get("/retrieve-account/step-1", (req, res) => {
   res.sendFile(path.join(__dirname + "../../../views/forgot-password.html"));
 });
 
-router.post("/retrieve-account/step-1/submit", async (req, res) => {
+router.post("/api/retrieve-account/step-1/submit", async (req, res) => {
   try {
     const email = req.body.email;
     userAccount = await User.findOne({ email });
