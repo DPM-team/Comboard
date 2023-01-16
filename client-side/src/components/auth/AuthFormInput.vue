@@ -1,5 +1,5 @@
 <template>
-  <input @focus="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :minlength="numberLength" :value="value" v-model="data" />
+  <input @change="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :minlength="numberLength" :value="value" ref="data" />
 </template>
 
 <script>
@@ -30,14 +30,9 @@ export default {
       required: false,
     },
   },
-  data() {
-    return {
-      data: null,
-    };
-  },
   methods: {
     input() {
-      this.$emit("data", this.data);
+      this.$emit("data", this.$refs.data.value);
     },
   },
 };

@@ -19,7 +19,7 @@
         </div>
         <div v-else-if="this.chechActiveStep(2)">
           <h5 class="form-title">Verify the code you received via email</h5>
-          <auth-form-input id="code" type="text" name="code" placeholder="code" required></auth-form-input>
+          <auth-form-input id="code" type="text" name="code" placeholder="Code" required></auth-form-input>
         </div>
 
         <div v-else-if="this.chechActiveStep(3)">
@@ -60,18 +60,28 @@ export default {
     };
   },
   beforeUpdate() {
-    console.log(
-      JSON.stringify({
-        email: this.inputData,
-      })
-    );
-    fetch("http://localhost:3000/retrieve-account/step-1/submit", {
-      method: "post",
-      mode: "no-cors",
+    console.log({
+      email: this.inputData,
+    });
+    console.log(this.inputData);
+
+    fetch("../retrieve-account/step-1/submit", {
+      method: "POST",
       body: JSON.stringify({
         email: this.inputData,
       }),
+    }).then((g) => {
+      console.log(g);
+      // console.log("duhiwj");
     });
+    console.log("disjkl");
+    // fetch("http://localhost:3000/retrieve-account/step-2/", {
+    //   method: "post",
+    //   mode: "no-cors",
+    //   body: JSON.stringify({
+    //     password: true,
+    //   }),
+    // });
   },
   methods: {
     submitForm() {
