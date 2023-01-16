@@ -19,7 +19,7 @@
         </div>
         <div v-else-if="this.chechActiveStep(2)">
           <h5 class="form-title">Verify the code you received via email</h5>
-          <auth-form-input id="code" type="text" name="code" placeholder="Code" required></auth-form-input>
+          <auth-form-input @data="getDataInput" id="code" type="text" name="code" placeholder="Code" required></auth-form-input>
         </div>
 
         <div v-else-if="this.chechActiveStep(3)">
@@ -63,20 +63,36 @@ export default {
     console.log({
       email: this.inputData,
     });
-    console.log(this.inputData);
+    console.log(this.steps[this.steps.length - 1]);
 
-    fetch("/api/retrieve-account/step-1/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: this.inputData,
-      }),
-    }).then((g) => {
-      console.log(g);
-      // console.log("duhiwj");
-    });
+    if (this.steps[this.steps.length - 1] - 1 === 1) {
+      fetch("/api/retrieve-account/step-1/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: this.inputData,
+        }),
+      }).then((r) => {
+        console.log(r);
+
+        // console.log("duhiwj");
+      });
+    } else if (this.steps[this.steps.length - 1] - 1 === 2) {
+      fetch("/api/retrieve-account/step-2", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: this.inputData,
+        }),
+      }).then((r) => {
+        console.log(r);
+      });
+    }
+
     console.log("disjkl");
     // fetch("http://localhost:3000/retrieve-account/step-2/", {
     //   method: "post",
