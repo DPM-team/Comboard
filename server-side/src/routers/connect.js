@@ -9,12 +9,9 @@ const { use } = require("./error.js");
 
 const router = new express.Router();
 
-router.get("/register", function (req, res) {
-  res.sendFile(path.join(__dirname + "../../../views/register.html"));
-});
-
-router.post("/api/register", async function (req, res) {
+router.post("/api/register", async (req, res) => {
   const userObj = new User(req.body);
+
   try {
     await userObj.save();
 
@@ -22,22 +19,18 @@ router.post("/api/register", async function (req, res) {
     const generatedToken = await userObj.generateAuthenticationToken();
     res.status(201).send({ userObj, generatedToken });
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send({ error: error.message });
   }
 });
 
-router.get("/login", async (req, res) => {
-  res.sendFile(path.join(__dirname + "../../../views/login.html"));
-});
-
 //This is the router which runs when one user tries to login.User informaton will be sent back to client.
-router.post("/login/submit", async (req, res) => {
+router.post("/api/login", async (req, res) => {
   try {
-    const user = await User.checkCredentials(req.body.username, req.body.password);
-    const generatedToken = await user.generateAuthenticationToken();
-    res.send({ user, generatedToken });
+    const userObj = await User.checkCredentials(req.body.username, req.body.password);
+    const generatedToken = await userObj.generateAuthenticationToken();
+    res.status(200).send({ userObj, generatedToken });
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send({ error: error.message });
   }
 });
 

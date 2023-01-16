@@ -32,20 +32,28 @@ export default {
     AuthHeader,
     AuthChoices,
   },
+  data() {
+    return {
+      name: "Minas",
+      surname: "Charakopoulos",
+      username: "minas434343",
+      email: "minas434343@gmail.com",
+      password: "12345678!",
+    };
+  },
   methods: {
     submitForm() {
-      console.log("Api called");
-
-      // Simple POST request with a JSON body using fetch
       const requestOptions = {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          username: "321321",
-          email: "432432@gmail.com",
-          password: "12345678!",
-          name: "Minas - Theodoros",
-          surname: "Charakopoulos",
+          name: this.name,
+          surname: this.surname,
+          username: this.username,
+          email: this.email,
+          password: this.password,
         }),
       };
 
@@ -54,7 +62,11 @@ export default {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            console.log(data);
+          }
         });
     },
   },
