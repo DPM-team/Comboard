@@ -6,6 +6,7 @@ import RegisterPage from "./components/pages/auth/RegisterPage.vue";
 import LoginPage from "./components/pages/auth/LoginPage.vue";
 import ForgotPasswordPage from "./components/pages/auth/ForgotPasswordPage.vue";
 import DashboardPage from "./components/pages/DashboardPage.vue";
+import OrganizationPage from "./components/pages/OrganizationPage.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -35,6 +36,10 @@ const router = createRouter({
     {
       path: "/dashboard",
       component: DashboardPage,
+    },
+    {
+      path: "/organization",
+      component: OrganizationPage,
     }
   ),
 });

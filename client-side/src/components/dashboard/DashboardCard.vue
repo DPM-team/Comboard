@@ -9,9 +9,10 @@
   display: block;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  padding: 1rem;
-  margin: 2rem auto;
+  padding: 10px;
+  margin: 5px auto;
   background-color: white;
-  /* max-width: - rem; Pass this property as an argument on base-card */
+  min-height: 70vh;
+  width: 80%;
 }
 </style>

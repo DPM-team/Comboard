@@ -74,4 +74,28 @@ input {
 .error {
   background-color: tomato;
 }
+
+/* Responsiveness */
+@media (max-width: 800px) {
+  input {
+    width: 250px;
+    padding: 8px 38px;
+    background: white url("../../assets/images/common-images/search.png") no-repeat 14px center;
+    background-size: 13px 13px;
+    font-size: 14px;
+    float: left;
+    margin-left: 40px;
+  }
+}
+@media (max-width: 430px) {
+  input {
+    width: 200px;
+    padding: 7px 35px;
+    background: white url("../../assets/images/common-images/search.png") no-repeat 13px center;
+    background-size: 12px 12px;
+    font-size: 13px;
+    float: left;
+    margin-left: 20px;
+  }
+}
 </style>
