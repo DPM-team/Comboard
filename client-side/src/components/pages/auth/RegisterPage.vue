@@ -36,38 +36,28 @@ export default {
     return {
       name: "Minas",
       surname: "Charakopoulos",
-      username: "minas434343",
-      email: "minas434343@gmail.com",
+      username: "minas43434g34",
+      email: "minas434344g3@gmail.com",
       password: "12345678!",
     };
   },
   methods: {
-    submitForm() {
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+    async submitForm() {
+      try {
+        // Call register action from Auth module
+        // We want await because we need to finish first the api call. We need to wait for call to end
+        await this.$store.dispatch("register", {
           name: this.name,
           surname: this.surname,
           username: this.username,
           email: this.email,
           password: this.password,
-        }),
-      };
-
-      fetch("/api/register", requestOptions)
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          if (data.error) {
-            console.log(data.error);
-          } else {
-            console.log(data);
-          }
         });
+      } catch (error) {
+        this.error = error.message || "Failed to authenticate.";
+      }
+
+      console.log(this.$store.getters.loggedUserID);
     },
   },
 };
