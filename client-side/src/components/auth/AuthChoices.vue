@@ -14,13 +14,13 @@
     <h4 id="alternative-sign-in">Sign in with</h4>
     <ul>
       <li>
-        <button class="alternative-login"><img class="alternative-login-img" src="../../../../public/resources/images/login-register/google-logo-48px.png" /></button>
+        <button class="alternative-login"><img class="alternative-login-img" src="../../assets/images/login-register/google-logo-48px.png" /></button>
       </li>
       <li>
-        <button class="alternative-login"><img class="alternative-login-img" src="../../../../public/resources/images/login-register/apple-logo-48px.png" /></button>
+        <button class="alternative-login"><img class="alternative-login-img" src="../../assets/images/login-register/apple-logo-48px.png" /></button>
       </li>
       <li>
-        <button class="alternative-login"><img class="alternative-login-img" src="../../../../public/resources/images/login-register/linkedin-logo-48px.png" /></button>
+        <button class="alternative-login"><img class="alternative-login-img" src="../../assets/images/login-register/linkedin-logo-48px.png" /></button>
       </li>
     </ul>
   </div>

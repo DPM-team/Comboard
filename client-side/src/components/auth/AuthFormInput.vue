@@ -77,33 +77,33 @@ input[type="submit"]:hover {
 
 /* Images for inputs */
 #email {
-  background-image: url("../../../../public/resources/images/common-images/at-sign-24px.png");
+  background-image: url("../../assets/images/common-images/at-sign-24px.png");
   background-size: 24px;
 }
 
 #code {
-  background-image: url("../../../../public/resources/images/forgot-password/verification-code-24px.png");
+  background-image: url("../../assets/images/forgot-password/verification-code-24px.png");
   background-size: 24px;
 }
 
 #newPassword {
-  background-image: url("../../../../public/resources/images/forgot-password/reset-password-24px.png");
+  background-image: url("../../assets/images/forgot-password/reset-password-24px.png");
   background-size: 24px;
 }
 
 #newConfirmPassword {
-  background-image: url("../../../../public/resources/images/forgot-password/confirm-password-24px.png");
+  background-image: url("../../assets/images/forgot-password/confirm-password-24px.png");
   background-size: 24px;
 }
 
 #username {
-  background-image: url("../../../../public/resources/images/login-register/user-24px.png");
+  background-image: url("../../assets/images/login-register/user-24px.png");
   background-size: 24px;
 }
 
 #password,
 #confirm-password {
-  background-image: url("../../../../public/resources/images/login-register/password-24px.png");
+  background-image: url("../../assets/images/login-register/password-24px.png");
   background-size: 24px;
 }
 </style>
