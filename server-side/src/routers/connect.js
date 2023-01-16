@@ -13,7 +13,7 @@ router.get("/register", function (req, res) {
   res.sendFile(path.join(__dirname + "../../../views/register.html"));
 });
 
-router.post("/register/submit", async function (req, res) {
+router.post("/api/register", async function (req, res) {
   const userObj = new User(req.body);
   try {
     await userObj.save();

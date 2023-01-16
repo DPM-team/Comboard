@@ -11,7 +11,7 @@
     <auth-form-input id="password" name="password" type="password" placeholder="Password" minlength="8" required />
     <p id="password-mandatory">Use 8 or more characters with a combination of letters, numbers and symbols</p>
     <auth-form-input id="confirm-password" name="confirmedPassword" type="password" placeholder="Confirm Password" minlength="8" required />
-    <auth-form-input id="login-btn" type="submit" value="Agree & Join" />
+    <auth-form-input id="login-btn" type="submit" value="Agree & Join" @click.prevent="submitForm" />
     <p id="agreement">
       By clicking Agree & Join, you agree to the comboard <a href="/user-agreement">User Agrement</a>, <a href="/privacy-policy">Privacy Policy</a> and <a href="#">CooKie Policy</a>
     </p>
@@ -31,6 +31,32 @@ export default {
     AuthFormInput,
     AuthHeader,
     AuthChoices,
+  },
+  methods: {
+    submitForm() {
+      console.log("Api called");
+
+      // Simple POST request with a JSON body using fetch
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: "321321",
+          email: "432432@gmail.com",
+          password: "12345678!",
+          name: "Minas - Theodoros",
+          surname: "Charakopoulos",
+        }),
+      };
+
+      fetch("/api/register", requestOptions)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+        });
+    },
   },
 };
 </script>
