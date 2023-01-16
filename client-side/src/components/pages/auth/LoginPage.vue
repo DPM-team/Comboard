@@ -11,7 +11,10 @@
       <auth-form-input id="login-btn" type="submit" name="submit" value="Login" @click.prevent="submitLoginForm" />
       <auth-choices></auth-choices>
     </auth-form>
-    <p id="create-account">New to Comboard?<a id="join-now" href="/register">Join Now!</a></p>
+    <p id="create-account">
+      New to Comboard?
+      <router-link id="join-now" to="/register">Join Now!</router-link>
+    </p>
   </div>
 </template>
 
@@ -48,6 +51,7 @@ export default {
       }
 
       console.log(this.$store.getters.loggedUserID);
+      this.$router.push("/dashboard");
     },
   },
 };

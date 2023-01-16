@@ -1,22 +1,28 @@
 <template>
-  <auth-form>
-    <auth-header>
-      <h2>Join Our Community!</h2>
-      <h4>Create an account fast and simple!</h4>
-    </auth-header>
-    <auth-form-input id="firstname" name="name" type="text" placeholder="Firstname" required />
-    <auth-form-input id="surname" name="surname" type="text" placeholder="Surname" required />
-    <auth-form-input id="username" name="username" type="text" placeholder="Username" required />
-    <auth-form-input id="email" name="email" type="email" placeholder="Email" required />
-    <auth-form-input id="password" name="password" type="password" placeholder="Password" minlength="8" required />
-    <p id="password-mandatory">Use 8 or more characters with a combination of letters, numbers and symbols</p>
-    <auth-form-input id="confirm-password" name="confirmedPassword" type="password" placeholder="Confirm Password" minlength="8" required />
-    <auth-form-input id="login-btn" type="submit" value="Agree & Join" @click.prevent="submitForm" />
-    <p id="agreement">
-      By clicking Agree & Join, you agree to the comboard <a href="/user-agreement">User Agrement</a>, <a href="/privacy-policy">Privacy Policy</a> and <a href="#">CooKie Policy</a>
+  <div>
+    <auth-form>
+      <auth-header>
+        <h2>Join Our Community!</h2>
+        <h4>Create an account fast and simple!</h4>
+      </auth-header>
+      <auth-form-input id="firstname" name="name" type="text" placeholder="Firstname" required />
+      <auth-form-input id="surname" name="surname" type="text" placeholder="Surname" required />
+      <auth-form-input id="username" name="username" type="text" placeholder="Username" required />
+      <auth-form-input id="email" name="email" type="email" placeholder="Email" required />
+      <auth-form-input id="password" name="password" type="password" placeholder="Password" minlength="8" required />
+      <p id="password-mandatory">Use 8 or more characters with a combination of letters, numbers and symbols</p>
+      <auth-form-input id="confirm-password" name="confirmedPassword" type="password" placeholder="Confirm Password" minlength="8" required />
+      <auth-form-input id="login-btn" type="submit" value="Agree & Join" @click.prevent="submitForm" />
+      <p id="agreement">
+        By clicking Agree & Join, you agree to the comboard <a href="/user-agreement">User Agrement</a>, <a href="/privacy-policy">Privacy Policy</a> and <a href="#">CooKie Policy</a>
+      </p>
+      <auth-choices></auth-choices>
+    </auth-form>
+    <p id="login-account">
+      Already to Comboard?
+      <router-link id="login-now" to="/login">Login Now!</router-link>
     </p>
-    <auth-choices></auth-choices>
-  </auth-form>
+  </div>
 </template>
 
 <script>
@@ -58,6 +64,7 @@ export default {
       }
 
       console.log(this.$store.getters.loggedUserID);
+      this.$router.push("/dashboard")
     },
   },
 };
@@ -81,5 +88,16 @@ h4 {
   text-align: center;
   margin-top: 0px;
   margin-bottom: 2px;
+}
+
+#login-account {
+  text-align: center;
+  font-size: medium;
+}
+
+#login-now {
+  color: #1a75ff;
+  text-decoration: none;
+  margin-left: 10px;
 }
 </style>
