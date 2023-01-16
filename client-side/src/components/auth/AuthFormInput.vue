@@ -1,5 +1,5 @@
 <template>
-  <input @change="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :minlength="numberLength" :value="value" ref="data" />
+  <input @change="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :minlength="minLength" :value="value" ref="data" />
 </template>
 
 <script>
@@ -11,7 +11,7 @@ export default {
     },
     type: {
       type: String,
-      required: false,
+      required: true,
     },
     name: {
       type: String,
@@ -19,7 +19,7 @@ export default {
     },
     placeholder: {
       type: String,
-      required: true,
+      required: false,
     },
     minLength: {
       type: Number,

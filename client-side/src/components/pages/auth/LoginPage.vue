@@ -6,7 +6,7 @@
         <h4>Sign In to your account</h4>
       </auth-header>
       <auth-form-input id="username" type="text" name="username" placeholder="Username" required />
-      <auth-form-input id="password" type="password" name="password" placeholder="Password" minlength="8" required />
+      <auth-form-input id="password" type="password" name="password" placeholder="Password" :minLength="8" required />
       <a id="forgot-password" href="/retrieve-account/step-1">Forgot Password?</a>
       <auth-form-input id="login-btn" type="submit" name="submit" value="Login" @click.prevent="submitLoginForm" />
       <auth-choices></auth-choices>

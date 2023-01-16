@@ -9,10 +9,10 @@
       <auth-form-input id="surname" name="surname" type="text" placeholder="Surname" required />
       <auth-form-input id="username" name="username" type="text" placeholder="Username" required />
       <auth-form-input id="email" name="email" type="email" placeholder="Email" required />
-      <auth-form-input id="password" name="password" type="password" placeholder="Password" minlength="8" required />
+      <auth-form-input id="password" name="password" type="password" placeholder="Password" :minLength="8" required />
       <p id="password-mandatory">Use 8 or more characters with a combination of letters, numbers and symbols</p>
-      <auth-form-input id="confirm-password" name="confirmedPassword" type="password" placeholder="Confirm Password" minlength="8" required />
-      <auth-form-input id="login-btn" type="submit" value="Agree & Join" @click.prevent="submitForm" />
+      <auth-form-input id="confirm-password" name="confirmedPassword" type="password" placeholder="Confirm Password" :minLength="8" required />
+      <auth-form-input id="login-btn" name="loginButton" type="submit" value="Agree & Join" @click.prevent="submitForm" />
       <p id="agreement">
         By clicking Agree & Join, you agree to the comboard <a href="/user-agreement">User Agrement</a>, <a href="/privacy-policy">Privacy Policy</a> and <a href="#">CooKie Policy</a>
       </p>
@@ -64,7 +64,7 @@ export default {
       }
 
       console.log(this.$store.getters.loggedUserID);
-      this.$router.push("/dashboard")
+      this.$router.push("/dashboard");
     },
   },
 };
