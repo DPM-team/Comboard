@@ -64,7 +64,7 @@ router.post("/api/retrieve-account/step-1/submit", async (req, res) => {
   }
 });
 
-router.post("/retrieve-account/step-2", async (req, res) => {
+router.post("/api/retrieve-account/step-2", async (req, res) => {
   try {
     const inputedPassword = req.body.password;
 
@@ -77,7 +77,7 @@ router.post("/retrieve-account/step-2", async (req, res) => {
   }
 });
 
-router.patch("/retrieve-account/step-3", async (req, res) => {
+router.patch("/api/retrieve-account/step-3", async (req, res) => {
   try {
     const newPassword = req.body.password;
     await userAccount.populate("password");
