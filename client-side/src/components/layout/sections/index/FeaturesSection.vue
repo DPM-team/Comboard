@@ -81,21 +81,21 @@ export default {
 
 <style>
 .section__title {
-  max-width: 80rem;
+  max-width: 90%;
   margin: 0 auto 8rem auto;
   text-align: start;
 }
 
 .section__description {
-  font-size: 1.8rem;
+  font-size: 26px;
   font-weight: 600;
   text-transform: uppercase;
   color: var(--color-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 10px;
 }
 
 .section__header {
-  font-size: 4rem;
+  font-size: 38px;
   line-height: 1.3;
   font-weight: 500;
 }

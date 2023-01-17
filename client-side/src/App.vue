@@ -26,7 +26,7 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: inherit;
-  font-family: "Roboto";
+  font-family: "Roboto" !important;
 }
 
 .no-scrolling {

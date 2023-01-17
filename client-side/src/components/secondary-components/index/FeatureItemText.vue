@@ -46,8 +46,8 @@ export default {
   box-sizing: border-box;
   text-align: start;
   justify-content: start;
-  padding-left: 28rem;
-  padding-top: 10rem;
+  padding-left: 200px;
+  padding-top: 50px;
 }
 
 .column--section-features-with-text-right {
@@ -65,31 +65,32 @@ export default {
   align-self: center;
   justify-self: center;
   width: 70%;
-  font-size: 1.5rem;
+  font-size: 17px;
 }
 
 .features__icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-primary-opacity);
-  height: 5.5rem;
-  width: 5.5rem;
+  background-color: var(--color-fifth);
+  height: 50px;
+  width: 50px;
   border-radius: 50%;
-  margin-bottom: 2rem;
+  margin-bottom: 8px;
 }
 
 .features__icon img {
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 26px;
+  width: 26px;
   fill: var(--color-primary);
+  /* fill: white; */
 }
 
 .features__header {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 28px;
+  margin-bottom: 10px;
 }
-
+/* 
 @media screen and (max-width: 960px) {
   .column--section-features-with-text-right,
   .column--section-features-with-text-left {
@@ -110,5 +111,5 @@ export default {
     flex: 100%;
     width: 90%;
   }
-}
+} */
 </style>
