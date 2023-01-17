@@ -1,22 +1,20 @@
 <template>
-  <base-section>
-    <div class="inner">
-      <div class="section__title">
-        <h2 class="section__description">Testimonials</h2>
-        <h3 class="section__header">What's all the fuss about?</h3>
-      </div>
-      <div class="row">
-        <testimonial-item
-          v-for="testimonial in testimonials"
-          :key="testimonial.id"
-          :authorName="testimonial.authorName"
-          :authorImageFileName="testimonial.authorImageFileName"
-          :testimonialContent="testimonial.testimonialContent"
-          :positiveRating="testimonial.positiveRating"
-        ></testimonial-item>
-      </div>
+  <section class="testimonial-section-container">
+    <div class="section__title">
+      <h2 class="section__description">Testimonials</h2>
+      <h3 class="section__header">What's all the fuss about?</h3>
     </div>
-  </base-section>
+    <div class="row">
+      <testimonial-item
+        v-for="testimonial in testimonials"
+        :key="testimonial.id"
+        :authorName="testimonial.authorName"
+        :authorImageFileName="testimonial.authorImageFileName"
+        :testimonialContent="testimonial.testimonialContent"
+        :positiveRating="testimonial.positiveRating"
+      ></testimonial-item>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -57,29 +55,26 @@ export default {
 </script>
 
 <style scoped>
-.inner {
-  max-width: 1200px;
-  margin: auto;
-  overflow: hidden;
-  padding: 0 20px;
+.testimonial-section-container {
+  padding-top: 70px;
+  padding-bottom: 60px;
 }
-
 .section__title {
-  max-width: 80rem;
-  margin: 0 auto 8rem auto;
+  max-width: 80%;
+  margin: 0 auto 50px auto;
   text-align: start;
 }
 
 .section__description {
-  font-size: 1.8rem;
+  font-size: 26px;
   font-weight: 600;
   text-transform: uppercase;
   color: var(--color-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 10px;
 }
 
 .section__header {
-  font-size: 4rem;
+  font-size: 38px;
   line-height: 1.3;
   font-weight: 500;
 }
@@ -88,5 +83,38 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* Responsiveness */
+
+@media (max-width: 1100px) {
+  .section__title {
+    width: 90%;
+  }
+  .row {
+    width: 90%;
+  }
+}
+
+@media (max-width: 800px) {
+  .section__description {
+    font-size: 24px;
+  }
+
+  .section__header {
+    font-size: 35px;
+  }
+}
+
+@media (max-width: 570px) {
+  .section__description {
+    font-size: 20px;
+  }
+
+  .section__header {
+    font-size: 30px;
+  }
 }
 </style>

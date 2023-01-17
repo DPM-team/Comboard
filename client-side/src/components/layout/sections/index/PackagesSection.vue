@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="packages-section-container">
     <div class="section__title">
       <h2 class="section__description">Packages</h2>
       <h3 class="section__header">Choose the correct setup for your organization.</h3>
@@ -81,6 +81,11 @@ export default {
 </script>
 
 <style scoped>
+.packages-section-container {
+  padding-top: 70px;
+  padding-bottom: 60px;
+}
+
 .section__title {
   max-width: 80%;
   margin: 0 auto 50px auto;

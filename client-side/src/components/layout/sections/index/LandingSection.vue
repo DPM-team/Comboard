@@ -1,5 +1,5 @@
 <template>
-  <section class="section">
+  <section class="landing-section-container">
     <div class="column--section-welcome-left" id="welcome__text">
       <h1 class="welcome-title">
         When
@@ -24,10 +24,10 @@ export default {};
 </script>
 
 <style scoped>
-.section {
+.landing-section-container {
   padding-top: 120px;
   padding-right: 10px;
-  padding-bottom: 50px;
+  padding-bottom: 40px;
   padding-left: 40px;
   border-top: 1px solid #ddd;
   transition: transform 1s, opacity 1s;
@@ -55,6 +55,7 @@ export default {};
 .welcome-title {
   font-size: 58px;
   line-height: 1.35;
+  margin-top: 40px;
 }
 
 .btn--text-welcome {
@@ -104,7 +105,7 @@ export default {};
 /* Responsiveness */
 
 @media screen and (max-width: 1050px) {
-  .section {
+  .landing-section-container {
     padding-top: 40px;
   }
   .column--section-welcome-left,
@@ -120,6 +121,7 @@ export default {};
     font-size: 50px;
     line-height: 1.35;
     padding: 10px;
+    margin-top: 20px;
   }
   .header__img {
     width: 70%;
@@ -141,7 +143,7 @@ export default {};
 }
 
 @media screen and (max-width: 750px) {
-  .section {
+  .landing-section-container {
     padding-top: 0;
   }
   .column--section-welcome-right {
@@ -151,6 +153,7 @@ export default {};
     font-size: 45px;
     /* line-height: 1.35; */
     padding: 10px;
+    margin-top: 10px;
   }
 
   .text-button-container {
@@ -172,6 +175,7 @@ export default {};
     font-size: 40px;
     /* line-height: 1.35; */
     padding: 8px;
+    margin-top: 0px;
   }
 
   .text-button-container {

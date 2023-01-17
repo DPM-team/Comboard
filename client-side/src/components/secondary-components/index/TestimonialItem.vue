@@ -1,11 +1,11 @@
 <template>
-  <div class="column--33perc">
+  <div class="column--container">
     <div class="testimonial">
       <img :src="formatImagePath" alt="Image of the author of this testimonial." />
       <div class="name">{{ authorName }}</div>
       <div class="stars">
-        <i class="fas fa-star" v-for="star in positiveRating" :key="star"></i>
-        <i class="far fa-star" v-for="star in 5 - positiveRating" :key="star"></i>
+        <!-- <i class="fas fa-star" v-for="star in positiveRating" :key="star"></i>
+        <i class="far fa-star" v-for="star in 5 - positiveRating" :key="star"></i> -->
       </div>
       <p>{{ testimonialContent }}</p>
     </div>
@@ -44,7 +44,7 @@ export default {
 </script>
 
 <style scoped>
-.column--33perc {
+.column--container {
   flex: 33.33%;
   max-width: 33.33%;
   box-sizing: border-box;
@@ -54,6 +54,7 @@ export default {
 .testimonial {
   background: #fff;
   padding: 30px;
+  box-shadow: 0 0 2.5em rgba(0, 0, 0, 0.15);
 }
 
 .testimonial img {
@@ -71,5 +72,26 @@ export default {
 .stars {
   color: #6ab04c;
   margin-bottom: 20px;
+}
+
+/* Responsiveness */
+
+@media (max-width: 750px) {
+  .column--container {
+    flex: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+  }
+  .testimonial {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 500px) {
+  .testimonial {
+    width: 90%;
+    margin: 0 auto;
+  }
 }
 </style>

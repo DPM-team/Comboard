@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="features-section-container">
     <div class="section__title">
       <h2 class="section__description">Features</h2>
       <h3 class="section__header">Every tool you need in order to do your job, lies inside the Comboard universe.</h3>
@@ -45,6 +45,11 @@
 </template>
 
 <style scoped>
+.features-section-container {
+  padding-top: 70px;
+  padding-bottom: 60px;
+}
+
 .section__title {
   max-width: 80%;
   margin: 0 auto 50px auto;
