@@ -24,7 +24,7 @@
 
         <div v-else-if="this.chechActiveStep(3)">
           <h5 class="form-title">Create new Password!</h5>
-          <auth-form-input id="newPassword" type="text" name="code" placeholder="Password" required></auth-form-input>
+          <auth-form-input @data="getDataInput" id="newPassword" type="text" name="code" placeholder="Password" required></auth-form-input>
         </div>
         <div v-else>
           <a href="" class="btn btn-final width-50 mc-auto">Go to Login</a>
@@ -59,48 +59,27 @@ export default {
       inputData: null,
     };
   },
+  errorCaptured() {
+    console.log("hajdskx");
+  },
   beforeUpdate() {
-    console.log({
-      email: this.inputData,
-    });
-    console.log(this.steps[this.steps.length - 1]);
-
-    if (this.steps[this.steps.length - 1] - 1 === 1) {
-      fetch("/api/retrieve-account/step-1/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: this.inputData,
-        }),
-      }).then((r) => {
-        console.log(r);
-
-        // console.log("duhiwj");
+    console.log("ajdksl");
+    if (this.getStep() - 1 === 1) {
+      const email = JSON.stringify({
+        email: this.inputData,
       });
-    } else if (this.steps[this.steps.length - 1] - 1 === 2) {
-      fetch("/api/retrieve-account/step-2", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          password: this.inputData,
-        }),
-      }).then((r) => {
-        console.log(r);
+      this.callAPI({ email });
+    } else if (this.getStep() - 1 === 2) {
+      const password = JSON.stringify({
+        password: this.inputData,
       });
+      this.callAPI({ password });
+    } else if (this.getStep() - 1 === 3) {
+      const password = JSON.stringify({
+        password: this.inputData,
+      });
+      this.callAPI({ password });
     }
-
-    console.log("disjkl");
-    // fetch("http://localhost:3000/retrieve-account/step-2/", {
-    //   method: "post",
-    //   mode: "no-cors",
-    //   body: JSON.stringify({
-    //     password: true,
-    //   }),
-    // });
   },
   methods: {
     submitForm() {
@@ -116,6 +95,15 @@ export default {
       } else {
         this.steps.push(1);
       }
+    },
+    callAPI(body) {
+      fetch(`/api/retrieve-account/step-${this.getStep() - 1}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body,
+      }).then(() => {});
     },
     getDataInput(i) {
       this.inputData = i;

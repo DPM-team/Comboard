@@ -41,7 +41,7 @@ router.get("/retrieve-account/step-1", (req, res) => {
   res.sendFile(path.join(__dirname + "../../../views/forgot-password.html"));
 });
 
-router.post("/api/retrieve-account/step-1/submit", async (req, res) => {
+router.post("/api/retrieve-account/step-1", async (req, res) => {
   try {
     const email = req.body.email;
     userAccount = await User.findOne({ email });
@@ -73,14 +73,16 @@ router.post("/api/retrieve-account/step-2", async (req, res) => {
     }
     res.send();
   } catch (e) {
-    res.status(400).send(e);
+    res.status(400).send(e.message);
   }
 });
 
-router.patch("/api/retrieve-account/step-3", async (req, res) => {
+router.post("/api/retrieve-account/step-3", async (req, res) => {
   try {
     const newPassword = req.body.password;
-    await userAccount.populate("password");
+    userAccount.password = newPassword;
+    await userAccount.save();
+    res.send();
   } catch (e) {
     res.status(400).send(e.message);
   }
