@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <base-section>
     <auth-form>
       <auth-header>
         <h2>Login</h2>
@@ -15,7 +15,7 @@
       New to Comboard?
       <router-link id="join-now" to="/register">Join Now!</router-link>
     </p>
-  </div>
+  </base-section>
 </template>
 
 <script>
@@ -23,6 +23,7 @@ import AuthForm from "../../auth/AuthForm.vue";
 import AuthFormInput from "../../auth/AuthFormInput.vue";
 import AuthChoices from "../../auth/AuthChoices.vue";
 import AuthHeader from "../../auth/AuthHeader.vue";
+import BaseSection from "../../basic-components/BaseSection.vue";
 
 export default {
   components: {
@@ -30,6 +31,7 @@ export default {
     AuthFormInput,
     AuthChoices,
     AuthHeader,
+    BaseSection,
   },
   data() {
     return {
