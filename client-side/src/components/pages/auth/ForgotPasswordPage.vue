@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import BaseCard from "../../dashboard/DashboardCard.vue";
+import BaseCard from "../../basic-components/BaseCard.vue";
 import AuthForm from "../../auth/AuthForm.vue";
 import BaseSection from "../../basic-components/BaseSection.vue";
 import AuthHeader from "../../auth/AuthHeader.vue";
