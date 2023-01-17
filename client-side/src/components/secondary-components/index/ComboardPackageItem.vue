@@ -54,8 +54,11 @@ export default {
 .packages__content {
   display: none;
   /* JUST PRESENTATIONAL */
-  font-size: 1.7rem;
-  padding: 2.5rem 7rem 6.5rem 7rem;
+  font-size: 18px;
+  padding: 40px 60px 75px 60px;
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 10px;
 }
 
 .packages__content--active {
@@ -66,30 +69,30 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 7rem;
-  width: 7rem;
+  height: 60px;
+  width: 60px;
   border-radius: 50%;
 }
 
 .packages__icon img {
-  height: 2.75rem;
-  width: 2.75rem;
+  height: 30px;
+  width: 30px;
 }
 
 .packages__icon--1 {
-  background-color: var(--color-secondary);
+  background-color: var(--color-third);
 }
 
 .packages__icon--2 {
-  background-color: var(--color-primary);
+  background-color: var(--color-sixth);
 }
 
 .packages__icon--3 {
-  background-color: var(--color-tertiary);
+  background-color: var(--color-secondary);
 }
 
 .packages__header {
-  font-size: 2.25rem;
+  font-size: 28px;
   font-weight: 500;
   align-self: center;
 }
@@ -97,7 +100,7 @@ export default {
 .btn--text-packages {
   float: right;
   background: none;
-  font-size: 1.7rem;
+  font-size: 18px;
   font-family: inherit;
   font-weight: 500;
   color: var(--color-primary);
@@ -107,5 +110,20 @@ export default {
   padding-bottom: 2px;
   cursor: pointer;
   transition: all 0.3s;
+}
+
+/* Responsiveness */
+@media (max-width: 800px) {
+  .packages__header {
+    font-size: 25px;
+  }
+
+  .btn--text-packages {
+    font-size: 16px;
+  }
+
+  .packages__content {
+    font-size: 16px;
+  }
 }
 </style>

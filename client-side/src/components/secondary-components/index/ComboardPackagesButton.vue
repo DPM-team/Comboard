@@ -41,20 +41,20 @@ export default {
 <style scoped>
 .btn {
   display: inline-block;
-  background-color: var(--color-primary);
-  font-size: 1.6rem;
+  font-size: 14px;
   font-family: inherit;
   font-weight: 500;
+  color: white;
   border: none;
-  padding: 1.25rem 4.5rem;
-  border-radius: 10rem;
+  padding: 15px 40px;
+  border-radius: 30px;
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .packages__tab {
   margin-right: 2.5rem;
-  transform: translateY(-50%);
+  transform: translateY(20%);
 }
 
 .packages__tab span {
@@ -64,23 +64,59 @@ export default {
 }
 
 .packages__tab--1 {
-  background-color: var(--color-secondary);
+  background-color: var(--color-third);
 }
 
 .packages__tab--1:hover {
-  background-color: var(--color-secondary-darker);
+  opacity: 0.9;
+  scale: 1.02;
+}
+
+.packages__tab--2 {
+  background-color: var(--color-sixth);
+}
+
+.packages__tab--2:hover {
+  opacity: 0.9;
+  scale: 1.02;
 }
 
 .packages__tab--3 {
-  background-color: var(--color-tertiary);
+  background-color: var(--color-secondary);
   margin: 0;
 }
 
 .packages__tab--3:hover {
-  background-color: var(--color-tertiary-darker);
+  opacity: 0.9;
+  scale: 1.02;
 }
 
 .packages__tab--active {
-  transform: translateY(-66%);
+  transform: translateY(5%);
+}
+
+/* Responsiveness */
+@media (max-width: 800px) {
+  .packages__tab {
+    margin-right: 1.5rem;
+  }
+  .btn {
+    font-size: 13px;
+    padding: 12px 32px;
+  }
+  .packages__tab span {
+    margin-right: 0.6rem;
+  }
+}
+@media (max-width: 600px) {
+  .packages__tab span {
+    display: none;
+  }
+  .btn {
+    box-sizing: border-box;
+    font-size: 12px;
+    padding: 10px 20px;
+    margin-right: 15px;
+  }
 }
 </style>

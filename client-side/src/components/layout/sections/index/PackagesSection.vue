@@ -1,5 +1,5 @@
 <template>
-  <base-section>
+  <section>
     <div class="section__title">
       <h2 class="section__description">Packages</h2>
       <h3 class="section__header">Choose the correct setup for your organization.</h3>
@@ -25,7 +25,7 @@
         :isActive="packageIsActive(packageObj.id)"
       ></comboard-package-item>
     </div>
-  </base-section>
+  </section>
 </template>
 
 <script>
@@ -82,33 +82,60 @@ export default {
 
 <style scoped>
 .section__title {
-  max-width: 80rem;
-  margin: 0 auto 8rem auto;
+  max-width: 80%;
+  margin: 0 auto 50px auto;
   text-align: start;
 }
 
 .section__description {
-  font-size: 1.8rem;
+  font-size: 26px;
   font-weight: 600;
   text-transform: uppercase;
   color: var(--color-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 10px;
 }
 
 .section__header {
-  font-size: 4rem;
+  font-size: 38px;
   line-height: 1.3;
   font-weight: 500;
-}
-
-.packages {
-  max-width: 100rem;
-  margin: 12rem auto 0 auto;
-  background-color: rgb(255, 255, 255);
 }
 
 .packages__tab-container {
   display: flex;
   justify-content: center;
+}
+
+/* Responsiveness */
+
+@media (max-width: 1100px) {
+  .section__title {
+    width: 90%;
+  }
+}
+
+@media (max-width: 800px) {
+  .section__description {
+    font-size: 24px;
+  }
+
+  .section__header {
+    font-size: 35px;
+  }
+}
+@media (max-width: 750px) {
+  .packages__tab-container {
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 570px) {
+  .section__description {
+    font-size: 20px;
+  }
+
+  .section__header {
+    font-size: 30px;
+  }
 }
 </style>

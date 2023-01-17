@@ -178,4 +178,13 @@
     width: 100%;
   }
 }
+@media (max-width: 570px) {
+  .section__description {
+    font-size: 20px;
+  }
+
+  .section__header {
+    font-size: 30px;
+  }
+}
 </style>
