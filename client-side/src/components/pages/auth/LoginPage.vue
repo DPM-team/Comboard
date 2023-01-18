@@ -78,6 +78,17 @@ h4 {
   color: #1a75ff;
 }
 
+#create-account {
+  text-align: center;
+  font-size: medium;
+}
+
+#join-now {
+  color: #1a75ff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
 @media screen and (max-width: 1283.2px) {
   #forgot-password {
     padding-right: 60px;
@@ -94,16 +105,5 @@ h4 {
   #forgot-password {
     padding-right: 0px;
   }
-}
-
-#create-account {
-  text-align: center;
-  font-size: medium;
-}
-
-#join-now {
-  color: #1a75ff;
-  text-decoration: none;
-  margin-left: 10px;
 }
 </style>
