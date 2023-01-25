@@ -65,7 +65,7 @@ const router = createRouter({
       path: "/organization",
       component: OrganizationPage,
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
       },
     },
     {
