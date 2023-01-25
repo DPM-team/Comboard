@@ -6,27 +6,27 @@
           <a href="#"><span class="nav-item organization-title">Organization name</span></a>
         </li>
         <li>
-          <a href="#"><i class="fa-solid fa-people-group"></i><span class="nav-item">Network</span></a>
+          <a href="#"><font-awesome-icon icon="fa-solid fa-people-group" /><span class="nav-item">Network</span></a>
         </li>
         <li>
-          <a href="#"><i class="fa-solid fa-calendar-days"></i><span class="nav-item">Calendar</span></a>
+          <a href="#"><font-awesome-icon icon="fa-solid fa-calendar-days" /><span class="nav-item">Calendar</span></a>
         </li>
         <li>
-          <a href="#"><i class="fa-solid fa-list-check"></i><span class="nav-item">Tasks</span></a>
+          <a href="#"><font-awesome-icon icon="fa-solid fa-list-check" /><span class="nav-item">Tasks</span></a>
         </li>
         <li>
-          <a href="#"><i class="fa-solid fa-diagram-project"></i><span class="nav-item">Projects</span></a>
+          <a href="#"><font-awesome-icon icon="fa-solid fa-diagram-project" /><span class="nav-item">Projects</span></a>
         </li>
         <li>
-          <a href="#"><i class="fa-solid fa-handshake-simple"></i><span class="nav-item">Teams</span></a>
+          <a href="#"><font-awesome-icon icon="fa-solid fa-handshake-simple" /><span class="nav-item">Teams</span></a>
         </li>
         <li>
-          <a href="#"><i class="fa-solid fa-box-open"></i><span class="nav-item">Storage</span></a>
+          <a href="#"><font-awesome-icon icon="fa-solid fa-box-open" /><span class="nav-item">Storage</span></a>
         </li>
         <li>
           <div class="env-lighting-buttons">
-            <i class="fa-solid fa-sun"></i>
-            <i class="fa-solid fa-moon"></i>
+            <font-awesome-icon icon="fa-solid fa-sun" />
+            <font-awesome-icon icon="fa-solid fa-moon" />
           </div>
         </li>
       </ul>

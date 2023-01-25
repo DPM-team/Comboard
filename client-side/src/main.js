@@ -14,10 +14,24 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 /* import specific icons */
-import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
+import { faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { faListCheck } from "@fortawesome/free-solid-svg-icons";
+import { faDiagramProject } from "@fortawesome/free-solid-svg-icons";
+import { faHandshakeSimple } from "@fortawesome/free-solid-svg-icons";
+import { faBoxOpen } from "@fortawesome/free-solid-svg-icons";
+import { faSun } from "@fortawesome/free-solid-svg-icons";
+import { faMoon } from "@fortawesome/free-solid-svg-icons";
 
 /* add icons to the library */
-library.add(faUserSecret);
+library.add(faPeopleGroup);
+library.add(faCalendarDays);
+library.add(faListCheck);
+library.add(faDiagramProject);
+library.add(faHandshakeSimple);
+library.add(faBoxOpen);
+library.add(faSun);
+library.add(faMoon);
 
 const app = createApp(App);
 
