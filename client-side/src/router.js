@@ -9,6 +9,7 @@ import LoginPage from "./components/pages/auth/LoginPage.vue";
 import ForgotPasswordPage from "./components/pages/auth/ForgotPasswordPage.vue";
 import DashboardPage from "./components/pages/DashboardPage.vue";
 import OrganizationPage from "./components/pages/OrganizationPage.vue";
+import File from "./components/org/FilesView.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
 
 const router = createRouter({
@@ -60,6 +61,10 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
       },
+    },
+    {
+      path: "/file",
+      component: File,
     },
     {
       path: "/organization",
