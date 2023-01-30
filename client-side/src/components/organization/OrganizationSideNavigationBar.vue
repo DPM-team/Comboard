@@ -1,6 +1,10 @@
 <template>
   <div class="organization-side-navbar-container">
     <nav class="organization-side-navbar">
+      <input type="checkbox" id="check" />
+      <label for="check" class="checkbtn">
+        <font-awesome-icon icon="fa-solid fa-square-caret-down" />
+      </label>
       <ul>
         <li><img class="organization-logo" src="../../assets/comboard-logo/logo-white.png" alt="Organization name" /></li>
         <li>
@@ -56,6 +60,19 @@ export default {};
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
   background: var(--color-primary);
 }
+.checkbtn {
+  font-size: 22px;
+  color: white;
+  float: left;
+  line-height: 60px;
+  margin-left: 20px;
+  cursor: pointer;
+  display: none;
+}
+#check {
+  display: none;
+}
+
 .organization-logo {
   height: 120px;
   width: 120px;
@@ -129,7 +146,7 @@ a:hover {
     display: block;
   }
   a {
-    font-size: 19px;
+    /* font-size: 19px; */
     width: 280px;
     padding: 18px;
   }
@@ -173,4 +190,87 @@ a:hover {
     justify-content: center;
   }
 }
+
+@media (max-width: 700px) {
+  .organization-side-navbar {
+    width: 55px;
+  }
+  a {
+    width: 55px;
+    padding: 18px;
+    text-align: center;
+  }
+  .icon {
+    font-size: 18px;
+  }
+  .organization-logo {
+    margin-top: 9px;
+    height: 55px;
+    width: 55px;
+  }
+  .sun,
+  .moon {
+    margin-left: 10px;
+    height: 16px;
+    width: 16px;
+    line-height: 16px;
+  }
+}
+@media (max-width: 450px) {
+  .organization-side-navbar {
+    width: 45px;
+  }
+  a {
+    width: 45px;
+    padding: 14px;
+  }
+  .icon {
+    font-size: 16px;
+  }
+  .organization-logo {
+    height: 45px;
+    width: 45px;
+  }
+  .sun,
+  .moon {
+    margin-left: 10px;
+    height: 14px;
+    width: 14px;
+    line-height: 14px;
+  }
+}
+
+/*  TO BE DISCUSSED
+@media (max-width: 550px) {
+  .checkbtn {
+    display: block;
+  }
+  nav {
+    height: 100px;
+  }
+  ul {
+    z-index: 10;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: var(--color-primary);
+    top: 80px;
+    left: -100%;
+    text-align: center;
+    transition: all 0.5s;
+  }
+  li {
+    display: block;
+    margin: 50px;
+    line-height: 30px;
+  }
+
+  #check:checked ~ ul {
+    left: 0;
+  }
+
+  .organization-side-navbar {
+    width: 50px;
+  }
+} */
 </style>
