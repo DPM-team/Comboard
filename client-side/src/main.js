@@ -22,6 +22,8 @@ import { faHandshakeSimple } from "@fortawesome/free-solid-svg-icons";
 import { faBoxOpen } from "@fortawesome/free-solid-svg-icons";
 import { faSun } from "@fortawesome/free-solid-svg-icons";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faSquareCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 /* add icons to the library */
 library.add(faPeopleGroup);
@@ -32,6 +34,8 @@ library.add(faHandshakeSimple);
 library.add(faBoxOpen);
 library.add(faSun);
 library.add(faMoon);
+library.add(faBars);
+library.add(faSquareCaretDown);
 
 const app = createApp(App);
 
