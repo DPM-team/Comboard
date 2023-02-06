@@ -1,11 +1,15 @@
 <template>
-  <div class="organization-page-container"><organization-side-navigation-bar></organization-side-navigation-bar></div>
+  <div class="organization-page-container">
+    <organization-side-navigation-bar></organization-side-navigation-bar>
+    <organization-page-header></organization-page-header>
+  </div>
 </template>
 
 <script>
 import OrganizationSideNavigationBar from "../organization/OrganizationSideNavigationBar.vue";
+import OrganizationPageHeader from "../layout/headers/OrganizationPageHeader.vue";
 export default {
-  components: { OrganizationSideNavigationBar },
+  components: { OrganizationSideNavigationBar, OrganizationPageHeader },
 };
 </script>
 
