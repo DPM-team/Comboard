@@ -8,13 +8,13 @@
       <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
       <ul class="header-ul">
         <li class="header-li">
-          <a class="header-a" href=""><font-awesome-icon icon="fa-solid fa-bell" /></a>
+          <a class="header-a" href=""><font-awesome-icon class="menu-icon" icon="fa-solid fa-bell" /></a>
         </li>
         <li class="header-li">
-          <a class="header-a" href=""><font-awesome-icon icon="fa-solid fa-inbox" /></a>
+          <a class="header-a" href=""><font-awesome-icon class="menu-icon" icon="fa-solid fa-inbox" /></a>
         </li>
         <li class="header-li">
-          <a class="header-a" href=""><font-awesome-icon icon="fa-solid fa-video" /></a>
+          <a class="header-a" href=""><font-awesome-icon class="menu-icon" icon="fa-solid fa-video" /></a>
         </li>
         <li class="header-li">
           <a class="header-a" href=""
@@ -44,12 +44,20 @@ export default {
 </script>
 
 <style scoped>
+.menu-icon {
+  color: var(--color-primary);
+}
+.menu-icon:hover {
+  opacity: 0.9;
+}
 .img-container {
   width: 1em;
   height: 1em;
   background-color: var(--color-fourth);
-  padding: 0.5em;
+  padding: 0.4em;
   border-radius: 50%;
+  margin-bottom: -25px;
+  margin-left: 5px;
 }
 .user-icon {
   width: 100%;
@@ -63,38 +71,27 @@ export default {
   background: white;
   height: 100px;
   width: 100%;
+  display: block;
 }
 .header-nav .header-ul {
   float: right;
   margin-right: 100px;
+  /* height: 20px; */
 }
 .header-nav .header-ul .header-li {
   display: inline-block;
-  /* line-height: 99px; */
-  margin: 0 5px;
+  margin: 0 3px;
 }
 .header-nav .header-ul .header-li .header-a {
-  font-size: 15px;
-  font-weight: 600;
-  padding: 7px 13px;
-  border-radius: 3px;
+  font-size: 18px;
+  padding: 3px 7px;
   text-decoration: none;
-  height: 1rem;
 }
 .nav__logo {
   height: 100px;
-  /* margin-left: 100px; */
-  text-align: center;
-  margin: 0 auto;
-  /* Needs to be fixed */
+  margin-left: 45%;
 }
 
-.image-menu:hover {
-  opacity: 0.8;
-}
-.image-menu {
-  height: 24px;
-}
 .checkbtn {
   font-size: 30px;
   color: var(--color-primary);
