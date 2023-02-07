@@ -27,6 +27,7 @@ import { faSquareCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { faInbox } from "@fortawesome/free-solid-svg-icons";
 import { faVideo } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
 /* add icons to the library */
 library.add(faPeopleGroup);
@@ -42,6 +43,7 @@ library.add(faSquareCaretDown);
 library.add(faBell);
 library.add(faInbox);
 library.add(faVideo);
+library.add(faEllipsisVertical);
 
 const app = createApp(App);
 

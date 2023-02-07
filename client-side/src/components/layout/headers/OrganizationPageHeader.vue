@@ -22,6 +22,9 @@
               <img class="user-icon" src="../../../assets/images/common-images/user.png" /></div
           ></a>
         </li>
+        <li class="header-li">
+          <a class="header-a" href=""><font-awesome-icon class="more-menu-icon" icon="fa-solid fa-ellipsis-vertical" /></a>
+        </li>
       </ul>
     </nav>
   </header>
@@ -44,6 +47,13 @@ export default {
 </script>
 
 <style scoped>
+.more-menu-icon {
+  color: var(--color-primary);
+  display: none;
+  font-size: 23px;
+  margin-top: 5px;
+}
+
 .menu-icon {
   color: var(--color-primary);
 }
@@ -105,12 +115,26 @@ export default {
   display: none;
 }
 
+@media (max-width: 900px) {
+  .header-nav .header-ul {
+    margin-right: 70px;
+  }
+  .nav__logo {
+    margin-left: 40%;
+  }
+}
+@media (max-width: 750px) {
+  .header-nav .header-ul {
+    margin-right: 40px;
+  }
+}
+
 @media (max-width: 650px) {
-  .checkbtn {
+  /* .checkbtn {
     display: block;
   }
   .nav__logo {
-    margin-left: 20px;
+    margin-left: 40%;
   }
   .header-nav {
     height: 100px;
@@ -141,6 +165,16 @@ export default {
   }
   #check:checked ~ .header-ul {
     left: 0;
+  } */
+  .more-menu-icon {
+    display: block;
+  }
+
+  .menu-icon {
+    display: none;
+  }
+  .img-container {
+    display: none;
   }
 }
 </style>
