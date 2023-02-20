@@ -1,6 +1,6 @@
 <template>
   <base-section>
-    <auth-form>
+    <auth-form @submit.prevent="submitLoginForm">
       <auth-header>
         <h2>Login</h2>
         <h4>Sign In to your account</h4>
@@ -8,7 +8,7 @@
       <auth-form-input @data="getUsername" id="username" type="text" name="username" placeholder="Username" required />
       <auth-form-input @data="getPassword" id="password" type="password" name="password" placeholder="Password" :minLength="8" required />
       <a id="forgot-password" href="/retrieve-account/step-1">Forgot Password?</a>
-      <auth-form-input id="login-btn" type="submit" name="submit" value="Login" @click.prevent="submitLoginForm" />
+      <auth-form-input id="login-btn" type="submit" name="submit" value="Login" />
       <auth-choices></auth-choices>
     </auth-form>
     <p id="create-account">
@@ -44,7 +44,6 @@ export default {
       try {
         // Call login action from Auth module
         // We want await because we need to finish first the api call. We need to wait for call to end
-        console.log(this.username);
         await this.$store.dispatch("login", {
           username: this.username,
           password: this.password,
