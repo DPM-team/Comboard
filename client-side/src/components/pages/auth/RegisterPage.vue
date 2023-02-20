@@ -5,11 +5,11 @@
         <h2>Join Our Community!</h2>
         <h4>Create an account fast and simple!</h4>
       </auth-header>
-      <auth-form-input id="firstname" name="name" type="text" placeholder="Firstname" required />
-      <auth-form-input id="surname" name="surname" type="text" placeholder="Surname" required />
-      <auth-form-input id="username" name="username" type="text" placeholder="Username" required />
-      <auth-form-input id="email" name="email" type="email" placeholder="Email" required />
-      <auth-form-input id="password" name="password" type="password" placeholder="Password" :minLength="8" required />
+      <auth-form-input @data="getName" id="firstname" name="name" type="text" placeholder="Firstname" required />
+      <auth-form-input @data="getSurname" id="surname" name="surname" type="text" placeholder="Surname" required />
+      <auth-form-input @data="getUsername" id="username" name="username" type="text" placeholder="Username" required />
+      <auth-form-input @data="getEmail" id="email" name="email" type="email" placeholder="Email" required />
+      <auth-form-input @data="getPassword" id="password" name="password" type="password" placeholder="Password" :minLength="8" required />
       <p id="password-mandatory">Use 8 or more characters with a combination of letters, numbers and symbols</p>
       <auth-form-input id="confirm-password" name="confirmedPassword" type="password" placeholder="Confirm Password" :minLength="8" required />
       <auth-form-input id="login-btn" name="loginButton" type="submit" value="Agree & Join" @click.prevent="submitForm" />
@@ -42,11 +42,11 @@ export default {
   },
   data() {
     return {
-      name: "Minas",
-      surname: "Charakopoulos",
-      username: "minas43434g34",
-      email: "minas434344g3@gmail.com",
-      password: "12345678!",
+      name: "",
+      surname: "",
+      username: "",
+      email: "",
+      password: "",
     };
   },
   methods: {
@@ -67,6 +67,21 @@ export default {
 
       console.log(this.$store.getters.loggedUserID);
       this.$router.push("/dashboard");
+    },
+    getName(i) {
+      this.name = i;
+    },
+    getSurname(i) {
+      this.surname = i;
+    },
+    getUsername(i) {
+      this.username = i;
+    },
+    getEmail(i) {
+      this.email = i;
+    },
+    getPassword(i) {
+      this.password = i;
     },
   },
 };
