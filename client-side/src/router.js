@@ -1,7 +1,7 @@
 import { createRouter } from "vue-router";
 import { createWebHistory } from "vue-router";
 
-import store from "./store";
+// import store from "./store";
 
 import IndexPage from "./components/pages/IndexPage.vue";
 import RegisterPage from "./components/pages/auth/RegisterPage.vue";
@@ -29,9 +29,9 @@ const router = createRouter({
     {
       path: "/login",
       component: LoginPage,
-      meta: {
-        requiresLogout: true,
-      },
+      // meta: {
+      //   requiresLogout: true,
+      // },
     },
     {
       path: "/retrieve-password/",
@@ -81,14 +81,14 @@ const router = createRouter({
 });
 
 // Register a global nav guard
-router.beforeEach(function (to, _, next) {
-  if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
-    next("/permission-denied");
-  } else if (to.meta.requiresLogout && store.getters.isAuthenticated) {
-    next("/dashboard");
-  } else {
-    next();
-  }
-});
+// router.beforeEach(function (to, _, next) {
+//   if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
+//     next("/permission-denied");
+//   } else if (to.meta.requiresLogout && store.getters.isAuthenticated) {
+//     next("/dashboard");
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;
