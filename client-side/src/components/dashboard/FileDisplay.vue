@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     formatImagePath() {
-      return "path";
+      return require("../../assets/images/common-images/" + this.fileName + ".png");
     },
   },
 };
@@ -36,10 +36,12 @@ export default {
 li {
   width: 6%;
   box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
   border-radius: 15px;
+  margin: 10px;
 }
 
-div {
+li div {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
@@ -55,5 +57,47 @@ img {
 h6 {
   display: flex;
   justify-content: center;
+}
+
+@media screen and (max-width: 1300px) {
+  li {
+    width: 8%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  li {
+    width: 10%;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  li {
+    width: 12%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  li {
+    width: 16%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  li {
+    width: 20%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  li {
+    width: 40%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  li {
+    width: 60%;
+  }
 }
 </style>
