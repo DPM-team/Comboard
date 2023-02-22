@@ -1,7 +1,7 @@
 import { createRouter } from "vue-router";
 import { createWebHistory } from "vue-router";
 
-// import store from "./store";
+import store from "./store";
 
 import IndexPage from "./components/pages/IndexPage.vue";
 import RegisterPage from "./components/pages/auth/RegisterPage.vue";
@@ -44,14 +44,28 @@ const router = createRouter({
         {
           path: "step-2",
           component: ForgotPasswordPage,
+
+          beforeEnter: (to, _, next) => {
+            if (store.getters.getStep1) {
+              next("/retrieve-password/step-2");
+            }
+          },
         },
         {
           path: "step-3",
           component: ForgotPasswordPage,
+          beforeEnter: (to, _, next) => {
+            if (store.getters.getStep2) {
+              next("/retrieve-password/step-3");
+            }
+          },
         },
         {
           path: "step-4",
           component: ForgotPasswordPage,
+          meta: {
+            requiresStep: true,
+          },
         },
       ],
     },
@@ -81,14 +95,14 @@ const router = createRouter({
 });
 
 // Register a global nav guard
-// router.beforeEach(function (to, _, next) {
-//   if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
-//     next("/permission-denied");
-//   } else if (to.meta.requiresLogout && store.getters.isAuthenticated) {
-//     next("/dashboard");
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach(function (to, _, next) {
+  if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
+    next("/permission-denied");
+  } else if (to.meta.requiresLogout && store.getters.isAuthenticated) {
+    next("/dashboard");
+  } else {
+    next();
+  }
+});
 
 export default router;
