@@ -9,7 +9,7 @@ export default {
       step: "step3",
     });
   },
-  setStep4() {
+  setStep4(context) {
     context.commit("setStep", {
       step: "step2",
     });
