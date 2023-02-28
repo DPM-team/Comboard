@@ -8,5 +8,5 @@ const database = mongoose.connection;
 
 // Bind connection to error event (to get notification of connection errors)
 database.on("error", function () {
-  console.error(console, "MongoDB connection error:");
+  console.error(console, "MongoDB connection error!");
 });
