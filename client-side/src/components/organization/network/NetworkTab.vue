@@ -1,13 +1,15 @@
 <template>
   <div class="network-tab-container">
     <create-post-box pictureLink="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s"></create-post-box>
+    <post-box pictureLink="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" firstname="Dionisis" lastname="Lougaris"></post-box>
   </div>
 </template>
 
 <script>
 import CreatePostBox from "./CreatePostBox.vue";
+import PostBox from "./PostBox.vue";
 export default {
-  components: { CreatePostBox },
+  components: { CreatePostBox, PostBox },
 };
 </script>
 
