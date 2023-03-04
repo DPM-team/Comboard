@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      minlength: 7,
+      minlength: 8,
       trim: true,
       required: true,
       validate(value) {
@@ -89,19 +89,19 @@ const userSchema = mongoose.Schema(
   }
 );
 
-/**
- * Middleware function for password security
- */
-userSchema.pre("save", async function (next) {
+// Override .toJSON() method to hide private data
+userSchema.methods.toJSON = function () {
   const user = this;
 
-  //true when user is created and also true when the field is modified
-  if (user.isModified("password")) {
-    user.password = await bcrypt.hash(user.password, 8);
-  }
+  // create a clone of the original user obj
+  const userObjPublic = user.toObject();
 
-  next();
-});
+  // hide private fields
+  delete userObjPublic.password;
+  delete userObjPublic.tokens;
+
+  return userObjPublic;
+};
 
 /**
  * This is a method that generates a jwt token for a user when
@@ -141,6 +141,20 @@ userSchema.statics.checkCredentials = async function (username, password) {
 
   return user;
 };
+
+/**
+ * Middleware function for password security
+ */
+userSchema.pre("save", async function (next) {
+  const user = this;
+
+  //true when user is created and also true when the field is modified
+  if (user.isModified("password")) {
+    user.password = await bcrypt.hash(user.password, 8);
+  }
+
+  next();
+});
 
 const User = mongoose.model("user", userSchema);
 
