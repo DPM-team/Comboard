@@ -1,5 +1,6 @@
 <template>
   <base-section>
+    <base-card v-if="errorMessage" width="50%" colorEr="error">{{ errorMessage }} </base-card>
     <auth-form @submit.prevent="submitForm">
       <auth-header>
         <h2 id="primary-header--id" class="primary-header text-center">Retrieve your account</h2>
@@ -55,76 +56,99 @@ export default {
   emits: ["data"],
   data() {
     return {
-      steps: [1],
       inputData: null,
+      errorMessage: "",
     };
   },
-  errorCaptured() {
-    console.log("hajdskx");
-  },
-  beforeUpdate() {
-    console.log("ajdksl");
-    if (this.getStep() - 1 === 1) {
-      const email = JSON.stringify({
-        email: this.inputData,
-      });
-      this.callAPI({ email });
-    } else if (this.getStep() - 1 === 2) {
-      const password = JSON.stringify({
-        password: this.inputData,
-      });
-      this.callAPI({ password });
-    } else if (this.getStep() - 1 === 3) {
-      const password = JSON.stringify({
-        password: this.inputData,
-      });
-      this.callAPI({ password });
-    }
-  },
+
   methods: {
     submitForm() {
+      this.errorMessage = "";
       this.calcStep();
     },
-    chechActiveStep(step) {
-      return this.getStep() === step ? true : false;
+    chechActiveStep(numStep) {
+      return this.$store.getters.getActiveStep === numStep ? true : false;
     },
     back() {
-      if (this.steps.length > 0) {
-        this.steps.pop();
+      if (this.$store.getters.getActiveStep > 0) {
+        this.$store.dispatch("setActive", {
+          activeStep: this.$store.getters.getActiveStep - 1,
+        });
         this.redirect();
       } else {
-        this.steps.push(1);
+        this.$store.dispatch("setActive", {
+          activeStep: 1,
+        });
       }
     },
-    callAPI(body) {
-      fetch(`/api/retrieve-account/step-${this.getStep() - 1}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body,
-      }).then(() => {});
+    async callAPI(body) {
+      try {
+        await fetch(`/api/retrieve-account/step-${this.$store.getters.getActiveStep}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body,
+        }).then(async (response) => {
+          if (response.status === 400) {
+            throw new Error("Something went wrong ");
+          }
+          this.checkStepCompleted();
+
+          this.$store.dispatch("setActive", {
+            activeStep: this.$store.getters.getActiveStep + 1,
+          });
+          this.redirect();
+        });
+      } catch (e) {
+        this.errorMessage = e.message;
+      }
+    },
+    checkStepCompleted() {
+      if (this.$store.getters.getActiveStep === 1) {
+        this.$store.dispatch("setStep1");
+      } else if (this.$store.getters.getActiveStep === 2) {
+        this.$store.dispatch("setStep2");
+      } else if (this.$store.getters.getActiveStep === 3) {
+        this.$store.dispatch("setStep3");
+      }
     },
     getDataInput(i) {
       this.inputData = i;
     },
     showButton() {
-      return this.getStep() !== 1 ? true : false;
+      return this.$store.getters.getActiveStep !== 1 ? true : false;
     },
     redirect() {
-      this.$router.replace(`/retrieve-password/step-${this.getStep()}`);
+      this.$router.replace(`/retrieve-password/step-${this.$store.getters.getActiveStep}`);
     },
     calcStep() {
-      if (this.steps.length < 4) {
-        this.steps.push(this.getStep() + 1);
-        this.redirect();
+      if (this.$store.getters.getActiveStep < 4) {
+        this.api();
       } else {
-        this.steps.push(1);
+        this.$store.dispatch("setActive", {
+          activeStep: this.$store.getters.getActiveStep++,
+        });
       }
     },
 
-    getStep() {
-      return this.steps[this.steps.length - 1];
+    api() {
+      if (this.$store.getters.getActiveStep === 1) {
+        const email = JSON.stringify({
+          email: this.inputData,
+        });
+        this.callAPI(email);
+      } else if (this.$store.getters.getActiveStep === 2) {
+        const password = JSON.stringify({
+          password: this.inputData,
+        });
+        this.callAPI(password);
+      } else if (this.$store.getters.getActiveStep === 3) {
+        const password = JSON.stringify({
+          password: this.inputData,
+        });
+        this.callAPI(password);
+      }
     },
   },
 };
