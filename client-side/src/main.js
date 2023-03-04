@@ -28,6 +28,8 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { faInbox } from "@fortawesome/free-solid-svg-icons";
 import { faVideo } from "@fortawesome/free-solid-svg-icons";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faComment } from "@fortawesome/free-regular-svg-icons";
 
 /* add icons to the library */
 library.add(faPeopleGroup);
@@ -44,6 +46,8 @@ library.add(faBell);
 library.add(faInbox);
 library.add(faVideo);
 library.add(faEllipsisVertical);
+library.add(faHeart);
+library.add(faComment);
 
 const app = createApp(App);
 
