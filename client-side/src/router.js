@@ -9,6 +9,7 @@ import LoginPage from "./components/pages/auth/LoginPage.vue";
 import ForgotPasswordPage from "./components/pages/auth/ForgotPasswordPage.vue";
 import DashboardPage from "./components/pages/DashboardPage.vue";
 import OrganizationPage from "./components/pages/OrganizationPage.vue";
+import NetworkTab from "./components/organization/network/NetworkTab.vue";
 import File from "./components/org/FilesView.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
 
@@ -94,10 +95,18 @@ const router = createRouter({
     {
       path: "/organization",
       component: OrganizationPage,
+      redirect: "/organization/network",
+      children: [
+        {
+          path: "network",
+          component: NetworkTab,
+        },
+      ],
       meta: {
         requiresAuth: false,
       },
     },
+
     {
       path: "/permission-denied",
       component: PermissionDeniedPage,
