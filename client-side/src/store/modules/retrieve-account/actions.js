@@ -1,4 +1,9 @@
 export default {
+  setStep1(context) {
+    context.commit("setStep", {
+      step: "step1",
+    });
+  },
   setStep2(context) {
     context.commit("setStep", {
       step: "step2",
@@ -9,9 +14,9 @@ export default {
       step: "step3",
     });
   },
-  setStep4(context) {
-    context.commit("setStep", {
-      step: "step2",
+  setActive(context, payload) {
+    context.commit("setActiveStep", {
+      step: payload.activeStep,
     });
   },
 };

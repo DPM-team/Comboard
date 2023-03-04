@@ -1,8 +1,14 @@
 <template>
-  <div class="base-card">
+  <div class="base-card" :width="width" :colorEr="error">
     <slot></slot>
   </div>
 </template>
+
+<script>
+export default {
+  props: ["width"],
+};
+</script>
 
 <style scoped>
 .base-card {
@@ -13,5 +19,13 @@
   margin: 5px auto;
   background-color: white;
   /* width: 80%; */
+}
+
+div[width] {
+  width: v-bind(width);
+}
+
+div[colorEr] {
+  background-color: #f4725b;
 }
 </style>

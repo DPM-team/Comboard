@@ -1,4 +1,7 @@
 export default {
+  getStep1(state) {
+    return state.step1;
+  },
   getStep2(state) {
     return state.step2;
   },
@@ -7,5 +10,8 @@ export default {
   },
   getStep4(state) {
     return state.step4;
+  },
+  getActiveStep(state) {
+    return state.activeStep;
   },
 };

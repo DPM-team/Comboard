@@ -47,7 +47,9 @@ const router = createRouter({
 
           beforeEnter: (to, _, next) => {
             if (store.getters.getStep1) {
-              next("/retrieve-password/step-2");
+              next();
+            } else {
+              next("/retrieve-password/step-1");
             }
           },
         },
@@ -56,7 +58,9 @@ const router = createRouter({
           component: ForgotPasswordPage,
           beforeEnter: (to, _, next) => {
             if (store.getters.getStep2) {
-              next("/retrieve-password/step-3");
+              next();
+            } else {
+              next("/retrieve-password/step-2");
             }
           },
         },
@@ -65,6 +69,13 @@ const router = createRouter({
           component: ForgotPasswordPage,
           meta: {
             requiresStep: true,
+          },
+          beforeEnter: (to, _, next) => {
+            if (store.getters.getStep3) {
+              next();
+            } else {
+              next("/retrieve-password/step-3");
+            }
           },
         },
       ],
