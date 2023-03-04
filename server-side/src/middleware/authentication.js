@@ -15,13 +15,15 @@ const authentication = async (req, res, next) => {
     });
 
     if (!user) {
-      throw new Error();
+      throw new Error(); //Move to catch and prints the error
     }
+
     req.token = token;
     req.user = user;
     next();
   } catch (error) {
-    res.status(401).send({ error: "Please authenticate." });
+    res.status(401).send({ error: "Please authenticate!" });
   }
 };
+
 module.exports = authentication;
