@@ -1,7 +1,8 @@
 <template>
   <div class="organization-page-container">
     <organization-side-navigation-bar></organization-side-navigation-bar>
-    <network-tab></network-tab>
+    <!-- Change between components -->
+    <component :is="selectedComponent" @selectedTab="changeTab"></component>
     <organization-page-header></organization-page-header>
   </div>
 </template>
@@ -11,6 +12,18 @@ import OrganizationSideNavigationBar from "../organization/OrganizationSideNavig
 import OrganizationPageHeader from "../layout/headers/OrganizationPageHeader.vue";
 import NetworkTab from "../organization/network/NetworkTab.vue";
 export default {
+  data() {
+    return {
+      // Initial component shown
+      selectedComponent: "network-tab",
+    };
+  },
+  methods: {
+    changeTab(tab) {
+      console.log(tab);
+      this.selectedComponent = tab;
+    },
+  },
   components: { OrganizationSideNavigationBar, OrganizationPageHeader, NetworkTab },
 };
 </script>
