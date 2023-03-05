@@ -113,14 +113,22 @@ export default {
           const password = JSON.stringify({
             password: this.inputData,
           });
-          await this.$store.dispatch("callAPI", password).then(() => {
+          await this.$store.dispatch("callAPI", password).then((res) => {
+            if (res instanceof Error) {
+              throw res;
+            }
+            this.errorMessage = "";
             this.redirect();
           });
         } else if (this.$store.getters.getActiveStep === 3) {
           const password = JSON.stringify({
             password: this.inputData,
           });
-          await this.$store.dispatch("callAPI", password).then(() => {
+          await this.$store.dispatch("callAPI", password).then((res) => {
+            if (res instanceof Error) {
+              throw res;
+            }
+            this.errorMessage = "";
             this.redirect();
           });
         }

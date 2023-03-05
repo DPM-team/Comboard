@@ -58,6 +58,9 @@ router.post("/api/retrieve-account/step-1", async (req, res) => {
     const html = `<div>${generatedPassword}</div>`;
     const emailObj = new Email(email, "dpmcomboard@gmail.com", subject, html);
     sendEmail(emailObj);
+    setTimeout(() => {
+      generatedPassword = "";
+    }, 200000);
     res.send();
   } catch (e) {
     res.status(400).send(e.message);
