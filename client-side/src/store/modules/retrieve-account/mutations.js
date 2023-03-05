@@ -1,5 +1,5 @@
 export default {
-  setStep(state, payload) {
+  setStepCompleted(state, payload) {
     state[payload.step] = true;
     console.log(state);
   },

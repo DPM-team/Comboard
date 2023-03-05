@@ -1,6 +1,6 @@
 <template>
   <base-section>
-    <base-card v-if="errorMessage" width="50%" colorEr="error">{{ errorMessage }} </base-card>
+    <base-card v-if="errorMessage" width="25%" colorEr="error">{{ errorMessage }} </base-card>
     <auth-form @submit.prevent="submitForm">
       <auth-header>
         <h2 id="primary-header--id" class="primary-header text-center">Retrieve your account</h2>
@@ -14,26 +14,26 @@
         <div id="step-4" class="progress-step" data-title="Completed!">4</div>
       </div>
       <base-card>
-        <div v-if="this.chechActiveStep(1)">
+        <div v-if="this.checkActiveStep(1)">
           <h5 class="form-title">Account Information</h5>
           <auth-form-input @data="getDataInput" id="email" type="email" name="email" placeholder="Email" required></auth-form-input>
         </div>
-        <div v-else-if="this.chechActiveStep(2)">
+        <div v-else-if="this.checkActiveStep(2)">
           <h5 class="form-title">Verify the code you received via email</h5>
           <auth-form-input @data="getDataInput" id="code" type="text" name="code" placeholder="Code" required></auth-form-input>
         </div>
 
-        <div v-else-if="this.chechActiveStep(3)">
+        <div v-else-if="this.checkActiveStep(3)">
           <h5 class="form-title">Create new Password!</h5>
-          <auth-form-input @data="getDataInput" id="newPassword" type="text" name="code" placeholder="Password" required></auth-form-input>
+          <auth-form-input @data="getDataInput" id="newPassword" type="password" name="code" placeholder="Password" required></auth-form-input>
         </div>
         <div v-else>
-          <a href="" class="btn btn-final width-50 mc-auto">Go to Login</a>
+          <a href="/login" class="btn btn-final width-50 mc-auto">Go to Login</a>
         </div>
       </base-card>
       <div class="btns-group">
-        <auth-form-input v-if="this.showButton()" type="button" value="Back" v-on:click="this.back"></auth-form-input>
-        <auth-form-input v-if="this" type="submit" value="Next"></auth-form-input>
+        <auth-form-input v-if="this.showButton(1)" type="button" value="Back" v-on:click="this.back"></auth-form-input>
+        <auth-form-input v-if="this.showButton(4)" type="submit" value="Next"></auth-form-input>
       </div>
     </auth-form>
   </base-section>
@@ -63,10 +63,15 @@ export default {
 
   methods: {
     submitForm() {
-      this.errorMessage = "";
-      this.calcStep();
+      if (this.$store.getters.getActiveStep < 4) {
+        this.callStepApi();
+      } else {
+        this.$store.dispatch("setActive", {
+          activeStep: this.$store.getters.getActiveStep++,
+        });
+      }
     },
-    chechActiveStep(numStep) {
+    checkActiveStep(numStep) {
       return this.$store.getters.getActiveStep === numStep ? true : false;
     },
     back() {
@@ -74,80 +79,53 @@ export default {
         this.$store.dispatch("setActive", {
           activeStep: this.$store.getters.getActiveStep - 1,
         });
-        this.redirect();
       } else {
         this.$store.dispatch("setActive", {
           activeStep: 1,
         });
       }
+      this.redirect();
     },
-    async callAPI(body) {
-      try {
-        await fetch(`/api/retrieve-account/step-${this.$store.getters.getActiveStep}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body,
-        }).then(async (response) => {
-          if (response.status === 400) {
-            throw new Error("Something went wrong ");
-          }
-          this.checkStepCompleted();
 
-          this.$store.dispatch("setActive", {
-            activeStep: this.$store.getters.getActiveStep + 1,
-          });
-          this.redirect();
-        });
-      } catch (e) {
-        this.errorMessage = e.message;
-      }
-    },
-    checkStepCompleted() {
-      if (this.$store.getters.getActiveStep === 1) {
-        this.$store.dispatch("setStep1");
-      } else if (this.$store.getters.getActiveStep === 2) {
-        this.$store.dispatch("setStep2");
-      } else if (this.$store.getters.getActiveStep === 3) {
-        this.$store.dispatch("setStep3");
-      }
-    },
     getDataInput(i) {
       this.inputData = i;
     },
-    showButton() {
-      return this.$store.getters.getActiveStep !== 1 ? true : false;
+    showButton(numStep) {
+      return this.$store.getters.getActiveStep !== numStep ? true : false;
     },
     redirect() {
       this.$router.replace(`/retrieve-password/step-${this.$store.getters.getActiveStep}`);
     },
-    calcStep() {
-      if (this.$store.getters.getActiveStep < 4) {
-        this.api();
-      } else {
-        this.$store.dispatch("setActive", {
-          activeStep: this.$store.getters.getActiveStep++,
-        });
-      }
-    },
-
-    api() {
-      if (this.$store.getters.getActiveStep === 1) {
-        const email = JSON.stringify({
-          email: this.inputData,
-        });
-        this.callAPI(email);
-      } else if (this.$store.getters.getActiveStep === 2) {
-        const password = JSON.stringify({
-          password: this.inputData,
-        });
-        this.callAPI(password);
-      } else if (this.$store.getters.getActiveStep === 3) {
-        const password = JSON.stringify({
-          password: this.inputData,
-        });
-        this.callAPI(password);
+    async callStepApi() {
+      try {
+        if (this.$store.getters.getActiveStep === 1) {
+          const email = JSON.stringify({
+            email: this.inputData,
+          });
+          await this.$store.dispatch("callAPI", email).then((res) => {
+            if (res instanceof Error) {
+              throw res;
+            }
+            this.errorMessage = "";
+            this.redirect();
+          });
+        } else if (this.$store.getters.getActiveStep === 2) {
+          const password = JSON.stringify({
+            password: this.inputData,
+          });
+          await this.$store.dispatch("callAPI", password).then(() => {
+            this.redirect();
+          });
+        } else if (this.$store.getters.getActiveStep === 3) {
+          const password = JSON.stringify({
+            password: this.inputData,
+          });
+          await this.$store.dispatch("callAPI", password).then(() => {
+            this.redirect();
+          });
+        }
+      } catch (e) {
+        this.errorMessage = e.message;
       }
     },
   },
