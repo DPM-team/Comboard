@@ -1,8 +1,11 @@
 <template>
   <div class="organization-page-container">
-    <organization-side-navigation-bar></organization-side-navigation-bar>
+    <organization-side-navigation-bar @selectedTab="changeTab"></organization-side-navigation-bar>
     <!-- Change between components -->
-    <component :is="selectedComponent" @selectedTab="changeTab"></component>
+    <keep-alive>
+      <component :is="selectedComponent"></component>
+    </keep-alive>
+
     <organization-page-header></organization-page-header>
   </div>
 </template>
@@ -20,7 +23,6 @@ export default {
   },
   methods: {
     changeTab(tab) {
-      console.log(tab);
       this.selectedComponent = tab;
     },
   },
