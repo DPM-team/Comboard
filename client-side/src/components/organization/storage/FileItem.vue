@@ -1,7 +1,8 @@
 <template>
   <li>
     <div>
-      <img :src="formatImagePath" :class="type" name="name" />
+      <!-- <img :src="formatImagePath" :class="type" name="name" /> -->
+      <font-awesome-icon class="icon" icon="fa-regular fa-file-pdf" />
       <h6>{{ fileName }}</h6>
     </div>
   </li>
@@ -46,12 +47,13 @@ li div {
   padding-bottom: 1rem;
 }
 
-img {
+.icon {
   display: block;
   margin-left: auto;
   margin-bottom: 1rem;
   margin-right: auto;
   width: 50px;
+  font-size: 30px;
 }
 
 h6 {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="storage-tab-container">
     <div>
       <ul v-for="i in numberRows" :key="i">
         <file-item v-for="j in calculateColumns(i)" :key="j" :name="files[(i - 1) * 4 + j - 1].name" :type="files[(i - 1) * 4 + j - 1].type"></file-item>
@@ -72,6 +72,15 @@ export default {
 </script>
 
 <style scoped>
+.storage-tab-container {
+  position: absolute;
+  top: 100px;
+  left: 200px;
+  background-color: red;
+  width: calc(100% - 200px);
+  height: calc(100% - 100px);
+  overflow-y: auto;
+}
 div {
   margin: auto;
 }
