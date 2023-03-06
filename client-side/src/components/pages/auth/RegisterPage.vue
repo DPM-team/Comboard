@@ -1,5 +1,6 @@
 <template>
   <base-section>
+    <base-card v-if="errorMessage" width="25%" colorEr="error">{{ errorMessage }} </base-card>
     <auth-form>
       <auth-header>
         <h2>Join Our Community!</h2>
@@ -31,6 +32,7 @@ import AuthFormInput from "../../auth/AuthFormInput.vue";
 import AuthHeader from "../../auth/AuthHeader.vue";
 import AuthChoices from "../../auth/AuthChoices.vue";
 import BaseSection from "../../basic-components/BaseSection.vue";
+import BaseCard from "../../basic-components/BaseCard.vue";
 
 export default {
   components: {
@@ -39,6 +41,7 @@ export default {
     AuthHeader,
     AuthChoices,
     BaseSection,
+    BaseCard,
   },
   data() {
     return {
@@ -47,6 +50,7 @@ export default {
       username: "",
       email: "",
       password: "",
+      errorMessage: "",
     };
   },
   methods: {
@@ -54,19 +58,25 @@ export default {
       try {
         // Call register action from Auth module
         // We want await because we need to finish first the api call. We need to wait for call to end
-        await this.$store.dispatch("register", {
-          name: this.name,
-          surname: this.surname,
-          username: this.username,
-          email: this.email,
-          password: this.password,
-        });
+        await this.$store
+          .dispatch("register", {
+            name: this.name,
+            surname: this.surname,
+            username: this.username,
+            email: this.email,
+            password: this.password,
+          })
+          .then((r) => {
+            if (r instanceof Error) {
+              throw r;
+            }
+            this.$router.push("/dashboard");
+          });
       } catch (error) {
-        this.error = error.message || "Failed to authenticate.";
+        this.errorMessage = error.message || "Failed to authenticate.";
       }
 
       console.log(this.$store.getters.loggedUserID);
-      this.$router.push("/dashboard");
     },
     getName(i) {
       this.name = i;
