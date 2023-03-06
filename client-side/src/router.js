@@ -11,6 +11,7 @@ import DashboardPage from "./components/pages/DashboardPage.vue";
 import OrganizationPage from "./components/pages/OrganizationPage.vue";
 import NetworkTab from "./components/organization/network/NetworkTab.vue";
 import File from "./components/org/FilesView.vue";
+import ProjectsPage from "./components/organization/projects/ProjectsPage.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
 
 const router = createRouter({
@@ -106,7 +107,10 @@ const router = createRouter({
         requiresAuth: false,
       },
     },
-
+    {
+      path: "/projects",
+      component: ProjectsPage,
+    },
     {
       path: "/permission-denied",
       component: PermissionDeniedPage,
