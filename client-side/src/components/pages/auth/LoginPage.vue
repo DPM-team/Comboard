@@ -1,5 +1,6 @@
 <template>
   <base-section>
+    <base-card v-if="errorMessage" width="25%" colorEr="error">{{ errorMessage }} </base-card>
     <auth-form @submit.prevent="submitLoginForm">
       <auth-header>
         <h2>Login</h2>
@@ -37,6 +38,7 @@ export default {
     return {
       username: "",
       password: "",
+      errorMessage: "",
     };
   },
   methods: {
@@ -44,16 +46,23 @@ export default {
       try {
         // Call login action from Auth module
         // We want await because we need to finish first the api call. We need to wait for call to end
-        await this.$store.dispatch("login", {
-          username: this.username,
-          password: this.password,
-        });
+        await this.$store
+          .dispatch("login", {
+            username: this.username,
+            password: this.password,
+          })
+          .then((r) => {
+            if (r instanceof Error) {
+              throw r;
+            }
+
+            this.$router.push("/dashboard");
+          });
       } catch (error) {
-        this.error = error.message || "Failed to authenticate.";
+        this.errorMessage = error.message || "Failed to authenticate.";
       }
 
       console.log(this.$store.getters.loggedUserID);
-      this.$router.push("/dashboard");
     },
     getUsername(i) {
       this.username = i;

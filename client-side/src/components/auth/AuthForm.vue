@@ -40,21 +40,51 @@ button {
   }
 }
 
-@media screen and (max-width: 919.11px) {
+@media screen and (max-width: 1100px) {
+  .box {
+    width: 35%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
   .box {
     width: 40%;
   }
 }
 
-@media screen and (max-width: 750.4px) {
+@media screen and (max-width: 900px) {
   .box {
     width: 45%;
   }
 }
 
-@media screen and (max-width: 326.4px) {
+@media screen and (max-width: 850px) {
   .box {
-    width: 85%;
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .box {
+    width: 55%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .box {
+    width: 65%;
+  }
+}
+
+@media screen and (max-width: 650.4px) {
+  .box {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .box {
+    width: 90%;
   }
 }
 </style>

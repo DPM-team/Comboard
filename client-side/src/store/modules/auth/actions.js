@@ -11,24 +11,28 @@ export default {
       }),
     };
 
-    await fetch("/api/login", requestOptions)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          console.log(data);
-          localStorage.setItem("userID", data.userObj._id);
-          localStorage.setItem("token", data.generatedToken);
+    try {
+      await fetch("/api/login", requestOptions)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (data.error) {
+            throw new Error(data.message);
+          } else {
+            console.log(data);
+            localStorage.setItem("userID", data.userObj._id);
+            localStorage.setItem("token", data.generatedToken);
 
-          context.commit("setUser", {
-            userID: data.userObj._id,
-            token: data.generatedToken,
-          });
-        }
-      });
+            context.commit("setUser", {
+              userID: data.userObj._id,
+              token: data.generatedToken,
+            });
+          }
+        });
+    } catch (e) {
+      return new Error(e.message);
+    }
   },
   async register(context, payload) {
     const requestOptions = {
