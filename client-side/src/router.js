@@ -10,7 +10,7 @@ import ForgotPasswordPage from "./components/pages/auth/ForgotPasswordPage.vue";
 import DashboardPage from "./components/pages/DashboardPage.vue";
 import OrganizationPage from "./components/pages/OrganizationPage.vue";
 import NetworkTab from "./components/organization/network/NetworkTab.vue";
-import ProjectsPage from "./components/organization/projects/ProjectsPage.vue";
+import ProjectsTab from "./components/organization/projects/ProjectsTab.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
 
 const router = createRouter({
@@ -105,7 +105,7 @@ const router = createRouter({
     },
     {
       path: "/projects",
-      component: ProjectsPage,
+      component: ProjectsTab,
     },
     {
       path: "/permission-denied",
