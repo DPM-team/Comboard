@@ -14,6 +14,7 @@
 import OrganizationSideNavigationBar from "../organization/OrganizationSideNavigationBar.vue";
 import OrganizationPageHeader from "../layout/headers/OrganizationPageHeader.vue";
 import NetworkTab from "../organization/network/NetworkTab.vue";
+import StorageTab from "../organization/storage/StorageTab.vue";
 export default {
   data() {
     return {
@@ -26,7 +27,7 @@ export default {
       this.selectedComponent = tab;
     },
   },
-  components: { OrganizationSideNavigationBar, OrganizationPageHeader, NetworkTab },
+  components: { OrganizationSideNavigationBar, OrganizationPageHeader, NetworkTab, StorageTab },
 };
 </script>
 

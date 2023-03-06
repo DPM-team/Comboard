@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     formatImagePath() {
-      return require("../../assets/images/common-images/" + this.fileName + ".png");
+      return require("../../../assets/images/common-images/" + this.fileName + ".png");
     },
   },
 };
