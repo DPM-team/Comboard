@@ -15,7 +15,10 @@ import OrganizationSideNavigationBar from "../organization/OrganizationSideNavig
 import OrganizationPageHeader from "../layout/headers/OrganizationPageHeader.vue";
 import NetworkTab from "../organization/network/NetworkTab.vue";
 import StorageTab from "../organization/storage/StorageTab.vue";
+import ProjectsTab from "../organization/projects/ProjectsTab.vue";
+
 export default {
+  components: { OrganizationSideNavigationBar, OrganizationPageHeader, NetworkTab, StorageTab, ProjectsTab },
   data() {
     return {
       // Initial component shown
@@ -27,7 +30,6 @@ export default {
       this.selectedComponent = tab;
     },
   },
-  components: { OrganizationSideNavigationBar, OrganizationPageHeader, NetworkTab, StorageTab },
 };
 </script>
 
