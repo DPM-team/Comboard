@@ -8,10 +8,10 @@
       </auth-header>
       <div class="progressbar">
         <div class="progress" id="progress"></div>
-        <div id="step-1" class="progress-step progress-step-active" data-title="Account">1</div>
-        <div id="step-2" class="progress-step" data-title="Confirm">2</div>
-        <div id="step-3" class="progress-step" data-title="New Password">3</div>
-        <div id="step-4" class="progress-step" data-title="Completed!">4</div>
+        <div id="step-1" class="progress-step" :class="[completedStep1, { progressStepActive: this.checkActiveStep(1) }]" data-title="Account">1</div>
+        <div id="step-2" class="progress-step" :class="[completedStep2, { progressStepActive: this.checkActiveStep(2) }]" data-title="Confirm">2</div>
+        <div id="step-3" class="progress-step" :class="[completedStep3, { progressStepActive: this.checkActiveStep(3) }]" data-title="New Password">3</div>
+        <div id="step-4" class="progress-step" :class="[completedStep3, { progressStepActive: this.checkActiveStep(4) }]" data-title="Completed!">4</div>
       </div>
       <base-card>
         <div v-if="this.checkActiveStep(1)">
@@ -22,7 +22,6 @@
           <h5 class="form-title">Verify the code you received via email</h5>
           <auth-form-input @data="getDataInput" id="code" type="text" name="code" placeholder="Code" required></auth-form-input>
         </div>
-
         <div v-else-if="this.checkActiveStep(3)">
           <h5 class="form-title">Create new Password!</h5>
           <auth-form-input @data="getDataInput" id="newPassword" type="password" name="code" placeholder="Password" required></auth-form-input>
@@ -54,6 +53,32 @@ export default {
     BaseSection,
   },
   emits: ["data"],
+  computed: {
+    completedStep1() {
+      return {
+        completedStep: this.$store.getters.getStep1,
+      };
+    },
+    completedStep2() {
+      return {
+        completedStep: this.$store.getters.getStep2,
+      };
+    },
+    completedStep3() {
+      return {
+        completedStep: this.$store.getters.getStep3,
+      };
+    },
+    setActive(step) {
+      if (step === this.$store.getters.getActiveStep) {
+        return {
+          progressStepActive: true,
+        };
+      } else {
+        return { progressStepActive: false };
+      }
+    },
+  },
   data() {
     return {
       inputData: null,
@@ -65,6 +90,7 @@ export default {
     submitForm() {
       if (this.$store.getters.getActiveStep < 4) {
         this.callStepApi();
+        console.log(this.$store.getters.getStep1);
       } else {
         this.$store.dispatch("setActive", {
           activeStep: this.$store.getters.getActiveStep++,
@@ -214,7 +240,11 @@ div {
   gap: 1.5rem;
 }
 
-.progress-step-active {
+.completedStep {
+  background-color: green;
+}
+
+.progressStepActive {
   background-color: #1a75ff;
 }
 </style>
