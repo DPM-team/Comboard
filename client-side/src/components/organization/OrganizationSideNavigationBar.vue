@@ -7,23 +7,41 @@
       </label>
       <ul>
         <li><img class="organization-logo" src="../../assets/comboard-logo/logo-white.png" alt="Organization name" /></li>
-        <li @click="selection" dataName="network-tab">
-          <a href="#"><font-awesome-icon class="icon" icon="fa-solid fa-people-group" /><span class="nav-item">Network</span></a>
+        <li>
+          <router-link to="/organization/network">
+            <font-awesome-icon class="icon" icon="fa-solid fa-people-group" />
+            <span class="nav-item">Network</span>
+          </router-link>
         </li>
-        <li @click="selection" dataName="calendar-tab">
-          <a href="#"><font-awesome-icon class="icon" icon="fa-solid fa-calendar-days" /><span class="nav-item">Calendar</span></a>
+        <li>
+          <router-link to="/organization/calendar">
+            <font-awesome-icon class="icon" icon="fa-solid fa-calendar-days" />
+            <span class="nav-item">Calendar</span>
+          </router-link>
         </li>
-        <li @click="selection" dataName="tasks-tab">
-          <a href="#"><font-awesome-icon class="icon" icon="fa-solid fa-list-check" /><span class="nav-item">Tasks</span></a>
+        <li>
+          <router-link to="/organization/tasks">
+            <font-awesome-icon class="icon" icon="fa-solid fa-list-check" />
+            <span class="nav-item">Tasks</span>
+          </router-link>
         </li>
-        <li @click="selection" dataName="projects-tab">
-          <a href="#"><font-awesome-icon class="icon" icon="fa-solid fa-diagram-project" /><span class="nav-item">Projects</span></a>
+        <li>
+          <router-link to="/organization/projects">
+            <font-awesome-icon class="icon" icon="fa-solid fa-diagram-project" />
+            <span class="nav-item">Projects</span>
+          </router-link>
         </li>
-        <li @click="selection" dataName="teams-tab">
-          <a href="#"><font-awesome-icon class="icon" icon="fa-solid fa-handshake-simple" /><span class="nav-item">Teams</span></a>
+        <li>
+          <router-link to="/organization/teams">
+            <font-awesome-icon class="icon" icon="fa-solid fa-handshake-simple" />
+            <span class="nav-item">Teams</span>
+          </router-link>
         </li>
-        <li @click="selection" dataName="storage-tab">
-          <a href="#"><font-awesome-icon class="icon" icon="fa-solid fa-box-open" /><span class="nav-item">Storage</span></a>
+        <li>
+          <router-link to="/organization/storage">
+            <font-awesome-icon class="icon" icon="fa-solid fa-box-open" />
+            <span class="nav-item">Storage</span>
+          </router-link>
         </li>
         <li>
           <div class="env-lighting-buttons">
@@ -37,13 +55,7 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    selection(e) {
-      this.$emit("selectedTab", e.srcElement.closest("li").getAttribute("dataName"));
-    },
-  },
-};
+export default {};
 </script>
 
 <style scoped>
