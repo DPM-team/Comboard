@@ -5,7 +5,6 @@
     <keep-alive>
       <component :is="selectedComponent"></component>
     </keep-alive>
-
     <organization-page-header></organization-page-header>
   </div>
 </template>
@@ -25,7 +24,7 @@ export default {
   data() {
     return {
       // Initial component shown
-      selectedComponent: "network-tab",
+      selectedComponent: this.$route.meta.componentName,
     };
   },
   methods: {
