@@ -1,6 +1,6 @@
 <template>
-  <div class="tasks-tab-container">
-    <h1>Tasks</h1>
+  <div class="teams-tab-container">
+    <h1>Teams</h1>
   </div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style scoped>
-.tasks-tab-container {
+.teams-tab-container {
   position: absolute;
   top: 100px;
   left: 200px;

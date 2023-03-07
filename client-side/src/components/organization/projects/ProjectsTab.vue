@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="projects-tab-container">
     <div>
       <button @click="toogleTab(0)">My Projects</button>
       <button @click="toogleTab(1)">All Projects</button>
@@ -33,4 +33,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.projects-tab-container {
+  position: absolute;
+  top: 100px;
+  left: 200px;
+  background-color: red;
+  width: 100%;
+  height: calc(100% - 100px);
+  overflow-y: auto;
+}
+</style>
