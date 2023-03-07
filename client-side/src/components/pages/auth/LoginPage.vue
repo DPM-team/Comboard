@@ -8,7 +8,7 @@
       </auth-header>
       <auth-form-input @data="getUsername" id="username" type="text" name="username" placeholder="Username" required />
       <auth-form-input @data="getPassword" id="password" type="password" name="password" placeholder="Password" :minLength="8" required />
-      <a id="forgot-password" href="/retrieve-password/step-1">Forgot Password?</a>
+      <router-link id="forgot-password" to="/retrieve-password/step-1">Forgot Password?</router-link>
       <auth-form-input id="login-btn" type="submit" name="submit" value="Login" />
       <auth-choices></auth-choices>
     </auth-form>
