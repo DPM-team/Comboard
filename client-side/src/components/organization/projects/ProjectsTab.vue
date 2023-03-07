@@ -1,8 +1,8 @@
 <template>
   <div class="projects-tab-container">
     <div>
-      <router-link to="/organization/projects/all">All Projects</router-link>
       <router-link to="/organization/projects/participate">My Projects</router-link>
+      <router-link to="/organization/projects/all">All Projects</router-link>
     </div>
     <router-view></router-view>
   </div>

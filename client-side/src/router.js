@@ -102,54 +102,37 @@ const router = createRouter({
         {
           path: "network",
           component: NetworkTab,
-          meta: {
-            componentName: "network-tab",
-          },
         },
         {
           path: "calendar",
           component: CalendarTab,
-          meta: {
-            componentName: "calendar-tab",
-          },
         },
         {
           path: "tasks",
           component: TasksTab,
-          meta: {
-            componentName: "tasks-tab",
-          },
         },
         {
           path: "projects",
           component: ProjectsTab,
-          meta: {
-            componentName: "projects-tab",
-          },
+          redirect: "/organization/projects/participate",
           children: [
-            {
-              path: "all",
-              component: AllProjectsTab,
-            },
             {
               path: "participate",
               component: MyProjectsTab,
+            },
+            {
+              path: "all",
+              component: AllProjectsTab,
             },
           ],
         },
         {
           path: "teams",
           component: TeamsTab,
-          meta: {
-            componentName: "teams-tab",
-          },
         },
         {
           path: "storage",
           component: StorageTab,
-          meta: {
-            componentName: "storage-tab",
-          },
         },
       ],
       meta: {
