@@ -13,6 +13,8 @@ import NetworkTab from "./components/organization/network/NetworkTab.vue";
 import CalendarTab from "./components/organization/calendar/CalendarTab.vue";
 import TasksTab from "./components/organization/tasks/TasksTab.vue";
 import ProjectsTab from "./components/organization/projects/ProjectsTab.vue";
+import AllProjectsTab from "./components/organization/projects/AllProjectsTab.vue";
+import MyProjectsTab from "./components/organization/projects/MyProjectsTab.vue";
 import TeamsTab from "./components/organization/teams/TeamsTab.vue";
 import StorageTab from "./components/organization/storage/StorageTab.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
@@ -124,6 +126,16 @@ const router = createRouter({
           meta: {
             componentName: "projects-tab",
           },
+          children: [
+            {
+              path: "all",
+              component: AllProjectsTab,
+            },
+            {
+              path: "participate",
+              component: MyProjectsTab,
+            },
+          ],
         },
         {
           path: "teams",
