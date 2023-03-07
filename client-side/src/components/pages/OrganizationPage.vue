@@ -16,9 +16,12 @@ import OrganizationPageHeader from "../layout/headers/OrganizationPageHeader.vue
 import NetworkTab from "../organization/network/NetworkTab.vue";
 import StorageTab from "../organization/storage/StorageTab.vue";
 import ProjectsTab from "../organization/projects/ProjectsTab.vue";
+import CalendarTab from "../organization/calendar/CalendarTab.vue";
+import TasksTab from "../organization/tasks/TasksTab.vue";
+import TeamsTab from "../organization/teams/TeamsTab.vue";
 
 export default {
-  components: { OrganizationSideNavigationBar, OrganizationPageHeader, NetworkTab, StorageTab, ProjectsTab },
+  components: { OrganizationSideNavigationBar, OrganizationPageHeader, NetworkTab, StorageTab, ProjectsTab, CalendarTab, TasksTab, TeamsTab },
   data() {
     return {
       // Initial component shown
