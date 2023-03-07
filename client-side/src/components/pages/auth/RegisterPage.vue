@@ -1,7 +1,7 @@
 <template>
   <base-section>
     <base-card v-if="errorMessage" width="25%" colorEr="error">{{ errorMessage }} </base-card>
-    <auth-form>
+    <auth-form @submit.prevent="submitForm">
       <auth-header>
         <h2>Join Our Community!</h2>
         <h4>Create an account fast and simple!</h4>
@@ -13,7 +13,7 @@
       <auth-form-input @data="getPassword" id="password" name="password" type="password" placeholder="Password" :minLength="8" required />
       <p id="password-mandatory">Use 8 or more characters with a combination of letters, numbers and symbols</p>
       <auth-form-input id="confirm-password" name="confirmedPassword" type="password" placeholder="Confirm Password" :minLength="8" required />
-      <auth-form-input id="login-btn" name="loginButton" type="submit" value="Agree & Join" @click.prevent="submitForm" />
+      <auth-form-input id="login-btn" name="loginButton" type="submit" value="Agree & Join" />
       <p id="agreement">
         By clicking Agree & Join, you agree to the comboard <a href="/user-agreement">User Agrement</a>, <a href="/privacy-policy">Privacy Policy</a> and <a href="#">CooKie Policy</a>
       </p>
