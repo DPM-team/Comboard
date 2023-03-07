@@ -2,7 +2,7 @@
   <div class="storage-tab-container">
     <div>
       <ul v-for="i in numberRows" :key="i">
-        <file-item v-for="j in calculateColumns(i)" :key="j" :name="files[(i - 1) * 4 + j - 1].name" :type="files[(i - 1) * 4 + j - 1].type"></file-item>
+        <file-item v-for="j in calculateColumns(i)" :icon="getIcon((i - 1) * 4 + j - 1)" :key="j" :name="files[(i - 1) * 4 + j - 1].name" :type="files[(i - 1) * 4 + j - 1].type"></file-item>
       </ul>
     </div>
   </div>
@@ -20,37 +20,37 @@ export default {
         {
           id: "1",
           name: "icons8_doc_26px",
-          type: "png",
+          type: "pdf",
         },
         {
           id: "1",
           name: "icons8_doc_26px",
-          type: "png",
+          type: "pdf",
         },
         {
           id: "1",
           name: "icons8_doc_26px",
-          type: "png",
+          type: "doc",
         },
         {
           id: "1",
           name: "icons8_doc_26px",
-          type: "png",
+          type: "xls",
         },
         {
           id: "1",
           name: "icons8_doc_26px",
-          type: "png",
+          type: "pdf",
         },
         {
           id: "1",
           name: "icons8_doc_26px",
-          type: "png",
+          type: "pdf",
         },
         {
           id: "1",
           name: "icons8_doc_26px",
-          type: "png",
+          type: "pdf",
         },
       ],
     };
@@ -66,6 +66,15 @@ export default {
   methods: {
     calculateColumns(ind) {
       return ind === this.numberRows ? this.files.length - Math.floor(this.files.length / 4) * 4 : 4;
+    },
+    getIcon(ind) {
+      if (this.files[ind].type === "pdf") {
+        return "fa-regular fa-file-pdf";
+      } else if (this.files[ind].type === "doc") {
+        return "fa-regular fa-file-word";
+      } else if (this.files[ind].type === "xls") {
+        return "fa-regular fa-file-excel";
+      }
     },
   },
 };

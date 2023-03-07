@@ -2,7 +2,7 @@
   <li>
     <div>
       <!-- <img :src="formatImagePath" :class="type" name="name" /> -->
-      <font-awesome-icon class="icon" icon="fa-regular fa-file-pdf" />
+      <font-awesome-icon class="icon" :icon="icon" />
       <h6>{{ fileName }}</h6>
     </div>
   </li>
@@ -19,16 +19,14 @@ export default {
       type: String,
       required: true,
     },
+    icon: {
+      type: String,
+    },
   },
   data() {
     return {
       fileName: this.name,
     };
-  },
-  computed: {
-    formatImagePath() {
-      return require("../../../assets/images/common-images/" + this.fileName + ".png");
-    },
   },
 };
 </script>

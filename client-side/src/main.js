@@ -31,7 +31,7 @@ import {
   faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { faHeart, faComment, faFilePdf } from "@fortawesome/free-regular-svg-icons";
+import { faHeart, faComment, faFilePdf, faFileWord, faFileExcel } from "@fortawesome/free-regular-svg-icons";
 
 /* add icons to the library */
 library.add(
@@ -51,7 +51,9 @@ library.add(
   faEllipsisVertical,
   faHeart,
   faComment,
-  faFilePdf
+  faFilePdf,
+  faFileWord,
+  faFileExcel
 );
 
 const app = createApp(App);
