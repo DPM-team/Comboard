@@ -1,36 +1,23 @@
 <template>
   <div class="organization-page-container">
-    <organization-side-navigation-bar @selectedTab="changeTab"></organization-side-navigation-bar>
-    <!-- Change between components -->
-    <keep-alive>
-      <component :is="selectedComponent"></component>
-    </keep-alive>
+    <organization-side-navigation-bar></organization-side-navigation-bar>
     <organization-page-header></organization-page-header>
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
   </div>
 </template>
 
 <script>
 import OrganizationSideNavigationBar from "../organization/OrganizationSideNavigationBar.vue";
 import OrganizationPageHeader from "../layout/headers/OrganizationPageHeader.vue";
-import NetworkTab from "../organization/network/NetworkTab.vue";
-import StorageTab from "../organization/storage/StorageTab.vue";
-import ProjectsTab from "../organization/projects/ProjectsTab.vue";
-import CalendarTab from "../organization/calendar/CalendarTab.vue";
-import TasksTab from "../organization/tasks/TasksTab.vue";
-import TeamsTab from "../organization/teams/TeamsTab.vue";
 
 export default {
-  components: { OrganizationSideNavigationBar, OrganizationPageHeader, NetworkTab, StorageTab, ProjectsTab, CalendarTab, TasksTab, TeamsTab },
+  components: { OrganizationSideNavigationBar, OrganizationPageHeader },
   data() {
-    return {
-      // Initial component shown
-      selectedComponent: this.$route.meta.componentName,
-    };
-  },
-  methods: {
-    changeTab(tab) {
-      this.selectedComponent = tab;
-    },
+    return {};
   },
 };
 </script>

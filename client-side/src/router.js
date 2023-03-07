@@ -13,6 +13,8 @@ import NetworkTab from "./components/organization/network/NetworkTab.vue";
 import CalendarTab from "./components/organization/calendar/CalendarTab.vue";
 import TasksTab from "./components/organization/tasks/TasksTab.vue";
 import ProjectsTab from "./components/organization/projects/ProjectsTab.vue";
+import AllProjectsTab from "./components/organization/projects/AllProjectsTab.vue";
+import MyProjectsTab from "./components/organization/projects/MyProjectsTab.vue";
 import TeamsTab from "./components/organization/teams/TeamsTab.vue";
 import StorageTab from "./components/organization/storage/StorageTab.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
@@ -100,44 +102,37 @@ const router = createRouter({
         {
           path: "network",
           component: NetworkTab,
-          meta: {
-            componentName: "network-tab",
-          },
         },
         {
           path: "calendar",
           component: CalendarTab,
-          meta: {
-            componentName: "calendar-tab",
-          },
         },
         {
           path: "tasks",
           component: TasksTab,
-          meta: {
-            componentName: "tasks-tab",
-          },
         },
         {
           path: "projects",
           component: ProjectsTab,
-          meta: {
-            componentName: "projects-tab",
-          },
+          redirect: "/organization/projects/participate",
+          children: [
+            {
+              path: "participate",
+              component: MyProjectsTab,
+            },
+            {
+              path: "all",
+              component: AllProjectsTab,
+            },
+          ],
         },
         {
           path: "teams",
           component: TeamsTab,
-          meta: {
-            componentName: "teams-tab",
-          },
         },
         {
           path: "storage",
           component: StorageTab,
-          meta: {
-            componentName: "storage-tab",
-          },
         },
       ],
       meta: {

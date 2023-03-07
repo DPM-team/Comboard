@@ -29,6 +29,8 @@ import {
   faInbox,
   faVideo,
   faEllipsisVertical,
+  faUserPlus,
+  faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faHeart, faComment, faFilePdf, faFileWord, faFileExcel } from "@fortawesome/free-regular-svg-icons";
@@ -53,7 +55,9 @@ library.add(
   faComment,
   faFilePdf,
   faFileWord,
-  faFileExcel
+  faFileExcel,
+  faUserPlus,
+  faAnglesRight
 );
 
 const app = createApp(App);
