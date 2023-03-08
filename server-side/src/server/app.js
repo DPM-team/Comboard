@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 //Config the routers
 app.use(require("../routers/connect"));
 app.use(require("../routers/logout"));
+app.use(require("../routers/upload"));
 app.use(require("../routers/error"));
 
 module.exports = server;
