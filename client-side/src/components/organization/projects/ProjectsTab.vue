@@ -27,4 +27,16 @@ export default {
   height: calc(100% - 100px);
   overflow-y: auto;
 }
+
+a {
+  text-decoration: none;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+a:hover,
+a:active {
+  color: blue;
+}
 </style>

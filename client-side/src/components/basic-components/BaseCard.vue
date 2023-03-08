@@ -1,12 +1,21 @@
 <template>
-  <div class="base-card" :width="width" :colorEr="error">
+  <div class="base-card" :width="width" :bgColor="bgColor">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["width"],
+  props: {
+    width: {
+      type: String,
+      required: true,
+    },
+    bgColor: {
+      type: String,
+      default: "#ffffff",
+    },
+  },
 };
 </script>
 
@@ -18,14 +27,13 @@ export default {
   padding: 10px;
   margin: 5px auto;
   background-color: white;
-  /* width: 80%; */
 }
 
 div[width] {
   width: v-bind(width);
 }
 
-div[colorEr] {
-  background-color: #f4725b;
+div[bgColor] {
+  background-color: v-bind(bgColor);
 }
 </style>

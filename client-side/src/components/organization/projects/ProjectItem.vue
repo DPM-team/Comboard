@@ -1,6 +1,6 @@
 <template>
   <li>
-    <base-card width="100%">
+    <base-card width="100%" bgColor="white">
       <header>
         <h3>{{ projectName }}</h3>
         <nav>

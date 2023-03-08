@@ -1,6 +1,6 @@
 <template>
   <base-section>
-    <base-card v-if="errorMessage" width="25%" colorEr="error">{{ errorMessage }} </base-card>
+    <base-card v-if="errorMessage" width="25%" bgColor="#f4725b">{{ errorMessage }} </base-card>
     <auth-form @submit.prevent="submitForm">
       <auth-header>
         <h2 id="primary-header--id" class="primary-header text-center">Retrieve your account</h2>
