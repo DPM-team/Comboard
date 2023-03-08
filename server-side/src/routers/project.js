@@ -26,4 +26,18 @@ router.get("/api/projects", async function (req, res) {
   }
 });
 
+router.delete("/api/projects/:identifier", async function (req, res) {
+  try {
+    const deletedProject = await Project.findOneAndDelete({ _id: req.params.identifier });
+
+    if (!deletedProject) {
+      return res.status(404).send("Project doesn't found!");
+    }
+
+    res.status(200).send(deletedProject);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;
