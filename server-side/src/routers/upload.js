@@ -1,5 +1,6 @@
 const multer = require("multer");
 const express = require("express");
+const authentication = require("../middleware/authentication");
 const User = require("../models/user");
 
 const router = new express.Router();
@@ -44,9 +45,10 @@ const uploadProfile = multer({
 
 router.post(
   "/user/upload/profilephoto",
+  authentication,
   uploadProfile.single("upload"),
   async (req, res) => {
-    req.user.profilephoto = req.file.buffer;
+    req.user.profilePhoto = req.file.buffer;
     await req.user.save();
     res.send();
   },
@@ -54,5 +56,19 @@ router.post(
     res.status(400).send({ error: error.message });
   }
 );
+
+router.get("/users/:id/profilephoto", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user || !user.profilePhoto) {
+      throw new Error("No user");
+    }
+
+    //send the type of photo
+    res.send(user.profilePhoto);
+  } catch (error) {
+    res.status(400).send();
+  }
+});
 
 module.exports = router;
