@@ -1,6 +1,6 @@
 <template>
   <base-section>
-    <base-card v-if="errorMessage" width="25%" colorEr="error">{{ errorMessage }} </base-card>
+    <base-card v-if="errorMessage" width="25%" bgColor="#f4725b">{{ errorMessage }} </base-card>
     <auth-form @submit.prevent="submitLoginForm">
       <auth-header>
         <h2>Login</h2>

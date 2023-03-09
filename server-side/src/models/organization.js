@@ -37,6 +37,6 @@ const organizationSchema = mongoose.Schema({
   }),
 });
 
-const Organization = mongoose.model("organizations", organizationSchema);
+const Organization = mongoose.model("organization", organizationSchema);
 
 module.exports = Organization;
