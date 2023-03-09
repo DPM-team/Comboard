@@ -40,36 +40,43 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 .image-name-date-container {
-  padding-top: 30px;
+  padding-top: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .image-name-date-container h2 {
-  width: 350px;
-  font-size: 20px;
+  width: 380px;
+  font-size: 18px;
+}
+.image-name-date-container h4 {
+  font-size: 14px;
 }
 .paragraph-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: 18px;
+  padding-bottom: 18px;
   /* height: 140px;
   overflow-y: auto; */
   margin: 0 auto;
-  width: 80%;
+  width: 70%;
+}
+.paragraph-container p {
+  font-size: 15px;
 }
 
 .like-comment-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 30px;
+  padding-bottom: 25px;
   margin-top: 5px;
+  width: 100%;
 }
 .like-comment-container p {
   width: 70%;
@@ -85,7 +92,7 @@ export default {
   background-color: var(--color-fourth);
   padding: 0.3em;
   border-radius: 50%;
-  margin-right: 37px;
+  margin-right: 30px;
 }
 .user-pfp {
   width: 100%;

@@ -31,17 +31,22 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border: solid 1px rgba(14, 42, 128, 0.397);
   border-radius: 10px;
-  /* width: 600px; */
-  display: inline-block;
-  /* height: 80px; */
+  width: 200px;
+  padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  height: calc(100% - 400px);
   justify-content: center;
   align-items: center;
-  padding: 30px;
+  margin: 10px auto;
 }
 .connection-sug-list h2 {
   font-size: 18px;
   color: var(--color-primary);
+  width: 100%;
+  text-align: center;
 }
+
 .connection-sug-list ul {
   list-style-type: none;
 }

@@ -26,7 +26,7 @@ export default {
           pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s",
           firstname: "Dionisis",
           lastname: "Lougaris",
-          dateOfPost: "9/3/2023",
+          date: "9/3/2023",
           content: "Auto einai to prwto post tou Comboard apo to development!",
         },
         {
@@ -34,7 +34,7 @@ export default {
           pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP2I0IL6HN3k4H3AsEV0VHBYhoD2vHB5L9zQ&usqp=CAU",
           firstname: "Panos",
           lastname: "Machairas",
-          dateOfPost: "9/3/2023",
+          date: "9/3/2023",
           content: "Auto einai to deutero post tou Comboard apo to development!",
         },
         {
@@ -42,7 +42,7 @@ export default {
           pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s",
           firstname: "Minas",
           lastname: "Charakopoulos",
-          dateOfPost: "9/3/2023",
+          date: "9/3/2023",
           content: "Auto einai to trito post tou Comboard apo to development!",
         },
         {
@@ -50,7 +50,7 @@ export default {
           pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
           firstname: "Giorgos",
           lastname: "Askianakis",
-          dateOfPost: "9/3/2023",
+          date: "9/3/2023",
           content: "Auto einai to tetarto post tou Comboard apo to development!",
         },
       ],
@@ -65,24 +65,17 @@ export default {
   position: absolute;
   top: 100px;
   left: 200px;
-  background-color: red;
+  background-color: var(--tab-grey-background);
   width: 100%;
   height: calc(100% - 100px);
   display: flex;
 }
 .main-section {
-  width: calc(70%);
+  width: calc(70% - 100px);
   overflow-y: auto;
-  /* -ms-overflow-style: none;
-  scrollbar-width: none;
-  overflow: -moz-scrollbars-none; */
-  background: black;
 }
-/* .main-section ::-webkit-scrollbar {
-  display: none;
-} */
+
 .side-section {
-  width: calc(30% - 200px);
-  background: yellow;
+  width: calc(30% - 100px);
 }
 </style>

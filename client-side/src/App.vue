@@ -20,6 +20,7 @@ export default {
   --color-fifth: #bfe2fa;
   --color-sixth: #168630;
   --gradient-primary: linear-gradient(#ffffff, var(--color-secondary));
+  --tab-grey-background: rgba(212, 212, 212, 0.551);
 }
 
 * {
