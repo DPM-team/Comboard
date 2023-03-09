@@ -15,10 +15,10 @@ export default {
     return {
       title: "Latest news",
       news: [
-        { id: 1, description: "Blahahahhahahahahahahahahahhahahahaha" },
-        { id: 2, description: "Blahahahhahahahahahahahahahhahahahaha" },
-        { id: 3, description: "Blahahahhahahahahahahahahahhahahahaha" },
-        { id: 4, description: "Blahahahhahahahahahahahahahhahahahaha" },
+        { id: 1, description: "test" },
+        { id: 2, description: "test" },
+        { id: 3, description: "test" },
+        { id: 4, description: "test" },
       ],
     };
   },
@@ -31,7 +31,7 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border: solid 1px rgba(14, 42, 128, 0.397);
   border-radius: 10px;
-  width: 300px;
+  /* width: 300px; */
   display: inline-block;
   /* height: 80px; */
   justify-content: center;

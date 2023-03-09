@@ -9,7 +9,7 @@
 export default {
   data() {
     return {
-      title: "Find fellow organization members!",
+      title: "test",
     };
   },
   props: ["firstname", "lastname"],

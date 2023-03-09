@@ -13,7 +13,7 @@ export default {
   components: { ConnectionSuggestionItem },
   data() {
     return {
-      title: "Find fellow organization members!",
+      title: "test",
       fellowOrgMembers: [
         { id: 1, firstname: "Dionisis", lastname: "Lougaris" },
         { id: 2, firstname: "Panagiotis", lastname: "Machairas" },

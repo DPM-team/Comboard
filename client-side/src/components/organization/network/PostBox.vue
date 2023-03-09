@@ -6,7 +6,7 @@
       <h4>{{ date }}</h4>
     </div>
     <div class="paragraph-container">
-      <p>{{ postContent }}</p>
+      <p>{{ content }}</p>
     </div>
     <div class="like-comment-container">
       <p>
@@ -22,13 +22,10 @@
 export default {
   data() {
     return {
-      postContent:
-        "arxh blah Blah blah blah Blah blah blah Blah blah blah Blah blah blah Blah blah blah Blah blah blahBlah blah blah Blah blah blah Blah blah blah Blah blah blah Blah blah blah Blah blah telos",
       likeCounter: 12,
-      date: "dd/mm/yyyy",
     };
   },
-  props: ["firstname", "lastname", "pictureLink"],
+  props: ["firstname", "lastname", "pictureLink", "content", "date"],
 };
 </script>
 
@@ -39,8 +36,11 @@ export default {
   border: solid 1px rgba(14, 42, 128, 0.397);
   border-radius: 10px;
   width: 600px;
-  display: inline-block;
-  /* height: 250px; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 .image-name-date-container {
   padding-top: 30px;

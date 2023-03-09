@@ -19,13 +19,17 @@ export default {
   data() {
     return {};
   },
+  created() {
+    document.body.classList.add("no-scrolling");
+  },
 };
 </script>
 
 <style scoped>
 .organization-page-container {
-  min-height: 80vh;
-  /* overflow: hidden; */
+  /* min-height: 80vh; */
+  height: 100%;
+  overflow: hidden;
   /* background: linear-gradient(#ffffff, var(--color-primary));
   display: flex;
   align-items: center;
