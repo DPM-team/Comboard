@@ -70,4 +70,38 @@ export default {
 .side-section {
   width: calc(30% - 100px);
 }
+
+/* Responsiveness */
+@media (max-width: 1250px) {
+  .side-section {
+    width: calc(30% - 80px);
+  }
+}
+@media (max-width: 1150px) {
+  .main-section {
+    width: calc(70% - 50px);
+  }
+  .side-section {
+    width: calc(30% - 30px);
+  }
+}
+@media (max-width: 1050px) {
+  .main-section {
+    width: calc(100% - 80px);
+  }
+  .side-section {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .main-section {
+    width: calc(100% - 55px);
+  }
+}
+@media (max-width: 450px) {
+  .main-section {
+    width: calc(100% - 45px);
+  }
+}
 </style>

@@ -67,4 +67,49 @@ export default {
   outline: none;
   resize: none;
 }
+
+@media (max-width: 770px) {
+  .post-input {
+    width: 300px;
+  }
+  .create-post-box {
+    width: 500px;
+  }
+  .pfp-container {
+    margin-right: 25px;
+  }
+  .post-button {
+    margin-left: 25px;
+  }
+}
+@media (max-width: 600px) {
+  .post-input {
+    width: 200px;
+  }
+  .create-post-box {
+    width: 400px;
+    height: 75px;
+  }
+  .pfp-container {
+    margin-right: 20px;
+  }
+  .post-button {
+    margin-left: 20px;
+  }
+}
+@media (max-width: 500px) {
+  .post-input {
+    width: 180px;
+  }
+  .create-post-box {
+    width: 350px;
+    height: 70px;
+  }
+  .pfp-container {
+    margin-right: 15px;
+  }
+  .post-button {
+    margin-left: 15px;
+  }
+}
 </style>

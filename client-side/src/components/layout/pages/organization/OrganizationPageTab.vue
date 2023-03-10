@@ -16,4 +16,28 @@ export default {};
   height: calc(100% - 60px);
   display: flex;
 }
+
+/* Responsiveness */
+
+@media (max-width: 1250px) {
+  .tab-container {
+    left: 180px;
+  }
+}
+@media (max-width: 1150px) {
+  .tab-container {
+    left: 80px;
+  }
+}
+
+@media (max-width: 700px) {
+  .tab-container {
+    left: 55px;
+  }
+}
+@media (max-width: 450px) {
+  .tab-container {
+    left: 45px;
+  }
+}
 </style>
