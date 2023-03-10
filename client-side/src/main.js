@@ -34,7 +34,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faHeart, faComment, faFilePdf, faFileWord, faFileExcel } from "@fortawesome/free-regular-svg-icons";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { faGoogle, faApple, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 /* add icons to the library */
 library.add(
@@ -59,7 +59,9 @@ library.add(
   faFileExcel,
   faUserPlus,
   faAnglesRight,
-  faGoogle
+  faGoogle,
+  faApple,
+  faLinkedin
 );
 
 const app = createApp(App);
