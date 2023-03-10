@@ -1,18 +1,20 @@
 <template>
-  <div class="storage-tab-container">
-    <div>
-      <ul v-for="i in numberRows" :key="i">
+  <organization-page-tab>
+    <div class="files-container">
+      <ul class="file-ul" v-for="i in numberRows" :key="i">
         <file-item v-for="j in calculateColumns(i)" :icon="getIcon((i - 1) * 4 + j - 1)" :key="j" :name="files[(i - 1) * 4 + j - 1].name" :type="files[(i - 1) * 4 + j - 1].type"></file-item>
       </ul>
     </div>
-  </div>
+  </organization-page-tab>
 </template>
 
 <script>
+import OrganizationPageTab from "../../layout/pages/organization/OrganizationPageTab.vue";
 import FileItem from "./FileItem.vue";
 export default {
   components: {
     FileItem,
+    OrganizationPageTab,
   },
   data() {
     return {
@@ -23,32 +25,32 @@ export default {
           type: "pdf",
         },
         {
-          id: "1",
+          id: "2",
           name: "icons8_doc_26px",
           type: "pdf",
         },
         {
-          id: "1",
+          id: "3",
           name: "icons8_doc_26px",
           type: "doc",
         },
         {
-          id: "1",
+          id: "4",
           name: "icons8_doc_26px",
           type: "xls",
         },
         {
-          id: "1",
+          id: "5",
           name: "icons8_doc_26px",
           type: "pdf",
         },
         {
-          id: "1",
+          id: "6",
           name: "icons8_doc_26px",
           type: "pdf",
         },
         {
-          id: "1",
+          id: "7",
           name: "icons8_doc_26px",
           type: "pdf",
         },
@@ -81,20 +83,11 @@ export default {
 </script>
 
 <style scoped>
-.storage-tab-container {
-  position: absolute;
-  top: 100px;
-  left: 200px;
-  background-color: red;
+.files-container {
+  margin-top: 20px;
   width: calc(100% - 200px);
-  height: calc(100% - 100px);
-  overflow-y: auto;
 }
-div {
-  margin: auto;
-}
-
-ul {
+.file-ul {
   margin-top: 10px;
   display: flex;
   flex-direction: row;

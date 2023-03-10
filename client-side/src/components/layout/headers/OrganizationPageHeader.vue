@@ -50,8 +50,7 @@ export default {
 .more-menu-icon {
   color: var(--color-primary);
   display: none;
-  font-size: 23px;
-  margin-top: 5px;
+  font-size: 18px;
 }
 
 .menu-icon {

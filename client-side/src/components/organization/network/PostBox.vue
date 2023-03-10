@@ -98,4 +98,29 @@ export default {
   width: 100%;
   border-radius: 50%;
 }
+
+@media (max-width: 770px) {
+  .post-box {
+    width: 500px;
+  }
+  .image-name-date-container h2 {
+    width: 300px;
+  }
+}
+@media (max-width: 600px) {
+  .post-box {
+    width: 400px;
+  }
+  .image-name-date-container h2 {
+    width: 200px;
+  }
+}
+@media (max-width: 500px) {
+  .post-box {
+    width: 350px;
+  }
+  .image-name-date-container h2 {
+    width: 180px;
+  }
+}
 </style>

@@ -1,15 +1,17 @@
 <template>
-  <div class="projects-tab-container">
+  <organization-page-tab>
     <div>
       <router-link to="/organization/projects/participate">My Projects</router-link>
       <router-link to="/organization/projects/all">All Projects</router-link>
     </div>
     <router-view></router-view>
-  </div>
+  </organization-page-tab>
 </template>
 
 <script>
+import OrganizationPageTab from "../../layout/pages/organization/OrganizationPageTab.vue";
 export default {
+  components: { OrganizationPageTab },
   data() {
     return {};
   },
@@ -18,16 +20,6 @@ export default {
 </script>
 
 <style scoped>
-.projects-tab-container {
-  position: absolute;
-  top: 100px;
-  left: 200px;
-  background-color: red;
-  width: 100%;
-  height: calc(100% - 100px);
-  overflow-y: auto;
-}
-
 a {
   text-decoration: none;
   color: white;

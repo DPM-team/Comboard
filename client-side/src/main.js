@@ -66,10 +66,12 @@ library.add(
 
 const app = createApp(App);
 
+// Use routers module
 app.use(router);
+// Use store module
 app.use(store);
 
-//Register global components
+// Register global components
 app.component("base-section", BaseSection);
 app.component("base-card", BaseCard);
 app.component("font-awesome-icon", FontAwesomeIcon);

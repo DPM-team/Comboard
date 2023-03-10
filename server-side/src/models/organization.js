@@ -18,17 +18,17 @@ const organizationSchema = mongoose.Schema({
     unique: true,
     required: true,
   },
+  address: {
+    type: String,
+    required: true,
+  },
   telephone: {
     type: String,
   },
   vatNumber: {
     type: String,
   },
-  address: {
-    type: String,
-    required: true,
-  },
-  website: {
+  websiteURL: {
     type: String,
   },
   users: new Array({

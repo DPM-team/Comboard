@@ -1,9 +1,8 @@
 <template>
-  <li>
-    <div>
-      <!-- <img :src="formatImagePath" :class="type" name="name" /> -->
+  <li class="file-item">
+    <div class="file-item-content">
       <font-awesome-icon class="icon" :icon="icon" />
-      <h6>{{ fileName }}</h6>
+      <p>{{ fileName }}</p>
     </div>
   </li>
 </template>
@@ -32,17 +31,23 @@ export default {
 </script>
 
 <style scoped>
-li {
-  width: 8%;
+.file-item {
+  /* width: 8%; */
   box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   border-radius: 15px;
   margin: 10px;
+  background: white;
+}
+.file-item :hover {
+  cursor: pointer;
 }
 
-li div {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+.file-item-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px 20px 30px 20px;
+  width: 150px;
 }
 
 .icon {
@@ -51,15 +56,18 @@ li div {
   margin-bottom: 1rem;
   margin-right: auto;
   width: 80px;
-  font-size: 30px;
+  font-size: 45px;
 }
 
-h6 {
+.file-item-content p {
+  width: 100%;
   display: flex;
   justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
 }
 
-@media screen and (max-width: 1300px) {
+/* @media screen and (max-width: 1300px) {
   li {
     width: 10%;
   }
@@ -105,5 +113,5 @@ h6 {
   li {
     width: 60%;
   }
-}
+} */
 </style>
