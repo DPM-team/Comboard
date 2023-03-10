@@ -19,7 +19,7 @@
         <li class="header-li">
           <a class="header-a" href=""
             ><div class="img-container">
-              <img class="user-icon" src="../../../assets/images/common-images/user.png" /></div
+              <img class="user-icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s" /></div
           ></a>
         </li>
         <li class="header-li">
@@ -61,12 +61,11 @@ export default {
   opacity: 0.9;
 }
 .img-container {
-  width: 1em;
-  height: 1em;
+  width: 1.2em;
+  height: 1.2em;
   background-color: var(--color-fourth);
-  padding: 0.4em;
+  padding: 0.2em;
   border-radius: 50%;
-  margin-bottom: -25px;
   margin-left: 5px;
 }
 .user-icon {
@@ -78,27 +77,29 @@ export default {
   background: none;
 }
 .header-nav {
-  background: white;
-  height: 100px;
+  background: rgb(255, 255, 255);
+  height: 60px;
   width: 100%;
   display: block;
 }
 .header-nav .header-ul {
   float: right;
   margin-right: 100px;
-  /* height: 20px; */
+  height: 60px;
+  display: flex;
+  align-items: center;
 }
 .header-nav .header-ul .header-li {
   display: inline-block;
   margin: 0 3px;
 }
 .header-nav .header-ul .header-li .header-a {
-  font-size: 18px;
+  font-size: 16px;
   padding: 3px 7px;
   text-decoration: none;
 }
 .nav__logo {
-  height: 100px;
+  height: 60px;
   margin-left: 45%;
 }
 

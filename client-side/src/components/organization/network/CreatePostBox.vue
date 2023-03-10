@@ -28,7 +28,7 @@ export default {
   height: 80px;
   justify-content: center;
   align-items: center;
-  margin: 10px auto;
+  margin: 20px auto;
 }
 .pfp-container {
   width: 35px;

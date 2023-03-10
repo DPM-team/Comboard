@@ -63,11 +63,11 @@ export default {
 <style scoped>
 .network-tab-container {
   position: absolute;
-  top: 100px;
+  top: 60px;
   left: 200px;
   background-color: var(--tab-grey-background);
   width: 100%;
-  height: calc(100% - 100px);
+  height: calc(100% - 60px);
   display: flex;
 }
 .main-section {
