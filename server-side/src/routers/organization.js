@@ -16,4 +16,14 @@ router.post("/api/organization", async function (req, res) {
   }
 });
 
+router.get("/api/organizations", async function (req, res) {
+  try {
+    Organization.find({}).then((result) => {
+      res.status(200).send(result);
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;
