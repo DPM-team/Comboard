@@ -1,5 +1,5 @@
 <template>
-  <div class="network-tab-container">
+  <organization-page-tab>
     <div class="main-section">
       <create-post-box :pictureLink="this.myUser.pictureLink"></create-post-box>
       <post-box v-for="post in posts" :key="post.id" :pictureLink="post.pictureLink" :firstname="post.firstname" :lastname="post.lastname" :content="post.content" :date="post.date"></post-box>
@@ -8,10 +8,11 @@
       <connection-suggestion-list></connection-suggestion-list>
       <news-list></news-list>
     </div>
-  </div>
+  </organization-page-tab>
 </template>
 
 <script>
+import OrganizationPageTab from "../../layout/pages/organization/OrganizationPageTab.vue";
 import ConnectionSuggestionList from "./ConnectionSuggestionList.vue";
 import CreatePostBox from "./CreatePostBox.vue";
 import NewsList from "./NewsList.vue";
@@ -56,20 +57,11 @@ export default {
       ],
     };
   },
-  components: { CreatePostBox, PostBox, ConnectionSuggestionList, NewsList },
+  components: { CreatePostBox, PostBox, ConnectionSuggestionList, NewsList, OrganizationPageTab },
 };
 </script>
 
 <style scoped>
-.network-tab-container {
-  position: absolute;
-  top: 60px;
-  left: 200px;
-  background-color: var(--tab-grey-background);
-  width: 100%;
-  height: calc(100% - 60px);
-  display: flex;
-}
 .main-section {
   width: calc(70% - 100px);
   overflow-y: auto;
