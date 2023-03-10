@@ -14,13 +14,13 @@
     <h4 id="alternative-sign-in">Sign in with</h4>
     <ul>
       <li>
-        <button class="alternative-login"><img class="alternative-login-img" src="../../assets/images/login-register/google-logo-48px.png" /></button>
+        <button class="alternative-login"><font-awesome-icon icon="fa-brands fa-google" class="alternative-login-icon" /></button>
       </li>
       <li>
-        <button class="alternative-login"><img class="alternative-login-img" src="../../assets/images/login-register/apple-logo-48px.png" /></button>
+        <button class="alternative-login"><font-awesome-icon icon="fa-brands fa-apple" class="alternative-login-icon" /></button>
       </li>
       <li>
-        <button class="alternative-login"><img class="alternative-login-img" src="../../assets/images/login-register/linkedin-logo-48px.png" /></button>
+        <button class="alternative-login"><font-awesome-icon icon="fa-brands fa-linkedin" class="alternative-login-icon" /></button>
       </li>
     </ul>
   </div>
@@ -42,7 +42,7 @@ ul {
   margin: 0;
 }
 
-.alternative-login-img {
+.alternative-login-icon {
   width: 35px;
   height: 35px;
 }
