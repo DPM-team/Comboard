@@ -26,6 +26,22 @@ router.get("/api/projects", async function (req, res) {
   }
 });
 
+router.get("/api/project/:identifier", async function (req, res) {
+  const _id = req.params.identifier;
+
+  try {
+    const projectObj = await Project.findOne({ _id });
+
+    if (!projectObj) {
+      return res.status(404).send("Project don't found");
+    }
+
+    res.status(200).send(projectObj);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 router.delete("/api/projects/:identifier", async function (req, res) {
   try {
     const deletedProject = await Project.findOneAndDelete({ _id: req.params.identifier });

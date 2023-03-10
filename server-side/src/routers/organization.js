@@ -26,4 +26,20 @@ router.get("/api/organizations", async function (req, res) {
   }
 });
 
+router.get("/api/organization/:identifier", async function (req, res) {
+  const _id = req.params.identifier;
+
+  try {
+    const organizationObj = await Organization.findOne({ _id });
+
+    if (!organizationObj) {
+      return res.status(404).send("Organization don't found");
+    }
+
+    res.status(200).send(organizationObj);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;
