@@ -3,8 +3,16 @@ require("../database/mongoose");
 const http = require("http");
 const bodyParser = require("body-parser");
 
+// Import routers
+const connectRouter = require("../routers/connect.js");
+const logoutRouter = require("../routers/logout.js");
+const uploadRouter = require("../routers/upload.js");
+const projectRouter = require("../routers/project.js");
+const organizationRouter = require("../routers/organization.js");
+const errorRouter = require("../routers/error.js");
+
 const app = express();
-//We use http module because in socket.io library, we need to pass as argument the HTTP server, but express alone, creates the server behind the scenes and we don't have access to the HTTP server
+// We use http module because in socket.io library, we need to pass as argument the HTTP server, but express alone, creates the server behind the scenes and we don't have access to the HTTP server
 const server = http.createServer(app);
 
 app.use(express.json());
@@ -14,11 +22,14 @@ app.use(
   })
 );
 app.use(bodyParser.json());
-//Config the routers
-app.use(require("../routers/connect.js"));
-app.use(require("../routers/logout.js"));
-app.use(require("../routers/upload.js"));
-app.use(require("../routers/error.js"));
-app.use(require("../routers/project.js"));
+
+// Config the routers
+app.use(connectRouter);
+app.use(logoutRouter);
+app.use(uploadRouter);
+app.use(projectRouter);
+app.use(organizationRouter);
+// This must be the last
+app.use(errorRouter);
 
 module.exports = server;
