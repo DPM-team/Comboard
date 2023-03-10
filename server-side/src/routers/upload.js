@@ -1,12 +1,12 @@
 const multer = require("multer");
 const express = require("express");
+const File = require("../models/file");
 const authentication = require("../middleware/authentication");
 const User = require("../models/user");
 
 const router = new express.Router();
 
 const upload = multer({
-  dest: "files",
   limits: {
     fileSize: 1000000,
   },
@@ -20,9 +20,34 @@ const upload = multer({
 });
 
 router.post(
-  "/user/upload",
+  "/api/user/upload",
+  authentication,
   upload.single("upload"),
-  (req, res) => {
+  async (req, res) => {
+    const user = req.user;
+    const file = new File({ userId: user._id, name: req.file.originalname, binary: req.file.buffer });
+
+    await file.save();
+
+    user.files.push(file._id);
+
+    await user.save();
+
+    res.send();
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
+
+router.get(
+  "/api/user/files",
+  authentication,
+  async (req, res) => {
+    const user = req.user;
+
+    //send user files
+
     res.send();
   },
   (error, req, res, next) => {
@@ -44,7 +69,7 @@ const uploadProfile = multer({
 });
 
 router.post(
-  "/user/upload/profilephoto",
+  "/api/user/upload/profilephoto",
   authentication,
   uploadProfile.single("upload"),
   async (req, res) => {
@@ -57,7 +82,7 @@ router.post(
   }
 );
 
-router.get("/users/:id/profilephoto", async (req, res) => {
+router.get("/api/users/:id/profilephoto", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user || !user.profilePhoto) {
