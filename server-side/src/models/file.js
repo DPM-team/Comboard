@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const fileSchema = mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    unique: true,
     required: true,
   },
   name: {
@@ -12,6 +11,7 @@ const fileSchema = mongoose.Schema({
   },
   binary: {
     type: Buffer,
+    required: true,
   },
 });
 

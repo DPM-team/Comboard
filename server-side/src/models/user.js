@@ -83,6 +83,10 @@ const userSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "organizations",
     }),
+    files: new Array({
+      type: mongoose.Types.ObjectId,
+      refs: "File",
+    }),
   },
   {
     timestamps: true,
