@@ -86,6 +86,11 @@ input[type="submit"]:hover {
   background-size: 24px;
 }
 
+#phone {
+  background-image: url("../../assets/images/forgot-password/verification-code-24px.png");
+  background-size: 24px;
+}
+
 #newPassword {
   background-image: url("../../assets/images/forgot-password/reset-password-24px.png");
   background-size: 24px;
