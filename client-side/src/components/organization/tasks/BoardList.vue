@@ -1,29 +1,10 @@
 <template>
   <div>
-    <h1>{{ boardTitle }}</h1>
-
-    <div class="all-lists">
-      <draggable @change="log" group="entire-list">
-        <div class="list">
-          <h2>To do</h2>
-          <draggable :list="toDolist" @change="log" group="tasks">
-            <div class="to-do-list-item" v-for="element in toDolist" :key="element.id">
-              {{ element.content }}
-            </div>
-          </draggable>
-        </div>
-      </draggable>
-      <draggable @change="log" group="entire-list">
-        <div class="list">
-          <h2>Done</h2>
-          <draggable :list="donelist" @change="log" group="tasks">
-            <div class="done-list-item" v-for="element in donelist" :key="element.id">
-              {{ element.content }}
-            </div>
-          </draggable>
-        </div>
-      </draggable>
-    </div>
+    <draggable :list="myList" @change="log" group="tasks">
+      <div class="to-do-list-item" v-for="element in toDolist" :key="element.id">
+        {{ element.content }}
+      </div>
+    </draggable>
   </div>
 </template>
 
