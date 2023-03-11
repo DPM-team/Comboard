@@ -5,8 +5,8 @@
       <h4 id="secondary-header--id" class="secondary-header text-center">Complete the steps to create an Organizatons</h4>
       <div class="progressbar">
         <div class="progress" id="progress"></div>
-        <div id="step-1" class="progress-step">1</div>
-        <div id="step-2" class="progress-step">2</div>
+        <div id="step-1" class="progress-step" :class="[{ progressStepActive: this.progressStepActive(1) }]">1</div>
+        <div id="step-2" class="progress-step" :class="[{ progressStepActive: this.progressStepActive(2) }]">2</div>
       </div>
       <base-card>
         <auth-header> </auth-header>
@@ -21,9 +21,9 @@
           <auth-form-input @data="getDataInput" id="phone" type="tel" name="phone" placeholder="Phone of Organization" required></auth-form-input>
         </div>
         <div v-else>
-          <auth-form-input @data="getDataInput(0)" id="vatNumber" type="text" name="vatnumber" placeholder="VAT Number" required></auth-form-input>
-          <auth-form-input @data="getDataInput(1)" id="location" type="text" name="location" placeholder="Location" required></auth-form-input>
-          <auth-form-input @data="getDataInput(2)" id="phone" type="phone" name="code" placeholder="Email of Organization" required></auth-form-input>
+          <auth-form-input @data="getDataInput" id="vatNumber" type="text" name="vatnumber" placeholder="VAT Number" required></auth-form-input>
+          <auth-form-input @data="getDataInput" id="location" type="text" name="location" placeholder="Location" required></auth-form-input>
+          <auth-form-input @data="getDataInput" id="phone" type="phone" name="code" placeholder="Email of Organization" required></auth-form-input>
         </div>
       </base-card>
       <div class="btns-group">
@@ -49,18 +49,7 @@ export default {
     BaseSection,
   },
   emits: ["data"],
-  computed: {
-    completedStep1() {
-      return {
-        completedStep: this.$store.getters.getStep1,
-      };
-    },
-    completedStep2() {
-      return {
-        completedStep: this.$store.getters.getStep2,
-      };
-    },
-  },
+
   data() {
     return {
       inputsData: [],
@@ -70,12 +59,17 @@ export default {
   methods: {
     submitForm() {
       console.log(this.inputsData);
-      if (this.step) {
+      if (this.step < 2) {
         this.next();
+      } else {
+        //this
       }
     },
     back() {
       this.step--;
+    },
+    progressStepActive(step) {
+      return this.step === step ? true : false;
     },
     next() {
       this.step++;
