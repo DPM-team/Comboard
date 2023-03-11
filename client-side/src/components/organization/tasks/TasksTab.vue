@@ -1,11 +1,13 @@
 <template>
-  <organization-page-tab><h1>Tasks</h1></organization-page-tab>
+  <organization-page-tab><task-board></task-board></organization-page-tab>
 </template>
 
 <script>
 import OrganizationPageTab from "../../layout/pages/organization/OrganizationPageTab.vue";
+import TaskBoard from "./TaskBoard.vue";
+
 export default {
-  components: { OrganizationPageTab },
+  components: { OrganizationPageTab, TaskBoard },
 };
 </script>
 
