@@ -1,8 +1,8 @@
 <template>
   <organization-page-tab>
     <div class="files-container">
-      <ul class="file-ul" v-for="i in numberRows" :key="i">
-        <file-item v-for="j in calculateColumns(i)" :icon="getIcon((i - 1) * 4 + j - 1)" :key="j" :name="files[(i - 1) * 4 + j - 1].name" :type="files[(i - 1) * 4 + j - 1].type"></file-item>
+      <ul class="file-ul">
+        <file-item v-for="(file, i) in files" :key="i" :icon="getIcon(i)" :name="file.name"></file-item>
       </ul>
     </div>
   </organization-page-tab>
@@ -57,18 +57,7 @@ export default {
       ],
     };
   },
-  computed: {
-    width() {
-      return this.files.length / 4;
-    },
-    numberRows() {
-      return this.files.length - Math.floor(this.files.length / 4) * 4 === 0 ? Math.floor(this.files.length / 4) : Math.floor(this.files.length / 4) + 1;
-    },
-  },
   methods: {
-    calculateColumns(ind) {
-      return ind === this.numberRows ? this.files.length - Math.floor(this.files.length / 4) * 4 : 4;
-    },
     getIcon(ind) {
       if (this.files[ind].type === "pdf") {
         return "fa-regular fa-file-pdf";
@@ -78,6 +67,7 @@ export default {
         return "fa-regular fa-file-excel";
       }
     },
+    upload() {},
   },
 };
 </script>
@@ -90,9 +80,7 @@ export default {
 .file-ul {
   margin-top: 10px;
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
   list-style-type: none;
 }
 </style>

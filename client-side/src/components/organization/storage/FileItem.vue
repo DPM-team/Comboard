@@ -32,25 +32,25 @@ export default {
 
 <style scoped>
 .file-item {
-  /* width: 8%; */
+  text-align: center;
   box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
+  width: 15%;
   border-radius: 15px;
-  margin: 10px;
+  margin: 30px;
   background: white;
 }
+
 .file-item :hover {
   cursor: pointer;
 }
 
 .file-item-content {
-  display: flex;
-  flex-wrap: wrap;
   padding: 30px 20px 30px 20px;
-  width: 150px;
 }
 
 .icon {
+  justify-content: center;
   display: block;
   margin-left: auto;
   margin-bottom: 1rem;
@@ -67,33 +67,9 @@ export default {
   font-weight: bold;
 }
 
-/* @media screen and (max-width: 1300px) {
-  li {
-    width: 10%;
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  li {
-    width: 14%;
-  }
-}
-
-@media screen and (max-width: 1100px) {
-  li {
-    width: 16%;
-  }
-}
-
-@media screen and (max-width: 1000px) {
-  li {
-    width: 16%;
-  }
-}
-
 @media screen and (max-width: 800px) {
   li {
-    width: 20%;
+    width: 25%;
   }
 }
 
@@ -113,5 +89,5 @@ export default {
   li {
     width: 60%;
   }
-} */
+}
 </style>
