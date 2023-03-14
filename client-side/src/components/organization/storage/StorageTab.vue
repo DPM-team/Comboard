@@ -2,7 +2,7 @@
   <organization-page-tab>
     <div class="files-container">
       <ul class="file-ul">
-        <file-item v-for="(file, i) in files" :key="i" :icon="getIcon(i)" :name="file.name"></file-item>
+        <file-item v-for="(file, i) in files" :key="i" :icon="getIcon(i)" :src="'http://localhost:3000/api/users/640a0aadd861253531ce2f18/file/64106606b7fe259745b7291d'" :name="file.name"></file-item>
       </ul>
     </div>
   </organization-page-tab>
@@ -29,31 +29,6 @@ export default {
           name: "icons8_doc_26px",
           type: "pdf",
         },
-        {
-          id: "3",
-          name: "icons8_doc_26px",
-          type: "doc",
-        },
-        {
-          id: "4",
-          name: "icons8_doc_26px",
-          type: "xls",
-        },
-        {
-          id: "5",
-          name: "icons8_doc_26px",
-          type: "pdf",
-        },
-        {
-          id: "6",
-          name: "icons8_doc_26px",
-          type: "pdf",
-        },
-        {
-          id: "7",
-          name: "icons8_doc_26px",
-          type: "pdf",
-        },
       ],
     };
   },
@@ -77,6 +52,7 @@ export default {
   margin-top: 20px;
   width: calc(100% - 200px);
 }
+
 .file-ul {
   margin-top: 10px;
   display: flex;

@@ -104,4 +104,26 @@ router.get("/api/users/:id/profilephoto", async (req, res) => {
   }
 });
 
+router.get("/api/users/:id/file/:fileId", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user || !user.profilePhoto) {
+      throw new Error("No user");
+    }
+
+    const file = await File.findById(req.params.fileId);
+
+    if (!file) {
+      throw new Error("No file");
+    }
+
+    res.set("Content-Type", "application/pdf");
+
+    res.send(file.binary);
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
 module.exports = router;

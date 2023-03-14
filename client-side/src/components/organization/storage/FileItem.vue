@@ -39,7 +39,7 @@ export default {
   text-align: center;
   box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
-  width: 15%;
+  width: 19%;
   border-radius: 4px;
   margin: 30px;
   margin-bottom: 60px;
@@ -53,6 +53,11 @@ export default {
 
 .file-item-content {
   padding: 30px 20px 30px 20px;
+  width: 100%;
+}
+
+.frame {
+  width: 100%;
 }
 
 .icon {
@@ -65,10 +70,6 @@ export default {
   font-size: 45px;
 }
 
-.frame {
-  width: 100%;
-}
-
 .file-item-content p {
   width: 100%;
   display: flex;
@@ -77,33 +78,33 @@ export default {
   font-weight: bold;
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1200px) {
   .file-item {
-    width: 35%;
+    width: 30%;
   }
 }
 
 @media screen and (max-width: 900px) {
   .file-item {
-    width: 40%;
+    width: 45%;
   }
 }
 
 @media screen and (max-width: 750px) {
   .file-item {
-    width: 45%;
+    width: 50%;
   }
 }
 
 @media screen and (max-width: 700px) {
   .file-item {
-    width: 50%;
+    width: 55%;
   }
 }
 
 @media screen and (max-width: 650px) {
   .file-item {
-    width: 55%;
+    width: 60%;
   }
 }
 
