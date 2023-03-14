@@ -103,6 +103,8 @@ userSchema.methods.toJSON = function () {
   // hide private fields
   delete userObjPublic.password;
   delete userObjPublic.tokens;
+  delete userObjPublic.profilePhoto;
+  delete userObjPublic.files;
 
   return userObjPublic;
 };
