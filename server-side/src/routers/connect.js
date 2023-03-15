@@ -71,6 +71,10 @@ router.post("/api/retrieve-account/step-2", async (req, res) => {
   try {
     const inputedPassword = req.body.password;
 
+    if (!userAccount) {
+      throw new Error("You must have an account");
+    }
+
     if (inputedPassword !== generatedPassword) {
       throw new Error("Check your email again.");
     }

@@ -2,7 +2,7 @@
   <organization-page-tab>
     <div class="files-container">
       <ul class="file-ul">
-        <file-item v-for="(file, i) in files" :key="i" :icon="getIcon(i)" :src="'http://localhost:3000/api/users/640a0aadd861253531ce2f18/file/64106606b7fe259745b7291d'" :name="file.name"></file-item>
+        <file-item v-for="(file, i) in files" :key="i" :icon="getIcon(i)" :src="''" :name="file.name"></file-item>
       </ul>
     </div>
   </organization-page-tab>
