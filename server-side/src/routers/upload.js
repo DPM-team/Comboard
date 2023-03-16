@@ -47,7 +47,7 @@ router.get(
   async (req, res) => {
     const user = req.user;
 
-    //send user files
+    await user.populate("files", () => {});
 
     res.send();
   },
@@ -108,7 +108,7 @@ router.get("/api/users/:id/file/:fileId", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
-    if (!user || !user.profilePhoto) {
+    if (!user) {
       throw new Error("No user");
     }
 

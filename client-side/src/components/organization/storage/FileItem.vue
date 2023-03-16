@@ -26,9 +26,11 @@ export default {
       type: String,
     },
   },
+
   data() {
     return {
       fileName: this.name,
+      spinner: false,
     };
   },
 };

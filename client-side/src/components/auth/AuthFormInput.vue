@@ -1,5 +1,5 @@
 <template>
-  <input @change="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :min="minLength" :value="value" ref="data" />
+  <input @change="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :min="minLength" :accept="accept" :value="value" ref="data" />
 </template>
 
 <script>
@@ -25,6 +25,10 @@ export default {
       type: Number,
       required: false,
     },
+    accept: {
+      type: String,
+      required: true,
+    },
     value: {
       type: String,
       required: false,
@@ -32,7 +36,11 @@ export default {
   },
   methods: {
     input() {
-      this.$emit("data", this.$refs.data.value);
+      if (this.$refs.data.type !== "file") {
+        this.$emit("data", this.$refs.data.value);
+      } else {
+        this.$emit("data", this.$refs.data);
+      }
     },
   },
 };
