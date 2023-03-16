@@ -1,6 +1,6 @@
 <template>
   <div class="list">
-    <h2>{{ listTitle }}</h2>
+    <h3>{{ listTitle }}</h3>
     <draggable :list="aList" @change="log" group="tasks">
       <board-list-item v-for="element in aList" :key="element.id" :content="element.content"></board-list-item>
     </draggable>
@@ -43,5 +43,17 @@ export default {
 .list {
   width: 200px;
   margin-left: 20px;
+  box-shadow: 2px 4px #929292;
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  background: var(--tab-grey-background);
+}
+.list h3 {
+  color: rgb(30, 30, 30);
+  font-size: 14px;
+  margin-bottom: 2px;
+  font-weight: 600;
+  padding: 5px;
 }
 </style>
