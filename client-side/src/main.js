@@ -7,6 +7,7 @@ import store from "./store/index.js";
 import App from "./App.vue";
 import BaseSection from "./components/basic-components/BaseSection.vue";
 import BaseCard from "./components/basic-components/BaseCard.vue";
+import BaseSpinner from "./components/basic-components/BaseSpinner";
 
 /* import the fontawesome core */
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -74,6 +75,7 @@ app.use(store);
 // Register global components
 app.component("base-section", BaseSection);
 app.component("base-card", BaseCard);
+app.component("base-spinner", BaseSpinner);
 app.component("font-awesome-icon", FontAwesomeIcon);
 
 app.mount("#app");
