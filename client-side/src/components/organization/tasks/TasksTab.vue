@@ -1,5 +1,5 @@
 <template>
-  <organization-page-tab><task-board></task-board></organization-page-tab>
+  <organization-page-tab :layout="'flex'"><task-board></task-board></organization-page-tab>
 </template>
 
 <script>

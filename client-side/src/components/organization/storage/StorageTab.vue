@@ -1,12 +1,9 @@
 <template>
-  <organization-page-tab>
-    <div class="upload">
-      <auth-form-input id="file" type="file" @data="getDataFile"></auth-form-input>
-    </div>
-
+  <organization-page-tab :layout="'block'">
+    <upload-file-button></upload-file-button>
     <div class="files-container">
       <ul class="file-ul">
-        <file-item v-for="(file, i) in files" :key="i" :icon="getIcon(i)" :src="''" :name="file.name"></file-item>
+        <file-item v-for="(file, i) in files" :key="i" :icon="getIcon(i)" :src="'http://localhost:3000/api/users/63d13b32012cfbf09664e2a8/file/641360686f6ba41f13a98bd0'" :name="file.name"></file-item>
       </ul>
     </div>
   </organization-page-tab>
@@ -14,13 +11,13 @@
 
 <script>
 import OrganizationPageTab from "../../layout/pages/organization/OrganizationPageTab.vue";
-import AuthFormInput from "../../auth/AuthFormInput.vue";
 import FileItem from "./FileItem.vue";
+import UploadFileButton from "./UploadFileButton.vue";
 export default {
   components: {
     FileItem,
     OrganizationPageTab,
-    AuthFormInput,
+    UploadFileButton,
   },
   data() {
     return {

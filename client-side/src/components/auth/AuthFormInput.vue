@@ -77,6 +77,21 @@ input[type="button"] {
   transition-duration: 0.4s;
   font-weight: bold;
 }
+input[type="file"] {
+  background-color: var(--color-primary);
+  color: white;
+  font-size: 12px;
+  border: 1px solid black;
+  display: block;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 15px;
+  transition-duration: 0.4s;
+  /* font-weight: bold; */
+  height: 30px;
+  width: 60px;
+  margin-left: 35px;
+}
 
 input[type="button"]:hover,
 input[type="submit"]:hover {
