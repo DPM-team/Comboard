@@ -10,6 +10,7 @@
 
 <script>
 import OrganizationPageTab from "../../layout/pages/organization/OrganizationPageTab.vue";
+
 export default {
   components: { OrganizationPageTab },
   data() {
@@ -28,16 +29,23 @@ export default {
 a {
   text-decoration: none;
   color: black;
+  font-size: 20px;
+  border: solid 1px white;
+  padding-top: 5px;
   padding-left: 20px;
   padding-right: 20px;
-  font-size: 20px;
-  border: solid 1px black;
-  margin-left: 10px;
-  padding: 5px;
+  padding-bottom: 5px;
 }
 
 a:hover,
 a:active {
-  color: var(--color-primary);
+  color: white;
+  background-color: var(--color-third);
+}
+
+.router-link-active,
+.router-link-exact-active {
+  background-color: var(--color-primary);
+  color: white;
 }
 </style>

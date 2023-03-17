@@ -1,6 +1,6 @@
 <template>
   <li>
-    <base-card width="100%" bgColor="white">
+    <base-card width="90%" bgColor="white">
       <header>
         <h3>{{ projectName }}</h3>
         <nav>
@@ -51,11 +51,11 @@ p {
 
 a {
   text-decoration: none;
-  color: #ce5c00;
+  color: var(--color-primary);
 }
 
 a:hover,
 a:active {
-  color: #c89300;
+  color: var(--color-third);
 }
 </style>
