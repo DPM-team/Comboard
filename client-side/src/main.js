@@ -11,6 +11,9 @@ import BaseSpinner from "./components/basic-components/BaseSpinner";
 import BaseDialog from "./components/basic-components/BaseDialog.vue";
 import BaseButton from "./components/basic-components/BaseButton.vue";
 
+import { setupCalendar, Calendar, DatePicker } from "v-calendar";
+import "v-calendar/style.css";
+
 /* import the fontawesome core */
 import { library } from "@fortawesome/fontawesome-svg-core";
 
@@ -73,6 +76,12 @@ const app = createApp(App);
 app.use(router);
 // Use store module
 app.use(store);
+// Use calendar plugin defaults (optional)
+app.use(setupCalendar, {});
+
+// Use the calendar components
+app.component("VCalendar", Calendar);
+app.component("VDatePicker", DatePicker);
 
 // Register global components
 app.component("base-section", BaseSection);
