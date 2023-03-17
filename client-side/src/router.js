@@ -9,7 +9,6 @@ import LoginPage from "./components/pages/auth/LoginPage.vue";
 import ForgotPasswordPage from "./components/pages/auth/ForgotPasswordPage.vue";
 import DashboardPage from "./components/pages/DashboardPage.vue";
 import OrganizationPage from "./components/pages/OrganizationPage.vue";
-import CreateOrganizationPage from "./components/pages/auth/CreateOrganization.vue";
 import NetworkTab from "./components/organization/network/NetworkTab.vue";
 import CalendarTab from "./components/organization/calendar/CalendarTab.vue";
 import TasksTab from "./components/organization/tasks/TasksTab.vue";
@@ -30,20 +29,10 @@ const router = createRouter({
     {
       path: "/register",
       component: RegisterPage,
-      meta: {
-        requiresLogout: true,
-      },
     },
     {
       path: "/login",
       component: LoginPage,
-      // meta: {
-      //   requiresLogout: true,
-      // },
-    },
-    {
-      path: "/orgCrea",
-      component: CreateOrganizationPage,
     },
     {
       path: "/retrieve-password/",
@@ -96,9 +85,6 @@ const router = createRouter({
     {
       path: "/dashboard",
       component: DashboardPage,
-      meta: {
-        requiresAuth: true,
-      },
     },
     {
       path: "/organization",

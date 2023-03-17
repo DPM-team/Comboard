@@ -1,11 +1,15 @@
 <template>
   <div>
     <dashboard-header></dashboard-header>
+    <base-dialog v-if="true" title="Create organization" @close="closeDialog">
+      <template #main>
+        <p>Heeloo</p>
+      </template>
+    </base-dialog>
     <div class="main">
-      <!-- <dashboar-title></dashboar-title> -->
       <dashboard-card>
         <dashboard-searchbar-container></dashboard-searchbar-container>
-        <organization-list> </organization-list>
+        <organization-list></organization-list>
       </dashboard-card>
     </div>
     <dashboard-footer></dashboard-footer>
@@ -18,10 +22,20 @@ import DashboardHeader from "../layout/headers/DashboardHeader.vue";
 import DashboardCard from "../dashboard/DashboardCard.vue";
 import OrganizationList from "../dashboard/OrganizationList.vue";
 import DashboardSearchbarContainer from "../dashboard/DashboardSearchbarContainer.vue";
-// import DashboarTitle from "../secondary-components/dashboard/DashboardTitle.vue";
+// import CreateOrganization from "../dashboard/CreateOrganization.vue";
 
 export default {
   components: { DashboardHeader, DashboardFooter, DashboardCard, OrganizationList, DashboardSearchbarContainer },
+  data() {
+    return {
+      dialogIsOpen: false,
+    };
+  },
+  methods: {
+    closeDialog() {
+      this.dialogIsOpen = false;
+    },
+  },
 };
 </script>
 
