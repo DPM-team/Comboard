@@ -40,6 +40,7 @@ import AuthForm from "../../auth/AuthForm.vue";
 import BaseSection from "../../basic-components/BaseSection.vue";
 import AuthHeader from "../../auth/AuthHeader.vue";
 import AuthFormInput from "../../auth/AuthFormInput.vue";
+
 export default {
   components: {
     BaseCard,

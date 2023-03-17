@@ -27,7 +27,7 @@ export default {
     },
     accept: {
       type: String,
-      required: true,
+      required: false,
     },
     value: {
       type: String,

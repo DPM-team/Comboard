@@ -30,16 +30,10 @@ const router = createRouter({
     {
       path: "/register",
       component: RegisterPage,
-      meta: {
-        requiresLogout: true,
-      },
     },
     {
       path: "/login",
       component: LoginPage,
-      // meta: {
-      //   requiresLogout: true,
-      // },
     },
     {
       path: "/orgCrea",
@@ -96,9 +90,6 @@ const router = createRouter({
     {
       path: "/dashboard",
       component: DashboardPage,
-      meta: {
-        requiresAuth: true,
-      },
     },
     {
       path: "/organization",
