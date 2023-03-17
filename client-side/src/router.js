@@ -16,6 +16,8 @@ import ProjectsTab from "./components/organization/projects/ProjectsTab.vue";
 import AllProjectsTab from "./components/organization/projects/AllProjectsTab.vue";
 import MyProjectsTab from "./components/organization/projects/MyProjectsTab.vue";
 import TeamsTab from "./components/organization/teams/TeamsTab.vue";
+import MyTeamsTab from "./components/organization/teams/MyTeamsTab.vue";
+import AllTeamsTab from "./components/organization/teams/AllTeamsTab.vue";
 import StorageTab from "./components/organization/storage/StorageTab.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
 
@@ -115,6 +117,21 @@ const router = createRouter({
             {
               path: "all",
               component: AllProjectsTab,
+            },
+          ],
+        },
+        {
+          path: "teams",
+          component: TeamsTab,
+          redirect: "/organization/teams/participate",
+          children: [
+            {
+              path: "participate",
+              component: MyTeamsTab,
+            },
+            {
+              path: "all",
+              component: AllTeamsTab,
             },
           ],
         },
