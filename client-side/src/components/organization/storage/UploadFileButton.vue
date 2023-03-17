@@ -11,12 +11,7 @@ export default {};
 
 <style scoped>
 input[type="file"] {
-  position: absolute;
-  z-index: -1;
-  top: 15px;
-  left: 20px;
-  font-size: 17px;
-  color: #b8b8b8;
+  display: none;
 }
 .button-wrap {
   position: relative;
