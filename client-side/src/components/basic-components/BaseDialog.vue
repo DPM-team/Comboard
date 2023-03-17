@@ -8,11 +8,11 @@
         </slot>
       </header>
       <section>
-        <slot></slot>
+        <slot name="main"></slot>
       </section>
       <menu>
         <slot name="actions">
-          <base-button @click="$emit('close')">close</base-button>
+          <base-button @click="$emit('close')">Close</base-button>
         </slot>
       </menu>
     </dialog>
@@ -21,13 +21,13 @@
 
 <script>
 export default {
+  emits: ["close"],
   props: {
     title: {
       type: String,
       required: false,
     },
   },
-  emits: ["close"],
 };
 </script>
 

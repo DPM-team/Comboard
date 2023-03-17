@@ -9,7 +9,7 @@
         <div id="step-2" class="progress-step" :class="[{ progressStepActive: this.progressStepActive(2) }]">2</div>
       </div>
       <base-card>
-        <auth-header> </auth-header>
+        <auth-header></auth-header>
         <div v-if="this.step === 1">
           <auth-form-input @data="getDataInput" id="name" type="text" name="name" placeholder="Name of Organization" required></auth-form-input>
           <select name="type" id="type" @data="getDataInput">
@@ -35,11 +35,11 @@
 </template>
 
 <script>
-import BaseCard from "../../basic-components/BaseCard.vue";
-import AuthForm from "../../auth/AuthForm.vue";
-import BaseSection from "../../basic-components/BaseSection.vue";
-import AuthHeader from "../../auth/AuthHeader.vue";
-import AuthFormInput from "../../auth/AuthFormInput.vue";
+import BaseCard from "../basic-components/BaseCard.vue";
+import AuthForm from "../auth/AuthForm.vue";
+import BaseSection from "../basic-components/BaseSection.vue";
+import AuthHeader from "../auth/AuthHeader.vue";
+import AuthFormInput from "../auth/AuthFormInput.vue";
 
 export default {
   components: {
