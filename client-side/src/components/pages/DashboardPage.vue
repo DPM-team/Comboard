@@ -1,14 +1,14 @@
 <template>
   <div>
     <dashboard-header></dashboard-header>
-    <base-dialog v-if="true" title="Create organization" @close="closeDialog">
+    <base-dialog v-if="dialogIsOpen" title="Create organization" @close="closeDialog">
       <template #main>
         <p>Heeloo</p>
       </template>
     </base-dialog>
     <div class="main">
       <dashboard-card>
-        <dashboard-searchbar-container></dashboard-searchbar-container>
+        <dashboard-searchbar-container @open-creation-form="openDialog"></dashboard-searchbar-container>
         <organization-list></organization-list>
       </dashboard-card>
     </div>
@@ -34,6 +34,9 @@ export default {
   methods: {
     closeDialog() {
       this.dialogIsOpen = false;
+    },
+    openDialog() {
+      this.dialogIsOpen = true;
     },
   },
 };
