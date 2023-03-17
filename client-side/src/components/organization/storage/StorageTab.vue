@@ -99,5 +99,31 @@ export default {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Responsiveness */
+
+@media (max-width: 1250px) {
+  .files-container {
+    width: calc(100% - 180px);
+  }
+}
+@media (max-width: 1150px) {
+  .files-container {
+    width: calc(100% - 80px);
+  }
+}
+
+@media (max-width: 700px) {
+  .files-container {
+    width: calc(100% - 55px);
+  }
+}
+@media (max-width: 450px) {
+  .files-container {
+    width: calc(100% - 45px);
+  }
 }
 </style>

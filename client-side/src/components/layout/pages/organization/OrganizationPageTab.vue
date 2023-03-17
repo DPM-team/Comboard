@@ -31,6 +31,7 @@ div {
 
 .block {
   display: block;
+  overflow-y: auto;
 }
 
 /* Responsiveness */
