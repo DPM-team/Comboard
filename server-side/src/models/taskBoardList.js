@@ -13,7 +13,7 @@ const taskBoardListSchema = mongoose.Schema({
   tasksList: new Array({
     type: mongoose.Schema.Types.ObjectId,
     required: false,
-    refs: "ListItem",
+    refs: "TaskBoardListItem",
   }),
 });
 
