@@ -9,7 +9,6 @@ export default {
   props: {
     mode: {
       type: String,
-      default: "submit",
       required: false,
     },
   },
@@ -20,30 +19,26 @@ export default {
 button {
   padding: 0.75rem 1.5rem;
   font-family: inherit;
-  background-color: #3a0061;
-  border: 1px solid #3a0061;
+  background-color: #1c32ad;
+  border: 1px solid #1c32ad;
   color: white;
   cursor: pointer;
 }
 
-.submit {
-  background-color: blue;
-}
-
 button:hover,
 button:active {
-  background-color: #270041;
-  border-color: #270041;
+  background-color: #000875;
+  border-color: #000875;
 }
 
-.flat {
-  background-color: transparent;
-  color: #3a0061;
+.close-btn {
+  background-color: red;
+  color: white;
   border: none;
 }
 
-.flat:hover,
-.flat:active {
-  background-color: #edd2ff;
+.close-btn:hover,
+.close-btn:active {
+  background-color: rgb(148, 0, 0);
 }
 </style>
