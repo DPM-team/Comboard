@@ -1,8 +1,11 @@
 <template>
   <li class="file-item">
-    <div class="file-item-content">
-      <font-awesome-icon v-if="!src" class="icon" :icon="icon" />
-      <iframe v-if="src" :src="src" class="frame"></iframe>
+    <div v-if="!src" class="file-item-content-icon">
+      <font-awesome-icon class="icon" :icon="icon" />
+      <p>{{ fileName }}</p>
+    </div>
+    <div v-if="src" class="file-item-content-iframe">
+      <iframe :src="src" class="frame"></iframe>
       <p>{{ fileName }}</p>
     </div>
   </li>
@@ -41,11 +44,11 @@ export default {
   text-align: center;
   box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
-  width: 19%;
+  width: 20%;
   border-radius: 4px;
   margin: 30px;
   margin-bottom: 60px;
-  padding: 30px;
+
   background: white;
 }
 
@@ -53,8 +56,12 @@ export default {
   cursor: pointer;
 }
 
-.file-item-content {
+.file-item-content-icon {
   padding: 30px 20px 30px 20px;
+  width: 100%;
+}
+.file-item-content-iframe {
+  padding: 7px 3px 7px 3px;
   width: 100%;
 }
 
@@ -79,46 +86,45 @@ export default {
   font-size: 12px;
   font-weight: bold;
 }
+@media screen and (max-width: 1400px) {
+  .file-item {
+    width: 25%;
+  }
+}
 
 @media screen and (max-width: 1200px) {
   .file-item {
-    width: 30%;
+    width: 35%;
   }
 }
 
 @media screen and (max-width: 900px) {
   .file-item {
-    width: 45%;
+    width: 40%;
   }
 }
 
 @media screen and (max-width: 750px) {
   .file-item {
-    width: 50%;
+    width: 35%;
   }
 }
 
 @media screen and (max-width: 700px) {
   .file-item {
-    width: 55%;
-  }
-}
-
-@media screen and (max-width: 650px) {
-  .file-item {
-    width: 60%;
+    width: 80%;
   }
 }
 
 @media screen and (max-width: 600px) {
   .file-item {
-    width: 80%;
+    width: 85%;
   }
 }
 
 @media screen and (max-width: 400px) {
   .file-item {
-    width: 100%;
+    width: 90%;
   }
 }
 </style>
