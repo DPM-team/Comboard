@@ -19,8 +19,8 @@ export default {
 button {
   padding: 0.75rem 1.5rem;
   font-family: inherit;
-  background-color: #1c32ad;
-  border: 1px solid #1c32ad;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
   color: white;
   cursor: pointer;
 }
