@@ -8,6 +8,7 @@ import RegisterPage from "./components/pages/auth/RegisterPage.vue";
 import LoginPage from "./components/pages/auth/LoginPage.vue";
 import ForgotPasswordPage from "./components/pages/auth/ForgotPasswordPage.vue";
 import DashboardPage from "./components/pages/DashboardPage.vue";
+import CreateOrganization from "./components/dashboard/CreateOrganization.vue";
 import OrganizationPage from "./components/pages/OrganizationPage.vue";
 import NetworkTab from "./components/organization/network/NetworkTab.vue";
 import CalendarTab from "./components/organization/calendar/CalendarTab.vue";
@@ -87,6 +88,10 @@ const router = createRouter({
     {
       path: "/dashboard",
       component: DashboardPage,
+    },
+    {
+      path: "/create-organization",
+      component: CreateOrganization,
     },
     {
       path: "/organization",

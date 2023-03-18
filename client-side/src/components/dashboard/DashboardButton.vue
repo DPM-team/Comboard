@@ -30,7 +30,8 @@ export default {
 </script>
 
 <style scoped>
-button {
+button,
+a {
   display: block;
   cursor: pointer;
   text-align: center;
@@ -41,6 +42,10 @@ button {
   width: 80px;
   margin-top: 20px;
   margin-left: 5px;
+}
+
+a {
+  text-decoration: none;
 }
 
 .primary {
@@ -56,7 +61,8 @@ button {
 
 /* Responsiveness */
 @media (max-width: 800px) {
-  button {
+  button,
+  a {
     display: inline-block;
     height: 35px;
     width: 55px;
@@ -65,7 +71,8 @@ button {
   }
 }
 @media (max-width: 560px) {
-  button {
+  button,
+  a {
     display: inline-block;
     height: 35px;
     width: 55px;

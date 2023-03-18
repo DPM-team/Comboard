@@ -19,6 +19,7 @@ form {
   width: 25%;
   box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
   border-radius: 15px;
+  padding: 20px;
 }
 
 button {

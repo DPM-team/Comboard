@@ -8,7 +8,7 @@
       </auth-header>
       <auth-form-input @data="getUsername" id="username" type="text" name="username" placeholder="Username" required />
       <auth-form-input @data="getPassword" id="password" type="password" name="password" placeholder="Password" :minLength="8" required />
-      <router-link id="forgot-password" to="/retrieve-password/step-1">Forgot Password?</router-link>
+      <router-link id="forgot-password--link" to="/retrieve-password/step-1">Forgot Password?</router-link>
       <auth-form-input id="login-btn" type="submit" name="submit" value="Login" />
       <auth-choices></auth-choices>
     </auth-form>
@@ -86,7 +86,7 @@ h4 {
   margin-bottom: 2px;
 }
 
-#forgot-password {
+#forgot-password--link {
   display: flex;
   justify-content: space-around;
   padding-right: 170px;
@@ -105,19 +105,19 @@ h4 {
 }
 
 @media screen and (max-width: 1283.2px) {
-  #forgot-password {
+  #forgot-password--link {
     padding-right: 60px;
   }
 }
 
 @media screen and (max-width: 750.4px) {
-  #forgot-password {
+  #forgot-password--link {
     padding-right: 70px;
   }
 }
 
 @media screen and (max-width: 326.4px) {
-  #forgot-password {
+  #forgot-password--link {
     padding-right: 0px;
   }
 }

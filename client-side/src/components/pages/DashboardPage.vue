@@ -22,7 +22,6 @@ import DashboardHeader from "../layout/headers/DashboardHeader.vue";
 import DashboardCard from "../dashboard/DashboardCard.vue";
 import OrganizationList from "../dashboard/OrganizationList.vue";
 import DashboardSearchbarContainer from "../dashboard/DashboardSearchbarContainer.vue";
-// import CreateOrganization from "../dashboard/CreateOrganization.vue";
 
 export default {
   components: { DashboardHeader, DashboardFooter, DashboardCard, OrganizationList, DashboardSearchbarContainer },
