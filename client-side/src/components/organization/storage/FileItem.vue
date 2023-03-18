@@ -33,7 +33,6 @@ export default {
   data() {
     return {
       fileName: this.name,
-      spinner: false,
     };
   },
 };

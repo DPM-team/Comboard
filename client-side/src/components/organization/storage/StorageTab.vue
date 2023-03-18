@@ -3,7 +3,14 @@
     <upload-file-button></upload-file-button>
     <div class="files-container">
       <ul class="file-ul">
-        <file-item v-for="(file, i) in files" :key="i" :icon="getIcon(i)" :src="'http://localhost:3000/api/users/63d13b32012cfbf09664e2a8/file/641360686f6ba41f13a98bd0'" :name="file.name"></file-item>
+        <file-item
+          @dblclick="openFile('http://localhost:3000/api/users/6412f58744652589555fabb9/file/6412f62944652589555fabbf')"
+          v-for="(file, i) in files"
+          :key="i"
+          :icon="getIcon(i)"
+          :src="'http://localhost:3000/api/users/6412f58744652589555fabb9/file/6412f62944652589555fabbf'"
+          :name="file.name"
+        ></file-item>
       </ul>
     </div>
   </organization-page-tab>
@@ -79,6 +86,9 @@ export default {
     //Insert into selected file the object of file.
     getDataF(file) {
       this.selectedFile = file.files[0];
+    },
+    openFile(file) {
+      window.open(file, "_blank");
     },
   },
 };
