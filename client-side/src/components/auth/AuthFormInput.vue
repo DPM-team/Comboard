@@ -1,5 +1,5 @@
 <template>
-  <input @change="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :min="minLength" :accept="accept" :value="value" ref="data" />
+  <input @change="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :min="minLength" :accept="accept" :value="value" ref="inputField" />
 </template>
 
 <script>
@@ -36,10 +36,10 @@ export default {
   },
   methods: {
     input() {
-      if (this.$refs.data.type !== "file") {
-        this.$emit("data", this.$refs.data.value);
+      if (this.$refs.inputField.type !== "file") {
+        this.$emit("data", this.$refs.inputField.value);
       } else {
-        this.$emit("data", this.$refs.data);
+        this.$emit("data", this.$refs.inputField);
       }
     },
   },
