@@ -47,9 +47,16 @@ router.get(
   async (req, res) => {
     const user = req.user;
 
-    await user.populate("files", () => {});
+    await user.populate({
+      path: "files",
+      model: "File",
+      options: {
+        limit: parseInt(req.query.limit),
+        skip: parseInt(req.query.skip),
+      },
+    });
 
-    res.send();
+    res.send(user.files);
   },
   (error, req, res, next) => {
     res.status(400).send({ error: error.message });

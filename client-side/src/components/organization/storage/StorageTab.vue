@@ -1,6 +1,6 @@
 <template>
   <organization-page-tab :layout="'block'">
-    <upload-file-button></upload-file-button>
+    <upload-file-button @change="getData"></upload-file-button>
     <div class="files-container">
       <ul class="file-ul">
         <file-item
@@ -84,8 +84,8 @@ export default {
         .catch((error) => console.log("error", error));
     },
     //Insert into selected file the object of file.
-    getDataF(file) {
-      this.selectedFile = file.files[0];
+    getData(e) {
+      this.selectedFile = e.srcElement.files[0];
     },
     openFile(file) {
       window.open(file, "_blank");

@@ -7,7 +7,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      file: "",
+    };
+  },
+  method: {
+    input() {
+      console.log("ygusdhjx");
+      this.$emit("file");
+    },
+  },
+};
 </script>
 
 <style scoped>
