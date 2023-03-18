@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @keyup.esc="closeDialog">
     <dashboard-header></dashboard-header>
     <base-dialog v-if="dialogIsOpen" title="Join organization" @close="closeDialog">
       <template #main>
