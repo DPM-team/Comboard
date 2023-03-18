@@ -3,6 +3,7 @@
     <div @click="$emit('close')"></div>
     <dialog open>
       <header>
+        <button class="close-modal" @click="$emit('close')">&times;</button>
         <slot name="header">
           <h2>{{ title }}</h2>
         </slot>
@@ -10,10 +11,9 @@
       <section>
         <slot name="main"></slot>
       </section>
+      <!-- If we want to add all the buttons at the bottom -->
       <menu>
-        <slot name="actions">
-          <base-button :mode="'close-btn'" @click="$emit('close')">Close</base-button>
-        </slot>
+        <slot name="actions"></slot>
       </menu>
     </dialog>
   </teleport>
@@ -76,6 +76,17 @@ menu {
   display: flex;
   justify-content: flex-end;
   margin: 0;
+}
+
+.close-modal {
+  position: absolute;
+  top: 0rem;
+  right: 1rem;
+  font-size: 3rem;
+  color: red;
+  cursor: pointer;
+  border: none;
+  background: none;
 }
 
 @media (min-width: 768px) {
