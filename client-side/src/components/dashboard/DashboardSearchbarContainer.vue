@@ -2,8 +2,8 @@
   <div class="search-bar-container">
     <dashboard-searchbar></dashboard-searchbar>
     <div class="buttons-container">
-      <dashboard-button mode="primary">Join</dashboard-button>
-      <dashboard-button mode="secondary" @click="$emit('open-creation-form')">Create</dashboard-button>
+      <dashboard-button mode="primary" @click="$emit('open-join-form')">Join</dashboard-button>
+      <dashboard-button mode="secondary">Create</dashboard-button>
     </div>
   </div>
 </template>
