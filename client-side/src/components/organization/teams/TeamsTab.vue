@@ -1,10 +1,12 @@
 <template>
-  <organization-page-tab>
-    <div class="links-container">
-      <router-link to="/organization/teams/participate">My Teams</router-link>
-      <router-link to="/organization/teams/all">All Teams</router-link>
+  <organization-page-tab :layout="'block'">
+    <div class="teams-page-container">
+      <div class="links-container">
+        <router-link to="/organization/teams/participate">My Teams</router-link>
+        <router-link to="/organization/teams/all">All Teams</router-link>
+      </div>
+      <router-view></router-view>
     </div>
-    <router-view></router-view>
   </organization-page-tab>
 </template>
 
@@ -21,6 +23,10 @@ export default {
 </script>
 
 <style scoped>
+.teams-page-container {
+  margin-top: 20px;
+  width: calc(100% - 200px);
+}
 .links-container {
   text-align: center;
   padding: 20px;
@@ -47,5 +53,29 @@ a:active {
 .router-link-exact-active {
   background-color: var(--color-primary);
   color: white;
+}
+
+/* Responsiveness */
+
+@media (max-width: 1250px) {
+  .teams-page-container {
+    width: calc(100% - 180px);
+  }
+}
+@media (max-width: 1150px) {
+  .teams-page-container {
+    width: calc(100% - 80px);
+  }
+}
+
+@media (max-width: 700px) {
+  .teams-page-container {
+    width: calc(100% - 55px);
+  }
+}
+@media (max-width: 450px) {
+  .teams-page-container {
+    width: calc(100% - 45px);
+  }
 }
 </style>

@@ -1,10 +1,12 @@
 <template>
-  <organization-page-tab>
-    <div class="links-container">
-      <router-link to="/organization/projects/participate">My Projects</router-link>
-      <router-link to="/organization/projects/all">All Projects</router-link>
+  <organization-page-tab :layout="'block'">
+    <div class="projects-page-container">
+      <div class="links-container">
+        <router-link to="/organization/projects/participate">My Projects</router-link>
+        <router-link to="/organization/projects/all">All Projects</router-link>
+      </div>
+      <router-view></router-view>
     </div>
-    <router-view></router-view>
   </organization-page-tab>
 </template>
 
@@ -21,6 +23,10 @@ export default {
 </script>
 
 <style scoped>
+.projects-page-container {
+  margin-top: 20px;
+  width: calc(100% - 200px);
+}
 .links-container {
   text-align: center;
   padding: 20px;
@@ -47,5 +53,29 @@ a:active {
 .router-link-exact-active {
   background-color: var(--color-primary);
   color: white;
+}
+
+/* Responsiveness */
+
+@media (max-width: 1250px) {
+  .projects-page-container {
+    width: calc(100% - 180px);
+  }
+}
+@media (max-width: 1150px) {
+  .projects-page-container {
+    width: calc(100% - 80px);
+  }
+}
+
+@media (max-width: 700px) {
+  .projects-page-container {
+    width: calc(100% - 55px);
+  }
+}
+@media (max-width: 450px) {
+  .projects-page-container {
+    width: calc(100% - 45px);
+  }
 }
 </style>
