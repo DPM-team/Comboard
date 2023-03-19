@@ -75,8 +75,6 @@ export default {
       } catch (error) {
         this.errorMessage = error.message || "Failed to authenticate.";
       }
-
-      console.log(this.$store.getters.loggedUserID);
     },
     getName(i) {
       this.name = i;

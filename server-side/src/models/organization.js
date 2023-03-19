@@ -5,31 +5,29 @@ const organizationSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  type: {
+  description: {
     type: String,
-    required: true,
-  },
-  orgDescription: {
-    type: String,
-    required: true,
+    required: false,
   },
   email: {
     type: String,
     unique: true,
     required: true,
   },
-  address: {
-    type: String,
-    required: true,
-  },
   telephone: {
     type: String,
+    required: true,
   },
   vatNumber: {
     type: String,
   },
+  location: {
+    type: String,
+    required: true,
+  },
   websiteURL: {
     type: String,
+    required: false,
   },
   users: new Array({
     type: mongoose.Schema.Types.ObjectId,

@@ -12,7 +12,7 @@ router.post("/api/organization", async function (req, res) {
     await organizationObj.save();
     res.status(201).send(organizationObj);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send({ error: error.message });
   }
 });
 

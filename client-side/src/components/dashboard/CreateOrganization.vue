@@ -1,6 +1,6 @@
 <template>
   <base-section>
-    <base-card v-if="errorMessage" width="25%" bgColor="#f4725b">{{ errorMessage }} </base-card>
+    <base-card v-if="errorMessage" width="25%" bgColor="#f4725b">{{ errorMessage }}</base-card>
     <auth-form @submit.prevent="submitForm">
       <auth-header>
         <h2>Create an organization</h2>
@@ -10,7 +10,7 @@
       <auth-form-input @data="getOrgPhone" id="organization-phone" type="tel" name="organization-phone" placeholder="Organization's phone" required />
       <auth-form-input @data="getOrgVatNumber" id="organization-vat" type="text" name="organization-vat" placeholder="Organization's VAT number" required />
       <auth-form-input @data="getOrgLocation" id="organization-location" type="text" name="organization-location" placeholder="Organization's location" required />
-      <auth-form-input @data="getOrgWebsite" id="organization-website" type="text" name="organization-website" placeholder="Organization's website" required />
+      <auth-form-input @data="getOrgWebsite" id="organization-website" type="text" name="organization-website" placeholder="Organization's website" />
       <auth-form-input id="submit-btn" type="submit" name="submit-btn" value="Create Organization" />
     </auth-form>
   </base-section>
@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      organization: {
+      organizationObj: {
         name: "",
         email: "",
         phone: "",
@@ -44,25 +44,35 @@ export default {
   },
   methods: {
     getOrgName(inputValue) {
-      this.organization.name = inputValue;
+      this.organizationObj.name = inputValue;
     },
     getOrgEmail(inputValue) {
-      this.organization.email = inputValue.trim();
+      this.organizationObj.email = inputValue.trim();
     },
     getOrgPhone(inputValue) {
-      this.organization.phone = inputValue.trim();
+      this.organizationObj.phone = inputValue.trim();
     },
     getOrgVatNumber(inputValue) {
-      this.organization.vatNumber = inputValue;
+      this.organizationObj.vatNumber = inputValue;
     },
     getOrgLocation(inputValue) {
-      this.organization.location = inputValue;
+      this.organizationObj.location = inputValue;
     },
     getOrgWebsite(inputValue) {
-      this.organization.website = inputValue.trim();
+      this.organizationObj.website = inputValue.trim();
     },
-    submitForm() {
-      console.log(this.organization);
+    async submitForm() {
+      try {
+        await this.$store.dispatch("registerOrganization", this.organizationObj).then((response) => {
+          if (response instanceof Error) {
+            throw response;
+          }
+
+          this.errorMessage = "";
+        });
+      } catch (error) {
+        this.errorMessage = error.message || "Failed to create organization.";
+      }
     },
   },
 };
