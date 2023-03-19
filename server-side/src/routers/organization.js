@@ -1,18 +1,36 @@
 const express = require("express");
 const Organization = require("../models/organization.js");
+const randomstring = require("randomstring");
 
 const router = express.Router();
 
 router.post("/api/organization", async function (req, res) {
-  const organizationObj = new Organization({
-    ...req.body,
-  });
+  let uniqueKey = false;
 
-  try {
-    await organizationObj.save();
-    res.status(201).send(organizationObj);
-  } catch (error) {
-    res.status(400).send({ error: error.message });
+  while (!uniqueKey) {
+    const publicKey = randomstring.generate(32); // Returns a unique string with 32 chars
+
+    try {
+      await Organization.find({ publicKey }).then(async (result) => {
+        if (result.length === 0) {
+          uniqueKey = true;
+
+          const organizationObj = new Organization({
+            ...req.body,
+            publicKey,
+          });
+
+          try {
+            await organizationObj.save();
+            res.status(201).send({ publicKey });
+          } catch (error) {
+            res.status(400).send({ error: error.message });
+          }
+        }
+      });
+    } catch (error) {
+      res.status(500).send(error);
+    }
   }
 });
 

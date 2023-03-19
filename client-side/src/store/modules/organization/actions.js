@@ -26,6 +26,8 @@ export default {
           if (data.error) {
             throw new Error(data.error);
           }
+          // We got the key
+          console.log(data);
         });
     } catch (error) {
       return new Error(error.message);
