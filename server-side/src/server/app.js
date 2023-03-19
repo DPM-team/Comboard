@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const connectRouter = require("../routers/connect.js");
 const logoutRouter = require("../routers/logout.js");
 const uploadRouter = require("../routers/upload.js");
+const teamRouter = require("../routers/team.js");
 const projectRouter = require("../routers/project.js");
 const organizationRouter = require("../routers/organization.js");
 const errorRouter = require("../routers/error.js");
@@ -27,6 +28,7 @@ app.use(bodyParser.json());
 app.use(connectRouter);
 app.use(logoutRouter);
 app.use(uploadRouter);
+app.use(teamRouter);
 app.use(projectRouter);
 app.use(organizationRouter);
 // This must be the last

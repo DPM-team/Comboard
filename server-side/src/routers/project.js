@@ -1,5 +1,5 @@
 const express = require("express");
-const Project = require("../models/projects.js");
+const Project = require("../models/project.js");
 
 const router = new express.Router();
 
@@ -42,7 +42,7 @@ router.get("/api/project/:identifier", async function (req, res) {
   }
 });
 
-router.delete("/api/projects/:identifier", async function (req, res) {
+router.delete("/api/project/:identifier", async function (req, res) {
   try {
     const deletedProject = await Project.findOneAndDelete({ _id: req.params.identifier });
 
