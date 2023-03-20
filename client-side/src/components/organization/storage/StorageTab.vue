@@ -3,12 +3,15 @@
     <upload-file-button @change="getData"></upload-file-button>
     <div class="files-container">
       <ul class="file-ul">
+        <div v-if="this.files.length === 0" class="file-ul">
+          <file-item v-for="i in 4" :key="i" :spinner="true" :name="''"></file-item>
+        </div>
         <file-item
-          @dblclick="openFile('http://localhost:3000/api/users/6412f58744652589555fabb9/file/6412f62944652589555fabbf')"
+          @dbclick="openFile('http://localhost:3000/api/users/6415df05780af31e91dbffdb/file/6415df5d780af31e91dbffe1')"
           v-for="(file, i) in files"
           :key="i"
           :icon="getIcon(i)"
-          :src="'http://localhost:3000/api/users/6412f58744652589555fabb9/file/6412f62944652589555fabbf'"
+          :src="'http://localhost:3000/api/users/6415df05780af31e91dbffdb/file/6415df5d780af31e91dbffe1'"
           :name="file.name"
         ></file-item>
       </ul>
@@ -31,23 +34,13 @@ export default {
       files: [
         {
           id: "1",
-          name: "icons8_doc_26px",
-          type: "pdf",
+          name: "dgd",
+          type: "doc",
         },
         {
           id: "2",
-          name: "icons8_doc_26px",
-          type: "pdf",
-        },
-        {
-          id: "3",
-          name: "icons8_doc_26px",
-          type: "pdf",
-        },
-        {
-          id: "4",
-          name: "icons8_doc_26px",
-          type: "pdf",
+          name: "dgd",
+          type: "doc",
         },
       ],
       selectedFile: null,
@@ -86,6 +79,9 @@ export default {
     //Insert into selected file the object of file.
     getData(e) {
       this.selectedFile = e.srcElement.files[0];
+    },
+    spinner() {
+      console.log("");
     },
     openFile(file) {
       window.open(file, "_blank");

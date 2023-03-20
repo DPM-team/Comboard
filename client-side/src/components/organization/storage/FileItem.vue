@@ -1,10 +1,7 @@
 <template>
   <li class="file-item">
-    <div v-if="!src" class="file-item-content-icon">
-      <font-awesome-icon class="icon" :icon="icon" />
-      <p>{{ fileName }}</p>
-    </div>
-    <div v-if="src" class="file-item-content-iframe">
+    <base-spinner v-if="spinner" class="base-spinner"></base-spinner>
+    <div v-else class="file-item-content-iframe">
       <iframe :src="src" class="frame"></iframe>
       <p>{{ fileName }}</p>
     </div>
@@ -28,12 +25,21 @@ export default {
     src: {
       type: String,
     },
+    spinner: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
     return {
       fileName: this.name,
     };
+  },
+  method: {
+    spi() {
+      console.log("xvg");
+    },
   },
 };
 </script>
@@ -62,6 +68,10 @@ export default {
 .file-item-content-iframe {
   padding: 7px 3px 7px 3px;
   width: 100%;
+}
+
+.base-spinner {
+  padding: 70px;
 }
 
 .frame {
