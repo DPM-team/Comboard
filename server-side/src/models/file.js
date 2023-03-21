@@ -9,6 +9,10 @@ const fileSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  type: {
+    type: String,
+    required: true,
+  },
   binary: {
     type: Buffer,
     required: true,

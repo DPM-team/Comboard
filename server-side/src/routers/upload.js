@@ -26,7 +26,8 @@ router.post(
   upload.single("upload"),
   async (req, res) => {
     const user = req.user;
-    const file = new File({ userId: user._id, name: req.file.originalname, binary: req.file.buffer });
+
+    const file = new File({ userId: user._id, name: req.file.originalname, type: req.file.mimetype, binary: req.file.buffer });
 
     await file.save();
 
@@ -125,7 +126,7 @@ router.get("/api/users/:id/file/:fileId", async (req, res) => {
       throw new Error("No file");
     }
 
-    res.set("Content-Type", "application/pdf");
+    res.set("Content-Type", file.mimetype);
 
     res.send(file.binary);
   } catch (error) {

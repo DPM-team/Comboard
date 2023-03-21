@@ -1,5 +1,5 @@
 <template>
-  <li class="file-item">
+  <li class="file-item" :class="{ loading: spinner }">
     <base-spinner v-if="spinner" class="base-spinner"></base-spinner>
     <div v-else class="file-item-content-iframe">
       <iframe :src="src" class="frame"></iframe>
@@ -59,6 +59,10 @@ export default {
 
 .file-item :hover {
   cursor: pointer;
+}
+
+.spinner {
+  background-color: gray;
 }
 
 .file-item-content-icon {
