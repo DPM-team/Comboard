@@ -3,7 +3,7 @@
     <nav class="header-nav">
       <input type="checkbox" id="check" />
       <label v-on:click="noScrolling" for="check" class="checkbtn">
-        <i class="fas fa-bars"></i>
+        <font-awesome-icon :icon="['fas', 'bars']" />
       </label>
       <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
       <ul class="header-ul">

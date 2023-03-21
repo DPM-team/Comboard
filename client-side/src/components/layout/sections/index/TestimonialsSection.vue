@@ -83,7 +83,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
 }
 

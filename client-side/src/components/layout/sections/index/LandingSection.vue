@@ -40,7 +40,7 @@ export default {};
   box-sizing: border-box;
   text-align: start;
   justify-content: center;
-  padding-left: 40px;
+  padding-left: 50px;
   padding-top: 5px;
 }
 .column--section-welcome-right {
@@ -50,6 +50,7 @@ export default {};
   display: flex;
   justify-content: start;
   padding-left: 5px;
+  padding-right: 20px;
 }
 
 .welcome-title {

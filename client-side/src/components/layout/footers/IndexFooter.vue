@@ -59,7 +59,7 @@
 .footer__link {
   color: var(--color-primary);
   font-size: 15px;
-  font-weight: 600;
+  /* font-weight: 600; */
   border-radius: 3px;
   text-decoration: none;
 }

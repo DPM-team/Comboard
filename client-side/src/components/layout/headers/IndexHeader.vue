@@ -3,7 +3,7 @@
     <nav class="header-nav">
       <input type="checkbox" id="check" />
       <label v-on:click="noScrolling" for="check" class="checkbtn">
-        <i class="fas fa-bars"></i>
+        <font-awesome-icon :icon="['fas', 'bars']" />
       </label>
       <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
       <ul class="header-ul">
@@ -17,7 +17,7 @@
           <a class="header-a" href="">Testimonials</a>
         </li>
         <li class="header-li">
-          <router-link class="header-a" to="/login"><img id="user__icon" src="../../../assets/images/common-images/user.png" alt="Login" /></router-link>
+          <router-link class="header-a" to="/login"><font-awesome-icon :icon="['fas', 'user']" /></router-link>
         </li>
       </ul>
     </nav>
@@ -62,7 +62,7 @@ export default {
 .header-nav .header-ul .header-li .header-a {
   color: var(--color-primary);
   font-size: 15px;
-  font-weight: 600;
+  /* font-weight: semi-bold; */
   padding: 7px 13px;
   border-radius: 3px;
   text-decoration: none;

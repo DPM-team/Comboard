@@ -9,32 +9,27 @@
       <div class="column">
         <div class="features-card">
           <div class="icon">
-            <i class="fa-solid fa-people-group"></i>
+            <font-awesome-icon class="icon-item" icon="fa-solid fa-people-group" />
           </div>
           <h3>Networking</h3>
-          <p>
-            Networking inside your organization has never been easier...Think about it as if all organization members are in the same building. Since that cannot happen, your only option is Comboard!
-          </p>
+          <p>Networking inside your organization has never been easier...Think about it as if all organization members are in the same building.</p>
         </div>
       </div>
       <!-- Column Two -->
       <div class="column">
         <div class="features-card">
           <div class="icon">
-            <i class="fa-solid fa-messages"></i>
+            <font-awesome-icon class="icon-item" :icon="['fas', 'comments']" />
           </div>
           <h3>Communication</h3>
-          <p>
-            We would probably guess that by now you are tired of using lots of different application for your everyday communication (Chatting, Online Meetings etc.) with your organization members.
-            So, why not do all that with a single application?
-          </p>
+          <p>We would probably guess that by now you are tired of using lots of different applications for your everyday communication. So, why not do all that with a single application?</p>
         </div>
       </div>
       <!-- Column Three -->
       <div class="column">
         <div class="features-card">
           <div class="icon">
-            <i class="fa-solid fa-list-check"></i>
+            <font-awesome-icon class="icon-item" icon="fa-solid fa-list-check" />
           </div>
           <h3>Organizing</h3>
           <p>Keep your schedule organized and clean, have easy access to all your organization related tasks and much more.</p>
@@ -46,7 +41,7 @@
 
 <style scoped>
 .features-section-container {
-  padding-top: 70px;
+  padding-top: 50px;
   padding-bottom: 60px;
 }
 
@@ -95,7 +90,7 @@
   box-shadow: 0 0 2.5em rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   transition: 0.5s;
-  min-height: 30vh;
+  min-height: 250px;
 }
 
 .features-card .icon {
@@ -110,6 +105,10 @@
   align-items: center; */
   border-radius: 50%;
   /* color: white; */
+}
+.icon-item {
+  color: white;
+  font-size: 25px;
 }
 
 .icon :before {
