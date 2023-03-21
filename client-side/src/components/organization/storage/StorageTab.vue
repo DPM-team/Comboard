@@ -1,5 +1,5 @@
 <template>
-  <organization-page-tab :layout="'block'">
+  <organization-page-tab @scroll="scrollFiles" :layout="'block'">
     <upload-file-button @change="getData"></upload-file-button>
     <div class="files-container">
       <ul class="file-ul">
@@ -15,11 +15,13 @@
           :name="file.name"
         ></file-item>
       </ul>
+      <base-spinner v-if="this.spinnerScroll"></base-spinner>
     </div>
   </organization-page-tab>
 </template>
 
 <script>
+import BaseSpinner from "../../basic-components/BaseSpinner.vue";
 import OrganizationPageTab from "../../layout/pages/organization/OrganizationPageTab.vue";
 import FileItem from "./FileItem.vue";
 import UploadFileButton from "./UploadFileButton.vue";
@@ -28,15 +30,18 @@ export default {
     FileItem,
     OrganizationPageTab,
     UploadFileButton,
+    BaseSpinner,
   },
   async created() {
-    this.files = await this.getFiles();
+    this.files = await this.getFiles(0);
   },
 
   data() {
     return {
       files: [],
       selectedFile: null,
+      skip: 10,
+      spinnerScroll: false,
     };
   },
   methods: {
@@ -74,7 +79,7 @@ export default {
       this.selectedFile = e.srcElement.files[0];
       this.upload();
     },
-    getFiles() {
+    getFiles(skip) {
       var myHeaders = new Headers();
       myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDE4NzIyMmNkYjM4NGE0NzRiNGQ0ZjEiLCJpYXQiOjE2NzkzMjM2ODJ9.IQ5IxYBsAmC39O3QtbRliA9rPZQqQL_1eI4cO3QgVFI");
 
@@ -84,10 +89,29 @@ export default {
         redirect: "follow",
       };
 
-      return fetch("/api/user/files?limit=&skip=", requestOptions)
+      return fetch(`/api/user/files?limit=10&skip=${skip}`, requestOptions)
         .then((response) => response.json())
         .then((result) => result)
         .catch((error) => console.log("error", error));
+    },
+    async scrollFiles(e) {
+      if (e.srcElement.offsetHeight + e.srcElement.scrollTop >= e.srcElement.scrollHeight) {
+        this.spinnerScroll = true;
+        const otherFiles = await this.getFiles(this.skip);
+
+        if (otherFiles.length > 0) {
+          otherFiles.forEach((file) => {
+            this.files.push(file);
+          });
+          if (otherFiles.length === 10) {
+            this.skip = this.skip + 10;
+          } else {
+            this.skip = this.skip + otherFiles.length;
+          }
+        }
+
+        this.spinnerScroll = false;
+      }
     },
     spinner() {
       console.log("");
