@@ -7,11 +7,11 @@
           <file-item v-for="i in 4" :key="i" :spinner="true" :name="''"></file-item>
         </div>
         <file-item
-          @dbclick="openFile('http://localhost:3000/api/users/6415df05780af31e91dbffdb/file/6415df5d780af31e91dbffe1')"
           v-for="(file, i) in files"
+          @dblclick="openFile(`http://localhost:3000/api/users/64187222cdb384a474b4d4f1/file/${file._id}`)"
           :key="i"
           :icon="getIcon(i)"
-          :src="'http://localhost:3000/api/users/6415df05780af31e91dbffdb/file/6415df5d780af31e91dbffe1'"
+          :src="`http://localhost:3000/api/users/64187222cdb384a474b4d4f1/file/${file._id}`"
           :name="file.name"
         ></file-item>
       </ul>
@@ -29,20 +29,13 @@ export default {
     OrganizationPageTab,
     UploadFileButton,
   },
+  async created() {
+    this.files = await this.getFiles();
+  },
+
   data() {
     return {
-      files: [
-        {
-          id: "1",
-          name: "dgd",
-          type: "doc",
-        },
-        {
-          id: "2",
-          name: "dgd",
-          type: "doc",
-        },
-      ],
+      files: [],
       selectedFile: null,
     };
   },
@@ -58,10 +51,10 @@ export default {
     },
     upload() {
       let myHeaders = new Headers();
-      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDEyZjU4NzQ0NjUyNTg5NTU1ZmFiYjkiLCJpYXQiOjE2Nzg5NjQxMDN9.CUP--oLJxeQ7uQWp-ebpLFHsc2IAcQQsr-Tu_IvxxKs");
+      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDE4NzIyMmNkYjM4NGE0NzRiNGQ0ZjEiLCJpYXQiOjE2NzkzMjM2ODJ9.IQ5IxYBsAmC39O3QtbRliA9rPZQqQL_1eI4cO3QgVFI");
 
       let formdata = new FormData();
-      console.log(this.$refs.file.files);
+
       formdata.append("upload", this.selectedFile, this.selectedFile.name);
 
       let requestOptions = {
@@ -79,6 +72,22 @@ export default {
     //Insert into selected file the object of file.
     getData(e) {
       this.selectedFile = e.srcElement.files[0];
+      this.upload();
+    },
+    getFiles() {
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDE4NzIyMmNkYjM4NGE0NzRiNGQ0ZjEiLCJpYXQiOjE2NzkzMjM2ODJ9.IQ5IxYBsAmC39O3QtbRliA9rPZQqQL_1eI4cO3QgVFI");
+
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      return fetch("/api/user/files?limit=&skip=", requestOptions)
+        .then((response) => response.json())
+        .then((result) => result)
+        .catch((error) => console.log("error", error));
     },
     spinner() {
       console.log("");
