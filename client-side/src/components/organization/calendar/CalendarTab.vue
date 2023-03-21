@@ -1,7 +1,7 @@
 <template>
-  <organization-page-tab>
+  <organization-page-tab :layout="'block'">
     <div class="calendar-container">
-      <VCalendar expanded borderless :color="selectedColor" :attributes="data" ref="calendar"></VCalendar>
+      <VCalendar class="calendar" expanded borderless :color="selectedColor" :attributes="data" ref="calendar"></VCalendar>
     </div>
   </organization-page-tab>
 </template>
@@ -43,7 +43,8 @@ export default {
 
 <style scoped>
 .calendar-container {
-  margin-top: 20px;
+  margin-top: 50px;
   width: 60%;
+  /* margin: 0 auto; */
 }
 </style>

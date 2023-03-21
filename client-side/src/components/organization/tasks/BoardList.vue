@@ -3,6 +3,7 @@
     <h3>{{ listTitle }}</h3>
     <draggable :list="aList" @change="log" group="tasks">
       <board-list-item v-for="element in aList" :key="element.id" :content="element.content"></board-list-item>
+      <input class="task-input" type="text" name="task-input" placeholder=" + Add list item.." />
     </draggable>
   </div>
 </template>
@@ -55,5 +56,17 @@ export default {
   margin-bottom: 2px;
   font-weight: 600;
   padding: 5px;
+}
+.task-input {
+  background-color: var(--tab-grey-background);
+  padding: 5px;
+  width: 190px;
+  border-radius: 5px;
+  margin-top: 5px;
+  border: 0;
+}
+.task-input::placeholder {
+  color: black;
+  opacity: 0.8;
 }
 </style>

@@ -1,8 +1,9 @@
 <template>
   <div class="task-board-container">
+    <font-awesome-icon class="back-button" :icon="['fas', 'circle-chevron-left']" />
     <h1>{{ boardTitle }}</h1>
     <div class="all-lists">
-      <draggable @change="log" group="entire-list" class="test">
+      <draggable @change="log" group="entire-list" class="draggable">
         <board-list v-for="list in numberOfLists" :key="list" :listTitle="listTitle"></board-list>
       </draggable>
     </div>
@@ -45,6 +46,7 @@ export default {
   font-weight: 600;
   padding-top: 25px;
   padding-left: 25px;
+  display: inline-block;
 }
 .all-lists {
   display: flex !important;
@@ -52,8 +54,14 @@ export default {
   width: 1000px;
   height: 80px;
 }
-/* .test {
+.draggable {
   display: flex;
-  height: 200px;
-} */
+  height: 220px;
+}
+.back-button {
+  font-size: 30px;
+  display: inline;
+  cursor: pointer;
+  margin-left: 20px;
+}
 </style>
