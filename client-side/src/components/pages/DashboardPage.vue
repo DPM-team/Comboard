@@ -12,10 +12,10 @@
       </template>
     </base-dialog>
     <div class="main">
-      <dashboard-card>
+      <base-card :width="'80%'">
         <dashboard-searchbar-container @open-join-form="openDialog"></dashboard-searchbar-container>
         <organization-list></organization-list>
-      </dashboard-card>
+      </base-card>
     </div>
     <dashboard-footer></dashboard-footer>
   </div>
@@ -24,13 +24,13 @@
 <script>
 import DashboardFooter from "../layout/footers/DashboardFooter.vue";
 import DashboardHeader from "../layout/headers/DashboardHeader.vue";
-import DashboardCard from "../dashboard/DashboardCard.vue";
+import BaseCard from "../basic-components/BaseCard.vue";
 import OrganizationList from "../dashboard/OrganizationList.vue";
 import DashboardSearchbarContainer from "../dashboard/DashboardSearchbarContainer.vue";
 import AuthFormInput from "../auth/AuthFormInput.vue";
 
 export default {
-  components: { DashboardHeader, DashboardFooter, DashboardCard, OrganizationList, DashboardSearchbarContainer, AuthFormInput },
+  components: { DashboardHeader, DashboardFooter, BaseCard, OrganizationList, DashboardSearchbarContainer, AuthFormInput },
 
   data() {
     return {

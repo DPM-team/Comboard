@@ -1,5 +1,5 @@
 <template>
-  <div class="base-card" :width="width" :bgColor="bgColor">
+  <div class="base-card" :width="width" :height="height" :bgColor="bgColor">
     <slot></slot>
   </div>
 </template>
@@ -10,6 +10,9 @@ export default {
     width: {
       type: String,
       required: true,
+    },
+    height: {
+      type: String,
     },
     bgColor: {
       type: String,
@@ -31,6 +34,9 @@ export default {
 
 div[width] {
   width: v-bind(width);
+}
+div[height] {
+  height: v-bind(height);
 }
 
 div[bgColor] {

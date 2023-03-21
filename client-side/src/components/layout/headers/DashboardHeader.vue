@@ -8,13 +8,13 @@
       <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
       <ul class="header-ul">
         <li class="header-li">
-          <a class="header-a" href=""><img class="image-menu" src="../../../assets/images/common-images/user.png" alt="User profile" /></a>
+          <a class="header-a" href=""><font-awesome-icon class="image-menu" :icon="['fas', 'user']" /></a>
         </li>
         <li class="header-li">
-          <a class="header-a" href=""><img class="image-menu" src="../../../assets/images/common-images/settings.png" alt="Settings" /></a>
+          <a class="header-a" href=""><font-awesome-icon class="image-menu" :icon="['fas', 'gear']" /></a>
         </li>
         <li class="header-li">
-          <a class="header-a" href=""><img class="image-menu" src="../../../assets/images/common-images/question_mark.png" alt="Help" /></a>
+          <a class="header-a" href=""><font-awesome-icon class="image-menu" :icon="['fas', 'circle-question']" /></a>
         </li>
       </ul>
     </nav>
@@ -44,7 +44,7 @@ export default {
 }
 .header-nav {
   background: white;
-  height: 100px;
+  height: 80px;
   width: 100%;
 }
 .header-nav .header-ul {
@@ -53,13 +53,13 @@ export default {
 }
 .header-nav .header-ul .header-li {
   display: inline-block;
-  line-height: 99px;
+  line-height: 79px;
   margin: 0 5px;
 }
 .header-nav .header-ul .header-li .header-a {
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 600;
-  padding: 7px 13px;
+  padding: 5px 10px;
   border-radius: 3px;
   text-decoration: none;
   height: 1rem;
@@ -73,7 +73,8 @@ export default {
   opacity: 0.8;
 }
 .image-menu {
-  height: 24px;
+  height: 18px;
+  color: var(--color-primary);
 }
 .checkbtn {
   font-size: 30px;
@@ -95,16 +96,16 @@ export default {
   .nav__logo {
     margin-left: 20px;
   }
-  .header-nav {
+  /* .header-nav {
     height: 100px;
-  }
+  } */
   .header-nav .header-ul {
     z-index: 10;
     position: fixed;
     width: 100%;
     height: 100vh;
     background: var(--color-primary);
-    top: 100px;
+    top: 80px;
     left: -100%;
     text-align: center;
     transition: all 0.5s;
@@ -124,6 +125,9 @@ export default {
   }
   #check:checked ~ .header-ul {
     left: 0;
+  }
+  .image-menu {
+    color: white;
   }
 }
 </style>

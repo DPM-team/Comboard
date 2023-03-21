@@ -36,6 +36,7 @@ export default {
   flex-wrap: wrap;
   width: 80%;
   margin: 0 auto;
-  margin-top: 7%;
+  padding-top: 60px;
+  padding-bottom: 70px;
 }
 </style>
