@@ -13,7 +13,6 @@ export default {
     },
     height: {
       type: String,
-      required: true,
     },
     bgColor: {
       type: String,

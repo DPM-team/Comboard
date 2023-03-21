@@ -44,7 +44,7 @@ export default {
 }
 .header-nav {
   background: white;
-  height: 100px;
+  height: 80px;
   width: 100%;
 }
 .header-nav .header-ul {
@@ -53,7 +53,7 @@ export default {
 }
 .header-nav .header-ul .header-li {
   display: inline-block;
-  line-height: 99px;
+  line-height: 79px;
   margin: 0 5px;
 }
 .header-nav .header-ul .header-li .header-a {
@@ -96,16 +96,16 @@ export default {
   .nav__logo {
     margin-left: 20px;
   }
-  .header-nav {
+  /* .header-nav {
     height: 100px;
-  }
+  } */
   .header-nav .header-ul {
     z-index: 10;
     position: fixed;
     width: 100%;
     height: 100vh;
     background: var(--color-primary);
-    top: 100px;
+    top: 80px;
     left: -100%;
     text-align: center;
     transition: all 0.5s;

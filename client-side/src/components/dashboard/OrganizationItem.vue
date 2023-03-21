@@ -40,10 +40,10 @@ export default {
   padding: 15px;
 }
 .organization {
-  background: var(--color-third);
-  border-radius: 50px;
-  border: solid 2px rgb(0, 0, 0);
-  padding: 20px 40px;
+  background: var(--tab-grey-background);
+  border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.445);
+  padding: 25px 50px;
   display: inline-block;
   justify-content: center;
   text-align: center;
@@ -54,15 +54,16 @@ export default {
   transition: 0.2s;
 }
 .organization img {
-  width: 100px;
-  height: 100px;
+  width: 125px;
+  height: 125px;
   border-radius: 50%;
   margin: 0 auto;
+  border: 3px solid var(--color-primary);
 }
 .organization-title {
-  padding-top: 5px;
-  font-size: 17px;
-  color: white;
+  padding-top: 15px;
+  font-size: 20px;
+  color: var(--color-primary);
 }
 
 @media (max-width: 1000px) {

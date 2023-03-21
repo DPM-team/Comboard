@@ -12,7 +12,7 @@
       </template>
     </base-dialog>
     <div class="main">
-      <base-card :width="'80%'" :height="'70vh'">
+      <base-card :width="'80%'">
         <dashboard-searchbar-container @open-join-form="openDialog"></dashboard-searchbar-container>
         <organization-list></organization-list>
       </base-card>
