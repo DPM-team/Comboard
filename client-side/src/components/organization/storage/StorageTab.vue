@@ -40,7 +40,7 @@ export default {
     return {
       files: [],
       selectedFile: null,
-      skip: 10,
+      skip: 0,
       spinnerScroll: false,
     };
   },
@@ -97,20 +97,16 @@ export default {
     async scrollFiles(e) {
       if (e.srcElement.offsetHeight + e.srcElement.scrollTop >= e.srcElement.scrollHeight) {
         this.spinnerScroll = true;
+        this.skip = this.files.length;
         const otherFiles = await this.getFiles(this.skip);
-
-        if (otherFiles.length > 0) {
+        if (otherFiles.length === 0) {
+          this.spinnerScroll = false;
+          return;
+        } else if (otherFiles.length > 0) {
           otherFiles.forEach((file) => {
             this.files.push(file);
           });
-          if (otherFiles.length === 10) {
-            this.skip = this.skip + 10;
-          } else {
-            this.skip = this.skip + otherFiles.length;
-          }
         }
-
-        this.spinnerScroll = false;
       }
     },
     spinner() {
