@@ -2,7 +2,6 @@
   <div>
     <label class="button" for="upload">Upload File</label>
     <input id="upload" type="file" />
-    <p class="chosen-file">No file chosen</p>
   </div>
 </template>
 
@@ -45,9 +44,5 @@ input[type="file"] {
 }
 .button:hover {
   opacity: 0.9;
-}
-.chosen-file {
-  color: grey;
-  display: inline-block;
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <organization-page-tab @scroll="scrollFiles" :layout="'block'">
     <upload-file-button @change="getData"></upload-file-button>
+    <p class="chosen-file">{{ this.selectedFile?.name || "No file" }}</p>
     <div class="files-container">
       <ul class="file-ul">
         <div v-if="this.files.length === 0" class="file-ul">
@@ -70,13 +71,18 @@ export default {
       };
 
       fetch("/api/user/upload", requestOptions)
-        .then((response) => response.text())
-        .then((result) => console.log(result))
+        .then(() => {
+          setTimeout(() => {
+            this.selectedFile = null;
+          }, 4000);
+        })
+
         .catch((error) => console.log("error", error));
     },
     //Insert into selected file the object of file.
     getData(e) {
       this.selectedFile = e.srcElement.files[0];
+      console.log(this.selectedFile);
       this.upload();
     },
     getFiles(skip) {
@@ -98,15 +104,18 @@ export default {
       if (e.srcElement.offsetHeight + e.srcElement.scrollTop >= e.srcElement.scrollHeight) {
         this.spinnerScroll = true;
         this.skip = this.files.length;
+
         const otherFiles = await this.getFiles(this.skip);
         if (otherFiles.length === 0) {
-          this.spinnerScroll = false;
+          // this.spinnerScroll = false;
+
           return;
         } else if (otherFiles.length > 0) {
           otherFiles.forEach((file) => {
             this.files.push(file);
           });
         }
+        this.spinnerScroll = false;
       }
     },
     spinner() {
@@ -123,6 +132,11 @@ export default {
 .files-container {
   margin-top: 20px;
   width: calc(100% - 200px);
+}
+
+.chosen-file {
+  color: grey;
+  display: inline-block;
 }
 
 .upload {
