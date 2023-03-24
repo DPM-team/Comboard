@@ -3,7 +3,7 @@ const Post = require("../models/post");
 
 const router = new express.Router();
 
-router.post("/api/post", async function (req, res) {
+router.post("/api/user/post", async function (req, res) {
   const postObj = new Post({
     ...req.body,
   });

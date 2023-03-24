@@ -1,8 +1,8 @@
 <template>
   <div class="create-post-box">
     <div class="pfp-container"><img class="user-pfp" :src="pictureLink" /></div>
-    <input class="post-input" type="text" id="create-post" name="create-post" :placeholder="message" />
-    <button class="post-button">Post</button>
+    <input @change="input" class="post-input" type="text" id="create-post" name="create-post" :placeholder="message" ref="dataInput" />
+    <button @click="createPost" class="post-button">Post</button>
   </div>
 </template>
 
@@ -11,9 +11,39 @@ export default {
   data() {
     return {
       message: "Share your thoughts with your organization..",
+      post: null,
     };
   },
   props: ["firstname", "pictureLink"],
+  methods: {
+    input() {
+      this.$emit("data", this.$refs.dataInput.value);
+
+      this.post = this.$refs.dataInput.value;
+    },
+    createPost() {
+      let headers = new Headers();
+      headers.append("Content-Type", "application/json");
+
+      let body = JSON.stringify({
+        userId: "test",
+        orgId: "test",
+        content: this.post,
+      });
+
+      let options = {
+        method: "POST",
+        headers,
+        body,
+      };
+
+      console.log(options);
+
+      fetch("/api/user/post", options).then((r) => {
+        console.log(r);
+      });
+    },
+  },
 };
 </script>
 
