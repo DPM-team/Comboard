@@ -21,7 +21,6 @@ router.get("/api/user/posts", authentication, async function (req, res) {
   const posts = Post.find({ userId: req.user, orgId: req.orgId });
 
   try {
-    await postObj.save();
     res.status(200).send(posts);
   } catch (error) {
     res.status(400).send(error);
