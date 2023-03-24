@@ -13,7 +13,7 @@ export default {
   components: { ConnectionSuggestionItem },
   data() {
     return {
-      title: "test",
+      title: "Expand your network",
       fellowOrgMembers: [
         { id: 1, firstname: "Dionisis", lastname: "Lougaris" },
         { id: 2, firstname: "Panagiotis", lastname: "Machairas" },
@@ -35,7 +35,7 @@ export default {
   padding: 30px;
   display: flex;
   flex-wrap: wrap;
-  height: calc(100% - 400px);
+  /* height: calc(100% - 400px); */
   justify-content: center;
   align-items: center;
   margin: 10px auto;
@@ -45,6 +45,7 @@ export default {
   color: var(--color-primary);
   width: 100%;
   text-align: center;
+  padding-bottom: 15px;
 }
 
 .connection-sug-list ul {
