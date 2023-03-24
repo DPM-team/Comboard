@@ -13,6 +13,7 @@
       <auth-form-input @data="getOrgWebsite" id="organization-website" type="text" name="organization-website" placeholder="Organization's website" />
       <auth-form-input id="submit-btn" type="submit" name="submit-btn" value="Create Organization" />
     </auth-form>
+    <base-card v-if="orgKeyToJoin" width="25%" bgColor="#FFFFFF">{{ orgKeyToJoin }}</base-card>
   </base-section>
 </template>
 
@@ -39,6 +40,7 @@ export default {
         location: "",
         website: "",
       },
+      orgKeyToJoin: "",
       errorMessage: "",
     };
   },
@@ -63,15 +65,22 @@ export default {
     },
     async submitForm() {
       try {
-        await this.$store.dispatch("registerOrganization", this.organizationObj).then((response) => {
-          if (response instanceof Error) {
-            throw response;
-          }
+        await this.$store
+          .dispatch("registerOrganization", this.organizationObj)
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            if (data.error) {
+              throw data.error;
+            }
 
-          this.errorMessage = "";
-        });
+            this.orgKeyToJoin = data.publicKey;
+
+            this.errorMessage = "";
+          });
       } catch (error) {
-        this.errorMessage = error.message || "Failed to create organization.";
+        this.errorMessage = error || "Failed to create organization.";
       }
     },
   },
