@@ -17,8 +17,22 @@ export default {
       body: JSON.stringify(organizationObj),
     };
 
-    const promise = await fetch("/api/organization", requestOptions);
-
-    return promise;
+    return new Promise((resolve, reject) => {
+      try {
+        fetch("/api/organization", requestOptions)
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            if (data.error) {
+              reject(new Error(data.error));
+            } else {
+              resolve(data);
+            }
+          });
+      } catch (error) {
+        reject(new Error(error));
+      }
+    });
   },
 };

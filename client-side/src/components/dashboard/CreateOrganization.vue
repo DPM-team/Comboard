@@ -68,19 +68,17 @@ export default {
         await this.$store
           .dispatch("registerOrganization", this.organizationObj)
           .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            if (data.error) {
-              throw data.error;
-            }
-
-            this.orgKeyToJoin = data.publicKey;
+            this.orgKeyToJoin = response.publicKey;
 
             this.errorMessage = "";
+          })
+          .catch((error) => {
+            this.errorMessage = error.message || "Failed to create organization.";
+            this.orgKeyToJoin = "";
           });
       } catch (error) {
-        this.errorMessage = error || "Failed to create organization.";
+        this.errorMessage = error.message || "Failed to create organization.";
+        this.orgKeyToJoin = "";
       }
     },
   },
