@@ -27,6 +27,18 @@ export default {
       ],
     };
   },
+  methods: {
+    async loadOrganizations() {
+      try {
+        await this.$store.dispatch("getUserOrganizations", { userID: "641ed0fbf3dfa8ff34cc3f85" });
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
+    },
+  },
+  created() {
+    this.loadOrganizations();
+  },
 };
 </script>
 
