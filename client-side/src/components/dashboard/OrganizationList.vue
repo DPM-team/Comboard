@@ -1,6 +1,7 @@
 <template>
   <div class="content">
     <organization-item v-for="organization in organizations" :key="organization._id" :name="organization.name"></organization-item>
+    <h2 v-if="organizations.length === 0">No organizations</h2>
   </div>
 </template>
 
