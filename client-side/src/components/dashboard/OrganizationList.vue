@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <organization-item v-for="organization in organizations" :key="organization.title" :organizationFileName="organization.organizationFileName" :title="organization.title"></organization-item>
+    <organization-item v-for="organization in organizations" :key="organization._id" :name="organization.name"></organization-item>
   </div>
 </template>
 
@@ -10,22 +10,12 @@ import OrganizationItem from "../dashboard/OrganizationItem.vue";
 export default {
   components: { OrganizationItem },
   data() {
-    return {
-      organizations: [
-        {
-          organizationFileName: "pamak.png",
-          title: "Pamak",
-        },
-        {
-          organizationFileName: "asoe.jpg",
-          title: "Asoe",
-        },
-        {
-          organizationFileName: "IEEE.jpg",
-          title: "IEEE",
-        },
-      ],
-    };
+    return {};
+  },
+  computed: {
+    organizations() {
+      return this.$store.getters.organizations;
+    },
   },
   methods: {
     async loadOrganizations() {

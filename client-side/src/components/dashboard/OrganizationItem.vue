@@ -2,7 +2,7 @@
   <div class="organization-container">
     <div class="organization">
       <img :src="formatImagePath" />
-      <h1 class="organization-title">{{ title }}</h1>
+      <h1 class="organization-name">{{ name }}</h1>
     </div>
   </div>
 </template>
@@ -10,13 +10,14 @@
 <script>
 export default {
   props: {
-    title: {
+    name: {
       type: String,
       required: true,
     },
     organizationFileName: {
       type: String,
-      required: true,
+      required: false,
+      default: "pamak.png",
     },
     organizationLink: {
       type: String,
@@ -60,7 +61,7 @@ export default {
   margin: 0 auto;
   border: 3px solid var(--color-primary);
 }
-.organization-title {
+.organization-name {
   padding-top: 15px;
   font-size: 20px;
   color: var(--color-primary);
@@ -82,7 +83,7 @@ export default {
     border-radius: 50%;
     margin: 0 auto;
   }
-  .organization-title {
+  .organization-name {
     padding-top: 5px;
     font-size: 14px;
   }

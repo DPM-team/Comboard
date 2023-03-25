@@ -35,7 +35,7 @@ export default {
       }
     });
   },
-  async getUserOrganizations(_, payload) {
+  async getUserOrganizations(context, payload) {
     const userID = payload.userID;
 
     try {
@@ -65,7 +65,7 @@ export default {
             organizations.push(organizationObj);
           }
 
-          console.log(organizations);
+          context.commit("setOrganizations", organizations);
         });
     } catch (error) {
       // Fror there, the error will return to the component that calls the action method
