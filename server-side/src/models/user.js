@@ -81,7 +81,7 @@ const userSchema = mongoose.Schema(
     }),
     organizations: new Array({
       type: mongoose.Schema.Types.ObjectId,
-      ref: "organizations",
+      ref: "organization",
     }),
     files: new Array({
       type: mongoose.Schema.Types.ObjectId,
@@ -93,16 +93,17 @@ const userSchema = mongoose.Schema(
   }
 );
 
-// Override .toJSON() method to hide private data
+// Override .toJSON() method to hide private data and big data
 userSchema.methods.toJSON = function () {
   const user = this;
 
-  // create a clone of the original user obj
+  // Create a clone of the original user obj
   const userObjPublic = user.toObject();
 
-  // hide private fields
+  // Hide private fields
   delete userObjPublic.password;
   delete userObjPublic.tokens;
+  // Hide big files
   delete userObjPublic.profilePhoto;
   delete userObjPublic.files;
 

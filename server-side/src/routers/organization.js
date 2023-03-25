@@ -64,8 +64,17 @@ router.post("/api/organization/join", async function (req, res) {
     // Save the updated organization document
     const updatedOrganization = await organizationObj.save();
 
+    if (!userObj.organizations.includes(organizationID)) {
+      userObj.organizations.push(organizationID);
+    } else {
+      return res.status(404).json({ error: "Organization is already added!", updatedOrganization });
+    }
+
+    // Save the updated user document
+    const updatedUser = await userObj.save();
+
     // Return the updated organization document
-    return res.json(updatedOrganization);
+    return res.json({ updatedOrganization, updatedUser });
   } catch (error) {
     return res.status(500).json({ error: "Server error" });
   }
