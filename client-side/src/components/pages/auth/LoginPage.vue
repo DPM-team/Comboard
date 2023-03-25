@@ -51,9 +51,9 @@ export default {
             username: this.username,
             password: this.password,
           })
-          .then((r) => {
-            if (r instanceof Error) {
-              throw r;
+          .then((error) => {
+            if (error instanceof Error) {
+              throw error;
             }
 
             this.$router.push("/dashboard");
@@ -61,14 +61,12 @@ export default {
       } catch (error) {
         this.errorMessage = error.message || "Failed to authenticate.";
       }
-
-      console.log(this.$store.getters.loggedUserID);
     },
-    getUsername(i) {
-      this.username = i;
+    getUsername(inputValue) {
+      this.username = inputValue;
     },
-    getPassword(i) {
-      this.password = i;
+    getPassword(inputValue) {
+      this.password = inputValue;
     },
   },
 };
