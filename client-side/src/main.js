@@ -43,9 +43,10 @@ import {
   faComments,
   faCircleChevronLeft,
   faUserCheck,
+  faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { faHeart, faComment, faFilePdf, faFileWord, faFileExcel } from "@fortawesome/free-regular-svg-icons";
+import { faComment, faFilePdf, faFileWord, faFileExcel } from "@fortawesome/free-regular-svg-icons";
 import { faGoogle, faApple, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 /* add icons to the library */

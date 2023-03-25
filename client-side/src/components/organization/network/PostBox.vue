@@ -12,7 +12,7 @@
       <p>
         <b>{{ likeCounter }}</b> people like this post
       </p>
-      <font-awesome-icon class="post-icon" icon="fa-regular fa-heart" />
+      <font-awesome-icon @click="addLike" class="post-icon" id="heart" :icon="['fas', 'heart']" />
       <font-awesome-icon class="post-icon" icon="fa-regular fa-comment" />
     </div>
   </div>
@@ -22,10 +22,16 @@
 export default {
   data() {
     return {
-      likeCounter: 12,
+      likeCounter: 0,
     };
   },
   props: ["firstname", "lastname", "pictureLink", "content", "date"],
+  methods: {
+    addLike(event) {
+      this.likeCounter++;
+      event.target.classList.add("liked");
+    },
+  },
 };
 </script>
 
@@ -85,6 +91,9 @@ export default {
 .post-icon {
   margin-right: 12px;
   font-size: 22px;
+}
+.liked {
+  color: red;
 }
 .pfp-container {
   width: 35px;

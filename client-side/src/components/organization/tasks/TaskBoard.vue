@@ -64,4 +64,27 @@ export default {
   cursor: pointer;
   margin-left: 20px;
 }
+/* Responsiveness */
+
+@media (max-width: 1250px) {
+  .task-board-container {
+    width: calc(100% - 180px);
+  }
+}
+@media (max-width: 1150px) {
+  .task-board-container {
+    width: calc(100% - 80px);
+  }
+}
+
+@media (max-width: 700px) {
+  .task-board-container {
+    width: calc(100% - 55px);
+  }
+}
+@media (max-width: 450px) {
+  .task-board-container {
+    width: calc(100% - 45px);
+  }
+}
 </style>

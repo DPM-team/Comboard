@@ -8,9 +8,7 @@
 <script>
 export default {
   data() {
-    return {
-      title: "test",
-    };
+    return {};
   },
   props: ["description"],
 };
@@ -26,8 +24,11 @@ export default {
   width: 90%;
 }
 .icon {
-  font-size: 15px;
-  padding: 4px 0;
+  font-size: 13px;
+  padding: 8px 0;
   float: right;
+  cursor: pointer;
+  color: var(--color-primary);
+  margin-left: 2px;
 }
 </style>

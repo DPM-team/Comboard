@@ -6,6 +6,7 @@ const organizationModule = {
   state() {
     return {
       selectedOrganizationID: null,
+      organizations: new Array(),
     };
   },
   mutations,

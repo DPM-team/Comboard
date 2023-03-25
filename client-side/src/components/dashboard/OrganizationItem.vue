@@ -1,26 +1,32 @@
 <template>
   <div class="organization-container">
-    <div class="organization">
+    <router-link @click="setOrganization" to="organization" class="organization">
       <img :src="formatImagePath" />
-      <h1 class="organization-title">{{ title }}</h1>
-    </div>
+      <h1 class="organization-name">{{ name }}</h1>
+    </router-link>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    title: {
+    id: {
+      type: String,
+      required: true,
+    },
+    name: {
       type: String,
       required: true,
     },
     organizationFileName: {
       type: String,
-      required: true,
-    },
-    organizationLink: {
-      type: String,
       required: false,
+      default: "pamak.png",
+    },
+  },
+  methods: {
+    setOrganization() {
+      this.$store.commit("setSelectedOrganizationID", { organizationID: this.id });
     },
   },
   computed: {
@@ -60,10 +66,14 @@ export default {
   margin: 0 auto;
   border: 3px solid var(--color-primary);
 }
-.organization-title {
+.organization-name {
   padding-top: 15px;
   font-size: 20px;
   color: var(--color-primary);
+}
+
+a {
+  text-decoration: none;
 }
 
 @media (max-width: 1000px) {
@@ -82,7 +92,7 @@ export default {
     border-radius: 50%;
     margin: 0 auto;
   }
-  .organization-title {
+  .organization-name {
     padding-top: 5px;
     font-size: 14px;
   }

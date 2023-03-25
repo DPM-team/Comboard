@@ -1,6 +1,12 @@
 <template>
-  <div class="content">
-    <organization-item v-for="organization in organizations" :key="organization.title" :organizationFileName="organization.organizationFileName" :title="organization.title"></organization-item>
+  <div>
+    <div v-if="isLoading">
+      <base-spinner></base-spinner>
+    </div>
+    <div class="content">
+      <organization-item v-for="organization in organizations" :key="organization._id" :id="organization._id" :name="organization.name"></organization-item>
+      <h2 v-if="organizations.length === 0 && !isLoading">No organizations</h2>
+    </div>
   </div>
 </template>
 
@@ -11,21 +17,29 @@ export default {
   components: { OrganizationItem },
   data() {
     return {
-      organizations: [
-        {
-          organizationFileName: "pamak.png",
-          title: "Pamak",
-        },
-        {
-          organizationFileName: "asoe.jpg",
-          title: "Asoe",
-        },
-        {
-          organizationFileName: "IEEE.jpg",
-          title: "IEEE",
-        },
-      ],
+      isLoading: false,
     };
+  },
+  computed: {
+    organizations() {
+      return this.$store.getters.organizations;
+    },
+  },
+  methods: {
+    async loadOrganizations() {
+      this.isLoading = true;
+
+      try {
+        await this.$store.dispatch("getUserOrganizations", { userID: this.$store.getters.loggedUserID });
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
+
+      this.isLoading = false;
+    },
+  },
+  created() {
+    this.loadOrganizations();
   },
 };
 </script>

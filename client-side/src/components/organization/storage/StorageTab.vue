@@ -1,7 +1,7 @@
 <template>
   <organization-page-tab @scroll="scrollFiles" :layout="'block'">
     <upload-file-button @change="getData"></upload-file-button>
-    <p class="chosen-file">{{ this.selectedFile?.name || "No file" }}</p>
+    <p class="chosen-file">{{ this.selectedFile?.name || "No file chosen" }}</p>
     <div class="files-container">
       <ul class="file-ul">
         <div v-if="this.files.length === 0" class="file-ul">
@@ -136,10 +136,6 @@ export default {
 
 .chosen-file {
   color: grey;
-  display: inline-block;
-}
-
-.upload {
   display: inline-block;
 }
 

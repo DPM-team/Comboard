@@ -20,7 +20,7 @@ export default {
           if (data.error) {
             throw new Error(data.message);
           } else {
-            console.log(data);
+            
             localStorage.setItem("userID", data.userObj._id);
             localStorage.setItem("token", data.generatedToken);
 

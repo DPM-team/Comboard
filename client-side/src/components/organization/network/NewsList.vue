@@ -15,10 +15,10 @@ export default {
     return {
       title: "Latest news",
       news: [
-        { id: 1, description: "test" },
-        { id: 2, description: "test" },
-        { id: 3, description: "test" },
-        { id: 4, description: "test" },
+        { id: 1, description: "Projectname by teamname is now finished!" },
+        { id: 2, description: "Projectname by teamname is now finished!" },
+        { id: 3, description: "Projectname by teamname is now finished!" },
+        { id: 4, description: "Projectname by teamname is now finished!" },
       ],
     };
   },
@@ -35,7 +35,7 @@ export default {
   padding: 30px;
   display: flex;
   flex-wrap: wrap;
-  height: calc(100% - 400px);
+  /* height: calc(100% - 400px); */
   justify-content: center;
   align-items: center;
   margin: 10px auto;
@@ -45,6 +45,7 @@ export default {
   color: var(--color-primary);
   width: 100%;
   text-align: center;
+  padding-bottom: 15px;
 }
 .news-list ul {
   list-style-type: none;
