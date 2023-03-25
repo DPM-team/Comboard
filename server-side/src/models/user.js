@@ -51,7 +51,6 @@ const userSchema = mongoose.Schema(
       validate(value) {
         if (this.isModified("password")) {
           if (!schema.validate(value)) {
-            console.log(value);
             throw new Error("Please create a Stronger password!");
           }
         }
