@@ -1,7 +1,9 @@
 <template>
   <organization-page-tab :layout="'block'">
-    <div class="calendar-container">
-      <VCalendar class="calendar" expanded borderless :color="selectedColor" :attributes="data" ref="calendar"></VCalendar>
+    <div class="calendar-tab-container">
+      <div class="calendar-container">
+        <VCalendar class="calendar" expanded borderless :color="selectedColor" :attributes="data" ref="calendar"></VCalendar>
+      </div>
     </div>
   </organization-page-tab>
 </template>
@@ -42,9 +44,45 @@ export default {
 </script>
 
 <style scoped>
+.calendar-tab-container {
+  width: calc(100% - 200px);
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
 .calendar-container {
   margin-top: 50px;
-  width: 60%;
-  /* margin: 0 auto; */
+  width: 70%;
+}
+
+/* Responsiveness */
+
+@media (max-width: 1250px) {
+  .calendar-tab-container {
+    width: calc(100% - 180px);
+  }
+}
+@media (max-width: 1150px) {
+  .calendar-tab-container {
+    width: calc(100% - 80px);
+  }
+}
+
+@media (max-width: 700px) {
+  .calendar-tab-container {
+    width: calc(100% - 55px);
+  }
+  .calendar-container {
+    width: 80%;
+  }
+}
+@media (max-width: 450px) {
+  .calendar-tab-container {
+    width: calc(100% - 45px);
+  }
+  .calendar-container {
+    width: 90%;
+  }
 }
 </style>

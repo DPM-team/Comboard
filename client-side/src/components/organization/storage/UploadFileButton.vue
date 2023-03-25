@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="button-container">
     <label class="button" for="upload">Upload File</label>
     <input id="upload" type="file" />
   </div>
@@ -44,5 +44,8 @@ input[type="file"] {
 }
 .button:hover {
   opacity: 0.9;
+}
+.button-container {
+  display: inline-block;
 }
 </style>
