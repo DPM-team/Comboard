@@ -1,8 +1,28 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
+const passwordValidator = require("password-validator");
 const bcrypt = require("bcryptjs");
 const { organizationSchema } = require("./organization");
+
+// Create a schema
+const schema = new passwordValidator();
+// Add properties to it
+schema.is().min(8); // Minimum length 8
+// .is()
+// .max(40) // Maximum length 100
+// .has()
+// .uppercase() // Must have uppercase letters
+// .has()
+// .lowercase() // Must have lowercase letters
+// .has()
+// .digits(2) // Must have at least 2 digits
+// .has()
+// .not()
+// .spaces() // Should not have spaces
+// .is()
+// .not()
+// .oneOf(["Passw0rd", "Password123"]); // Blacklist these values
 
 const userSchema = mongoose.Schema(
   {
@@ -26,17 +46,13 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      minlength: 8,
       trim: true,
       required: true,
       validate(value) {
         if (this.isModified("password")) {
-          if (value.includes("password")) {
-            throw new Error("Please try a different password!");
-          } else if (value.length < 8) {
-            throw new Error("Password must contain at least 8 characters");
-          } else if (!(value.includes("!") || value.includes("@") || value.includes("*"))) {
-            throw new Error("Password must contain at least one special character (!,@,*)");
+          if (!schema.validate(value)) {
+            console.log(value);
+            throw new Error("Please create a Stronger password!");
           }
         }
       },
