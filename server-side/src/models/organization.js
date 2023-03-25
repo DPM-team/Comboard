@@ -37,7 +37,7 @@ const organizationSchema = mongoose.Schema(
     },
     users: new Array({
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+      ref: "user",
     }),
   },
   {

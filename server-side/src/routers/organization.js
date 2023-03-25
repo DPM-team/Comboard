@@ -1,6 +1,7 @@
 const express = require("express");
 const Organization = require("../models/organization.js");
 const randomstring = require("randomstring");
+const User = require("../models/user.js");
 
 const router = express.Router();
 
@@ -31,6 +32,42 @@ router.post("/api/organization", async function (req, res) {
     } catch (error) {
       res.status(500).send(error);
     }
+  }
+});
+
+router.post("/api/organization/join", async function (req, res) {
+  const organizationID = req.body.organizationID;
+  const userID = req.body.userID;
+
+  try {
+    // Find the organization by its id
+    const organizationObj = await Organization.findById(organizationID);
+
+    if (!organizationObj) {
+      return res.status(404).json({ error: "Organization not found!" });
+    }
+
+    // Find the user by its id
+    const userObj = await User.findById(userID);
+
+    if (!userObj) {
+      return res.status(404).json({ error: "User not found!" });
+    }
+
+    // Add the user to the organization's 'users' array
+    if (!organizationObj.users.includes(userID)) {
+      organizationObj.users.push(userID);
+    } else {
+      return res.status(404).json({ error: "User is already added!" });
+    }
+
+    // Save the updated organization document
+    const updatedOrganization = await organizationObj.save();
+
+    // Return the updated organization document
+    return res.json(updatedOrganization);
+  } catch (error) {
+    return res.status(500).json({ error: "Server error" });
   }
 });
 
