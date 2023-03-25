@@ -47,4 +47,7 @@ export default {
   width: 60%;
   /* margin: 0 auto; */
 }
+.calendar-container :deep(.vc-weekday-7) {
+  color: #6366f1;
+}
 </style>
