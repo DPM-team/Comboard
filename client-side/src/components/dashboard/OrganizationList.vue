@@ -1,7 +1,12 @@
 <template>
-  <div class="content">
-    <organization-item v-for="organization in organizations" :key="organization._id" :name="organization.name"></organization-item>
-    <h2 v-if="organizations.length === 0">No organizations</h2>
+  <div>
+    <div v-if="isLoading">
+      <base-spinner></base-spinner>
+    </div>
+    <div class="content">
+      <organization-item v-for="organization in organizations" :key="organization._id" :name="organization.name"></organization-item>
+      <h2 v-if="organizations.length === 0 && !isLoading">No organizations</h2>
+    </div>
   </div>
 </template>
 
@@ -11,7 +16,9 @@ import OrganizationItem from "../dashboard/OrganizationItem.vue";
 export default {
   components: { OrganizationItem },
   data() {
-    return {};
+    return {
+      isLoading: false,
+    };
   },
   computed: {
     organizations() {
@@ -20,11 +27,15 @@ export default {
   },
   methods: {
     async loadOrganizations() {
+      this.isLoading = true;
+
       try {
         await this.$store.dispatch("getUserOrganizations", { userID: this.$store.getters.loggedUserID });
       } catch (error) {
         console.log(error.message || "Something went wrong!");
       }
+
+      this.isLoading = false;
     },
   },
   created() {

@@ -4,8 +4,6 @@ const generator = require("generate-password");
 const User = require("../models/user");
 const Email = require("../APIs/emails/email");
 const sendEmail = require("../APIs/emails/send-email.js");
-const authentication = require("../middleware/authentication");
-const { use } = require("./error.js");
 
 const router = new express.Router();
 
@@ -14,8 +12,6 @@ router.post("/api/register", async (req, res) => {
 
   try {
     await userObj.save();
-
-    // sendEmail(new Email(userObj.email, "dpmcomboard@gmail.com", "TestSubject", "<h1>Test content</h1>"));
     const generatedToken = await userObj.generateAuthenticationToken();
     res.status(201).send({ userObj, generatedToken });
   } catch (error) {
@@ -23,7 +19,7 @@ router.post("/api/register", async (req, res) => {
   }
 });
 
-//This is the router which runs when one user tries to login.User informaton will be sent back to client.
+//This is the router which runs when one user tries to login. User informaton will be sent back to client.
 router.post("/api/login", async (req, res) => {
   try {
     const userObj = await User.checkCredentials(req.body.username, req.body.password);
