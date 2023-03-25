@@ -1,15 +1,19 @@
 <template>
   <div class="organization-container">
-    <div class="organization">
+    <router-link @click="setOrganization" to="organization" class="organization">
       <img :src="formatImagePath" />
       <h1 class="organization-name">{{ name }}</h1>
-    </div>
+    </router-link>
   </div>
 </template>
 
 <script>
 export default {
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -19,9 +23,10 @@ export default {
       required: false,
       default: "pamak.png",
     },
-    organizationLink: {
-      type: String,
-      required: false,
+  },
+  methods: {
+    setOrganization() {
+      this.$store.commit("setSelectedOrganizationID", { organizationID: this.id });
     },
   },
   computed: {
@@ -65,6 +70,10 @@ export default {
   padding-top: 15px;
   font-size: 20px;
   color: var(--color-primary);
+}
+
+a {
+  text-decoration: none;
 }
 
 @media (max-width: 1000px) {

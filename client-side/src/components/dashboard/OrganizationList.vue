@@ -4,7 +4,7 @@
       <base-spinner></base-spinner>
     </div>
     <div class="content">
-      <organization-item v-for="organization in organizations" :key="organization._id" :name="organization.name"></organization-item>
+      <organization-item v-for="organization in organizations" :key="organization._id" :id="organization._id" :name="organization.name"></organization-item>
       <h2 v-if="organizations.length === 0 && !isLoading">No organizations</h2>
     </div>
   </div>

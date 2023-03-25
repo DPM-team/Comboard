@@ -4,7 +4,7 @@
     <organization-page-header></organization-page-header>
     <router-view v-slot="{ Component }">
       <keep-alive>
-        <component :is="Component" />
+        <component :is="Component" :userID="userID" :organizationID="organizationID" />
       </keep-alive>
     </router-view>
   </div>
@@ -17,10 +17,16 @@ import OrganizationPageHeader from "../layout/headers/OrganizationPageHeader.vue
 export default {
   components: { OrganizationSideNavigationBar, OrganizationPageHeader },
   data() {
-    return {};
+    return {
+      userID: "",
+      organizationID: "",
+    };
   },
   created() {
     document.body.classList.add("no-scrolling");
+
+    this.userID = this.$store.getters.loggedUserID;
+    this.organizationID = this.$store.getters.selectedOrganizationID;
   },
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
   <organization-page-tab :layout="'flex'">
+    <h4>User: {{ userID }}| organization: {{ organizationID }}</h4>
     <div class="main-section">
       <create-post-box :pictureLink="this.myUser.pictureLink"></create-post-box>
       <post-box v-for="post in posts" :key="post.id" :pictureLink="post.pictureLink" :firstname="post.firstname" :lastname="post.lastname" :content="post.content" :date="post.date"></post-box>
@@ -17,7 +18,18 @@ import ConnectionSuggestionList from "./ConnectionSuggestionList.vue";
 import CreatePostBox from "./CreatePostBox.vue";
 import NewsList from "./NewsList.vue";
 import PostBox from "./PostBox.vue";
+
 export default {
+  props: {
+    userID: {
+      type: String,
+      required: true,
+    },
+    organizationID: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       myUser: { firstname: "Dio", lastname: "Lou", pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" },
