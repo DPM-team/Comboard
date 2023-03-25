@@ -1,37 +1,81 @@
 <template>
-  <header>
-    <nav class="header-nav">
-      <input type="checkbox" id="check" />
-      <label v-on:click="noScrolling" for="check" class="checkbtn">
-        <i class="fas fa-bars"></i>
-      </label>
-      <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
-      <ul class="header-ul">
-        <li class="header-li">
-          <a class="header-a" href=""><font-awesome-icon class="menu-icon" icon="fa-solid fa-bell" /></a>
-        </li>
-        <li class="header-li">
-          <a class="header-a" href=""><font-awesome-icon class="menu-icon" icon="fa-solid fa-inbox" /></a>
-        </li>
-        <li class="header-li">
-          <a class="header-a" href=""><font-awesome-icon class="menu-icon" icon="fa-solid fa-video" /></a>
-        </li>
-        <li class="header-li">
-          <a class="header-a" href=""
-            ><div class="img-container">
-              <img class="user-icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s" /></div
-          ></a>
-        </li>
-        <li class="header-li">
-          <a class="header-a" href=""><font-awesome-icon class="more-menu-icon" icon="fa-solid fa-ellipsis-vertical" /></a>
-        </li>
-      </ul>
-    </nav>
-  </header>
+  <div>
+    <header>
+      <nav class="header-nav">
+        <input type="checkbox" id="check" />
+        <label v-on:click="noScrolling" for="check" class="checkbtn">
+          <i class="fas fa-bars"></i>
+        </label>
+        <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
+        <ul class="header-ul">
+          <li class="header-li" @click="toggleNotificationOptions">
+            <a class="header-a"><font-awesome-icon class="menu-icon" icon="fa-solid fa-bell" /></a>
+          </li>
+          <li class="header-li" @click="toggleMessageOptions">
+            <a class="header-a"><font-awesome-icon class="menu-icon" icon="fa-solid fa-inbox" /></a>
+          </li>
+          <li class="header-li" @click="toggleVideoOptions">
+            <a class="header-a"><font-awesome-icon class="menu-icon" icon="fa-solid fa-video" /></a>
+          </li>
+          <li @click="toggleUserOptions" class="header-li">
+            <a class="header-a"
+              ><div class="img-container">
+                <img class="user-icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s" /></div
+            ></a>
+          </li>
+          <li class="header-li">
+            <a class="header-a" href=""><font-awesome-icon class="more-menu-icon" icon="fa-solid fa-ellipsis-vertical" /></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <header-toggle-option v-if="userOptionsAreVisible" :position="'user-toggle'">
+      <li class="list-item">View profile</li>
+      <li class="list-item">View organization</li>
+      <li class="list-item">Profile settings</li></header-toggle-option
+    >
+    <header-toggle-option v-if="videoOptionsAreVisible" :position="'video-toggle'">
+      <li class="list-item">Join meeting</li>
+      <li class="list-item">Start a meeting</li>
+      <li class="list-item">Schedule a meeting for later</li></header-toggle-option
+    >
+    <header-toggle-option v-if="messageOptionsAreVisible" :position="'messages-toggle'">
+      <div class="message">
+        <div class="pfp-container"><img class="user-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" /></div>
+        <p>This is a message</p>
+      </div>
+      <div class="message">
+        <div class="pfp-container"><img class="user-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" /></div>
+        <p>This is a message</p>
+      </div>
+      <div class="message">
+        <div class="pfp-container"><img class="user-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" /></div>
+        <p>This is a message</p>
+      </div>
+      <div class="message">
+        <div class="pfp-container"><img class="user-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" /></div>
+        <p>This is a message</p>
+      </div></header-toggle-option
+    >
+    <header-toggle-option v-if="notificationOptionsAreVisible" :position="'notifications-toggle'">
+      <li class="notification-item">Notification #1</li>
+      <li class="notification-item">Notification #2</li>
+    </header-toggle-option>
+  </div>
 </template>
 
 <script>
+import HeaderToggleOption from "../../organization/HeaderToggleOption.vue";
+
 export default {
+  data() {
+    return {
+      userOptionsAreVisible: false,
+      videoOptionsAreVisible: false,
+      messageOptionsAreVisible: false,
+      notificationOptionsAreVisible: false,
+    };
+  },
   methods: {
     noScrolling() {
       document.getElementById("check").addEventListener("change", function () {
@@ -42,7 +86,20 @@ export default {
         }
       });
     },
+    toggleUserOptions() {
+      this.userOptionsAreVisible = !this.userOptionsAreVisible;
+    },
+    toggleVideoOptions() {
+      this.videoOptionsAreVisible = !this.videoOptionsAreVisible;
+    },
+    toggleMessageOptions() {
+      this.messageOptionsAreVisible = !this.messageOptionsAreVisible;
+    },
+    toggleNotificationOptions() {
+      this.notificationOptionsAreVisible = !this.notificationOptionsAreVisible;
+    },
   },
+  components: { HeaderToggleOption },
 };
 </script>
 
@@ -91,6 +148,7 @@ export default {
 .header-nav .header-ul .header-li {
   display: inline-block;
   margin: 0 3px;
+  cursor: pointer;
 }
 .header-nav .header-ul .header-li .header-a {
   font-size: 16px;
@@ -100,6 +158,24 @@ export default {
 .nav__logo {
   height: 60px;
   margin-left: 45%;
+}
+.list-item {
+  padding: 15px;
+  color: white;
+  border-bottom: solid white 1px;
+}
+.notification-item {
+  padding: 15px;
+  color: var(--color-primary);
+  border-bottom: solid var(--color-primary) 1px;
+  background-color: white;
+}
+.list-item:hover {
+  background: white;
+  color: var(--color-primary);
+}
+.notification-item:hover {
+  cursor: pointer;
 }
 
 .checkbtn {
@@ -113,6 +189,28 @@ export default {
 }
 #check {
   display: none;
+}
+.message {
+  background-color: white;
+  padding: 13px 10px 13px 10px;
+  display: flex;
+  cursor: pointer;
+}
+
+.message p {
+  margin-top: 4px;
+}
+.pfp-container {
+  width: 20px;
+  height: 20px;
+  background-color: var(--color-fourth);
+  padding: 0.2em;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+.user-pfp {
+  width: 100%;
+  border-radius: 50%;
 }
 
 @media (max-width: 900px) {
