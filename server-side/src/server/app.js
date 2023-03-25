@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 
 // Import routers
 const connectRouter = require("../routers/connect.js");
+const userRouter = require("../routers/user.js");
 const logoutRouter = require("../routers/logout.js");
 const uploadRouter = require("../routers/upload.js");
 const postRouter = require("../routers/post.js");
@@ -33,6 +34,7 @@ app.use(postRouter);
 app.use(teamRouter);
 app.use(projectRouter);
 app.use(organizationRouter);
+app.use(userRouter);
 // This must be the last
 app.use(errorRouter);
 
