@@ -3,10 +3,6 @@
     <div class="testimonial">
       <img :src="formatImagePath" alt="Image of the author of this testimonial." />
       <div class="name">{{ authorName }}</div>
-      <div class="stars">
-        <!-- <i class="fas fa-star" v-for="star in positiveRating" :key="star"></i>
-        <i class="far fa-star" v-for="star in 5 - positiveRating" :key="star"></i> -->
-      </div>
       <p>{{ testimonialContent }}</p>
     </div>
   </div>
@@ -26,13 +22,6 @@ export default {
     testimonialContent: {
       type: String,
       required: true,
-    },
-    positiveRating: {
-      type: Number,
-      required: true,
-      validator: function (value) {
-        return value >= 0 && value <= 5;
-      },
     },
   },
   computed: {
@@ -68,12 +57,6 @@ export default {
   text-transform: uppercase;
   margin: 20px 0;
 }
-
-.stars {
-  color: #6ab04c;
-  margin-bottom: 20px;
-}
-
 /* Responsiveness */
 
 @media (max-width: 750px) {

@@ -48,7 +48,7 @@ export default {
   box-shadow: 0 0 2.5em rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   transition: 0.5s;
-  min-height: 250px;
+  min-height: 300px;
 }
 
 .features-card .icon {

@@ -1,6 +1,7 @@
 <template>
   <div>
     <index-header></index-header>
+    <!-- Landing page -->
     <section class="landing-section-container">
       <div class="column--section-welcome-left" id="welcome__text">
         <h1 class="welcome-title">
@@ -19,14 +20,17 @@
         <img src="../../assets/images/index/people-in-the-office.png" class="header__img" alt="People in the office sketch." />
       </div>
     </section>
+    <!-- Features Section -->
     <section class="features-section-container">
       <section-start sectionTitle="Features" sectionDescription="Every tool you need in order to do your job, lies inside the Comboard universe."></section-start>
-      <div class="row">
+      <div class="features--row">
         <feature-item v-for="feature in features" :key="feature.id" :title="feature.title" :description="feature.description" :icon="feature.icon"></feature-item>
       </div>
     </section>
+    <!-- Packages Section -->
     <section class="packages-section-container">
       <section-start sectionTitle="Packages" sectionDescription="Choose the correct setup for your organization."></section-start>
+      <!-- Buttons -->
       <div class="packages">
         <div class="packages__tab-container">
           <comboard-packages-button
@@ -38,6 +42,7 @@
             @toogle-active="toogleActive"
           ></comboard-packages-button>
         </div>
+        <!-- Packages -->
         <comboard-package-item
           v-for="packageObj in packages"
           :key="packageObj.id"
@@ -49,6 +54,7 @@
         ></comboard-package-item>
       </div>
     </section>
+    <!-- Testimonials Section -->
     <section class="testimonial-section-container">
       <section-start sectionTitle="Testimonials" sectionDescription="What's all the fuss about?"></section-start>
       <div class="testimonials--row">
@@ -58,7 +64,6 @@
           :authorName="testimonial.authorName"
           :authorImageFileName="testimonial.authorImageFileName"
           :testimonialContent="testimonial.testimonialContent"
-          :positiveRating="testimonial.positiveRating"
         ></testimonial-item>
       </div>
     </section>
@@ -133,21 +138,18 @@ export default {
           authorName: "Full name",
           authorImageFileName: "p1.png",
           testimonialContent: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-          positiveRating: 5,
         },
         {
           id: "2",
           authorName: "Full name",
           authorImageFileName: "p2.png",
           testimonialContent: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-          positiveRating: 3,
         },
         {
           id: "3",
           authorName: "Full name",
           authorImageFileName: "p3.png",
           testimonialContent: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-          positiveRating: 4,
         }
       ),
     };
@@ -273,7 +275,7 @@ export default {
   padding-bottom: 60px;
 }
 
-.row {
+.features--row {
   display: flex;
   /* flex-wrap: wrap; */
   padding-bottom: 20px;
@@ -283,7 +285,7 @@ export default {
 
 /* Responsiveness */
 @media (max-width: 1100px) {
-  .row {
+  .features--row {
     width: 90%;
   }
 
@@ -293,7 +295,7 @@ export default {
 }
 
 @media (max-width: 750px) {
-  .row {
+  .features--row {
     display: flex;
     flex-wrap: wrap;
     width: 80%;
