@@ -20,19 +20,13 @@
       </div>
     </section>
     <section class="features-section-container">
-      <div class="section__title">
-        <h2 class="section__description">Features</h2>
-        <h3 class="section__header">Every tool you need in order to do your job, lies inside the Comboard universe.</h3>
-      </div>
+      <section-start sectionTitle="Features" sectionDescription="Every tool you need in order to do your job, lies inside the Comboard universe."></section-start>
       <div class="row">
         <feature-item v-for="feature in features" :key="feature.id" :title="feature.title" :description="feature.description" :icon="feature.icon"></feature-item>
       </div>
     </section>
     <section class="packages-section-container">
-      <div class="section__title">
-        <h2 class="section__description">Packages</h2>
-        <h3 class="section__header">Choose the correct setup for your organization.</h3>
-      </div>
+      <section-start sectionTitle="Packages" sectionDescription="Choose the correct setup for your organization."></section-start>
       <div class="packages">
         <div class="packages__tab-container">
           <comboard-packages-button
@@ -56,10 +50,7 @@
       </div>
     </section>
     <section class="testimonial-section-container">
-      <div class="section__title">
-        <h2 class="section__description">Testimonials</h2>
-        <h3 class="section__header">What's all the fuss about?</h3>
-      </div>
+      <section-start sectionTitle="Testimonials" sectionDescription="What's all the fuss about?"></section-start>
       <div class="testimonials--row">
         <testimonial-item
           v-for="testimonial in testimonials"
@@ -77,6 +68,7 @@
 
 <script>
 import IndexHeader from "../layout/headers/IndexHeader.vue";
+import SectionStart from "../secondary-components/index/SectionStart.vue";
 import ComboardPackagesButton from "../secondary-components/index/ComboardPackagesButton.vue";
 import ComboardPackageItem from "../secondary-components/index/ComboardPackageItem.vue";
 import TestimonialItem from "../secondary-components/index/TestimonialItem.vue";
@@ -84,7 +76,7 @@ import FeatureItem from "../secondary-components/index/FeatureItem.vue";
 import IndexFooter from "../layout/footers/IndexFooter.vue";
 
 export default {
-  components: { IndexHeader, IndexFooter, TestimonialItem, ComboardPackagesButton, ComboardPackageItem, FeatureItem },
+  components: { IndexHeader, SectionStart, IndexFooter, TestimonialItem, ComboardPackagesButton, ComboardPackageItem, FeatureItem },
   emits: ["toogle-active"],
   data() {
     return {
@@ -182,6 +174,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
+
 .column--section-welcome-left {
   flex: 50%;
   max-width: 50%;
@@ -191,6 +184,7 @@ export default {
   padding-left: 50px;
   padding-top: 5px;
 }
+
 .column--section-welcome-right {
   flex: 50%;
   max-width: 50%;
@@ -256,26 +250,6 @@ export default {
   padding-bottom: 60px;
 }
 
-.section__title {
-  max-width: 80%;
-  margin: 0 auto 50px auto;
-  text-align: start;
-}
-
-.section__description {
-  font-size: 26px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: 10px;
-}
-
-.section__header {
-  font-size: 38px;
-  line-height: 1.3;
-  font-weight: 500;
-}
-
 .packages__tab-container {
   display: flex;
   justify-content: center;
@@ -284,25 +258,6 @@ export default {
 .testimonial-section-container {
   padding-top: 70px;
   padding-bottom: 60px;
-}
-.section__title {
-  max-width: 80%;
-  margin: 0 auto 50px auto;
-  text-align: start;
-}
-
-.section__description {
-  font-size: 26px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: 10px;
-}
-
-.section__header {
-  font-size: 38px;
-  line-height: 1.3;
-  font-weight: 500;
 }
 
 .testimonials--row {
@@ -318,25 +273,6 @@ export default {
   padding-bottom: 60px;
 }
 
-.section__title {
-  max-width: 80%;
-  margin: 0 auto 50px auto;
-  text-align: start;
-}
-
-.section__description {
-  font-size: 26px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: 10px;
-}
-
-.section__header {
-  font-size: 38px;
-  line-height: 1.3;
-  font-weight: 500;
-}
 .row {
   display: flex;
   /* flex-wrap: wrap; */
@@ -347,21 +283,12 @@ export default {
 
 /* Responsiveness */
 @media (max-width: 1100px) {
-  .section__title {
-    width: 90%;
-  }
   .row {
     width: 90%;
   }
-}
 
-@media (max-width: 800px) {
-  .section__description {
-    font-size: 24px;
-  }
-
-  .section__header {
-    font-size: 35px;
+  .testimonials--row {
+    width: 90%;
   }
 }
 
@@ -372,79 +299,10 @@ export default {
     width: 80%;
     margin: 0 auto;
   }
-}
 
-@media (max-width: 570px) {
-  .section__description {
-    font-size: 20px;
-  }
-
-  .section__header {
-    font-size: 30px;
-  }
-}
-
-/* Responsiveness */
-
-@media (max-width: 1100px) {
-  .section__title {
-    width: 90%;
-  }
-  .testimonials--row {
-    width: 90%;
-  }
-}
-
-@media (max-width: 800px) {
-  .section__description {
-    font-size: 24px;
-  }
-
-  .section__header {
-    font-size: 35px;
-  }
-}
-
-@media (max-width: 570px) {
-  .section__description {
-    font-size: 20px;
-  }
-
-  .section__header {
-    font-size: 30px;
-  }
-}
-
-/* Responsiveness */
-
-@media (max-width: 1100px) {
-  .section__title {
-    width: 90%;
-  }
-}
-
-@media (max-width: 800px) {
-  .section__description {
-    font-size: 24px;
-  }
-
-  .section__header {
-    font-size: 35px;
-  }
-}
-@media (max-width: 750px) {
   .packages__tab-container {
     width: 90%;
     margin: 0 auto;
-  }
-}
-@media (max-width: 570px) {
-  .section__description {
-    font-size: 20px;
-  }
-
-  .section__header {
-    font-size: 30px;
   }
 }
 
@@ -454,6 +312,7 @@ export default {
   .landing-section-container {
     padding-top: 40px;
   }
+
   .column--section-welcome-left,
   .column--section-welcome-right {
     flex: 100%;
@@ -463,26 +322,31 @@ export default {
     padding-top: 40px;
     padding-left: 0;
   }
+
   .welcome-title {
     font-size: 50px;
     line-height: 1.35;
     padding: 10px;
     margin-top: 20px;
   }
+
   .header__img {
     width: 70%;
     /* transform: translateY(-20%); */
   }
+
   .text-button-container {
     display: flex;
     justify-content: center;
     padding: 20px;
   }
+
   .btn--text-welcome {
     margin-top: 6px;
     font-size: 14px;
     padding-left: 4px;
   }
+
   #text--explanation {
     font-size: 17px;
   }
@@ -492,9 +356,11 @@ export default {
   .landing-section-container {
     padding-top: 0;
   }
+
   .column--section-welcome-right {
     display: none;
   }
+
   .welcome-title {
     font-size: 45px;
     /* line-height: 1.35; */
@@ -507,15 +373,18 @@ export default {
     justify-content: center;
     padding: 20px;
   }
+
   .btn--text-welcome {
     margin-top: 5px;
     font-size: 14px;
     padding-left: 4px;
   }
+
   #text--explanation {
     font-size: 16px;
   }
 }
+
 @media screen and (max-width: 420px) {
   .welcome-title {
     font-size: 40px;
@@ -527,11 +396,13 @@ export default {
   .text-button-container {
     padding: 17px;
   }
+
   .btn--text-welcome {
     margin-top: 5px;
     font-size: 13px;
     padding-left: 4px;
   }
+
   #text--explanation {
     font-size: 15px;
   }
