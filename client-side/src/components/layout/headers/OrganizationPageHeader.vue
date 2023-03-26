@@ -23,8 +23,8 @@
                 <img class="user-icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s" /></div
             ></a>
           </li>
-          <li class="header-li">
-            <a class="header-a" href=""><font-awesome-icon class="more-menu-icon" icon="fa-solid fa-ellipsis-vertical" /></a>
+          <li class="header-li" @click="toggleMobileOptionsMenu">
+            <a class="header-a"><font-awesome-icon class="more-menu-icon" icon="fa-solid fa-ellipsis-vertical" /></a>
           </li>
         </ul>
       </nav>
@@ -97,6 +97,9 @@ export default {
     },
     toggleNotificationOptions() {
       this.notificationOptionsAreVisible = !this.notificationOptionsAreVisible;
+    },
+    toggleMobileOptionsMenu() {
+      console.log("clicked");
     },
   },
   components: { HeaderToggleOption },

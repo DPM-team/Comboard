@@ -78,6 +78,10 @@ export default {
   width: calc(70% - 100px);
   overflow-y: auto;
 }
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
 
 .side-section {
   width: calc(30% - 100px);
