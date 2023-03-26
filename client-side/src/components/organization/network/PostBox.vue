@@ -132,4 +132,43 @@ export default {
     width: 180px;
   }
 }
+@media (max-width: 430px) {
+  .post-input {
+    width: 160px;
+  }
+  .post-box {
+    width: 330px;
+  }
+  .pfp-container {
+    margin-right: 13px;
+  }
+  .post-button {
+    margin-left: 13px;
+  }
+}
+@media (max-width: 400px) {
+  .post-input {
+    width: 140px;
+  }
+  .post-box {
+    width: 290px;
+  }
+  .pfp-container {
+    margin-right: 12px;
+  }
+  .post-button {
+    margin-left: 12px;
+  }
+  .image-name-date-container h2 {
+    width: 150px;
+    font-size: 16px;
+  }
+  .image-name-date-container h4 {
+    font-size: 12px;
+  }
+  .like-comment-container p {
+    width: 60%;
+    font-size: 12px;
+  }
+}
 </style>
