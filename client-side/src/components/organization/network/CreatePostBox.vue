@@ -21,13 +21,14 @@ export default {
 
       this.post = this.$refs.dataInput.value;
     },
+
     createPost() {
       let headers = new Headers();
       headers.append("Content-Type", "application/json");
-
+      console.log(this.$store);
       let body = JSON.stringify({
-        userId: "test",
-        orgId: "test",
+        userId: this.$store.loggedUserID,
+        orgId: this.$store.selectedOrganizationID,
         content: this.post,
       });
 
