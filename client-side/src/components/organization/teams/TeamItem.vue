@@ -31,7 +31,7 @@ export default {
 li {
   list-style-type: none;
   margin: auto;
-  max-width: 40rem;
+  max-width: 50rem;
 }
 
 header {
@@ -41,12 +41,12 @@ header {
 }
 
 h3 {
-  font-size: 1.25rem;
-  margin: 0.5rem 0;
+  font-size: 1.4rem;
+  margin: 10px;
 }
 
 p {
-  margin: 0.5rem 0;
+  margin: 10px;
 }
 
 a {
