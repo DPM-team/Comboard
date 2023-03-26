@@ -56,6 +56,20 @@ export default {
   width: 70%;
 }
 
+.calendar-container :deep(.vc-day) {
+  padding: 50px;
+}
+
+.calendar-container :deep(.vc-day:not(.on-right)) {
+  border-right: 1px solid rgb(226, 232, 240);
+}
+.calendar-container :deep(.vc-day:not(.on-left)) {
+  border-right: 1px solid rgb(226, 232, 240);
+}
+.calendar-container :deep(.vc-day:not(.on-bottom)) {
+  border-bottom: 1px solid rgb(226, 232, 240);
+}
+
 /* Responsiveness */
 
 @media (max-width: 1250px) {
