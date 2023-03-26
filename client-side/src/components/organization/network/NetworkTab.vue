@@ -1,5 +1,5 @@
 <template>
-  <organization-page-tab :layout="'flex'">
+  <organization-page-tab layout="flex">
     <div class="main-section">
       <create-post-box :pictureLink="this.myUser.pictureLink"></create-post-box>
       <post-box v-for="post in posts" :key="post.id" :pictureLink="post.pictureLink" :firstname="post.firstname" :lastname="post.lastname" :content="post.content" :date="post.date"></post-box>
