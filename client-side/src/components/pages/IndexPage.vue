@@ -19,7 +19,15 @@
         <img src="../../assets/images/index/people-in-the-office.png" class="header__img" alt="People in the office sketch." />
       </div>
     </section>
-    <features-section-col-style></features-section-col-style>
+    <section class="features-section-container">
+      <div class="section__title">
+        <h2 class="section__description">Features</h2>
+        <h3 class="section__header">Every tool you need in order to do your job, lies inside the Comboard universe.</h3>
+      </div>
+      <div class="row">
+        <feature-item v-for="feature in features" :key="feature.id" :title="feature.title" :description="feature.description" :icon="feature.icon"></feature-item>
+      </div>
+    </section>
     <section class="packages-section-container">
       <div class="section__title">
         <h2 class="section__description">Packages</h2>
@@ -69,17 +77,37 @@
 
 <script>
 import IndexHeader from "../layout/headers/IndexHeader.vue";
-import FeaturesSectionColStyle from "../layout/sections/index/FeaturesSectionColStyle.vue";
 import ComboardPackagesButton from "../secondary-components/index/ComboardPackagesButton.vue";
 import ComboardPackageItem from "../secondary-components/index/ComboardPackageItem.vue";
 import TestimonialItem from "../secondary-components/index/TestimonialItem.vue";
+import FeatureItem from "../secondary-components/index/FeatureItem.vue";
 import IndexFooter from "../layout/footers/IndexFooter.vue";
 
 export default {
-  components: { IndexHeader, FeaturesSectionColStyle, IndexFooter, TestimonialItem, ComboardPackagesButton, ComboardPackageItem },
+  components: { IndexHeader, IndexFooter, TestimonialItem, ComboardPackagesButton, ComboardPackageItem, FeatureItem },
   emits: ["toogle-active"],
   data() {
     return {
+      features: new Array(
+        {
+          id: "1",
+          title: "Networking",
+          description: "Networking inside your organization has never been easier...Think about it as if all organization members are in the same building.",
+          icon: "fa-solid fa-people-group",
+        },
+        {
+          id: "2",
+          title: "Communication",
+          description: "We would probably guess that by now you are tired of using lots of different applications for your everyday communication. So, why not do all that with a single application?",
+          icon: "fa-solid fa-list-check",
+        },
+        {
+          id: "3",
+          title: "Organizing",
+          description: "Keep your schedule organized and clean, have easy access to all your organization related tasks and much more.",
+          icon: "fa-solid fa-list-check",
+        }
+      ),
       packages: new Array(
         {
           id: "1",
@@ -283,6 +311,77 @@ export default {
   justify-content: center;
   width: 90%;
   margin: 0 auto;
+}
+
+.features-section-container {
+  padding-top: 50px;
+  padding-bottom: 60px;
+}
+
+.section__title {
+  max-width: 80%;
+  margin: 0 auto 50px auto;
+  text-align: start;
+}
+
+.section__description {
+  font-size: 26px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+
+.section__header {
+  font-size: 38px;
+  line-height: 1.3;
+  font-weight: 500;
+}
+.row {
+  display: flex;
+  /* flex-wrap: wrap; */
+  padding-bottom: 20px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* Responsiveness */
+@media (max-width: 1100px) {
+  .section__title {
+    width: 90%;
+  }
+  .row {
+    width: 90%;
+  }
+}
+
+@media (max-width: 800px) {
+  .section__description {
+    font-size: 24px;
+  }
+
+  .section__header {
+    font-size: 35px;
+  }
+}
+
+@media (max-width: 750px) {
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 570px) {
+  .section__description {
+    font-size: 20px;
+  }
+
+  .section__header {
+    font-size: 30px;
+  }
 }
 
 /* Responsiveness */
