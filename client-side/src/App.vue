@@ -7,6 +7,7 @@ export default {
   name: "App",
   created() {
     this.$store.dispatch("tryAutoLogin");
+    this.$store.dispatch("tryAutoOrganizationLoad");
   },
 };
 </script>

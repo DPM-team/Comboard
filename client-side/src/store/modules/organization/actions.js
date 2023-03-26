@@ -72,4 +72,11 @@ export default {
       throw new Error(error.message);
     }
   },
+  tryAutoOrganizationLoad(context) {
+    const organizationID = localStorage.getItem("organizationID");
+
+    if (organizationID) {
+      context.commit("setSelectedOrganizationID", { organizationID });
+    }
+  },
 };
