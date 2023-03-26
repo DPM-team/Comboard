@@ -224,58 +224,27 @@ export default {
     margin-left: 40%;
   }
 }
+@media (max-width: 600px) {
+  .nav__logo {
+    margin-left: 30%;
+  }
+}
 @media (max-width: 750px) {
   .header-nav .header-ul {
     margin-right: 40px;
   }
 }
-
-@media (max-width: 650px) {
-  /* .checkbtn {
-    display: block;
-  }
+@media (max-width: 500px) {
   .nav__logo {
-    margin-left: 40%;
-  }
-  .header-nav {
-    height: 100px;
+    margin-left: 20%;
   }
   .header-nav .header-ul {
-    z-index: 10;
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    background: var(--color-primary);
-    top: 100px;
-    left: -100%;
-    text-align: center;
-    transition: all 0.5s;
+    margin-right: 10px;
   }
-  .header-nav .header-ul .header-li {
-    display: block;
-    margin: 50px;
-    line-height: 30px;
-  }
-  .header-nav .header-ul .header-li .header-a {
-    font-size: 20px;
-  }
-
-  .header-a:hover {
-    background: none;
-    opacity: 0.8;
-  }
-  #check:checked ~ .header-ul {
-    left: 0;
-  } */
-  .more-menu-icon {
-    display: block;
-  }
-
-  .menu-icon {
-    display: none;
-  }
-  .img-container {
-    display: none;
+}
+@media (max-width: 380px) {
+  .nav__logo {
+    margin-left: 15%;
   }
 }
 </style>
