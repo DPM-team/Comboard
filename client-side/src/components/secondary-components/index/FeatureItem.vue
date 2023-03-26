@@ -1,7 +1,9 @@
 <template>
   <div class="column">
     <div class="features-card">
-      <div class="icon"><font-awesome-icon class="icon-item" :icon="icon" /></div>
+      <div class="icon">
+        <font-awesome-icon class="icon-item" :icon="icon" />
+      </div>
       <h3>{{ title }}</h3>
       <p>{{ description }}</p>
     </div>

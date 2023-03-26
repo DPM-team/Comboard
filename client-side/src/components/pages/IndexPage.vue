@@ -44,7 +44,7 @@
           :id="packageObj.id"
           :title="packageObj.title"
           :detailedDescription="packageObj.detailedDescription"
-          :imageFileName="packageObj.imageFileName"
+          :icon="packageObj.icon"
           :isActive="packageIsActive(packageObj.id)"
         ></comboard-package-item>
       </div>
@@ -106,7 +106,7 @@ export default {
           title: "Universities or large educational firms? This plan is for you!",
           detailedDescription:
             "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          imageFileName: "school_icon.png",
+          icon: "fa-solid fa-list-check",
           relatedButtonText: "Educational",
         },
         {
@@ -114,7 +114,7 @@ export default {
           title: "Recommended for your organization's first steps into the Comboard universe.",
           detailedDescription:
             "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          imageFileName: "basic_icon.png",
+          icon: "fa-solid fa-list-check",
           relatedButtonText: "Basic",
         },
         {
@@ -122,7 +122,7 @@ export default {
           title: "Already done your research? Start your professional organization!",
           detailedDescription:
             "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          imageFileName: "professional_icon.png",
+          icon: "fa-solid fa-list-check",
           relatedButtonText: "Professional",
         }
       ),

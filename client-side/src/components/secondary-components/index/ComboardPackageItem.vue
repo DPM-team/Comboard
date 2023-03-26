@@ -1,7 +1,7 @@
 <template>
   <div :class="handleOuterDivClasses">
     <div :class="'packages__icon packages__icon--' + id">
-      <img :src="formatImagePath" />
+      <font-awesome-icon class="icon-item" :icon="icon" />
     </div>
     <br />
     <h5 class="packages__header">{{ title }}</h5>
@@ -26,7 +26,7 @@ export default {
       type: String,
       required: true,
     },
-    imageFileName: {
+    icon: {
       type: String,
       required: true,
     },
@@ -73,11 +73,6 @@ export default {
   height: 60px;
   width: 60px;
   border-radius: 50%;
-}
-
-.packages__icon img {
-  height: 30px;
-  width: 30px;
 }
 
 .packages__icon--1 {
