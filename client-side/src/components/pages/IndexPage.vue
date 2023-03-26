@@ -20,8 +20,49 @@
       </div>
     </section>
     <features-section-col-style></features-section-col-style>
-    <packages-section></packages-section>
-    <testimonials-section></testimonials-section>
+    <section class="packages-section-container">
+      <div class="section__title">
+        <h2 class="section__description">Packages</h2>
+        <h3 class="section__header">Choose the correct setup for your organization.</h3>
+      </div>
+      <div class="packages">
+        <div class="packages__tab-container">
+          <comboard-packages-button
+            v-for="packageObj in packages"
+            :key="packageObj.id"
+            :btnID="packageObj.id"
+            :btnText="packageObj.relatedButtonText"
+            :isActive="packageIsActive(packageObj.id)"
+            @toogle-active="toogleActive"
+          ></comboard-packages-button>
+        </div>
+        <comboard-package-item
+          v-for="packageObj in packages"
+          :key="packageObj.id"
+          :id="packageObj.id"
+          :title="packageObj.title"
+          :detailedDescription="packageObj.detailedDescription"
+          :imageFileName="packageObj.imageFileName"
+          :isActive="packageIsActive(packageObj.id)"
+        ></comboard-package-item>
+      </div>
+    </section>
+    <section class="testimonial-section-container">
+      <div class="section__title">
+        <h2 class="section__description">Testimonials</h2>
+        <h3 class="section__header">What's all the fuss about?</h3>
+      </div>
+      <div class="testimonials--row">
+        <testimonial-item
+          v-for="testimonial in testimonials"
+          :key="testimonial.id"
+          :authorName="testimonial.authorName"
+          :authorImageFileName="testimonial.authorImageFileName"
+          :testimonialContent="testimonial.testimonialContent"
+          :positiveRating="testimonial.positiveRating"
+        ></testimonial-item>
+      </div>
+    </section>
     <index-footer></index-footer>
   </div>
 </template>
@@ -29,12 +70,76 @@
 <script>
 import IndexHeader from "../layout/headers/IndexHeader.vue";
 import FeaturesSectionColStyle from "../layout/sections/index/FeaturesSectionColStyle.vue";
-import PackagesSection from "../layout/sections/index/PackagesSection.vue";
-import TestimonialsSection from "../layout/sections/index/TestimonialsSection.vue";
+import ComboardPackagesButton from "../secondary-components/index/ComboardPackagesButton.vue";
+import ComboardPackageItem from "../secondary-components/index/ComboardPackageItem.vue";
+import TestimonialItem from "../secondary-components/index/TestimonialItem.vue";
 import IndexFooter from "../layout/footers/IndexFooter.vue";
 
 export default {
-  components: { IndexHeader, FeaturesSectionColStyle, PackagesSection, TestimonialsSection, IndexFooter },
+  components: { IndexHeader, FeaturesSectionColStyle, IndexFooter, TestimonialItem, ComboardPackagesButton, ComboardPackageItem },
+  emits: ["toogle-active"],
+  data() {
+    return {
+      packages: new Array(
+        {
+          id: "1",
+          title: "Universities or large educational firms? This plan is for you!",
+          detailedDescription:
+            "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          imageFileName: "school_icon.png",
+          relatedButtonText: "Educational",
+        },
+        {
+          id: "2",
+          title: "Recommended for your organization's first steps into the Comboard universe.",
+          detailedDescription:
+            "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          imageFileName: "basic_icon.png",
+          relatedButtonText: "Basic",
+        },
+        {
+          id: "3",
+          title: "Already done your research? Start your professional organization!",
+          detailedDescription:
+            "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          imageFileName: "professional_icon.png",
+          relatedButtonText: "Professional",
+        }
+      ),
+      activePackageID: "1",
+      testimonials: new Array(
+        {
+          id: "1",
+          authorName: "Full name",
+          authorImageFileName: "p1.png",
+          testimonialContent: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+          positiveRating: 5,
+        },
+        {
+          id: "2",
+          authorName: "Full name",
+          authorImageFileName: "p2.png",
+          testimonialContent: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+          positiveRating: 3,
+        },
+        {
+          id: "3",
+          authorName: "Full name",
+          authorImageFileName: "p3.png",
+          testimonialContent: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+          positiveRating: 4,
+        }
+      ),
+    };
+  },
+  methods: {
+    packageIsActive(packageID) {
+      return this.activePackageID === packageID;
+    },
+    toogleActive(id) {
+      this.activePackageID = String(id);
+    },
+  },
 };
 </script>
 
@@ -116,6 +221,132 @@ export default {
 .header__img {
   width: 100%;
   transform: translateY(-20%);
+}
+
+.packages-section-container {
+  padding-top: 70px;
+  padding-bottom: 60px;
+}
+
+.section__title {
+  max-width: 80%;
+  margin: 0 auto 50px auto;
+  text-align: start;
+}
+
+.section__description {
+  font-size: 26px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+
+.section__header {
+  font-size: 38px;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+.packages__tab-container {
+  display: flex;
+  justify-content: center;
+}
+
+.testimonial-section-container {
+  padding-top: 70px;
+  padding-bottom: 60px;
+}
+.section__title {
+  max-width: 80%;
+  margin: 0 auto 50px auto;
+  text-align: start;
+}
+
+.section__description {
+  font-size: 26px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+
+.section__header {
+  font-size: 38px;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+.testimonials--row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* Responsiveness */
+
+@media (max-width: 1100px) {
+  .section__title {
+    width: 90%;
+  }
+  .testimonials--row {
+    width: 90%;
+  }
+}
+
+@media (max-width: 800px) {
+  .section__description {
+    font-size: 24px;
+  }
+
+  .section__header {
+    font-size: 35px;
+  }
+}
+
+@media (max-width: 570px) {
+  .section__description {
+    font-size: 20px;
+  }
+
+  .section__header {
+    font-size: 30px;
+  }
+}
+
+/* Responsiveness */
+
+@media (max-width: 1100px) {
+  .section__title {
+    width: 90%;
+  }
+}
+
+@media (max-width: 800px) {
+  .section__description {
+    font-size: 24px;
+  }
+
+  .section__header {
+    font-size: 35px;
+  }
+}
+@media (max-width: 750px) {
+  .packages__tab-container {
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 570px) {
+  .section__description {
+    font-size: 20px;
+  }
+
+  .section__header {
+    font-size: 30px;
+  }
 }
 
 /* Responsiveness */
