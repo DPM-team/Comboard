@@ -28,7 +28,6 @@ router.post(
     const user = req.user;
 
     const file = new File({ userId: user._id, name: req.file.originalname, type: req.file.mimetype, binary: req.file.buffer });
-
     await file.save();
 
     user.files.push(file._id);
@@ -126,7 +125,7 @@ router.get("/api/users/:id/file/:fileId", async (req, res) => {
       throw new Error("No file");
     }
 
-    res.set("Content-Type", file.mimetype);
+    res.set("Content-Type", file.type);
 
     res.send(file.binary);
   } catch (error) {

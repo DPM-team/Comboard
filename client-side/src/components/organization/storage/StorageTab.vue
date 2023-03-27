@@ -9,10 +9,10 @@
         </div>
         <file-item
           v-for="(file, i) in files"
-          @dblclick="openFile(`http://localhost:3000/api/users/64187222cdb384a474b4d4f1/file/${file._id}`)"
+          @dblclick="openFile(`http://localhost:3000/api/users/${this.$store.getters.loggedUserID}/file/${file._id}`)"
           :key="i"
           :icon="getIcon(i)"
-          :src="`http://localhost:3000/api/users/64187222cdb384a474b4d4f1/file/${file._id}`"
+          :src="`http://localhost:3000/api/users/${this.$store.getters.loggedUserID}/file/${file._id}`"
           :name="file.name"
         ></file-item>
       </ul>
@@ -57,9 +57,12 @@ export default {
     },
     upload() {
       let myHeaders = new Headers();
-      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDE4NzIyMmNkYjM4NGE0NzRiNGQ0ZjEiLCJpYXQiOjE2NzkzMjM2ODJ9.IQ5IxYBsAmC39O3QtbRliA9rPZQqQL_1eI4cO3QgVFI");
+      console.log(this.$store);
+      myHeaders.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
 
       let formdata = new FormData();
+
+      console.log(this.selectedFile);
 
       formdata.append("upload", this.selectedFile, this.selectedFile.name);
 
@@ -82,12 +85,12 @@ export default {
     //Insert into selected file the object of file.
     getData(e) {
       this.selectedFile = e.srcElement.files[0];
-      console.log(this.selectedFile);
+
       this.upload();
     },
     getFiles(skip) {
       var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDE4NzIyMmNkYjM4NGE0NzRiNGQ0ZjEiLCJpYXQiOjE2NzkzMjM2ODJ9.IQ5IxYBsAmC39O3QtbRliA9rPZQqQL_1eI4cO3QgVFI");
+      myHeaders.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
 
       var requestOptions = {
         method: "GET",
@@ -105,9 +108,11 @@ export default {
         this.spinnerScroll = true;
         this.skip = this.files.length;
 
+        console.log(this.$refs.file);
+
         const otherFiles = await this.getFiles(this.skip);
         if (otherFiles.length === 0) {
-          // this.spinnerScroll = false;
+          this.spinnerScroll = false;
 
           return;
         } else if (otherFiles.length > 0) {
