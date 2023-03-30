@@ -5,7 +5,7 @@ import getters from "./getters.js";
 const fileModule = {
   state() {
     return {
-      files: null,
+      files: [],
     };
   },
   mutations,

@@ -2,7 +2,7 @@ export default {
   async getFiles(context, payload) {
     try {
       let myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${context.store.loggedUserToken}`);
+      myHeaders.append("Authorization", `Bearer ${context.rootGetters.loggedUserToken}`);
 
       let requestOptions = {
         method: "GET",
@@ -11,7 +11,9 @@ export default {
       };
 
       const files = await fetch(`/api/user/files?limit=10&skip=${payload.skip}`, requestOptions);
-      context.commit("setFiles", files.json());
+      // console.log("a");
+
+      context.commit("setFiles", { files: await files.json() });
     } catch (error) {
       throw new Error(error.message);
     }

@@ -8,6 +8,7 @@
           <file-item v-for="i in 4" :key="i" :spinner="true" :name="''"></file-item>
         </div>
         <file-item
+          v-else
           v-for="(file, i) in files"
           @dblclick="openFile(`http://localhost:3000/api/users/${this.$store.getters.loggedUserID}/file/${file._id}`)"
           :key="i"
@@ -33,13 +34,15 @@ export default {
     UploadFileButton,
     BaseSpinner,
   },
-  async created() {
-    this.files = await this.getFiles(0);
+  created() {
+    this.$store.dispatch("getFiles", {
+      skip: 0,
+    });
   },
 
   data() {
     return {
-      files: [],
+      files: this.$store.getters.getFiles,
       selectedFile: null,
       skip: 0,
       spinnerScroll: false,
@@ -57,28 +60,13 @@ export default {
     },
 
     //Insert into selected file the object of file.
-    getData(e) {
+    async getData(e) {
       this.selectedFile = e.srcElement.files[0];
 
-      this.$store.dispatch("upload", { file: this.selectedFile });
+      await this.$store.dispatch("upload", { file: this.selectedFile });
       setTimeout(() => {
         this.selectedFile = null;
       }, 4000);
-    },
-    getFiles(skip) {
-      var myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
-
-      var requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-
-      return fetch(`/api/user/files?limit=10&skip=${skip}`, requestOptions)
-        .then((response) => response.json())
-        .then((result) => result)
-        .catch((error) => console.log("error", error));
     },
     async scrollFiles(e) {
       if (e.srcElement.offsetHeight + e.srcElement.scrollTop >= e.srcElement.scrollHeight) {
