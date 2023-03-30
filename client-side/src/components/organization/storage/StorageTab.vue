@@ -55,38 +55,15 @@ export default {
         return "fa-regular fa-file-excel";
       }
     },
-    upload() {
-      let myHeaders = new Headers();
-      console.log(this.$store);
-      myHeaders.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
 
-      let formdata = new FormData();
-
-      console.log(this.selectedFile);
-
-      formdata.append("upload", this.selectedFile, this.selectedFile.name);
-
-      let requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: formdata,
-        redirect: "follow",
-      };
-
-      fetch("/api/user/upload", requestOptions)
-        .then(() => {
-          setTimeout(() => {
-            this.selectedFile = null;
-          }, 4000);
-        })
-
-        .catch((error) => console.log("error", error));
-    },
     //Insert into selected file the object of file.
     getData(e) {
       this.selectedFile = e.srcElement.files[0];
 
-      this.upload();
+      this.$store.dispatch("upload", { file: this.selectedFile });
+      setTimeout(() => {
+        this.selectedFile = null;
+      }, 4000);
     },
     getFiles(skip) {
       var myHeaders = new Headers();
@@ -123,9 +100,7 @@ export default {
         this.spinnerScroll = false;
       }
     },
-    spinner() {
-      console.log("");
-    },
+
     openFile(file) {
       window.open(file, "_blank");
     },
