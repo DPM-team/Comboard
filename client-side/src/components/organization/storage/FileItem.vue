@@ -2,7 +2,8 @@
   <li class="file-item" :class="{ loading: spinner }">
     <base-spinner v-if="spinner" class="base-spinner"></base-spinner>
     <div v-else class="file-item-content-iframe">
-      <iframe :src="src" class="frame"></iframe>
+      <iframe v-if="icon !== 'fa-regular fa-file-word'" :src="src" class="frame"></iframe>
+      <font-awesome-icon v-else :icon="icon" class="icon" />
       <p>{{ fileName }}</p>
     </div>
   </li>
@@ -35,11 +36,6 @@ export default {
     return {
       fileName: this.name,
     };
-  },
-  method: {
-    spi() {
-      console.log("xvg");
-    },
   },
 };
 </script>
