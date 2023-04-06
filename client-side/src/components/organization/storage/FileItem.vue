@@ -3,8 +3,10 @@
     <base-spinner v-if="spinner" class="base-spinner"></base-spinner>
     <div v-else class="file-item-content-iframe">
       <iframe v-if="icon !== 'fa-regular fa-file-word'" :src="src" class="frame"></iframe>
-      <font-awesome-icon v-else :icon="icon" class="icon" />
-      <p>{{ fileName }}</p>
+      <div :class="{ 'content-name': icon !== 'fa-regular fa-file-word' }">
+        <font-awesome-icon :icon="icon" :class="{ icon: icon === 'fa-regular fa-file-word' }" />
+        <p>{{ fileName }}</p>
+      </div>
     </div>
   </li>
 </template>
@@ -14,11 +16,9 @@ export default {
   props: {
     name: {
       type: String,
-      required: true,
     },
     type: {
       type: String,
-      required: true,
     },
     icon: {
       type: String,
@@ -32,9 +32,17 @@ export default {
     },
   },
 
+  created() {
+    if (this.name?.length > 30) {
+      this.fileName = this.name.slice(0, 27) + "...";
+    } else {
+      this.fileName = this.name;
+    }
+  },
+
   data() {
     return {
-      fileName: this.name,
+      fileName: "",
     };
   },
 };
@@ -88,9 +96,15 @@ export default {
   font-size: 45px;
 }
 
+.content-name {
+  display: flex;
+  justify-content: space-around;
+}
+
 .file-item-content p {
   width: 100%;
   display: flex;
+
   justify-content: center;
   font-size: 12px;
   font-weight: bold;

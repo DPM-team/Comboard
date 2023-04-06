@@ -6,7 +6,7 @@
     <div class="files-container">
       <ul class="file-ul">
         <div v-if="this.files.length === 0 && this.loaddingFiles" class="file-ul">
-          <file-item v-for="i in 4" :key="i" :spinner="true" :name="''"></file-item>
+          <file-item v-for="i in 4" :key="i" :spinner="true"></file-item>
         </div>
         <file-item
           v-else-if="this.files.length > 0 && !this.loaddingFiles"
@@ -84,17 +84,17 @@ export default {
 
         console.log(this.$refs.file);
 
-        const otherFiles = await this.getFiles(this.skip);
-        if (otherFiles.length === 0) {
+        let previousFilesSize = this.files.length;
+
+        await this.$store.dispatch("getFiles", {
+          skip: this.skip,
+        });
+
+        if (previousFilesSize === this.files.length) {
           this.spinnerScroll = false;
 
           return;
-        } else if (otherFiles.length > 0) {
-          otherFiles.forEach((file) => {
-            this.files.push(file);
-          });
         }
-        this.spinnerScroll = false;
       }
     },
 
