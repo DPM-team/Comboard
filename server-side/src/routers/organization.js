@@ -57,12 +57,12 @@ router.post("/api/organization", async function (req, res) {
 });
 
 router.post("/api/organization/join", async function (req, res) {
-  const organizationID = req.body.organizationID;
+  const organizationKey = req.body.organizationKey;
   const userID = req.body.userID;
 
   try {
-    // Find the organization by its id
-    const organizationObj = await Organization.findById(organizationID);
+    // Find the organization by its public sharable key
+    const organizationObj = await Organization.findOne({ publicKey: organizationKey });
 
     if (!organizationObj) {
       return res.status(404).json({ error: "Organization not found!" });
@@ -85,8 +85,8 @@ router.post("/api/organization/join", async function (req, res) {
     // Save the updated organization document
     const updatedOrganization = await organizationObj.save();
 
-    if (!userObj.organizations.includes(organizationID)) {
-      userObj.organizations.push(organizationID);
+    if (!userObj.organizations.includes(updatedOrganization._id)) {
+      userObj.organizations.push(updatedOrganization._id);
     } else {
       return res.status(404).json({ error: "Organization is already added!", updatedOrganization });
     }
