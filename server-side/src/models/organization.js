@@ -35,6 +35,11 @@ const organizationSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
+    creator: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
     users: new Array({
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",

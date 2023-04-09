@@ -1,5 +1,5 @@
 export default {
-  async registerOrganization(_, payload) {
+  async registerOrganization(context, payload) {
     const organizationObj = {
       name: payload.name,
       email: payload.email,
@@ -9,12 +9,15 @@ export default {
       websiteURL: payload.website,
     };
 
+    // The user who created the organization and submits the form
+    const userID = context.rootGetters.loggedUserID;
+
     const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(organizationObj),
+      body: JSON.stringify({ organizationObj, userID }),
     };
 
     return new Promise((resolve, reject) => {

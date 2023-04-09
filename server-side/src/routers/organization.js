@@ -6,6 +6,16 @@ const User = require("../models/user.js");
 const router = express.Router();
 
 router.post("/api/organization", async function (req, res) {
+  // The user who creates the organization (current owner)
+  const userID = req.body.userID;
+
+  // Find the user by its id
+  const userObj = await User.findById(userID);
+
+  if (!userObj) {
+    return res.status(404).json({ error: "User not found!" });
+  }
+
   let uniqueKey = false;
 
   while (!uniqueKey) {
@@ -17,12 +27,23 @@ router.post("/api/organization", async function (req, res) {
           uniqueKey = true;
 
           const organizationObj = new Organization({
-            ...req.body,
+            ...req.body.organizationObj,
+            creator: userID,
             publicKey,
           });
 
           try {
-            await organizationObj.save();
+            const savedOrganization = await organizationObj.save();
+
+            if (!userObj.organizations.includes(savedOrganization._id)) {
+              userObj.organizations.push(savedOrganization._id);
+            } else {
+              return res.status(404).json({ error: "Organization is already added!", savedOrganization });
+            }
+
+            // Save the updated user document
+            await userObj.save();
+
             res.status(201).send({ publicKey });
           } catch (error) {
             res.status(400).send({ error: error.message });
