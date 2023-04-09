@@ -32,6 +32,13 @@ router.post("/api/organization", async function (req, res) {
             publicKey,
           });
 
+          // Add the user to the organization's 'users' array
+          if (!organizationObj.users.includes(userID)) {
+            organizationObj.users.push(userID);
+          } else {
+            return res.status(404).json({ error: "User is already added!" });
+          }
+
           try {
             const savedOrganization = await organizationObj.save();
 
