@@ -40,14 +40,14 @@ export default {
   },
   async joinOrganization(context, payload) {
     const organizationKey = payload.organizationKey;
-    const UserID = context.rootGetters.loggedUserID;
+    const userID = context.rootGetters.loggedUserID;
 
     const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ organizationKey, UserID }),
+      body: JSON.stringify({ organizationKey, userID }),
     };
 
     return new Promise((resolve, reject) => {

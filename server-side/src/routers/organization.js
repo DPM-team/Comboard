@@ -92,10 +92,10 @@ router.post("/api/organization/join", async function (req, res) {
     }
 
     // Save the updated user document
-    const updatedUser = await userObj.save();
+    await userObj.save();
 
     // Return the updated organization document
-    return res.json({ updatedOrganization, updatedUser });
+    return res.json({ message: "Successfully organization added!" });
   } catch (error) {
     return res.status(500).json({ error: "Server error" });
   }
