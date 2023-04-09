@@ -1,13 +1,18 @@
 <template>
   <organization-page-tab @scroll="scrollFiles" :layout="'block'">
     <upload-file-button @change="getData"></upload-file-button>
-    <base-spinner v-if="spinnerFile" class="chosen-file"></base-spinner>
-    <p class="chosen-file">{{ this.selectedFile?.name || "No file chosen" }}</p>
+
+    <div class="load-file">
+      <p class="chosen-file">{{ this.selectedFile?.name || "No file chosen" }}</p>
+      <base-spinner v-if="spinnerFile"></base-spinner>
+    </div>
+
     <div class="files-container">
       <ul class="file-ul">
-        <div v-if="this.files.length === 0 && this.loaddingFiles" class="file-ul">
+        <div v-if="this.$store.getters.getFiles.length === 0 && this.loaddingFiles" class="file-ul">
           <file-item v-for="i in 4" :key="i" :spinner="true"></file-item>
         </div>
+        <p v-else-if="this.$store.getters.getFiles.length === 0 && !this.loaddingFiles">No Files</p>
         <file-item
           v-else-if="this.files.length > 0 && !this.loaddingFiles"
           v-for="(file, i) in files"
@@ -17,7 +22,6 @@
           :src="`/api/users/${this.$store.getters.loggedUserID}/file/${file._id}`"
           :name="file.name"
         ></file-item>
-        <p v-else>No Files</p>
       </ul>
       <base-spinner v-if="this.spinnerScroll"></base-spinner>
     </div>
@@ -41,13 +45,15 @@ export default {
       skip: 0,
     });
 
+    this.files = this.$store.getters.getFiles;
+
     this.loaddingFiles = false;
   },
 
   data() {
     return {
       loaddingFiles: true,
-      files: this.$store.getters.getFiles,
+      files: [],
       selectedFile: null,
       skip: 0,
       spinnerFile: false,
@@ -63,6 +69,9 @@ export default {
         return "fa-regular fa-file-word";
       } else if (this.files[ind].type === "xls") {
         return "fa-regular fa-file-excel";
+      } else if (this.files[ind].type === "image/jpeg") {
+        console.log("");
+        return ["far", "image"];
       }
     },
 
@@ -80,20 +89,19 @@ export default {
     async scrollFiles(e) {
       if (e.srcElement.offsetHeight + e.srcElement.scrollTop >= e.srcElement.scrollHeight) {
         this.spinnerScroll = true;
-        this.skip = this.files.length;
-
-        console.log(this.$refs.file);
-
-        let previousFilesSize = this.files.length;
+        this.skip = this.$store.getters.getFiles.length;
 
         await this.$store.dispatch("getFiles", {
           skip: this.skip,
         });
 
-        if (previousFilesSize === this.files.length) {
+        if (this.$store.getters.getNextFiles.length === 0) {
           this.spinnerScroll = false;
-
           return;
+        } else {
+          this.$store.getters.getNextFiles.forEach((file) => {
+            this.files.push(file);
+          });
         }
       }
     },
@@ -113,6 +121,10 @@ export default {
 
 .chosen-file {
   color: grey;
+  display: inline-block;
+}
+
+.load-file {
   display: inline-block;
 }
 

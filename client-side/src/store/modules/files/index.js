@@ -6,6 +6,7 @@ const fileModule = {
   state() {
     return {
       files: [],
+      nextFiles: [],
     };
   },
   mutations,

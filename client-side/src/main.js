@@ -46,7 +46,7 @@ import {
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { faComment, faFilePdf, faFileWord, faFileExcel } from "@fortawesome/free-regular-svg-icons";
+import { faComment, faFilePdf, faFileWord, faFileExcel, faImage } from "@fortawesome/free-regular-svg-icons";
 import { faGoogle, faApple, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 /* add icons to the library */
@@ -80,7 +80,8 @@ library.add(
   faCircleQuestion,
   faComments,
   faCircleChevronLeft,
-  faUserCheck
+  faUserCheck,
+  faImage
 );
 
 const app = createApp(App);
