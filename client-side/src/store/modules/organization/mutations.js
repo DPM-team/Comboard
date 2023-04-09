@@ -5,4 +5,12 @@ export default {
   setOrganizations(state, payload) {
     state.organizations = payload;
   },
+  addOrganization(state, payload) {
+    const organizationObj = {
+      _id: payload.organizationID,
+      name: payload.organizationName,
+    };
+
+    state.organizations.push(organizationObj);
+  },
 };

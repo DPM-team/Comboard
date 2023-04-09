@@ -1,5 +1,5 @@
 export default {
-  async registerOrganization(_, payload) {
+  async registerOrganization(context, payload) {
     const organizationObj = {
       name: payload.name,
       email: payload.email,
@@ -9,12 +9,15 @@ export default {
       websiteURL: payload.website,
     };
 
+    // The user who created the organization and submits the form
+    const userID = context.rootGetters.loggedUserID;
+
     const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(organizationObj),
+      body: JSON.stringify({ organizationObj, userID }),
     };
 
     return new Promise((resolve, reject) => {
@@ -27,6 +30,38 @@ export default {
             if (data.error) {
               reject(new Error(data.error));
             } else {
+              resolve(data);
+            }
+          });
+      } catch (error) {
+        reject(new Error(error));
+      }
+    });
+  },
+  async joinOrganization(context, payload) {
+    const organizationKey = payload.organizationKey;
+    const userID = context.rootGetters.loggedUserID;
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ organizationKey, userID }),
+    };
+
+    return new Promise((resolve, reject) => {
+      try {
+        fetch("/api/organization/join", requestOptions)
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            if (data.error) {
+              reject(new Error(data.error));
+            } else {
+              context.commit("addOrganization", { organizationID: data.organizationID, organizationName: data.organizationName });
+
               resolve(data);
             }
           });

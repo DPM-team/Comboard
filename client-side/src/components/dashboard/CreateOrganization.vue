@@ -1,5 +1,12 @@
 <template>
-  <base-section>
+  <base-section @keyup.esc="closeDialog">
+    <base-dialog v-if="dialogIsOpen" title="Share your organization's key!" @close="closeDialog">
+      <template #main>
+        <h3>Here is your key to copy!</h3>
+        <br />
+        <h4>{{ orgKeyToJoin }}</h4>
+      </template>
+    </base-dialog>
     <base-card v-if="errorMessage" width="25%" bgColor="#f4725b">{{ errorMessage }}</base-card>
     <auth-form @submit.prevent="submitForm">
       <auth-header>
@@ -13,7 +20,6 @@
       <auth-form-input @data="getOrgWebsite" id="organization-website" type="text" name="organization-website" placeholder="Organization's website" />
       <auth-form-input id="submit-btn" type="submit" name="submit-btn" value="Create Organization" />
     </auth-form>
-    <base-card v-if="orgKeyToJoin" width="25%" bgColor="#FFFFFF">{{ orgKeyToJoin }}</base-card>
   </base-section>
 </template>
 
@@ -42,9 +48,36 @@ export default {
       },
       orgKeyToJoin: "",
       errorMessage: "",
+      dialogIsOpen: false,
     };
   },
   methods: {
+    async submitForm() {
+      try {
+        await this.$store
+          .dispatch("registerOrganization", this.organizationObj)
+          .then((response) => {
+            this.orgKeyToJoin = response.publicKey;
+
+            this.openDialog();
+
+            this.errorMessage = "";
+          })
+          .catch((error) => {
+            this.errorMessage = error.message || "Failed to create organization.";
+            this.orgKeyToJoin = "";
+          });
+      } catch (error) {
+        this.errorMessage = error.message || "Failed to create organization.";
+        this.orgKeyToJoin = "";
+      }
+    },
+    closeDialog() {
+      this.dialogIsOpen = false;
+    },
+    openDialog() {
+      this.dialogIsOpen = true;
+    },
     getOrgName(inputValue) {
       this.organizationObj.name = inputValue;
     },
@@ -63,37 +96,8 @@ export default {
     getOrgWebsite(inputValue) {
       this.organizationObj.website = inputValue.trim();
     },
-    async submitForm() {
-      try {
-        await this.$store
-          .dispatch("registerOrganization", this.organizationObj)
-          .then((response) => {
-            this.orgKeyToJoin = response.publicKey;
-
-            this.errorMessage = "";
-          })
-          .catch((error) => {
-            this.errorMessage = error.message || "Failed to create organization.";
-            this.orgKeyToJoin = "";
-          });
-      } catch (error) {
-        this.errorMessage = error.message || "Failed to create organization.";
-        this.orgKeyToJoin = "";
-      }
-    },
   },
 };
 </script>
 
-<style scoped>
-h4 {
-  color: #a0a6b0;
-}
-
-h2,
-h4 {
-  text-align: center;
-  margin-top: 0px;
-  margin-bottom: 2px;
-}
-</style>
+<style scoped></style>

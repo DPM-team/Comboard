@@ -6,6 +6,16 @@ const User = require("../models/user.js");
 const router = express.Router();
 
 router.post("/api/organization", async function (req, res) {
+  // The user who creates the organization (current owner)
+  const userID = req.body.userID;
+
+  // Find the user by its id
+  const userObj = await User.findById(userID);
+
+  if (!userObj) {
+    return res.status(404).json({ error: "User not found!" });
+  }
+
   let uniqueKey = false;
 
   while (!uniqueKey) {
@@ -17,12 +27,30 @@ router.post("/api/organization", async function (req, res) {
           uniqueKey = true;
 
           const organizationObj = new Organization({
-            ...req.body,
+            ...req.body.organizationObj,
+            creator: userID,
             publicKey,
           });
 
+          // Add the user to the organization's 'users' array
+          if (!organizationObj.users.includes(userID)) {
+            organizationObj.users.push(userID);
+          } else {
+            return res.status(404).json({ error: "User is already added!" });
+          }
+
           try {
-            await organizationObj.save();
+            const savedOrganization = await organizationObj.save();
+
+            if (!userObj.organizations.includes(savedOrganization._id)) {
+              userObj.organizations.push(savedOrganization._id);
+            } else {
+              return res.status(404).json({ error: "Organization is already added!", savedOrganization });
+            }
+
+            // Save the updated user document
+            await userObj.save();
+
             res.status(201).send({ publicKey });
           } catch (error) {
             res.status(400).send({ error: error.message });
@@ -36,12 +64,12 @@ router.post("/api/organization", async function (req, res) {
 });
 
 router.post("/api/organization/join", async function (req, res) {
-  const organizationID = req.body.organizationID;
+  const organizationKey = req.body.organizationKey;
   const userID = req.body.userID;
 
   try {
-    // Find the organization by its id
-    const organizationObj = await Organization.findById(organizationID);
+    // Find the organization by its public sharable key
+    const organizationObj = await Organization.findOne({ publicKey: organizationKey });
 
     if (!organizationObj) {
       return res.status(404).json({ error: "Organization not found!" });
@@ -64,17 +92,17 @@ router.post("/api/organization/join", async function (req, res) {
     // Save the updated organization document
     const updatedOrganization = await organizationObj.save();
 
-    if (!userObj.organizations.includes(organizationID)) {
-      userObj.organizations.push(organizationID);
+    if (!userObj.organizations.includes(updatedOrganization._id)) {
+      userObj.organizations.push(updatedOrganization._id);
     } else {
       return res.status(404).json({ error: "Organization is already added!", updatedOrganization });
     }
 
     // Save the updated user document
-    const updatedUser = await userObj.save();
+    await userObj.save();
 
     // Return the updated organization document
-    return res.json({ updatedOrganization, updatedUser });
+    return res.json({ message: "Successfully organization added!", organizationID: updatedOrganization._id, organizationName: updatedOrganization.name });
   } catch (error) {
     return res.status(500).json({ error: "Server error" });
   }
