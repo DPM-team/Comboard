@@ -60,6 +60,8 @@ export default {
             if (data.error) {
               reject(new Error(data.error));
             } else {
+              context.commit("addOrganization", { organizationID: data.organizationID, organizationName: data.organizationName });
+
               resolve(data);
             }
           });
