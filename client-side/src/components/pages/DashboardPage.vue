@@ -8,7 +8,7 @@
           <auth-form-input @data="getOrgsKey" id="join-org--input" type="text" name="join-org" placeholder="Organization's key..."></auth-form-input>
           <base-button>Join</base-button>
           <h4 id="support-message--h4">Having any problems? <a>Contact us</a></h4>
-          <h4 v-if="submitMessage != ''" class="submit-message">{{ submitMessage }}</h4>
+          <h4 v-if="submitMessage != ''" class="submit-message" :class="toogleMessageColor">{{ submitMessage }}</h4>
         </form>
       </template>
     </base-dialog>
@@ -38,7 +38,13 @@ export default {
       dialogIsOpen: false,
       submitMessage: "",
       organizationKeyInput: "",
+      isSuccess: false,
     };
+  },
+  computed: {
+    toogleMessageColor() {
+      return { error: !this.isSuccess, success: this.isSuccess };
+    },
   },
   methods: {
     async submitFormToJoin() {
@@ -47,16 +53,24 @@ export default {
           .dispatch("joinOrganization", { organizationKey: this.organizationKeyInput })
           .then((response) => {
             this.submitMessage = response.message;
+
+            this.isSuccess = true;
           })
           .catch((error) => {
             this.submitMessage = error.message || "Failed to join organization.";
+
+            this.isSuccess = false;
           });
       } catch (error) {
         this.submitMessage = error.message || "Failed to join organization.";
+
+        this.isSuccess = false;
       }
     },
     closeDialog() {
       this.dialogIsOpen = false;
+
+      this.submitMessage = "";
     },
     openDialog() {
       this.dialogIsOpen = true;
@@ -92,5 +106,13 @@ export default {
 
 .submit-message {
   margin-top: 15px;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
 }
 </style>
