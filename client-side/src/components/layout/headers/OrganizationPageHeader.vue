@@ -87,15 +87,51 @@ export default {
       });
     },
     toggleUserOptions() {
+      if (this.videoOptionsAreVisible === true) {
+        this.videoOptionsAreVisible = !this.videoOptionsAreVisible;
+      }
+      if (this.messageOptionsAreVisible === true) {
+        this.messageOptionsAreVisible = !this.messageOptionsAreVisible;
+      }
+      if (this.notificationOptionsAreVisible === true) {
+        this.notificationOptionsAreVisible = !this.notificationOptionsAreVisible;
+      }
       this.userOptionsAreVisible = !this.userOptionsAreVisible;
     },
     toggleVideoOptions() {
+      if (this.userOptionsAreVisible === true) {
+        this.userOptionsAreVisible = !this.userOptionsAreVisible;
+      }
+      if (this.messageOptionsAreVisible === true) {
+        this.messageOptionsAreVisible = !this.messageOptionsAreVisible;
+      }
+      if (this.notificationOptionsAreVisible === true) {
+        this.notificationOptionsAreVisible = !this.notificationOptionsAreVisible;
+      }
       this.videoOptionsAreVisible = !this.videoOptionsAreVisible;
     },
     toggleMessageOptions() {
+      if (this.userOptionsAreVisible === true) {
+        this.userOptionsAreVisible = !this.userOptionsAreVisible;
+      }
+      if (this.videoOptionsAreVisible === true) {
+        this.videoOptionsAreVisible = !this.videoOptionsAreVisible;
+      }
+      if (this.notificationOptionsAreVisible === true) {
+        this.notificationOptionsAreVisible = !this.notificationOptionsAreVisible;
+      }
       this.messageOptionsAreVisible = !this.messageOptionsAreVisible;
     },
     toggleNotificationOptions() {
+      if (this.userOptionsAreVisible === true) {
+        this.userOptionsAreVisible = !this.userOptionsAreVisible;
+      }
+      if (this.videoOptionsAreVisible === true) {
+        this.videoOptionsAreVisible = !this.videoOptionsAreVisible;
+      }
+      if (this.messageOptionsAreVisible === true) {
+        this.messageOptionsAreVisible = !this.messageOptionsAreVisible;
+      }
       this.notificationOptionsAreVisible = !this.notificationOptionsAreVisible;
     },
     toggleMobileOptionsMenu() {
