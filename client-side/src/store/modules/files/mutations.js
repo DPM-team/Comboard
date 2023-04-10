@@ -1,16 +1,20 @@
 export default {
   setFiles(state, payload) {
+    payload.files.forEach((file) => {
+      state.files.push(file);
+    });
+  },
+
+  setNextFiles(state, payload) {
     let array = [];
     payload.files.forEach((file, ind) => {
       array[ind] = file;
     });
 
     state.nextFiles = array;
+  },
 
-    // console.log(state.nextFiles);
-
-    payload.files.forEach((file) => {
-      state.files.push(file);
-    });
+  setNextFilesg(state) {
+    state.nextFiles = [];
   },
 };

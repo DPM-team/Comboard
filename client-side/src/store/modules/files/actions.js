@@ -13,7 +13,14 @@ export default {
       const files = await fetch(`/api/user/files?limit=10&skip=${payload.skip}`, requestOptions);
       // console.log("a");
 
-      context.commit("setFiles", { files: await files.json() });
+      const file = await files.json();
+
+      if (file.length > 0) {
+        context.commit("setFiles", { files: file });
+        context.commit("setNextFiles", { files: file });
+      } else {
+        context.commit("setNextFilesg");
+      }
     } catch (error) {
       throw new Error(error.message);
     }
