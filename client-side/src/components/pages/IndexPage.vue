@@ -13,7 +13,7 @@
         </h1>
         <div class="text-button-container">
           <h4 id="text--explanation">A simpler way of communicating for all your work related activites.</h4>
-          <button class="btn--text-welcome btn--scroll-to">Learn more &DownArrow;</button>
+          <a href="#features-section"><button class="btn--text-welcome">Learn more &DownArrow;</button></a>
         </div>
       </div>
       <div class="column--section-welcome-right">
@@ -21,7 +21,7 @@
       </div>
     </section>
     <!-- Features Section -->
-    <section class="features-section-container">
+    <section class="features-section-container" id="features-section">
       <section-start sectionTitle="Features" sectionDescription="Every tool you need in order to do your job, lies inside the Comboard universe."></section-start>
       <div class="features--row">
         <feature-item v-for="feature in features" :key="feature.id" :title="feature.title" :description="feature.description" :icon="feature.icon"></feature-item>
@@ -96,7 +96,7 @@ export default {
           id: "2",
           title: "Communication",
           description: "We would probably guess that by now you are tired of using lots of different applications for your everyday communication. So, why not do all that with a single application?",
-          icon: "fa-solid fa-list-check",
+          icon: "fa-solid fa-handshake-simple",
         },
         {
           id: "3",
@@ -111,7 +111,7 @@ export default {
           title: "Universities or large educational firms? This plan is for you!",
           detailedDescription:
             "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          icon: "fa-solid fa-list-check",
+          icon: "fa-solid fa-book",
           relatedButtonText: "Educational",
         },
         {
@@ -119,7 +119,7 @@ export default {
           title: "Recommended for your organization's first steps into the Comboard universe.",
           detailedDescription:
             "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          icon: "fa-solid fa-list-check",
+          icon: "fa-solid fa-cloud",
           relatedButtonText: "Basic",
         },
         {
@@ -127,7 +127,7 @@ export default {
           title: "Already done your research? Start your professional organization!",
           detailedDescription:
             "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          icon: "fa-solid fa-list-check",
+          icon: "fa-solid fa-cloud-arrow-up",
           relatedButtonText: "Professional",
         }
       ),

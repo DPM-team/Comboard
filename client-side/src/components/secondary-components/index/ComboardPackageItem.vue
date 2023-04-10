@@ -1,6 +1,6 @@
 <template>
   <div :class="handleOuterDivClasses">
-    <div :class="'packages__icon packages__icon--' + id">
+    <div class="icon-item" :class="'packages__icon packages__icon--' + id">
       <font-awesome-icon class="icon-item" :icon="icon" />
     </div>
     <br />
@@ -51,6 +51,9 @@ export default {
 </script>
 
 <style scoped>
+.icon-item {
+  color: white;
+}
 .packages__content {
   display: none;
   /* JUST PRESENTATIONAL */
