@@ -4,7 +4,7 @@
     <auth-form @submit.prevent="submitForm">
       <auth-header>
         <h2>Join Our Community!</h2>
-        <h4>Create an account fast and simple!</h4>
+        <h4 style="padding-bottom: 10px">Create an account with a few steps</h4>
       </auth-header>
       <auth-form-input @data="getName" id="firstname" name="name" type="text" placeholder="Firstname" required />
       <auth-form-input @data="getSurname" id="surname" name="surname" type="text" placeholder="Surname" required />
@@ -15,13 +15,13 @@
       <auth-form-input id="confirm-password" name="confirmedPassword" type="password" placeholder="Confirm Password" :minLength="8" required />
       <auth-form-input id="login-btn" name="loginButton" type="submit" value="Agree & Join" />
       <p id="agreement">
-        By clicking Agree & Join, you agree to the comboard <a href="/user-agreement">User Agrement</a>, <a href="/privacy-policy">Privacy Policy</a> and <a href="#">CooKie Policy</a>
+        By clicking Agree & Join, you agree to the comboard <a href="/user-agreement">User Agreement</a>, <a href="/privacy-policy">Privacy Policy</a> and <a href="#">Cookie Policy</a>
       </p>
-      <auth-choices></auth-choices>
+      <!-- <auth-choices></auth-choices> -->
     </auth-form>
     <p id="login-account">
-      Already to Comboard?
-      <router-link id="login-now" to="/login">Login Now!</router-link>
+      Already on Comboard?
+      <router-link id="login-now" to="/login">Login</router-link>
     </p>
   </base-section>
 </template>
@@ -30,7 +30,7 @@
 import AuthForm from "../../auth/AuthForm.vue";
 import AuthFormInput from "../../auth/AuthFormInput.vue";
 import AuthHeader from "../../auth/AuthHeader.vue";
-import AuthChoices from "../../auth/AuthChoices.vue";
+// import AuthChoices from "../../auth/AuthChoices.vue";
 import BaseSection from "../../basic-components/BaseSection.vue";
 import BaseCard from "../../basic-components/BaseCard.vue";
 
@@ -39,7 +39,7 @@ export default {
     AuthForm,
     AuthFormInput,
     AuthHeader,
-    AuthChoices,
+
     BaseSection,
     BaseCard,
   },
@@ -103,6 +103,10 @@ export default {
   padding-left: 40px;
   width: 75%;
 }
+#agreement,
+#password-mandatory a {
+  color: var(--color-primary);
+}
 
 h4 {
   color: #a0a6b0;
@@ -118,6 +122,7 @@ h4 {
 #login-account {
   text-align: center;
   font-size: medium;
+  margin-top: 10px;
 }
 
 #login-now {

@@ -17,8 +17,8 @@ form {
   margin-top: auto;
   margin-bottom: auto;
   width: 25%;
-  box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.4);
-  border-radius: 15px;
+  box-shadow: 5px 5px 8px 5px rgba(0, 0, 0, 0.221);
+  /* border-radius: 15px; */
   padding: 20px;
 }
 

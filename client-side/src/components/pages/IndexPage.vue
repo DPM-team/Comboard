@@ -28,7 +28,7 @@
       </div>
     </section>
     <!-- Packages Section -->
-    <section class="packages-section-container">
+    <section class="packages-section-container" id="packages-section">
       <section-start sectionTitle="Packages" sectionDescription="Choose the correct setup for your organization."></section-start>
       <!-- Buttons -->
       <div class="packages">
@@ -55,7 +55,7 @@
       </div>
     </section>
     <!-- Testimonials Section -->
-    <section class="testimonial-section-container">
+    <section class="testimonial-section-container" id="testimonials-section">
       <section-start sectionTitle="Testimonials" sectionDescription="What's all the fuss about?"></section-start>
       <div class="testimonials--row">
         <testimonial-item
