@@ -2,13 +2,13 @@
   <footer class="footer">
     <ul class="footer__nav">
       <li class="footer__item">
-        <a class="footer__link footer_menu" href="">Features</a>
+        <a class="footer__link footer_menu" href="#features-section">Features</a>
       </li>
       <li class="footer__item">
-        <a class="footer__link footer_menu" href="">Packages</a>
+        <a class="footer__link footer_menu" href="#packages-section">Packages</a>
       </li>
       <li class="footer__item">
-        <a class="footer__link footer_menu" href="">Testimonials</a>
+        <a class="footer__link footer_menu" href="#testimonials-section">Testimonials</a>
       </li>
       <li class="footer__item">
         <a class="footer__link footer_menu" href="">FAQs</a>

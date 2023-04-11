@@ -4,13 +4,13 @@
     <auth-form @submit.prevent="submitLoginForm">
       <auth-header>
         <h2>Login</h2>
-        <h4>Sign In to your account</h4>
+        <h4 style="padding-bottom: 10px">Sign in to your account</h4>
       </auth-header>
       <auth-form-input @data="getUsername" id="username" type="text" name="username" placeholder="Username" required />
       <auth-form-input @data="getPassword" id="password" type="password" name="password" placeholder="Password" :minLength="8" required />
-      <router-link id="forgot-password--link" to="/retrieve-password/step-1">Forgot Password?</router-link>
+      <router-link id="forgot-password--link-login" to="/retrieve-password/step-1">Forgot Password?</router-link>
       <auth-form-input id="login-btn" type="submit" name="submit" value="Login" />
-      <auth-choices></auth-choices>
+      <!-- <auth-choices></auth-choices> -->
     </auth-form>
     <p id="create-account">
       New to Comboard?
@@ -22,7 +22,7 @@
 <script>
 import AuthForm from "../../auth/AuthForm.vue";
 import AuthFormInput from "../../auth/AuthFormInput.vue";
-import AuthChoices from "../../auth/AuthChoices.vue";
+// import AuthChoices from "../../auth/AuthChoices.vue";
 import AuthHeader from "../../auth/AuthHeader.vue";
 import BaseSection from "../../basic-components/BaseSection.vue";
 
@@ -30,7 +30,7 @@ export default {
   components: {
     AuthForm,
     AuthFormInput,
-    AuthChoices,
+
     AuthHeader,
     BaseSection,
   },
@@ -84,14 +84,15 @@ h4 {
   margin-bottom: 2px;
 }
 
-#forgot-password--link {
+#forgot-password--link-login {
   display: flex;
   justify-content: space-around;
-  padding-right: 170px;
-  color: #1a75ff;
+  color: var(--color-primary);
+  font-size: 15px;
 }
 
 #create-account {
+  margin-top: 10px;
   text-align: center;
   font-size: medium;
 }

@@ -8,13 +8,13 @@
       <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
       <ul class="header-ul">
         <li class="header-li">
-          <a class="header-a" href="">Features</a>
+          <a class="header-a" href="#features-section">Features</a>
         </li>
         <li class="header-li">
-          <a class="header-a" href="">Packages</a>
+          <a class="header-a" href="#packages-section">Packages</a>
         </li>
         <li class="header-li">
-          <a class="header-a" href="">Testimonials</a>
+          <a class="header-a" href="#testimonials-section">Testimonials</a>
         </li>
         <li class="header-li">
           <router-link class="header-a" to="/login"><font-awesome-icon :icon="['fas', 'user']" /></router-link>
