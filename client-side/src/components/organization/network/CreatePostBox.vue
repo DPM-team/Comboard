@@ -27,8 +27,8 @@ export default {
       headers.append("Content-Type", "application/json");
       console.log(this.$store);
       let body = JSON.stringify({
-        userId: this.$store.loggedUserID,
-        orgId: this.$store.selectedOrganizationID,
+        userId: this.$store.getters.loggedUserID,
+        orgId: this.$store.getters.selectedOrganizationID,
         content: this.post,
       });
 

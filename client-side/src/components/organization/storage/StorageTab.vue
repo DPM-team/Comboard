@@ -47,6 +47,8 @@ export default {
 
     this.files = this.$store.getters.getFiles;
 
+    this.skip = this.$store.getters.getFiles.length;
+
     this.loaddingFiles = false;
   },
 
@@ -60,6 +62,19 @@ export default {
       spinnerScroll: false,
     };
   },
+  // computed: {
+  //   elementScreen(e) {
+  //     let boundaries = e.getBoundaryClientRect();
+  //     if (
+  //       (boundaries.top >= 0 && boundaries.left >= 0 && boundaries.bottom <= window.innerHeight) ||
+  //       (document.documentElement && boundaries.rigth <= (window.innerWidth || document.documentElement.clientWidth))
+  //     ) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   },
+  // },
   methods: {
     getIcon(ind) {
       if (this.files[ind].type === "application/pdf") {
@@ -89,7 +104,6 @@ export default {
     async scrollFiles(e) {
       if (e.srcElement.offsetHeight + e.srcElement.scrollTop >= e.srcElement.scrollHeight) {
         this.spinnerScroll = true;
-        this.skip = this.$store.getters.getFiles.length;
 
         await this.$store.dispatch("getFiles", {
           skip: this.skip,
@@ -99,9 +113,7 @@ export default {
           this.spinnerScroll = false;
           return;
         } else {
-          this.$store.getters.getNextFiles.forEach((file) => {
-            this.files.push(file);
-          });
+          this.skip = this.$store.getters.getFiles.length;
         }
       }
     },
