@@ -18,10 +18,10 @@ router.post("/api/user/post", async function (req, res) {
 });
 
 router.get("/api/user/posts", authentication, async function (req, res) {
-  const posts = Post.find({ userId: req.user });
+  const posts = await Post.find({ userId: req.user });
 
   try {
-    res.status(201).send(postObj);
+    res.status(201).send(posts);
   } catch (error) {
     res.status(400).send(error);
   }

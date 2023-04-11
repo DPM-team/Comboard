@@ -29,6 +29,29 @@ export default {
       required: true,
     },
   },
+  async created() {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
+
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    const postResponse = await fetch("/api/user/posts", requestOptions);
+
+    const posts = await postResponse.json();
+
+    posts.forEach((post, ind) => {
+      this.posts[ind] = {
+        id: post._id,
+        pictureLink: `/api/users/${post.userId}/profilePhoto`,
+        firstname: "",
+        lastname: "",
+      };
+    });
+  },
   data() {
     return {
       myUser: { firstname: "Dio", lastname: "Lou", pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" },
