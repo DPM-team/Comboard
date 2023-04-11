@@ -31,7 +31,9 @@ export default {
   },
   async created() {
     var myHeaders = new Headers();
+
     myHeaders.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
+    myHeaders.append("AuthorizationOrg", `${this.$store.getters.selectedOrganizationID}`);
 
     var requestOptions = {
       method: "GET",

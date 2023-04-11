@@ -1,6 +1,4 @@
-const jwt = require("jsonwebtoken");
 const Organization = require("../models/organization.js");
-const User = require("../models/user");
 
 /**
  *This function will serve as middleware for organization authentication
@@ -8,15 +6,15 @@ const User = require("../models/user");
  */
 const authenticationOrg = async (req, res, next) => {
   try {
-    const organization = await Organization.find({
-      _id: req.orgId,
+    const organization = await Organization.findOne({
+      _id: req.header("AuthorizationOrg"),
     });
 
     if (!organization) {
       throw new Error(); //Move to catch and prints the error
     }
 
-    const existUser = 6;
+    const existUser = organization.users.includes(req.user._id);
 
     if (!existUser) {
       throw new Error(); //Move to catch and prints the error

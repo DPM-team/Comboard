@@ -1,6 +1,7 @@
 const express = require("express");
 const Post = require("../models/post");
 const authentication = require("../middleware/authentication");
+const authenticationOrg = require("../middleware/authenticationOrg");
 
 const router = new express.Router();
 
@@ -17,7 +18,7 @@ router.post("/api/user/post", async function (req, res) {
   }
 });
 
-router.get("/api/user/posts", authentication, async function (req, res) {
+router.get("/api/user/posts", authentication, authenticationOrg, async function (req, res) {
   const posts = await Post.find({ userId: req.user });
 
   try {
