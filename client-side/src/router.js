@@ -32,14 +32,23 @@ const router = createRouter({
     {
       path: "/register",
       component: RegisterPage,
+      meta: {
+        requiresNonAuthenticated: true,
+      },
     },
     {
       path: "/login",
       component: LoginPage,
+      meta: {
+        requiresNonAuthenticated: true,
+      },
     },
     {
       path: "/retrieve-password/",
       component: ForgotPasswordPage,
+      meta: {
+        requiresNonAuthenticated: true,
+      },
       children: [
         {
           path: "step-1",
@@ -57,10 +66,10 @@ const router = createRouter({
             }
           },
         },
-
         {
           path: "step-3",
           component: ForgotPasswordPage,
+
           beforeEnter: (to, _, next) => {
             if (store.getters.getStep2) {
               next();
@@ -75,6 +84,7 @@ const router = createRouter({
           meta: {
             requiresStep: true,
           },
+
           beforeEnter: (to, _, next) => {
             if (store.getters.getStep3) {
               next();
@@ -88,15 +98,24 @@ const router = createRouter({
     {
       path: "/dashboard",
       component: DashboardPage,
+      meta: {
+        requiresAuthenticaton: true,
+      },
     },
     {
       path: "/create-organization",
       component: CreateOrganization,
+      meta: {
+        requiresAuthenticaton: true,
+      },
     },
     {
       path: "/organization",
       component: OrganizationPage,
       redirect: "/organization/network",
+      meta: {
+        requiresAuthenticaton: true,
+      },
       children: [
         {
           path: "network",
@@ -149,8 +168,13 @@ const router = createRouter({
           component: StorageTab,
         },
       ],
-      meta: {
-        requiresAuth: false,
+
+      beforeEnter: (_1, _2, next) => {
+        if (!store.getters.isOrganizationSelected) {
+          next("/dashboard");
+        } else {
+          next();
+        }
       },
     },
     {
@@ -160,11 +184,11 @@ const router = createRouter({
   ],
 });
 
-// Register a global nav guard
+// Register a global nav guard for user auth
 router.beforeEach(function (to, _, next) {
-  if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
+  if (to.meta.requiresAuthenticaton && !store.getters.isAuthenticated) {
     next("/permission-denied");
-  } else if (to.meta.requiresLogout && store.getters.isAuthenticated) {
+  } else if (to.meta.requiresNonAuthenticated && store.getters.isAuthenticated) {
     next("/dashboard");
   } else {
     next();

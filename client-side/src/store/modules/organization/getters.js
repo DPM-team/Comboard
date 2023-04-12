@@ -5,4 +5,7 @@ export default {
   organizations(state) {
     return state.organizations;
   },
+  isOrganizationSelected(state) {
+    return !!state.selectedOrganizationID;
+  },
 };
