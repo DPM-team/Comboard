@@ -21,6 +21,7 @@ import MyTeamsTab from "./components/organization/teams/MyTeamsTab.vue";
 import AllTeamsTab from "./components/organization/teams/AllTeamsTab.vue";
 import StorageTab from "./components/organization/storage/StorageTab.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
+import NotFoundPage from "./components/pages/NotFoundPage.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -180,6 +181,10 @@ const router = createRouter({
     {
       path: "/permission-denied",
       component: PermissionDeniedPage,
+    },
+    {
+      path: "/:pathMatch(.*)",
+      component: NotFoundPage,
     },
   ],
 });
