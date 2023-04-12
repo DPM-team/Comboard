@@ -1,4 +1,17 @@
 export default {
+  selectOrganization(context, payload) {
+    const organizationID = payload.organizationID;
+
+    if (organizationID) {
+      context.commit("setSelectedOrganization", { organizationID });
+      localStorage.setItem("organizationID", organizationID);
+    }
+  },
+  removeSelectedOrganization(context) {
+    localStorage.removeItem("organizationID");
+
+    context.commit("setSelectedOrganization", { organizationID: null });
+  },
   async registerOrganization(context, payload) {
     const organizationObj = {
       name: payload.name,
@@ -111,7 +124,7 @@ export default {
     const organizationID = localStorage.getItem("organizationID");
 
     if (organizationID) {
-      context.commit("setSelectedOrganizationID", { organizationID });
+      context.commit("setSelectedOrganization", { organizationID });
     }
   },
 };

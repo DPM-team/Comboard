@@ -17,7 +17,7 @@
           <a class="header-a"><font-awesome-icon class="image-menu" :icon="['fas', 'circle-question']" /></a>
         </li>
         <li class="header-li">
-          <a class="header-a"><font-awesome-icon class="image-menu" :icon="['fas', 'right-from-bracket']" /></a>
+          <a class="header-a" @click.prevent="logout"><font-awesome-icon class="image-menu" :icon="['fas', 'right-from-bracket']" /></a>
         </li>
       </ul>
     </nav>
@@ -36,6 +36,11 @@ export default {
         }
       });
     },
+    logout() {
+      this.$store.dispatch("logout");
+      this.$store.dispatch("removeSelectedOrganization");
+      this.$router.push("/");
+    },
   },
 };
 </script>
@@ -45,20 +50,24 @@ export default {
 .header-logo:hover {
   background: none;
 }
+
 .header-nav {
   background: white;
   height: 80px;
   width: 100%;
 }
+
 .header-nav .header-ul {
   float: right;
   margin-right: 100px;
 }
+
 .header-nav .header-ul .header-li {
   display: inline-block;
   line-height: 79px;
   margin: 0 5px;
 }
+
 .header-nav .header-ul .header-li .header-a {
   font-size: 12px;
   font-weight: 600;
@@ -68,6 +77,7 @@ export default {
   height: 1rem;
   cursor: pointer;
 }
+
 .nav__logo {
   height: 100px;
   margin-left: 100px;
@@ -76,10 +86,12 @@ export default {
 .image-menu:hover {
   opacity: 0.8;
 }
+
 .image-menu {
   height: 18px;
   color: var(--color-primary);
 }
+
 .checkbtn {
   font-size: 30px;
   color: var(--color-primary);
@@ -89,6 +101,7 @@ export default {
   cursor: pointer;
   display: none;
 }
+
 #check {
   display: none;
 }
@@ -97,12 +110,15 @@ export default {
   .checkbtn {
     display: block;
   }
+
   .nav__logo {
     margin-left: 20px;
   }
+
   /* .header-nav {
     height: 100px;
   } */
+
   .header-nav .header-ul {
     z-index: 10;
     position: fixed;
@@ -114,11 +130,13 @@ export default {
     text-align: center;
     transition: all 0.5s;
   }
+
   .header-nav .header-ul .header-li {
     display: block;
     margin: 50px;
     line-height: 30px;
   }
+
   .header-nav .header-ul .header-li .header-a {
     font-size: 20px;
   }
@@ -127,9 +145,11 @@ export default {
     background: none;
     opacity: 0.8;
   }
+
   #check:checked ~ .header-ul {
     left: 0;
   }
+
   .image-menu {
     color: white;
   }

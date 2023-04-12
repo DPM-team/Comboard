@@ -20,7 +20,6 @@ export default {
           if (data.error) {
             throw new Error(data.message);
           } else {
-            
             localStorage.setItem("userID", data.userObj._id);
             localStorage.setItem("token", data.generatedToken);
 
@@ -83,6 +82,7 @@ export default {
     }
   },
   logout(context) {
+    console.log("logout");
     // Remove the logged User from the local storage
     localStorage.removeItem("userID");
     localStorage.removeItem("token");

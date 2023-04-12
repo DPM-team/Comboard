@@ -26,8 +26,7 @@ export default {
   },
   methods: {
     setOrganization() {
-      this.$store.commit("setSelectedOrganizationID", { organizationID: this.id });
-      localStorage.setItem("organizationID", this.id);
+      this.$store.dispatch("selectOrganization", { organizationID: this.id });
     },
   },
   computed: {

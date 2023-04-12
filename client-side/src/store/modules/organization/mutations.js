@@ -1,5 +1,5 @@
 export default {
-  setSelectedOrganizationID(state, payload) {
+  setSelectedOrganization(state, payload) {
     state.selectedOrganizationID = payload.organizationID;
   },
   setOrganizations(state, payload) {
