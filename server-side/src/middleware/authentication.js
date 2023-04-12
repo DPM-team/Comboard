@@ -18,6 +18,7 @@ const authentication = async (req, res, next) => {
       throw new Error(); //Move to catch and prints the error
     }
 
+    // We can access this values from nodejs routers that uses that authentication middleware
     req.token = token;
     req.user = user;
     next();

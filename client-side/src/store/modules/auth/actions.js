@@ -82,7 +82,22 @@ export default {
     }
   },
   logout(context) {
-    console.log("logout");
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.getters.loggedUserToken}`,
+      },
+    };
+
+    fetch("/api/logout", requestOptions)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+
     // Remove the logged User from the local storage
     localStorage.removeItem("userID");
     localStorage.removeItem("token");
