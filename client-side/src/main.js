@@ -47,6 +47,7 @@ import {
   faBook,
   faCloud,
   faCloudArrowUp,
+  faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faComment, faFilePdf, faFileWord, faFileExcel, faImage } from "@fortawesome/free-regular-svg-icons";
@@ -87,7 +88,8 @@ library.add(
   faImage,
   faBook,
   faCloud,
-  faCloudArrowUp
+  faCloudArrowUp,
+  faRightFromBracket
 );
 
 const app = createApp(App);

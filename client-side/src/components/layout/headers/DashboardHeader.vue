@@ -8,13 +8,16 @@
       <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
       <ul class="header-ul">
         <li class="header-li">
-          <a class="header-a" href=""><font-awesome-icon class="image-menu" :icon="['fas', 'user']" /></a>
+          <a class="header-a"><font-awesome-icon class="image-menu" :icon="['fas', 'user']" /></a>
         </li>
         <li class="header-li">
-          <a class="header-a" href=""><font-awesome-icon class="image-menu" :icon="['fas', 'gear']" /></a>
+          <a class="header-a"><font-awesome-icon class="image-menu" :icon="['fas', 'gear']" /></a>
         </li>
         <li class="header-li">
-          <a class="header-a" href=""><font-awesome-icon class="image-menu" :icon="['fas', 'circle-question']" /></a>
+          <a class="header-a"><font-awesome-icon class="image-menu" :icon="['fas', 'circle-question']" /></a>
+        </li>
+        <li class="header-li">
+          <a class="header-a"><font-awesome-icon class="image-menu" :icon="['fas', 'right-from-bracket']" /></a>
         </li>
       </ul>
     </nav>
@@ -63,6 +66,7 @@ export default {
   border-radius: 3px;
   text-decoration: none;
   height: 1rem;
+  cursor: pointer;
 }
 .nav__logo {
   height: 100px;
