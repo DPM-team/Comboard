@@ -1,6 +1,6 @@
 <template>
   <div class="input-container">
-    <input @change="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :min="minLength" :accept="accept" :value="value" ref="inputField" />
+    <input @change="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :value="value" :min="minLength" :accept="accept" ref="inputField" :required="required" />
     <font-awesome-icon class="input-item-icon" :icon="['fas', 'user']" />
   </div>
 </template>
@@ -24,6 +24,10 @@ export default {
       type: String,
       required: false,
     },
+    value: {
+      type: String,
+      required: false,
+    },
     minLength: {
       type: Number,
       required: false,
@@ -32,9 +36,10 @@ export default {
       type: String,
       required: false,
     },
-    value: {
-      type: String,
+    required: {
+      type: Boolean,
       required: false,
+      default: false,
     },
   },
   methods: {
