@@ -41,7 +41,7 @@ export default {
       redirect: "follow",
     };
 
-    const postResponse = await fetch("/api/user/posts", requestOptions);
+    const postResponse = await fetch(`/api/org/${this.$store.getters.selectedOrganizationID}/posts`, requestOptions);
 
     const posts = await postResponse.json();
 
