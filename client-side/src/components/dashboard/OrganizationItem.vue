@@ -76,7 +76,7 @@ a {
   text-decoration: none;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1150px) {
   .organization-container {
     flex: 50%;
     max-width: 50%;
