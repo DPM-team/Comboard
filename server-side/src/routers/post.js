@@ -28,4 +28,14 @@ router.get("/api/user/posts", authentication, authenticationOrg, async function 
   }
 });
 
+router.get("/api/org/:id/posts", authentication, authenticationOrg, async function (req, res) {
+  const posts = await Post.find({ orgId: req.params.id });
+
+  try {
+    res.status(201).send(posts);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 module.exports = router;
