@@ -15,7 +15,7 @@
       <auth-form-input @data="getOrgName" id="organization-name" type="text" name="organization-name" placeholder="Organization's name" required />
       <auth-form-input @data="getOrgEmail" id="organization-email" type="email" name="organization-email" placeholder="Organization's email" required />
       <auth-form-input @data="getOrgPhone" id="organization-phone" type="tel" name="organization-phone" placeholder="Organization's phone" required />
-      <auth-form-input @data="getOrgVatNumber" id="organization-vat" type="text" name="organization-vat" placeholder="Organization's VAT number" required />
+      <auth-form-input @data="getOrgVatNumber" id="organization-vat" type="text" name="organization-vat" placeholder="Organization's VAT number" />
       <auth-form-input @data="getOrgLocation" id="organization-location" type="text" name="organization-location" placeholder="Organization's location" required />
       <auth-form-input @data="getOrgWebsite" id="organization-website" type="text" name="organization-website" placeholder="Organization's website" />
       <auth-form-input id="submit-btn" type="submit" name="submit-btn" value="Create Organization" />

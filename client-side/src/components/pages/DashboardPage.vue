@@ -5,7 +5,7 @@
       <template #main>
         <h3>Insert your organization's key to join!</h3>
         <form id="join-org--form" @submit.prevent="submitFormToJoin">
-          <auth-form-input @data="getOrgsKey" id="join-org--input" type="text" name="join-org" placeholder="Organization's key..."></auth-form-input>
+          <auth-form-input @data="getOrgsKey" id="join-org--input" type="text" name="join-org" placeholder="Organization's key..." required></auth-form-input>
           <base-button>Join</base-button>
           <h4 id="support-message--h4">Having any problems? <a>Contact us</a></h4>
           <h4 v-if="submitMessage != ''" class="submit-message" :class="toogleMessageColor">{{ submitMessage }}</h4>
