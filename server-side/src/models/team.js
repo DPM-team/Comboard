@@ -11,6 +11,15 @@ const teamSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    supervisor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
+    members: new Array({
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    }),
   },
   {
     timestamps: true,
