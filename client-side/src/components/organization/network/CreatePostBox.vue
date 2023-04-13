@@ -29,7 +29,7 @@ export default {
       let body = JSON.stringify({
         userId: this.$store.getters.loggedUserID,
         orgId: this.$store.getters.selectedOrganizationID,
-        content: this.post,
+        contentString: this.post,
       });
 
       let options = {
