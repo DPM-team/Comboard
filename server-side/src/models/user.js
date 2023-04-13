@@ -182,7 +182,7 @@ userSchema.pre("save", async function (next) {
 // Code for custom error handling for duplicated and missing values
 userSchema.post("save", function (error, doc, next) {
   if (error.name === "MongoServerError" && error.code === 11000) {
-    next(new Error(`${Object.keys(error.keyValue)[0]} is alread used!`));
+    next(new Error(`${Object.keys(error.keyValue)[0]} is already in use!`));
   } else if (error.name === "ValidationError") {
     validationErrors = Object.values(error.errors).map((val) => val.message);
     if (validationErrors[0]) {

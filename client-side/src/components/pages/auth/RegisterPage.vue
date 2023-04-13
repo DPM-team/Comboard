@@ -6,13 +6,22 @@
         <h2>Join Our Community!</h2>
         <h4 style="padding-bottom: 10px">Create an account with a few steps</h4>
       </auth-header>
-      <auth-form-input @data="getName" id="firstname" name="name" type="text" placeholder="Firstname" required />
-      <auth-form-input @data="getSurname" id="surname" name="surname" type="text" placeholder="Surname" required />
-      <auth-form-input @data="getUsername" id="username" name="username" type="text" placeholder="Username" required />
-      <auth-form-input @data="getEmail" id="email" name="email" type="email" placeholder="Email" required />
-      <auth-form-input @data="getPassword" id="password" name="password" type="password" placeholder="Password" :minLength="8" required />
+      <auth-form-input @data="getName" id="firstname" name="name" :value="name" type="text" placeholder="Firstname" required />
+      <auth-form-input @data="getSurname" id="surname" name="surname" :value="surname" type="text" placeholder="Surname" required />
+      <auth-form-input @data="getUsername" id="username" name="username" :value="username" type="text" placeholder="Username" required />
+      <auth-form-input @data="getEmail" id="email" name="email" type="email" :value="email" placeholder="Email" required />
+      <auth-form-input @data="getPassword" id="password" name="password" :value="password" type="password" placeholder="Password" :minLength="8" required />
       <p id="password-mandatory">Use 8 or more characters with a combination of letters, numbers and symbols</p>
-      <auth-form-input id="confirm-password" name="confirmedPassword" type="password" placeholder="Confirm Password" :minLength="8" required />
+      <auth-form-input
+        @data="getPasswordConfirmation"
+        id="confirm-password"
+        name="confirmedPassword"
+        :value="passwordConfirmation"
+        type="password"
+        placeholder="Confirm Password"
+        :minLength="8"
+        required
+      />
       <auth-form-input id="login-btn" name="loginButton" type="submit" value="Agree & Join" />
       <p id="agreement">
         By clicking Agree & Join, you agree to the comboard <a href="/user-agreement">User Agreement</a>, <a href="/privacy-policy">Privacy Policy</a> and <a href="#">Cookie Policy</a>
@@ -47,11 +56,19 @@ export default {
       username: "",
       email: "",
       password: "",
+      passwordConfirmation: "",
       errorMessage: "",
     };
   },
   methods: {
     async submitForm() {
+      if (!this.confirmPassword()) {
+        this.errorMessage = "Passwords doesn't match, please try again!";
+        this.password = "";
+        this.passwordConfirmation = "";
+        return;
+      }
+
       try {
         // Call register action from Auth module
         // We want await because we need to finish first the api call. We need to wait for call to end
@@ -73,6 +90,9 @@ export default {
         this.errorMessage = error.message || "Failed to authenticate.";
       }
     },
+    confirmPassword() {
+      return this.password === this.passwordConfirmation;
+    },
     getName(i) {
       this.name = i;
     },
@@ -87,6 +107,9 @@ export default {
     },
     getPassword(i) {
       this.password = i;
+    },
+    getPasswordConfirmation(i) {
+      this.passwordConfirmation = i;
     },
   },
 };
