@@ -2,7 +2,13 @@
   <div class="connection-sug-list">
     <h2>{{ title }}</h2>
     <ul>
-      <connection-suggestion-item v-for="member in fellowOrgMembers" :key="member.id" :firstname="member.firstname" :lastname="member.lastname"></connection-suggestion-item>
+      <connection-suggestion-item
+        v-for="member in fellowOrgMembers"
+        :key="member.id"
+        :firstname="member.firstname"
+        :lastname="member.lastname"
+        :pictureLink="member.pictureLink"
+      ></connection-suggestion-item>
     </ul>
   </div>
 </template>
@@ -15,10 +21,10 @@ export default {
     return {
       title: "Expand your network",
       fellowOrgMembers: [
-        { id: 1, firstname: "Dionisis", lastname: "Lougaris" },
-        { id: 2, firstname: "Panagiotis", lastname: "Machairas" },
-        { id: 3, firstname: "Minas", lastname: "Charakopoulos" },
-        { id: 4, firstname: "Giorgos", lastname: "Stefou" },
+        { id: 1, firstname: "Dionisis", lastname: "Lougaris", pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" },
+        { id: 2, firstname: "Panagiotis", lastname: "Machairas", pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" },
+        { id: 3, firstname: "Minas", lastname: "Charakopoulos", pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" },
+        { id: 4, firstname: "Giorgos", lastname: "Stefou", pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" },
       ],
     };
   },

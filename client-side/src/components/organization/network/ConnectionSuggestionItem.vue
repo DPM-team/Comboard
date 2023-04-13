@@ -1,5 +1,6 @@
 <template>
   <div class="sug-item-container">
+    <div><img class="user-pfp" :src="pictureLink" /></div>
     <li>{{ firstname }} {{ lastname }}</li>
     <font-awesome-icon v-if="added === false" @click="sendRequest(firstname, lastname)" class="icon" icon="fa-solid fa-user-plus" />
     <font-awesome-icon v-if="added === true" @click="removeRequest(firstname, lastname)" class="icon" :icon="['fas', 'user-check']" />
@@ -13,7 +14,7 @@ export default {
       added: false,
     };
   },
-  props: ["firstname", "lastname"],
+  props: ["firstname", "lastname", "pictureLink"],
   methods: {
     sendRequest(firstname, lastname) {
       console.log("Friend request sent to " + firstname + " " + lastname);
@@ -42,5 +43,13 @@ export default {
   float: right;
   cursor: pointer;
   color: var(--color-primary);
+}
+
+.user-pfp {
+  width: 100%;
+  border-radius: 50%;
+  height: 22px;
+  width: 22px;
+  margin-top: 3px;
 }
 </style>
