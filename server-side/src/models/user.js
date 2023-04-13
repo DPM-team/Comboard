@@ -26,16 +26,24 @@ schema.is().min(8); // Minimum length 8
 
 const userSchema = mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: [true, "Name is required!"],
+    },
+    surname: {
+      type: String,
+      required: [true, "Surname is required!"],
+    },
     username: {
       type: String,
       unique: true,
-      required: true,
+      required: [true, "Username is required!"],
       trim: true,
     },
     email: {
       type: String,
       unique: true,
-      required: true,
+      required: [true, "Emails is required!"],
       trim: true,
       lowercase: true,
       validate: function (value) {
@@ -47,7 +55,7 @@ const userSchema = mongoose.Schema(
     password: {
       type: String,
       trim: true,
-      required: true,
+      required: [true, "Password is required!"],
       validate(value) {
         if (this.isModified("password")) {
           if (!schema.validate(value)) {
@@ -55,14 +63,6 @@ const userSchema = mongoose.Schema(
           }
         }
       },
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    surname: {
-      type: String,
-      required: true,
     },
     telephone: {
       type: String,
@@ -177,6 +177,20 @@ userSchema.pre("save", async function (next) {
   }
 
   next();
+});
+
+// Code for custom error handling for duplicated and missing values
+userSchema.post("save", function (error, doc, next) {
+  if (error.name === "MongoServerError" && error.code === 11000) {
+    next(new Error(`${Object.keys(error.keyValue)[0]} is alread used!`));
+  } else if (error.name === "ValidationError") {
+    validationErrors = Object.values(error.errors).map((val) => val.message);
+    if (validationErrors[0]) {
+      next(new Error(validationErrors[0]));
+    }
+  } else {
+    next(error);
+  }
 });
 
 const User = mongoose.model("user", userSchema);

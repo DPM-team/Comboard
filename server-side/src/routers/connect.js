@@ -4,12 +4,12 @@ const generator = require("generate-password");
 const User = require("../models/user");
 const Email = require("../APIs/emails/email");
 const sendEmail = require("../APIs/emails/send-email.js");
+const fieldsAreMissing = require("../validation/fields-are-missing");
 
 const router = new express.Router();
 
 router.post("/api/register", async (req, res) => {
   const userObj = new User(req.body);
-
   try {
     await userObj.save();
     const generatedToken = await userObj.generateAuthenticationToken();
@@ -22,6 +22,12 @@ router.post("/api/register", async (req, res) => {
 //This is the router which runs when one user tries to login. User informaton will be sent back to client.
 router.post("/api/login", async (req, res) => {
   try {
+    const error = fieldsAreMissing(req.body);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
     const userObj = await User.checkCredentials(req.body.username, req.body.password);
     const generatedToken = await userObj.generateAuthenticationToken();
     res.status(200).send({ userObj, generatedToken });
