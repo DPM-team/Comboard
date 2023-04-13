@@ -5,7 +5,10 @@
     </div>
     <div class="content">
       <organization-item v-for="organization in organizations" :key="organization._id" :id="organization._id" :name="organization.name"></organization-item>
-      <h2 v-if="organizations.length === 0 && !isLoading">No organizations</h2>
+      <div class="no-org-message" v-if="organizations.length === 0 && !isLoading">
+        <h2>No organizations..</h2>
+        <h4>Join your organization using its license key or create one with a few steps!</h4>
+      </div>
     </div>
   </div>
 </template>
@@ -52,5 +55,10 @@ export default {
   margin: 0 auto;
   padding-top: 60px;
   padding-bottom: 70px;
+  box-sizing: border-box;
+}
+.no-org-message {
+  height: 180px;
+  width: 100%;
 }
 </style>
