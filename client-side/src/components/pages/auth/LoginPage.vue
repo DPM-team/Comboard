@@ -10,7 +10,6 @@
       <auth-form-input @data="getPassword" id="password" type="password" name="password" placeholder="Password" :minLength="8" required />
       <router-link id="forgot-password--link-login" to="/retrieve-password/step-1">Forgot Password?</router-link>
       <auth-form-input id="login-btn" type="submit" name="submit" value="Login" />
-      <!-- <auth-choices></auth-choices> -->
     </auth-form>
     <p id="create-account">
       New to Comboard?
@@ -22,7 +21,6 @@
 <script>
 import AuthForm from "../../auth/AuthForm.vue";
 import AuthFormInput from "../../auth/AuthFormInput.vue";
-// import AuthChoices from "../../auth/AuthChoices.vue";
 import AuthHeader from "../../auth/AuthHeader.vue";
 import BaseSection from "../../basic-components/BaseSection.vue";
 
@@ -51,9 +49,9 @@ export default {
             username: this.username,
             password: this.password,
           })
-          .then((error) => {
-            if (error instanceof Error) {
-              throw error;
+          .then((response) => {
+            if (response instanceof Error) {
+              throw response;
             }
 
             this.$router.push("/dashboard");

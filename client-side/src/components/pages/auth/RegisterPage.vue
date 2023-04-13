@@ -17,7 +17,6 @@
       <p id="agreement">
         By clicking Agree & Join, you agree to the comboard <a href="/user-agreement">User Agreement</a>, <a href="/privacy-policy">Privacy Policy</a> and <a href="#">Cookie Policy</a>
       </p>
-      <!-- <auth-choices></auth-choices> -->
     </auth-form>
     <p id="login-account">
       Already on Comboard?
@@ -30,7 +29,6 @@
 import AuthForm from "../../auth/AuthForm.vue";
 import AuthFormInput from "../../auth/AuthFormInput.vue";
 import AuthHeader from "../../auth/AuthHeader.vue";
-// import AuthChoices from "../../auth/AuthChoices.vue";
 import BaseSection from "../../basic-components/BaseSection.vue";
 import BaseCard from "../../basic-components/BaseCard.vue";
 
@@ -39,7 +37,6 @@ export default {
     AuthForm,
     AuthFormInput,
     AuthHeader,
-
     BaseSection,
     BaseCard,
   },
@@ -66,9 +63,9 @@ export default {
             email: this.email,
             password: this.password,
           })
-          .then((r) => {
-            if (r instanceof Error) {
-              throw r;
+          .then((response) => {
+            if (response instanceof Error) {
+              throw response;
             }
             this.$router.push("/dashboard");
           });

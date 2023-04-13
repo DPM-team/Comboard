@@ -1,5 +1,7 @@
 export default {
   async login(context, payload) {
+    let error = null;
+
     const requestOptions = {
       method: "POST",
       headers: {
@@ -18,7 +20,7 @@ export default {
         })
         .then((data) => {
           if (data.error) {
-            throw new Error(data.message);
+            error = new Error(data.error);
           } else {
             localStorage.setItem("userID", data.userObj._id);
             localStorage.setItem("token", data.generatedToken);
@@ -30,10 +32,16 @@ export default {
           }
         });
     } catch (e) {
-      return new Error(e.message);
+      return new Error("Internal Server Error: Failed to authenticate.");
+    }
+
+    if (error) {
+      return error;
     }
   },
   async register(context, payload) {
+    let error = null;
+
     const requestOptions = {
       method: "POST",
       headers: {
@@ -55,7 +63,7 @@ export default {
         })
         .then((data) => {
           if (data.error) {
-            throw new Error(data.error);
+            error = new Error(data.error);
           } else {
             localStorage.setItem("userID", data.userObj._id);
             localStorage.setItem("token", data.generatedToken);
@@ -67,7 +75,11 @@ export default {
           }
         });
     } catch (e) {
-      return new Error(e.message);
+      return new Error("Internal Server Error: Failed to register.");
+    }
+
+    if (error) {
+      return error;
     }
   },
   tryAutoLogin(context) {
