@@ -51,6 +51,8 @@ export default {
         pictureLink: `/api/users/${post.userId}/profilePhoto`,
         firstname: "",
         lastname: "",
+        date: new Date(post.createdAt).toLocaleDateString(),
+        content: post.contentString,
       };
     });
   },

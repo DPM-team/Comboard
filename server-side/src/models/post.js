@@ -11,9 +11,13 @@ const postSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       required: true,
     },
-    content: {
+    contentString: {
+      type: String,
+      required: false,
+    },
+    contentMedia: {
       type: Buffer,
-      required: true,
+      required: false,
     },
     likes: {
       type: Number,
