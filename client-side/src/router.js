@@ -22,6 +22,7 @@ import AllTeamsTab from "./components/organization/teams/AllTeamsTab.vue";
 import StorageTab from "./components/organization/storage/StorageTab.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
 import NotFoundPage from "./components/pages/NotFoundPage.vue";
+import UserPrivateProfile from "./components/organization/UserPrivateProfile.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -109,6 +110,10 @@ const router = createRouter({
       meta: {
         requiresAuthenticaton: true,
       },
+    },
+    {
+      path: "/organization/my-profile",
+      component: UserPrivateProfile,
     },
     {
       path: "/organization",
