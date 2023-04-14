@@ -1,5 +1,5 @@
 <template>
-  <div @keyup.esc="closeDialog">
+  <div>
     <dashboard-header></dashboard-header>
     <base-dialog v-if="dialogIsOpen" title="Join organization" @close="closeDialog">
       <template #main>
@@ -32,7 +32,6 @@ import AuthFormInput from "../auth/AuthFormInput.vue";
 
 export default {
   components: { DashboardHeader, DashboardFooter, BaseCard, OrganizationList, DashboardSearchbarContainer, AuthFormInput },
-
   data() {
     return {
       dialogIsOpen: false,

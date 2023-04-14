@@ -28,6 +28,22 @@ export default {
       required: false,
     },
   },
+  methods: {
+    handleKeyDown(event) {
+      // For esc
+      if (event.keyCode === 27) {
+        this.$emit("close");
+      }
+    },
+  },
+  mounted() {
+    // Add event listener for 'Esc' key press on window object
+    window.addEventListener("keydown", this.handleKeyDown);
+  },
+  unmounted() {
+    // Remove event listener on component destruction
+    window.removeEventListener("keydown", this.handleKeyDown);
+  },
 };
 </script>
 
