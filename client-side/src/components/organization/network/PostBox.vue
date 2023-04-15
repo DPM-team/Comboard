@@ -10,9 +10,9 @@
     </div>
     <div class="like-comment-container">
       <p>
-        <b>{{ likeCounter }}</b> people like this post
+        <b>{{ likes }}</b> people like this post
       </p>
-      <font-awesome-icon @click="addLike" class="post-icon" id="heart" :icon="['fas', 'heart']" />
+      <font-awesome-icon @click="addLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
       <font-awesome-icon class="post-icon" icon="fa-regular fa-comment" />
     </div>
   </div>
@@ -22,14 +22,26 @@
 export default {
   data() {
     return {
-      likeCounter: 0,
+      haveLike: null,
     };
   },
-  props: ["firstname", "lastname", "pictureLink", "content", "date"],
+
+  props: ["firstname", "lastname", "pictureLink", "content", "date", "id", "likes"],
   methods: {
-    addLike(event) {
-      this.likeCounter++;
-      event.target.classList.add("liked");
+    async addLike() {
+      let headers = new Headers();
+      headers.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
+      headers.append("AuthorizationOrg", `${this.$store.getters.selectedOrganizationID}`);
+      headers.append("Content-Type", "application/json");
+
+      let requestOptions = {
+        method: "put",
+        headers,
+        body: JSON.stringify({ like: !this.haveLike }),
+      };
+
+      let respones = await fetch(`/api/user/like/post/${this.id}`, requestOptions);
+      this.haveLike = await respones.json();
     },
   },
 };
