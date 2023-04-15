@@ -1,20 +1,11 @@
 const express = require("express");
 const Team = require("../models/team.js");
+const teamController = require("../controllers/teamController.js");
 
 const router = new express.Router();
 
-router.post("/api/team", async function (req, res) {
-  const teamObj = new Team({
-    ...req.body,
-  });
-
-  try {
-    await teamObj.save();
-    res.status(201).send(teamObj);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
+// Router to create a new organization team
+router.post("/api/team/create", teamController.createTeam);
 
 router.get("/api/teams", async function (req, res) {
   try {
