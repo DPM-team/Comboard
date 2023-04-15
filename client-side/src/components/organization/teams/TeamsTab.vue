@@ -1,7 +1,6 @@
 <template>
   <organization-page-tab :layout="'block'">
-    <router-link to="/organization/teams/new">Create Tam</router-link>
-    <router-view name="dialog"></router-view>
+    <base-button @click="createTeamLink()">Create Team</base-button>
     <div class="teams-page-container">
       <div class="links-container">
         <router-link to="/organization/teams/participate">My Teams</router-link>
@@ -13,14 +12,27 @@
 </template>
 
 <script>
+import BaseButton from "../../basic-components/BaseButton.vue";
 import OrganizationPageTab from "../../layout/pages/organization/OrganizationPageTab.vue";
 
 export default {
-  components: { OrganizationPageTab },
+  components: { OrganizationPageTab, BaseButton },
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    createTeamLink() {
+      let createTeamLink = this.$route.path;
+
+      if (this.$route.path === "/organization/teams/participate") {
+        createTeamLink = "/organization/teams/participate/new";
+      } else if (this.$route.path === "/organization/teams/all") {
+        createTeamLink = "/organization/teams/all/new";
+      }
+
+      this.$router.push(createTeamLink);
+    },
+  },
 };
 </script>
 

@@ -164,17 +164,26 @@ const router = createRouter({
             {
               path: "participate",
               component: MyTeamsTab,
+              children: [
+                {
+                  path: "new",
+                  components: {
+                    dialog: CreateTeam,
+                  },
+                },
+              ],
             },
             {
               path: "all",
               component: AllTeamsTab,
-            },
-            {
-              path: "new",
-              components: {
-                default: MyTeamsTab,
-                dialog: CreateTeam,
-              },
+              children: [
+                {
+                  path: "new",
+                  components: {
+                    dialog: CreateTeam,
+                  },
+                },
+              ],
             },
           ],
         },

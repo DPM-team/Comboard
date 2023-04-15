@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!-- For the pop up dialog for the team creation -->
+    <router-view name="dialog"></router-view>
     <h1>All Teams</h1>
     <ul>
       <team-item v-for="team in teams" :key="team.id" :teamName="team.teamName" :teamDescription="team.teamDescription"></team-item>
