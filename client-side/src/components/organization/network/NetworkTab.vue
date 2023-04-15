@@ -2,7 +2,17 @@
   <organization-page-tab layout="flex">
     <div class="main-section">
       <create-post-box :pictureLink="this.myUser.pictureLink"></create-post-box>
-      <post-box v-for="post in posts" :key="post.id" :pictureLink="post.pictureLink" :firstname="post.firstname" :lastname="post.lastname" :content="post.content" :date="post.date"></post-box>
+      <post-box
+        v-for="post in posts"
+        :key="post.id"
+        :pictureLink="post.pictureLink"
+        :firstname="post.firstname"
+        :lastname="post.lastname"
+        :content="post.content"
+        :date="post.date"
+        :id="post.id"
+        :likes="post.likes"
+      ></post-box>
     </div>
     <div class="side-section">
       <connection-suggestion-list></connection-suggestion-list>
@@ -46,13 +56,15 @@ export default {
     const posts = await postResponse.json();
 
     posts.forEach((post, ind) => {
+      console.log(post);
       this.posts[ind] = {
         id: post._id,
         pictureLink: `/api/users/${post.userId}/profilePhoto`,
-        firstname: "",
-        lastname: "",
+        firstname: post.firstname,
+        lastname: post.lastname,
         date: new Date(post.createdAt).toLocaleDateString(),
         content: post.contentString,
+        likes: post.likes,
       };
     });
   },

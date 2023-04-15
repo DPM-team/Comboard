@@ -9,63 +9,43 @@
             <img :src="pfp" alt="User Profile Pic" />
             <span></span>
           </div>
-          <h2>{{ firstname }} {{ lastname }}</h2>
-          <h4>{{ location }}</h4>
-          <p>{{ bio }}</p>
+          <h2 class="name">{{ firstname }} {{ lastname }}</h2>
+          <h4 class="location">{{ location }}</h4>
+          <p class="bio">{{ bio }}</p>
           <div class="content">
             <ul class="profile-ul">
-              <div class="icon">
-                <a :href="phoneLink"><font-awesome-icon :icon="['fas', 'phone']" /></a>
-              </div>
-              <div class="icon">
-                <a href="mailto:<?php echo $patientObj->email ?>"><font-awesome-icon :icon="['fas', 'envelope']" /></a>
-              </div>
-              <div class="icon">
-                <a href="https://www.google.com/maps/place/<?php echo $patientObj->location ?>" target="_blank"> <font-awesome-icon :icon="['fab', 'linkedin']" /></a>
-              </div>
+              <a :href="phoneLink"><font-awesome-icon class="icon" :icon="['fas', 'phone']" /></a>
+              <a :href="mailLink"><font-awesome-icon class="icon" :icon="['fas', 'envelope']" /></a>
+              <a :href="linkedinLink" target="_blank"> <font-awesome-icon class="icon" :icon="['fab', 'linkedin']" /></a>
             </ul>
+            <base-button>Organization Profile</base-button>
           </div>
         </div>
         <div class="right__col">
-          <!-- <?php 
-          if($updatesMessage == "Successful update!"){
-            echo "
-            <div class='success-message handle-visibility'>
-              <i class='fa-solid fa-check' style='color:white; margin-top: 2px; margin-left:2px; '></i>
-              <h3>Successful update!</h3>
-            </div>";}
-          else if($updatesMessage == "Fields are missing!"){
-            echo "
-            <div class='reject-message handle-visibility'>
-            <i class='fa-solid fa-xmark' style='color:white; margin-top: 2px; margin-left:2px;'></i>
-            <h3>Fields are missing..</h3></div>";
-          }
-        ?> -->
           <nav>
-            <ul class="profile-ul">
+            <ul class="menu-ul">
               <li><a class="selected">Posts</a></li>
               <li><a>Connections</a></li>
               <li><a>Settings</a></li>
             </ul>
           </nav>
-          <div class="card-container" id="card-container"></div>
+          <div class="card-container" id="card-container">
+            <post-box v-for="post in posts" :key="post.id" :pictureLink="post.pictureLink" :firstname="post.firstname" :lastname="post.lastname" :content="post.content" :date="post.date"></post-box>
+          </div>
           <div class="profile-settings hide" id="profile-settings">
             <form class="personal-information" action="" method="post">
               <h2>Update your profile</h2>
               <div class="inputBox">
                 <input type="text" name="firstname" class="<?php echo (!empty($firstnameSetError)) ? 'is-invalid-update' : ''; ?>" value="<?php echo $currFirstname ?>" required />
                 <span>First name</span>
-                <!-- <p class="invalid-feedback-form"><?php echo $firstnameSetError; ?></p> -->
               </div>
               <div class="inputBox">
                 <input type="text" name="lastname" class="<?php echo (!empty($lastnameSetError)) ? 'is-invalid-update' : ''; ?>" value="<?php echo $currLastname ?>" required />
                 <span>Last name</span>
-                <!-- <p class="invalid-feedback-form"><?php echo $lastnameSetError; ?></p> -->
               </div>
               <div class="inputBox">
                 <input type="text" name="phone" class="<?php echo (!empty($phoneSetError)) ? 'is-invalid-update' : ''; ?>" value="<?php echo $currPhone ?>" required />
                 <span>Phone</span>
-                <!-- <p class="invalid-feedback-form"><?php echo $phoneSetError; ?></p> -->
               </div>
               <div class="inputBox">
                 <input type="text" name="location" value="<?php echo $currLocation ?>" />
@@ -86,27 +66,22 @@
               <div class="inputBox">
                 <input type="text" name="username" class="<?php echo (!empty($usernameSetError)) ? 'is-invalid-update' : ''; ?>" value="<?php echo $currUsername ?>" required />
                 <span>Username</span>
-                <!-- <p class="invalid-feedback-form"><?php echo $usernameSetError; ?></p> -->
               </div>
               <div class="inputBox">
                 <input type="text" name="email" class="<?php echo (!empty($emailSetError)) ? 'is-invalid-update' : ''; ?>" value="<?php echo $currEmail ?>" required />
                 <span>Email</span>
-                <!-- <p class="invalid-feedback-form"><?php echo $emailSetError; ?></p> -->
               </div>
               <div class="inputBox">
                 <input type="password" name="current-password" class="<?php echo (!empty($currPasswordSetError)) ? 'is-invalid-update' : ''; ?>" placeholder="**********" />
                 <span>Your current password</span>
-                <!-- <p class="invalid-feedback-form"><?php echo $currPasswordSetError; ?></p> -->
               </div>
               <div class="inputBox">
                 <input type="password" name="new-password" class="<?php echo (!empty($newPasswordSetError)) ? 'is-invalid-update' : ''; ?>" placeholder="**********" />
                 <span>New password</span>
-                <!-- <p class="invalid-feedback-form"><?php echo $newPasswordSetError; ?></p> -->
               </div>
               <div class="inputBox">
                 <input type="password" name="confirm-new-password" class="<?php echo (!empty($confirmNewPasswordSetError)) ? 'is-invalid-update' : ''; ?>" placeholder="**********" />
                 <span>Confirm new password</span>
-                <!-- <p class="invalid-feedback-form"><?php echo $confirmNewPasswordSetError; ?></p> -->
               </div>
               <div class="inputBox">
                 <input type="submit" name="submit-sensitive" value="Save" id="submit-sensitive" />
@@ -119,10 +94,12 @@
   </div>
 </template>
 <script>
+import BaseButton from "../basic-components/BaseButton.vue";
 import OrganizationPageHeader from "../layout/headers/OrganizationPageHeader.vue";
+import PostBox from "./network/PostBox.vue";
 
 export default {
-  components: { OrganizationPageHeader },
+  components: { OrganizationPageHeader, BaseButton, PostBox },
   data() {
     return {
       userID: "",
@@ -131,9 +108,29 @@ export default {
       lastname: "Lougaris",
       location: "Thessaloniki",
       phoneLink: "tel:69999999999",
+      linkedinLink: "https://www.linkedin.com/in/dionisis-lougaris/",
+      mailLink: "mailto:example@gmail.com",
       bio: "Hello fellow Uom Members, I am Dionisis and I am a senior at the Uom Computer Science Dept.",
       pfp: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
       backgroundImage: "https://img.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg?w=2000",
+      posts: [
+        {
+          id: 1,
+          pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
+          firstname: "Dionisis",
+          lastname: "Lougaris",
+          date: "9/3/2023",
+          content: "Auto einai to prwto post tou Comboard apo to development!",
+        },
+        {
+          id: 2,
+          pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
+          firstname: "Dionisis",
+          lastname: "Lougaris",
+          date: "9/3/2023",
+          content: "Auto einai to deutero post tou Comboard apo to development!",
+        },
+      ],
     };
   },
   created() {
@@ -148,16 +145,30 @@ export default {
 .profile-header img {
   width: 100%;
   background: no-repeat 50% 20% / cover;
-  /* min-height: calc(50px + 15vw); */
   height: calc(100px + 15vw);
 }
 
 .profile-ul {
   list-style-type: none;
   margin: 0;
+  padding-bottom: 30px;
+  display: flex;
+  align-items: center;
+}
+.menu-ul {
+  list-style-type: none;
+  margin: 0;
   padding: 0;
   display: flex;
   align-items: center;
+}
+.menu-ul li {
+  margin-left: 25px;
+  font-size: 18px;
+}
+.icon {
+  color: var(--color-primary);
+  font-size: 19px;
 }
 
 .profile-a {
@@ -196,11 +207,20 @@ export default {
   right: 11px;
   border: 2px solid #fff;
 }
-.header__wrapper .cols__container .left__col h2 {
-  margin-top: 60px;
+.name {
+  margin-top: 70px;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 24px;
   margin-bottom: 5px;
+}
+.location {
+  font-size: 17px;
+  /* padding-top: 5px; */
+  font-weight: 500;
+}
+.bio {
+  font-size: 15px;
+  padding-top: 10px;
 }
 .header__wrapper .cols__container .left__col p {
   font-size: 0.9rem;
@@ -437,24 +457,6 @@ export default {
   overflow-y: auto;
   height: 500px;
   margin-bottom: 30px;
-}
-.card-container .card {
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 2.5em rgba(111, 110, 110, 0.131);
-}
-.card-container h3 {
-  color: var(--color-primary);
-}
-.card-container h4 {
-  color: var(--color-fourth);
-}
-.card-container p {
-  color: var(--color-primary);
-}
-.profile-ul a i {
-  color: var(--color-primary);
-  text-decoration: none;
 }
 
 /* Responsiveness */
