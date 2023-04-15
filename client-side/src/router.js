@@ -19,6 +19,7 @@ import MyProjectsTab from "./components/organization/projects/MyProjectsTab.vue"
 import TeamsTab from "./components/organization/teams/TeamsTab.vue";
 import MyTeamsTab from "./components/organization/teams/MyTeamsTab.vue";
 import AllTeamsTab from "./components/organization/teams/AllTeamsTab.vue";
+import CreateTeam from "./components/organization/teams/CreateTeam.vue";
 import StorageTab from "./components/organization/storage/StorageTab.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
 import NotFoundPage from "./components/pages/NotFoundPage.vue";
@@ -162,6 +163,13 @@ const router = createRouter({
             {
               path: "all",
               component: AllTeamsTab,
+            },
+            {
+              path: "new",
+              components: {
+                default: MyTeamsTab,
+                dialog: CreateTeam,
+              },
             },
           ],
         },

@@ -1,5 +1,7 @@
 <template>
   <organization-page-tab :layout="'block'">
+    <router-link to="/organization/teams/new">Create Tam</router-link>
+    <router-view name="dialog"></router-view>
     <div class="teams-page-container">
       <div class="links-container">
         <router-link to="/organization/teams/participate">My Teams</router-link>
