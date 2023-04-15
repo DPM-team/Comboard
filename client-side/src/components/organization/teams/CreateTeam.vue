@@ -1,24 +1,138 @@
 <template>
   <base-dialog title="Create Team" @close="closeDialog">
     <template #main>
-      <h2>fdsfdsfds</h2>
-      <h2>fdsfdsfds</h2>
-      <h2>fdsfdsfds</h2>
+      <form id="create-team--form" @submit.prevent="submitFormToCreate">
+        <auth-form-input @data="getTeamName" id="team-name" class="create-team--input" type="text" name="team-name" placeholder="Team's name" required></auth-form-input>
+        <div class="textarea-control">
+          <label for="team-description">Team's description</label>
+          <textarea rows="5" id="team-description"></textarea>
+        </div>
+        <div class="members">
+          <div class="col-50">
+            <h3>Organization's Members</h3>
+            <draggable class="list-group" :list="orgMembers" group="members" @change="log" itemKey="id">
+              <member-item v-for="item in orgMembers" :key="item.id" :fullname="item.name" :speciality="item.speciality"></member-item>
+            </draggable>
+          </div>
+          <div class="col-50">
+            <h3>Team's Members</h3>
+            <draggable class="list-group" :list="teamMembers" group="members" @change="log" itemKey="id">
+              <member-item v-for="item in teamMembers" :key="item.id" :fullname="item.name" :speciality="item.speciality"></member-item>
+            </draggable>
+          </div>
+        </div>
+        <base-button>Create Team</base-button>
+      </form>
     </template>
   </base-dialog>
 </template>
 
 <script>
+import AuthFormInput from "../../auth/AuthFormInput.vue";
+import MemberItem from "./MemberItem.vue";
+import { VueDraggableNext } from "vue-draggable-next";
+
 export default {
+  components: { AuthFormInput, draggable: VueDraggableNext, MemberItem },
   data() {
-    return {};
+    return {
+      teamName: "",
+      orgMembers: [
+        {
+          name: "John",
+          id: 1,
+          speciality: "Developer",
+        },
+        {
+          name: "Joao",
+          id: 2,
+          speciality: "HR",
+        },
+        {
+          name: "Jean",
+          id: 3,
+          speciality: "Project Manager",
+        },
+        {
+          name: "Gerard",
+          id: 4,
+          speciality: "Developer",
+        },
+      ],
+      teamMembers: [
+        {
+          name: "Juan",
+          id: 5,
+          speciality: "Developer",
+        },
+        {
+          name: "Edgard",
+          id: 6,
+          speciality: "Developer",
+        },
+        {
+          name: "Johnson",
+          id: 7,
+          speciality: "Developer",
+        },
+      ],
+    };
   },
   methods: {
+    submitFormToCreate() {
+      console.log("fgfd");
+    },
     closeDialog() {
       this.$router.back();
+    },
+    getTeamName(inputValue) {
+      this.teamName = inputValue;
+    },
+    log(evt) {
+      window.console.log(evt);
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.textarea-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  margin-bottom: 10px;
+  display: block;
+}
+
+textarea {
+  display: block;
+  width: 75%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+textarea:focus {
+  border-color: #000dc5;
+  background-color: #faf6ff;
+  outline: none;
+}
+
+.members {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list-group {
+  overflow-y: auto;
+  height: 250px;
+}
+
+.col-50 {
+  width: 50%;
+}
+</style>
