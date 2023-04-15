@@ -5,18 +5,18 @@
         <auth-form-input @data="getTeamName" id="team-name" class="create-team--input" type="text" name="team-name" placeholder="Team's name" required></auth-form-input>
         <div class="textarea-control">
           <label for="team-description">Team's description</label>
-          <textarea rows="5" id="team-description"></textarea>
+          <textarea v-model="teamDescription" rows="5" id="team-description"></textarea>
         </div>
         <div class="members">
           <div class="col-50">
             <h3>Organization's Members</h3>
-            <draggable class="list-group" :list="orgMembers" group="members" @change="log" itemKey="id">
+            <draggable class="list-group" :list="orgMembers" group="members" itemKey="id">
               <member-item v-for="item in orgMembers" :key="item.id" :fullname="item.fullname" :speciality="item.speciality"></member-item>
             </draggable>
           </div>
           <div class="col-50">
             <h3>Team's Members</h3>
-            <draggable class="list-group" :list="teamMembers" group="members" @change="log" itemKey="id">
+            <draggable class="list-group" :list="teamMembers" group="members" itemKey="id">
               <member-item v-for="item in teamMembers" :key="item.id" :fullname="item.fullname" :speciality="item.speciality"></member-item>
             </draggable>
           </div>
@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       teamName: "",
+      teamDescription: "",
       orgMembers: [],
       teamMembers: [],
     };
@@ -51,17 +52,12 @@ export default {
         console.log(error.message || "Something went wrong!");
       }
     },
-    submitFormToCreate() {
-      console.log(this.teamMembers);
-    },
+    submitFormToCreate() {},
     closeDialog() {
       this.$router.back();
     },
     getTeamName(inputValue) {
       this.teamName = inputValue;
-    },
-    log(evt) {
-      window.console.log(evt);
     },
   },
   created() {
