@@ -1,5 +1,5 @@
 <template>
-  <div class="post-box">
+  <div class="post-box" @dblclick="addLike">
     <div class="image-name-date-container">
       <div class="pfp-container"><img class="user-pfp" :src="pictureLink" /></div>
       <h2>{{ firstname }} {{ lastname }}</h2>
@@ -26,6 +26,20 @@ export default {
     };
   },
 
+  async created() {
+    let headers = new Headers();
+    headers.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
+    headers.append("AuthorizationOrg", `${this.$store.getters.selectedOrganizationID}`);
+
+    let requestOptions = {
+      method: "get",
+      headers,
+    };
+
+    let respones = await fetch(`/api/user/like/post/${this.id}`, requestOptions);
+    this.haveLike = await respones.json();
+  },
+
   props: ["firstname", "lastname", "pictureLink", "content", "date", "id", "likes"],
   methods: {
     async addLike() {
@@ -34,14 +48,15 @@ export default {
       headers.append("AuthorizationOrg", `${this.$store.getters.selectedOrganizationID}`);
       headers.append("Content-Type", "application/json");
 
+      this.haveLike = !this.haveLike;
+
       let requestOptions = {
         method: "put",
         headers,
         body: JSON.stringify({ like: !this.haveLike }),
       };
 
-      let respones = await fetch(`/api/user/like/post/${this.id}`, requestOptions);
-      this.haveLike = await respones.json();
+      await fetch(`/api/user/like/post/${this.id}`, requestOptions);
     },
   },
 };
