@@ -24,7 +24,7 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border: solid 1px rgba(14, 42, 128, 0.397);
   /* border-radius: 10px; */
-  width: 350px;
+  width: 400px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

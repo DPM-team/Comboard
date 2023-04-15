@@ -31,5 +31,6 @@ export default {
 <style scoped>
 .connections-container {
   display: inline-block;
+  padding: 30px;
 }
 </style>
