@@ -2,6 +2,7 @@ const express = require("express");
 const Organization = require("../models/organization.js");
 const randomstring = require("randomstring");
 const User = require("../models/user.js");
+const organizationController = require("../controllers/organizationController"); // Import the organization controller
 
 const router = express.Router();
 
@@ -108,28 +109,8 @@ router.post("/api/organization/join", async function (req, res) {
   }
 });
 
-router.get("/api/organization/members", async function (req, res) {
-  const organizationID = req.query.organizationID;
-
-  try {
-    const organizationObj = await Organization.findById(organizationID).populate("users");
-
-    if (!organizationObj) {
-      return res.status(200).json({ error: "Organization not found" });
-    }
-
-    let members = organizationObj.users.map((memberObj) => {
-      return {
-        id: memberObj._id,
-        fullname: memberObj.name + " " + memberObj.surname,
-      };
-    });
-
-    res.status(200).json({ members });
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+// Route for /api/organization/members
+router.get("/api/organization/members", organizationController.getOrganizationMembers);
 
 router.get("/api/organizations", async function (req, res) {
   try {
