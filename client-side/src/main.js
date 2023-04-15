@@ -50,6 +50,7 @@ import {
   faRightFromBracket,
   faPhone,
   faEnvelope,
+  faUserMinus,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faComment, faFilePdf, faFileWord, faFileExcel, faImage } from "@fortawesome/free-regular-svg-icons";
@@ -93,7 +94,8 @@ library.add(
   faCloudArrowUp,
   faRightFromBracket,
   faPhone,
-  faEnvelope
+  faEnvelope,
+  faUserMinus
 );
 
 const app = createApp(App);

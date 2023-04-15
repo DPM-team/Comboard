@@ -22,72 +22,12 @@
           </div>
         </div>
         <div class="right__col">
-          <nav>
-            <ul class="menu-ul">
-              <li><a class="selected">Posts</a></li>
-              <li><a>Connections</a></li>
-              <li><a>Settings</a></li>
-            </ul>
-          </nav>
-          <div class="card-container" id="card-container">
-            <post-box v-for="post in posts" :key="post.id" :pictureLink="post.pictureLink" :firstname="post.firstname" :lastname="post.lastname" :content="post.content" :date="post.date"></post-box>
+          <div class="menu-ul">
+            <router-link class="link selected" to="/organization/my-profile/posts">Posts</router-link>
+            <router-link class="link" to="/organization/my-profile/connections">Connections</router-link>
+            <router-link class="link" to="/organization/my-profile/settings">Settings</router-link>
           </div>
-          <div class="profile-settings hide" id="profile-settings">
-            <form class="personal-information" action="" method="post">
-              <h2>Update your profile</h2>
-              <div class="inputBox">
-                <input type="text" name="firstname" class="<?php echo (!empty($firstnameSetError)) ? 'is-invalid-update' : ''; ?>" value="<?php echo $currFirstname ?>" required />
-                <span>First name</span>
-              </div>
-              <div class="inputBox">
-                <input type="text" name="lastname" class="<?php echo (!empty($lastnameSetError)) ? 'is-invalid-update' : ''; ?>" value="<?php echo $currLastname ?>" required />
-                <span>Last name</span>
-              </div>
-              <div class="inputBox">
-                <input type="text" name="phone" class="<?php echo (!empty($phoneSetError)) ? 'is-invalid-update' : ''; ?>" value="<?php echo $currPhone ?>" required />
-                <span>Phone</span>
-              </div>
-              <div class="inputBox">
-                <input type="text" name="location" value="<?php echo $currLocation ?>" />
-                <span>Location</span>
-              </div>
-              <div class="inputBox">
-                <input type="file" name="profile-picture" />
-                <span>Profile picture</span>
-              </div>
-              <div class="inputBox">
-                <input type="submit" name="submit-non-sensitive" value="Save" id="submit-non-sensitive" />
-              </div>
-            </form>
-          </div>
-          <div class="sensitive-information hide" id="sensitive-information">
-            <form class="personal-information" action="" method="post">
-              <h2>Settings</h2>
-              <div class="inputBox">
-                <input type="text" name="username" class="<?php echo (!empty($usernameSetError)) ? 'is-invalid-update' : ''; ?>" value="<?php echo $currUsername ?>" required />
-                <span>Username</span>
-              </div>
-              <div class="inputBox">
-                <input type="text" name="email" class="<?php echo (!empty($emailSetError)) ? 'is-invalid-update' : ''; ?>" value="<?php echo $currEmail ?>" required />
-                <span>Email</span>
-              </div>
-              <div class="inputBox">
-                <input type="password" name="current-password" class="<?php echo (!empty($currPasswordSetError)) ? 'is-invalid-update' : ''; ?>" placeholder="**********" />
-                <span>Your current password</span>
-              </div>
-              <div class="inputBox">
-                <input type="password" name="new-password" class="<?php echo (!empty($newPasswordSetError)) ? 'is-invalid-update' : ''; ?>" placeholder="**********" />
-                <span>New password</span>
-              </div>
-              <div class="inputBox">
-                <input type="password" name="confirm-new-password" class="<?php echo (!empty($confirmNewPasswordSetError)) ? 'is-invalid-update' : ''; ?>" placeholder="**********" />
-                <span>Confirm new password</span>
-              </div>
-              <div class="inputBox">
-                <input type="submit" name="submit-sensitive" value="Save" id="submit-sensitive" />
-              </div>
-            </form>
-          </div>
+          <router-view></router-view>
         </div>
       </div>
     </div>
@@ -96,10 +36,9 @@
 <script>
 import BaseButton from "../basic-components/BaseButton.vue";
 import OrganizationPageHeader from "../layout/headers/OrganizationPageHeader.vue";
-import PostBox from "./network/PostBox.vue";
 
 export default {
-  components: { OrganizationPageHeader, BaseButton, PostBox },
+  components: { OrganizationPageHeader, BaseButton },
   data() {
     return {
       userID: "",
@@ -113,24 +52,6 @@ export default {
       bio: "Hello fellow Uom Members, I am Dionisis and I am a senior at the Uom Computer Science Dept.",
       pfp: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
       backgroundImage: "https://img.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg?w=2000",
-      posts: [
-        {
-          id: 1,
-          pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
-          firstname: "Dionisis",
-          lastname: "Lougaris",
-          date: "9/3/2023",
-          content: "Auto einai to prwto post tou Comboard apo to development!",
-        },
-        {
-          id: 2,
-          pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
-          firstname: "Dionisis",
-          lastname: "Lougaris",
-          date: "9/3/2023",
-          content: "Auto einai to deutero post tou Comboard apo to development!",
-        },
-      ],
     };
   },
   created() {
@@ -157,14 +78,16 @@ export default {
 }
 .menu-ul {
   list-style-type: none;
-  margin: 0;
+  margin-top: 30px;
   padding: 0;
-  display: flex;
-  align-items: center;
+  /* display: flex;
+  align-items: center; */
 }
-.menu-ul li {
+.menu-ul .link {
   margin-left: 25px;
   font-size: 18px;
+  text-decoration: none;
+  color: black;
 }
 .icon {
   color: var(--color-primary);

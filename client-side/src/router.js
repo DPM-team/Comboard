@@ -24,6 +24,9 @@ import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
 import NotFoundPage from "./components/pages/NotFoundPage.vue";
 import UserPrivateProfile from "./components/organization/UserPrivateProfile.vue";
 import UserDashboardProfile from "./components/dashboard/UserDashboardProfile.vue";
+import UserProfilePosts from "./components/organization/UserProfilePosts.vue";
+import UserProfileConnections from "./components/organization/UserProfileConnections.vue";
+import UserProfileSettings from "./components/organization/UserProfileSettings.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -119,7 +122,22 @@ const router = createRouter({
     {
       path: "/organization/my-profile",
       component: UserPrivateProfile,
+      children: [
+        {
+          path: "posts",
+          component: UserProfilePosts,
+        },
+        {
+          path: "connections",
+          component: UserProfileConnections,
+        },
+        {
+          path: "settings",
+          component: UserProfileSettings,
+        },
+      ],
     },
+
     {
       path: "/organization",
       component: OrganizationPage,
