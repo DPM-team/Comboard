@@ -11,13 +11,13 @@
           <div class="col-50">
             <h3>Organization's Members</h3>
             <draggable class="list-group" :list="orgMembers" group="members" @change="log" itemKey="id">
-              <member-item v-for="item in orgMembers" :key="item.id" :fullname="item.name" :speciality="item.speciality"></member-item>
+              <member-item v-for="item in orgMembers" :key="item.id" :fullname="item.fullname" :speciality="item.speciality"></member-item>
             </draggable>
           </div>
           <div class="col-50">
             <h3>Team's Members</h3>
             <draggable class="list-group" :list="teamMembers" group="members" @change="log" itemKey="id">
-              <member-item v-for="item in teamMembers" :key="item.id" :fullname="item.name" :speciality="item.speciality"></member-item>
+              <member-item v-for="item in teamMembers" :key="item.id" :fullname="item.fullname" :speciality="item.speciality"></member-item>
             </draggable>
           </div>
         </div>
@@ -37,50 +37,22 @@ export default {
   data() {
     return {
       teamName: "",
-      orgMembers: [
-        {
-          name: "John",
-          id: 1,
-          speciality: "Developer",
-        },
-        {
-          name: "Joao",
-          id: 2,
-          speciality: "HR",
-        },
-        {
-          name: "Jean",
-          id: 3,
-          speciality: "Project Manager",
-        },
-        {
-          name: "Gerard",
-          id: 4,
-          speciality: "Developer",
-        },
-      ],
-      teamMembers: [
-        {
-          name: "Juan",
-          id: 5,
-          speciality: "Developer",
-        },
-        {
-          name: "Edgard",
-          id: 6,
-          speciality: "Developer",
-        },
-        {
-          name: "Johnson",
-          id: 7,
-          speciality: "Developer",
-        },
-      ],
+      orgMembers: [],
+      teamMembers: [],
     };
   },
   methods: {
+    async loadOrganizationMembers() {
+      try {
+        const members = await this.$store.dispatch("getOrganizationUsers", { organizationID: this.$store.getters.selectedOrganizationID });
+
+        this.orgMembers = members;
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
+    },
     submitFormToCreate() {
-      console.log("fgfd");
+      console.log(this.teamMembers);
     },
     closeDialog() {
       this.$router.back();
@@ -91,6 +63,9 @@ export default {
     log(evt) {
       window.console.log(evt);
     },
+  },
+  created() {
+    this.loadOrganizationMembers();
   },
 };
 </script>
