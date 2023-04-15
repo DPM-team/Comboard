@@ -44,6 +44,27 @@ router.put("/api/user/like/post/:postId", authentication, authenticationOrg, asy
   }
 });
 
+router.get("/api/user/like/post/:postId", authentication, authenticationOrg, async function (req, res) {
+  try {
+    const post = await Post.findOne({ _id: req.params.postId });
+    let liked;
+
+    if (!post) {
+      throw new Error();
+    }
+
+    if (post.likes.includes(req.user._id)) {
+      liked = true;
+    } else {
+      liked = false;
+    }
+
+    res.status(201).send(liked);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 router.get("/api/user/posts", authentication, authenticationOrg, async function (req, res) {
   const posts = await Post.find({ userId: req.user });
 
