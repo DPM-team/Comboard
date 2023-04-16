@@ -249,86 +249,9 @@ export default {
   }
 }
 
-.personal-information {
-  width: 90%;
-  padding: 20px;
-  background: white;
-}
-
-.personal-information h2 {
-  font-size: 28px;
-  color: var(--color-fourth);
-  font-weight: 600;
-}
-
-.personal-information .inputBox {
-  position: relative;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.personal-information .inputBox input[type="text"],
-.personal-information .inputBox input[type="password"],
-.personal-information .inputBox textarea {
-  width: 100%;
-  padding: 5px 0;
-  font-size: 16px;
-  margin: 10px 0;
-  border: none;
-  border-bottom: 2px solid var(--color-fourth);
-  outline: none;
-  resize: none;
-}
-.personal-information .inputBox input[type="file"] {
-  width: 100%;
-  padding: 5px 0;
-  font-size: 16px;
-  margin: 10px 0;
-  border: none;
-
-  outline: none;
-  resize: none;
-}
-
-.personal-information .inputBox span {
-  position: absolute;
-  left: 0;
-  padding: 5px 0;
-  font-size: 16px;
-  margin: 10px 0;
-  pointer-events: none;
-  transition: 0.5s;
-  color: #666;
-}
-
-.personal-information .inputBox input:focus ~ span,
-.personal-information .inputBox input:valid ~ span,
-.personal-information .inputBox textarea:focus ~ span,
-.personal-information .inputBox textarea:valid ~ span {
-  color: var(--color-primary);
-  font-size: 12px;
-  transform: translateY(-20px);
-}
-
-.personal-information .inputBox input[type="submit"] {
-  background: var(--color-fourth);
-  color: #fff;
-  border: none;
-  padding: 12px 30px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 20px;
-  font-size: 18px;
-  font-family: "Montserrat";
-  /* font-weight: 600; */
-}
-.personal-information .inputBox input[type="submit"]:active {
-  opacity: 0.8;
-}
-
 /* Responsiveness */
 
-@media (min-width: 868px) {
+@media (min-width: 900px) {
   .header__wrapper .cols__container {
     max-width: 1200px;
     margin: 0 auto;
@@ -371,6 +294,12 @@ export default {
   }
   .back-icon {
     display: block;
+  }
+}
+@media (max-width: 900px) {
+  .menu-ul {
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

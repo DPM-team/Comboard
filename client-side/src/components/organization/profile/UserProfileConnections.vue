@@ -33,4 +33,10 @@ export default {
   display: inline-block;
   padding: 30px;
 }
+@media (max-width: 900px) {
+  .connections-container {
+    display: block;
+    margin: 0 auto;
+  }
+}
 </style>

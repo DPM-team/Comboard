@@ -55,67 +55,28 @@ export default {
   border-radius: 50%;
 }
 
-@media (max-width: 770px) {
-  .post-box {
-    width: 500px;
-  }
-  .image-name-date-container h2 {
-    width: 300px;
-  }
-}
-@media (max-width: 600px) {
-  .post-box {
-    width: 400px;
-  }
-  .image-name-date-container h2 {
-    width: 200px;
-  }
-}
-@media (max-width: 500px) {
-  .post-box {
+@media (max-width: 460px) {
+  .connection-box {
     width: 350px;
   }
-  .image-name-date-container h2 {
-    width: 180px;
-  }
-}
-@media (max-width: 430px) {
-  .post-input {
-    width: 160px;
-  }
-  .post-box {
-    width: 330px;
+  .image-name-container h2 {
+    width: 200px;
+    font-size: 16px;
   }
   .pfp-container {
-    margin-right: 13px;
-  }
-  .post-button {
-    margin-left: 13px;
+    margin-right: 20px;
   }
 }
 @media (max-width: 400px) {
-  .post-input {
-    width: 140px;
+  .connection-box {
+    width: 300px;
   }
-  .post-box {
-    width: 290px;
+  .image-name-container h2 {
+    width: 180px;
+    font-size: 15px;
   }
   .pfp-container {
-    margin-right: 12px;
-  }
-  .post-button {
-    margin-left: 12px;
-  }
-  .image-name-date-container h2 {
-    width: 150px;
-    font-size: 16px;
-  }
-  .image-name-date-container h4 {
-    font-size: 12px;
-  }
-  .like-comment-container p {
-    width: 60%;
-    font-size: 12px;
+    margin-right: 10px;
   }
 }
 </style>

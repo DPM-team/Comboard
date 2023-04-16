@@ -36,4 +36,10 @@ export default {
 .posts-container {
   display: inline-block;
 }
+@media (max-width: 900px) {
+  .posts-container {
+    display: block;
+    margin: 0 auto;
+  }
+}
 </style>
