@@ -52,7 +52,23 @@ export default {
         console.log(error.message || "Something went wrong!");
       }
     },
-    submitFormToCreate() {},
+    async submitFormToCreate() {
+      try {
+        const teamObj = {
+          name: this.teamName,
+          description: this.teamDescription,
+          supervisor: this.$store.getters.loggedUserID,
+          // We store to the team only the id of the members, so we should use map to fill the array only with the id
+          members: this.teamMembers.map((memberObj) => memberObj.id),
+        };
+
+        const successMessage = await this.$store.dispatch("createTeam", { teamObj });
+
+        console.log(successMessage.successMessage);
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
+    },
     closeDialog() {
       this.$router.back();
     },

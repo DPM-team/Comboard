@@ -35,7 +35,7 @@ const createTeam = async (req, res) => {
     // Save the team to the database
     const createdTeam = await team.save();
 
-    res.status(201).json(createdTeam);
+    res.status(201).json({ successMessage: "Team is created with success!", createdTeam });
   } catch (error) {
     console.error(error); // Log the error for debugging purposes
     res.status(500).json({ error: "Server error." });
