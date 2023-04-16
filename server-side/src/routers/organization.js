@@ -1,11 +1,12 @@
 const express = require("express");
-const Organization = require("../models/organization.js");
 const randomstring = require("randomstring");
+const Organization = require("../models/organization.js");
 const User = require("../models/user.js");
 const organizationController = require("../controllers/organizationController"); // Import the organization controller
 
 const router = express.Router();
 
+// Router to create a new organization
 router.post("/api/organization", async function (req, res) {
   // The user who creates the organization (current owner)
   const userID = req.body.userID;
@@ -64,6 +65,7 @@ router.post("/api/organization", async function (req, res) {
   }
 });
 
+// Router to a user can join organization
 router.post("/api/organization/join", async function (req, res) {
   const organizationKey = req.body.organizationKey;
   const userID = req.body.userID;
@@ -109,9 +111,10 @@ router.post("/api/organization/join", async function (req, res) {
   }
 });
 
-// Route for /api/organization/members
+// Router for /api/organization/members
 router.get("/api/organization/members", organizationController.getOrganizationMembers);
 
+//Router to get all the stored organizations
 router.get("/api/organizations", async function (req, res) {
   try {
     Organization.find({}).then((result) => {
@@ -122,6 +125,10 @@ router.get("/api/organizations", async function (req, res) {
   }
 });
 
+// Router to add a new team to the organization the belongs
+router.post("/api/organization/team", organizationController.addTeamToOrganization);
+
+// Router to get a specific organization based of its ID
 router.get("/api/organization/:identifier", async function (req, res) {
   const _id = req.params.identifier;
 
