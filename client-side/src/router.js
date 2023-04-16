@@ -29,6 +29,8 @@ import UserProfilePosts from "./components/organization/profile/UserProfilePosts
 import UserProfileConnections from "./components/organization/profile/UserProfileConnections.vue";
 import UserProfileSettings from "./components/organization/profile/UserProfileSettings.vue";
 import HelpPage from "./components/dashboard/HelpPage.vue";
+import UserProfileTeams from "./components/organization/profile/UserProfileTeams.vue";
+import UserProfileProjects from "./components/organization/profile/UserProfileProjects.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -140,6 +142,20 @@ const router = createRouter({
         {
           path: "settings",
           component: UserProfileSettings,
+        },
+      ],
+    },
+    {
+      path: "/organization/user",
+      component: UserProfile,
+      children: [
+        {
+          path: "teams",
+          component: UserProfileTeams,
+        },
+        {
+          path: "projects",
+          component: UserProfileProjects,
         },
       ],
     },

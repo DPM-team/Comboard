@@ -26,6 +26,9 @@
             <router-link class="link" to="/organization/my-profile/posts">Posts</router-link>
             <router-link class="link" to="/organization/my-profile/connections">Connections</router-link>
             <router-link class="link" to="/organization/my-profile/settings">Settings</router-link>
+            <router-link v-if="false" class="link" to="/organization/user/teams">Teams</router-link>
+            <router-link v-if="false" class="link" to="/organization/user/projects">Projects</router-link>
+            <base-button v-if="false">Add connection</base-button>
           </div>
           <router-view></router-view>
         </div>
