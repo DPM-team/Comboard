@@ -23,11 +23,11 @@ import CreateTeam from "./components/organization/teams/CreateTeam.vue";
 import StorageTab from "./components/organization/storage/StorageTab.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
 import NotFoundPage from "./components/pages/NotFoundPage.vue";
-import UserPrivateProfile from "./components/organization/UserPrivateProfile.vue";
+import UserProfile from "./components/organization/profile/UserProfile.vue";
 import UserDashboardProfile from "./components/dashboard/UserDashboardProfile.vue";
-import UserProfilePosts from "./components/organization/UserProfilePosts.vue";
-import UserProfileConnections from "./components/organization/UserProfileConnections.vue";
-import UserProfileSettings from "./components/organization/UserProfileSettings.vue";
+import UserProfilePosts from "./components/organization/profile/UserProfilePosts.vue";
+import UserProfileConnections from "./components/organization/profile/UserProfileConnections.vue";
+import UserProfileSettings from "./components/organization/profile/UserProfileSettings.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -122,7 +122,7 @@ const router = createRouter({
     },
     {
       path: "/organization/my-profile",
-      component: UserPrivateProfile,
+      component: UserProfile,
       children: [
         {
           path: "posts",

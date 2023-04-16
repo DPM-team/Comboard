@@ -6,6 +6,7 @@
         <label v-on:click="noScrolling" for="check" class="checkbtn">
           <i class="fas fa-bars"></i>
         </label>
+        <slot></slot>
         <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
         <ul class="header-ul">
           <li class="header-li" @click="toggleNotificationOptions">
@@ -278,9 +279,9 @@ export default {
     margin-right: 10px;
   }
 }
-@media (max-width: 380px) {
+/* @media (max-width: 380px) {
   .nav__logo {
     margin-left: 15%;
   }
-}
+} */
 </style>

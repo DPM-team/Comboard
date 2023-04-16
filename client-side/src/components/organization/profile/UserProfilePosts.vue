@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import PostBox from "./network/PostBox.vue";
+import PostBox from "../network/PostBox.vue";
 export default {
   components: { PostBox },
   data() {

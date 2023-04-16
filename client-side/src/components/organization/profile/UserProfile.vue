@@ -1,6 +1,6 @@
 <template>
   <div>
-    <organization-page-header></organization-page-header>
+    <organization-page-header><button class="rtn-button">Return to Dashboard</button><font-awesome-icon class="back-icon" :icon="['fas', 'circle-chevron-left']" /></organization-page-header>
     <div class="header__wrapper">
       <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
       <div class="cols__container">
@@ -23,7 +23,7 @@
         </div>
         <div class="right__col">
           <div class="menu-ul">
-            <router-link class="link selected" to="/organization/my-profile/posts">Posts</router-link>
+            <router-link class="link" to="/organization/my-profile/posts">Posts</router-link>
             <router-link class="link" to="/organization/my-profile/connections">Connections</router-link>
             <router-link class="link" to="/organization/my-profile/settings">Settings</router-link>
           </div>
@@ -34,8 +34,8 @@
   </div>
 </template>
 <script>
-import BaseButton from "../basic-components/BaseButton.vue";
-import OrganizationPageHeader from "../layout/headers/OrganizationPageHeader.vue";
+import BaseButton from "../../basic-components/BaseButton.vue";
+import OrganizationPageHeader from "../../layout/headers/OrganizationPageHeader.vue";
 
 export default {
   components: { OrganizationPageHeader, BaseButton },
@@ -63,6 +63,31 @@ export default {
 };
 </script>
 <style scoped>
+.back-icon {
+  position: absolute;
+  top: 15px;
+  left: 30px;
+  font-size: 28px;
+  color: var(--color-primary);
+  display: none;
+}
+.rtn-button {
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  padding: 0.5rem 1.2rem;
+  font-family: inherit;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: white;
+  cursor: pointer;
+}
+.rtn-button:hover,
+.rtn-button:active {
+  background-color: #000875;
+  border-color: #000875;
+}
+
 .profile-header img {
   width: 100%;
   background: no-repeat 50% 20% / cover;
@@ -80,8 +105,6 @@ export default {
   list-style-type: none;
   margin-top: 30px;
   padding: 0;
-  /* display: flex;
-  align-items: center; */
 }
 .menu-ul .link {
   margin-left: 25px;
@@ -138,7 +161,6 @@ export default {
 }
 .location {
   font-size: 17px;
-  /* padding-top: 5px; */
   font-weight: 500;
 }
 .bio {
@@ -150,35 +172,7 @@ export default {
   color: #818181;
   margin: 0;
 }
-.header__wrapper .cols__container .left__col .about {
-  justify-content: space-between;
-  position: relative;
-  margin: 35px 0;
-}
-.header__wrapper .cols__container .left__col .about li {
-  display: flex;
-  flex-direction: column;
-  color: #818181;
-  font-size: 0.9rem;
-}
-.header__wrapper .cols__container .left__col .about li span {
-  color: #1d1d1d;
-  font-weight: 600;
-}
-.header__wrapper .cols__container .left__col .about:after {
-  position: absolute;
-  content: "";
-  bottom: -16px;
-  display: block;
-  background: #cccccc;
-  height: 1px;
-  width: 100%;
-}
-.header__wrapper .cols__container .content p {
-  font-size: 1rem;
-  color: #1d1d1d;
-  line-height: 1.8em;
-}
+
 .header__wrapper .cols__container .content ul {
   gap: 30px;
   justify-content: center;
@@ -188,9 +182,7 @@ export default {
 .header__wrapper .cols__container .content ul li {
   display: flex;
 }
-.header__wrapper .cols__container .content ul i {
-  font-size: 1.3rem;
-}
+
 .header__wrapper .cols__container .right__col nav {
   display: flex;
   align-items: center;
@@ -206,17 +198,6 @@ export default {
 .profile-ul li {
   cursor: pointer;
   text-align: center;
-}
-
-.selected {
-  font-weight: bold;
-  color: var(--color-primary);
-}
-.visible {
-  display: block;
-}
-.hide {
-  display: none;
 }
 
 .is-invalid-update {
@@ -268,31 +249,6 @@ export default {
   }
 }
 
-.header__wrapper .cols__container .right__col nav button {
-  background: var(--color-fourth);
-  color: #fff;
-  border: none;
-  padding: 12px 30px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 20px;
-  font-family: "Montserrat";
-  font-weight: 600;
-  margin-left: 5px;
-}
-.header__wrapper .cols__container .right__col nav button:hover {
-  opacity: 0.8;
-}
-.profile-settings {
-  padding-top: 20px;
-  padding-bottom: 50px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-.profile-settings,
-.sensitive-information {
-  margin-left: 2%;
-}
 .personal-information {
   width: 90%;
   padding: 20px;
@@ -369,18 +325,6 @@ export default {
 .personal-information .inputBox input[type="submit"]:active {
   opacity: 0.8;
 }
-/* ************************************ */
-
-.card-container {
-  padding-top: 20px;
-  padding-bottom: 50px;
-  padding-left: 10px;
-  padding-right: 10px;
-  overflow: hidden;
-  overflow-y: auto;
-  height: 500px;
-  margin-bottom: 30px;
-}
 
 /* Responsiveness */
 
@@ -401,11 +345,6 @@ export default {
     flex-direction: row;
     gap: 30px;
   }
-  .header__wrapper .cols__container .right__col .photos {
-    height: 365px;
-    overflow: auto;
-    padding: 0 0 30px;
-  }
 }
 
 @media (min-width: 1017px) {
@@ -422,12 +361,16 @@ export default {
 }
 
 @media (max-width: 867px) {
-  .card-container {
-    width: 80%;
-    margin: 0 auto;
-  }
   .updates-message {
     text-align: center;
+  }
+}
+@media (max-width: 600px) {
+  .rtn-button {
+    display: none;
+  }
+  .back-icon {
+    display: block;
   }
 }
 </style>
