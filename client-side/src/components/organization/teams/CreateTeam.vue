@@ -47,7 +47,8 @@ export default {
       try {
         const members = await this.$store.dispatch("getOrganizationUsers", { organizationID: this.$store.getters.selectedOrganizationID });
 
-        this.orgMembers = members;
+        // We use filter, because the logged user will be the supervisor by default, and we don't want to can move himself from the on list to the other
+        this.orgMembers = members.filter((memberObj) => memberObj.id !== this.$store.getters.loggedUserID);
       } catch (error) {
         console.log(error.message || "Something went wrong!");
       }
