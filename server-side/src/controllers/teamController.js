@@ -1,4 +1,5 @@
 const Team = require("../models/team.js");
+const userUtils = require("../utils/userUtils.js");
 
 const createTeam = async (req, res) => {
   try {
@@ -22,6 +23,19 @@ const createTeam = async (req, res) => {
 
     if (members?.length <= 0) {
       return res.status(400).json({ error: "At least one member should added!" });
+    }
+
+    //Chech if users with the given IDs exists in the db
+    const supervisorExists = await userUtils.userExists(supervisor);
+
+    if (supervisorExists?.error) {
+      return res.status(400).json({ error: supervisorExists.error });
+    }
+
+    const membersExists = await userUtils.usersExists(members);
+
+    if (membersExists?.error) {
+      return res.status(400).json({ error: membersExists.error });
     }
 
     // Create a new team object
