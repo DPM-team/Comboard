@@ -28,6 +28,7 @@ import UserDashboardProfile from "./components/dashboard/UserDashboardProfile.vu
 import UserProfilePosts from "./components/organization/profile/UserProfilePosts.vue";
 import UserProfileConnections from "./components/organization/profile/UserProfileConnections.vue";
 import UserProfileSettings from "./components/organization/profile/UserProfileSettings.vue";
+import HelpPage from "./components/dashboard/HelpPage.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -112,6 +113,10 @@ const router = createRouter({
     {
       path: "/dashboard/my-profile",
       component: UserDashboardProfile,
+    },
+    {
+      path: "/dashboard/help",
+      component: HelpPage,
     },
     {
       path: "/create-organization",
