@@ -7,7 +7,7 @@ export default {
   },
   addOrganization(state, payload) {
     const organizationObj = {
-      _id: payload.organizationID,
+      id: payload.organizationID,
       name: payload.organizationName,
     };
 

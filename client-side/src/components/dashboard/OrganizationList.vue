@@ -4,7 +4,7 @@
       <base-spinner></base-spinner>
     </div>
     <div class="content">
-      <organization-item v-for="organization in organizations" :key="organization._id" :id="organization._id" :name="organization.name"></organization-item>
+      <organization-item v-for="organization in organizations" :key="organization.id" :id="organization.id" :name="organization.name"></organization-item>
       <div class="no-org-message" v-if="organizations.length === 0 && !isLoading">
         <h2>No organizations..</h2>
         <h4>Join your organization using its license key or create one with a few steps!</h4>

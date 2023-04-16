@@ -1,6 +1,33 @@
 const User = require("../models/user.js");
 const Team = require("../models/team.js");
 
+const getUserOrganizations = async (req, res) => {
+  try {
+    const userID = req.query.userID;
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    const userObj = await User.findById(userID).populate("organizations");
+
+    if (!userObj) {
+      return res.status(200).json({ error: "User not found!" });
+    }
+
+    const organizations = userObj.organizations.map((organizationObj) => {
+      return {
+        id: organizationObj._id,
+        name: organizationObj.name,
+      };
+    });
+
+    res.status(200).json({ organizations });
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 // Controller to get all the teams of a user
 const getUserTeams = async (req, res) => {
   try {
@@ -75,6 +102,7 @@ const addTeamToUser = async (req, res) => {
 };
 
 module.exports = {
+  getUserOrganizations,
   getUserTeams,
   addTeamToUser,
 };

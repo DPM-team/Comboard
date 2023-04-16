@@ -102,16 +102,7 @@ export default {
             throw new Error(data.error);
           }
 
-          const organizations = new Array();
-
-          for (const index in data.organizations) {
-            const organizationObj = {
-              _id: data.organizations[index]._id,
-              name: data.organizations[index].name,
-            };
-
-            organizations.push(organizationObj);
-          }
+          const organizations = data.organizations;
 
           context.commit("setOrganizations", organizations);
         });
