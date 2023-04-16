@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../models/user.js");
 const Organization = require("../models/organization.js");
+const userController = require("../controllers/userController.js");
 
 const router = express.Router();
 
@@ -19,5 +20,8 @@ router.get("/api/user/organizations", async function (req, res) {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+// Router to add a new team to the user the belongs
+router.post("/api/user/team", userController.addTeamToUser);
 
 module.exports = router;

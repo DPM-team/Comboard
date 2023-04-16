@@ -27,6 +27,14 @@ export default {
       //Add the created team to the organiation's teams
       await context.dispatch("addTeamToOrganization", { organizationID: context.rootGetters.selectedOrganizationID, teamID: successData.createdTeam._id });
 
+      //Add the created team to the supervisor's teams
+      await context.dispatch("addTeamToUser", { userID: successData?.createdTeam?.supervisor, teamID: successData.createdTeam._id });
+
+      //Add the created team to the user's teams
+      for (const userID of successData?.createdTeam?.members) {
+        await context.dispatch("addTeamToUser", { userID, teamID: successData.createdTeam._id });
+      }
+
       // Return the created team data
       return successData;
     } catch (error) {
@@ -61,7 +69,38 @@ export default {
       return successData;
     } catch (error) {
       console.error(error);
-      throw new Error("Failed to create team.");
+      throw new Error("Failed to add team.");
+    }
+  },
+  async addTeamToUser(_, payload) {
+    const userID = payload.userID;
+    const teamID = payload.teamID;
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userID, teamID }),
+    };
+
+    try {
+      const response = await fetch("/api/user/team", requestOptions);
+
+      // Check if the response is successful
+      if (!response.ok) {
+        // Handle error response
+        const errorObj = await response.json();
+        throw new Error(errorObj.error);
+      }
+
+      const successData = await response.json();
+
+      // Return the success data from the api call
+      return successData;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Failed to add team.");
     }
   },
 };
