@@ -63,9 +63,9 @@ export default {
           members: this.teamMembers.map((memberObj) => memberObj.id),
         };
 
-        const successMessage = await this.$store.dispatch("createTeam", { teamObj });
+        const successData = await this.$store.dispatch("createTeam", { teamObj });
 
-        console.log(successMessage.successMessage);
+        console.log(successData.successMessage);
       } catch (error) {
         console.log(error.message || "Something went wrong!");
       }

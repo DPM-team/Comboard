@@ -45,6 +45,10 @@ const organizationSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     }),
+    teams: new Array({
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "team",
+    }),
   },
   {
     timestamps: true,
