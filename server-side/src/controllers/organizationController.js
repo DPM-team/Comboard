@@ -30,6 +30,36 @@ const getOrganizationMembers = async (req, res) => {
   }
 };
 
+// Controller to get all the teams of an organization
+const getOrganizationTeams = async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    const organizationObj = await Organization.findById(organizationID).populate("teams");
+
+    if (!organizationObj) {
+      return res.status(404).json({ error: "Organization not found!" });
+    }
+
+    const teams = organizationObj.teams.map((teamObj) => {
+      return {
+        id: teamObj._id,
+        name: teamObj.name,
+        description: teamObj.description,
+      };
+    });
+
+    res.status(200).json({ teams });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 // Controller to add a team to the organization's teams list
 const addTeamToOrganization = async (req, res) => {
   try {
@@ -75,5 +105,6 @@ const addTeamToOrganization = async (req, res) => {
 
 module.exports = {
   getOrganizationMembers,
+  getOrganizationTeams,
   addTeamToOrganization,
 };

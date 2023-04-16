@@ -3,8 +3,9 @@
     <!-- For the pop up dialog for the team creation -->
     <router-view name="dialog"></router-view>
     <h1>All Teams</h1>
-    <ul>
-      <team-item v-for="team in teams" :key="team.id" :teamName="team.teamName" :teamDescription="team.teamDescription"></team-item>
+    <h4 v-if="message">{{ message }}</h4>
+    <ul v-else>
+      <team-item v-for="team in teams" :key="team.id" :teamName="team.name" :teamDescription="team.description"></team-item>
     </ul>
   </div>
 </template>
@@ -16,18 +17,39 @@ export default {
   components: { TeamItem },
   data() {
     return {
-      teams: new Array(
-        { id: "1", teamName: "Team1", teamDescription: "Description1" },
-        { id: "2", teamName: "Team2", teamDescription: "Description2" },
-        { id: "3", teamName: "Team3", teamDescription: "Description3" }
-      ),
+      teams: [],
+      message: "",
     };
+  },
+  methods: {
+    async loadOrganizationTeams() {
+      try {
+        this.teams = await this.$store.dispatch("getOrganizationTeams", { organizationID: this.$store.getters.selectedOrganizationID });
+
+        if (this.teams.length === 0) {
+          this.message = "No teams exists!";
+        } else {
+          this.message = "";
+        }
+      } catch (error) {
+        this.message = error.message || "Something went wrong!";
+        console.log(error.message || "Something went wrong!");
+      }
+    },
+  },
+  created() {
+    this.loadOrganizationTeams();
+  },
+  // With this hook, we get again the organization's teams after the new teams is added
+  updated() {
+    this.loadOrganizationTeams();
   },
 };
 </script>
 
 <style scoped>
-h1 {
+h1,
+h4 {
   text-align: center;
 }
 </style>

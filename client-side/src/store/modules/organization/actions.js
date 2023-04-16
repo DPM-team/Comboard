@@ -137,6 +137,23 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
+  async getOrganizationTeams(_, payload) {
+    const organizationID = payload.organizationID;
+
+    try {
+      const response = await fetch(`/api/organization/teams?organizationID=${organizationID}`);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data?.teams;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
+    }
+  },
   tryAutoOrganizationLoad(context) {
     const organizationID = localStorage.getItem("organizationID");
 

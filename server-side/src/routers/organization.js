@@ -114,6 +114,9 @@ router.post("/api/organization/join", async function (req, res) {
 // Router for /api/organization/members
 router.get("/api/organization/members", organizationController.getOrganizationMembers);
 
+// Router for /api/organization/teams
+router.get("/api/organization/teams", organizationController.getOrganizationTeams);
+
 //Router to get all the stored organizations
 router.get("/api/organizations", async function (req, res) {
   try {
