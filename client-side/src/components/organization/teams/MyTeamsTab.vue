@@ -3,8 +3,9 @@
     <!-- For the pop up dialog for the team creation -->
     <router-view name="dialog"></router-view>
     <h1>My Teams</h1>
-    <ul>
-      <team-item v-for="team in teams" :key="team.id" :teamName="team.teamName" :teamDescription="team.teamDescription"></team-item>
+    <h4 v-if="message">{{ message }}</h4>
+    <ul v-else>
+      <team-item v-for="team in teams" :key="team.id" :teamName="team.name" :teamDescription="team.description"></team-item>
     </ul>
   </div>
 </template>
@@ -16,12 +17,32 @@ export default {
   components: { TeamItem },
   data() {
     return {
-      teams: new Array(
-        { id: "4", teamName: "Team4", teamDescription: "Description4" },
-        { id: "5", teamName: "Team5", teamDescription: "Description5" },
-        { id: "6", teamName: "Team6", teamDescription: "Description6" }
-      ),
+      teams: [],
+      message: "",
     };
+  },
+  methods: {
+    async loadUserTeams() {
+      try {
+        this.teams = await this.$store.dispatch("getUserTeams", { userID: this.$store.getters.loggedUserID });
+
+        if (this.teams.length === 0) {
+          this.message = "You aren't member of any team!";
+        } else {
+          this.message = "";
+        }
+      } catch (error) {
+        this.message = error.message || "Something went wrong!";
+        console.log(error.message || "Something went wrong!");
+      }
+    },
+  },
+  created() {
+    this.loadUserTeams();
+  },
+  // With this hook, we get again the organization's teams after the new teams is added
+  updated() {
+    this.loadUserTeams();
   },
 };
 </script>
