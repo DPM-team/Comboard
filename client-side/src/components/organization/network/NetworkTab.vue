@@ -80,22 +80,9 @@ export default {
     };
   },
   async created() {
-    var myHeaders = new Headers();
+    await this.$store.dispatch("addPosts");
 
-    myHeaders.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
-    myHeaders.append("AuthorizationOrg", `${this.$store.getters.selectedOrganizationID}`);
-
-    var requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    const postResponse = await fetch(`/api/org/${this.$store.getters.selectedOrganizationID}/posts`, requestOptions);
-
-    const posts = await postResponse.json();
-
-    posts.forEach((post, ind) => {
+    this.$store.getters.posts.forEach((post, ind) => {
       console.log(post);
       this.posts[ind] = {
         id: post._id,
