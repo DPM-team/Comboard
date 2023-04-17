@@ -48,10 +48,6 @@ export default {
   created() {
     this.loadOrganizationTeams();
   },
-  // With this hook, we get again the organization's teams after the new teams is added
-  updated() {
-    this.loadOrganizationTeams();
-  },
 };
 </script>
 

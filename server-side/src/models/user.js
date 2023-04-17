@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const passwordValidator = require("password-validator");
 const bcrypt = require("bcryptjs");
-const { organizationSchema } = require("./organization");
 
 // Create a schema
 const schema = new passwordValidator();
@@ -98,9 +97,9 @@ const userSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "organization",
     }),
-    teams: new Array({
+    organizationsData: new Array({
       type: mongoose.Schema.Types.ObjectId,
-      ref: "team",
+      ref: "data",
     }),
     files: new Array({
       type: mongoose.Schema.Types.ObjectId,

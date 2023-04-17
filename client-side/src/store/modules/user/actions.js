@@ -1,9 +1,10 @@
 export default {
   async getUserTeams(_, payload) {
     const userID = payload.userID;
+    const organizationID = payload.organizationID;
 
     try {
-      const response = await fetch(`/api/user/teams?userID=${userID}`);
+      const response = await fetch(`/api/user/teams?userID=${userID}&organizationID=${organizationID}`);
 
       const data = await response.json();
 

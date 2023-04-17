@@ -1,5 +1,135 @@
+const randomstring = require("randomstring");
 const Organization = require("../models/organization");
 const Team = require("../models/team.js");
+const User = require("../models/user.js");
+const Data = require("../models/data.js");
+
+// We can get all the stored organization on the db
+const getAllStoredOrganizations = async (req, res) => {
+  try {
+    const organizations = await Organization.find({});
+    res.status(200).json(organizations);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get a specific organization based on ID
+const getOrganizationByID = async (req, res) => {
+  const _id = req.params.identifier;
+
+  try {
+    const organizationObj = await Organization.findById({ _id });
+
+    if (!organizationObj) {
+      return res.status(404).json({ error: "Organization don't found!" });
+    }
+
+    res.status(200).json(organizationObj);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const createOrganization = async function (req, res) {
+  try {
+    // The user who creates the organization (current owner)
+    const userID = req.body.userID;
+
+    // Find the user by its id
+    const userObj = await User.findById(userID);
+
+    if (!userObj) {
+      return res.status(404).json({ error: "User not found!" });
+    }
+
+    let uniqueKey = false;
+
+    while (!uniqueKey) {
+      const publicKey = randomstring.generate(32); // Returns a unique string with 32 chars
+
+      const organization = await Organization.findOne({ publicKey });
+
+      if (!organization) {
+        uniqueKey = true;
+
+        const organizationObj = new Organization({
+          ...req.body.organizationObj,
+          creator: userID,
+          publicKey,
+        });
+
+        // Add the user to the organization's 'users' array
+        organizationObj.users.push(userID);
+        const savedOrganization = await organizationObj.save();
+
+        userObj.organizations.push(savedOrganization._id);
+
+        const organizationDataObj = new Data({ userID, organizationID: savedOrganization._id });
+        const savedOrganizationDataObj = await organizationDataObj.save();
+
+        userObj.organizationsData.push(savedOrganizationDataObj._id);
+
+        // Save the updated user document
+        await userObj.save();
+
+        return res.status(201).json({ publicKey });
+      }
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const joinOrganization = async function (req, res) {
+  try {
+    const organizationKey = req.body.organizationKey;
+    const userID = req.body.userID;
+
+    // Find the organization by its public sharable key
+    const organizationObj = await Organization.findOne({ publicKey: organizationKey });
+
+    if (!organizationObj) {
+      return res.status(404).json({ error: "Organization not found!" });
+    }
+
+    // Find the user by its id
+    const userObj = await User.findById(userID);
+
+    if (!userObj) {
+      return res.status(404).json({ error: "User not found!" });
+    }
+
+    // Add the user to the organization's 'users' array
+    if (!organizationObj.users.includes(userID)) {
+      organizationObj.users.push(userID);
+    } else {
+      return res.status(404).json({ error: "User is already added!" });
+    }
+
+    // Save the updated organization document
+    const updatedOrganization = await organizationObj.save();
+
+    if (!userObj.organizations.includes(updatedOrganization._id)) {
+      userObj.organizations.push(updatedOrganization._id);
+    } else {
+      return res.status(404).json({ error: "Organization is already added!", updatedOrganization });
+    }
+
+    const organizationDataObj = new Data({ userID, organizationID: updatedOrganization._id });
+    const savedOrganizationDataObj = await organizationDataObj.save();
+
+    userObj.organizationsData.push(savedOrganizationDataObj._id);
+
+    // Save the updated user document
+    await userObj.save();
+
+    // Return the updated organization document
+    return res.json({ message: "Organization added with success!", organizationID: updatedOrganization._id, organizationName: updatedOrganization.name });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
 
 // Controller to get all the members of an organization
 const getOrganizationMembers = async (req, res) => {
@@ -104,6 +234,10 @@ const addTeamToOrganization = async (req, res) => {
 };
 
 module.exports = {
+  getAllStoredOrganizations,
+  getOrganizationByID,
+  createOrganization,
+  joinOrganization,
   getOrganizationMembers,
   getOrganizationTeams,
   addTeamToOrganization,

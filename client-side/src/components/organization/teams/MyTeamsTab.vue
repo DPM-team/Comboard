@@ -31,7 +31,7 @@ export default {
       try {
         this.isLoading = true;
 
-        this.teams = await this.$store.dispatch("getUserTeams", { userID: this.$store.getters.loggedUserID });
+        this.teams = await this.$store.dispatch("getUserTeams", { userID: this.$store.getters.loggedUserID, organizationID: this.$store.getters.selectedOrganizationID });
 
         this.isLoading = false;
 
@@ -48,15 +48,12 @@ export default {
   created() {
     this.loadUserTeams();
   },
-  // With this hook, we get again the organization's teams after the new teams is added
-  updated() {
-    this.loadUserTeams();
-  },
 };
 </script>
 
 <style scoped>
-h1 {
+h1,
+h4 {
   text-align: center;
 }
 </style>

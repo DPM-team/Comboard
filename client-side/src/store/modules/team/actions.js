@@ -28,11 +28,11 @@ export default {
       await context.dispatch("addTeamToOrganization", { organizationID: context.rootGetters.selectedOrganizationID, teamID: successData.createdTeam._id });
 
       //Add the created team to the supervisor's teams
-      await context.dispatch("addTeamToUser", { userID: successData?.createdTeam?.supervisor, teamID: successData.createdTeam._id });
+      await context.dispatch("addTeamToUser", { userID: successData?.createdTeam?.supervisor, organizationID: context.rootGetters.selectedOrganizationID, teamID: successData.createdTeam._id });
 
       //Add the created team to the user's teams
       for (const userID of successData?.createdTeam?.members) {
-        await context.dispatch("addTeamToUser", { userID, teamID: successData.createdTeam._id });
+        await context.dispatch("addTeamToUser", { userID, organizationID: context.rootGetters.selectedOrganizationID, teamID: successData.createdTeam._id });
       }
 
       // Return the created team data
@@ -74,6 +74,7 @@ export default {
   },
   async addTeamToUser(_, payload) {
     const userID = payload.userID;
+    const organizationID = payload.organizationID;
     const teamID = payload.teamID;
 
     const requestOptions = {
@@ -81,7 +82,7 @@ export default {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userID, teamID }),
+      body: JSON.stringify({ userID, organizationID, teamID }),
     };
 
     try {
