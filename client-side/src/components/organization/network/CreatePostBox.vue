@@ -2,7 +2,7 @@
   <div class="create-post-box">
     <div class="pfp-container"><img class="user-pfp" :src="pictureLink" /></div>
     <input @change="input" class="post-input" type="text" id="create-post" name="create-post" :placeholder="message" ref="dataInput" />
-    <button @click="createPost" class="post-button">Post</button>
+    <button @click="makePost" class="post-button">Post</button>
   </div>
 </template>
 
@@ -22,26 +22,9 @@ export default {
       this.post = this.$refs.dataInput.value;
     },
 
-    createPost() {
-      let headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      console.log(this.$store);
-      let body = JSON.stringify({
-        userId: this.$store.getters.loggedUserID,
-        orgId: this.$store.getters.selectedOrganizationID,
-        contentString: this.post,
-      });
-
-      let options = {
-        method: "POST",
-        headers,
-        body,
-      };
-
-      console.log(options);
-
-      fetch("/api/user/post", options).then((r) => {
-        console.log(r);
+    async makePost() {
+      await this.$store.dispatch("createPost", {
+        post: this.post,
       });
     },
   },

@@ -5,7 +5,7 @@ const authenticationOrg = require("../middleware/authenticationOrg");
 
 const router = new express.Router();
 
-router.post("/api/user/post", async function (req, res) {
+router.post("/api/user/post", authentication, authenticationOrg, async function (req, res) {
   const postObj = new Post({
     ...req.body,
   });

@@ -28,27 +28,16 @@ export default {
   },
 
   async created() {
-    let headers = new Headers();
-    headers.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
-    headers.append("AuthorizationOrg", `${this.$store.getters.selectedOrganizationID}`);
+    const respones = await this.$store.dispatch("isLiked", {
+      id: this.id,
+    });
 
-    let requestOptions = {
-      method: "get",
-      headers,
-    };
-
-    let respones = await fetch(`/api/user/like/post/${this.id}`, requestOptions);
     this.haveLike = await respones.json();
   },
 
   props: ["firstname", "lastname", "pictureLink", "content", "date", "id", "likes"],
   methods: {
     async addLike() {
-      let headers = new Headers();
-      headers.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
-      headers.append("AuthorizationOrg", `${this.$store.getters.selectedOrganizationID}`);
-      headers.append("Content-Type", "application/json");
-
       this.haveLike = !this.haveLike;
       if (this.haveLike) {
         this.likesNum++;
@@ -56,13 +45,9 @@ export default {
         this.likesNum--;
       }
 
-      let requestOptions = {
-        method: "put",
-        headers,
-        body: JSON.stringify({ like: !this.haveLike }),
-      };
-
-      await fetch(`/api/user/like/post/${this.id}`, requestOptions);
+      this.$store.dispatch("addLike", {
+        id: this.id,
+      });
     },
   },
 };
