@@ -10,7 +10,7 @@
     </div>
     <div class="like-comment-container">
       <p>
-        <b>{{ likes }}</b> people like this post
+        <b>{{ likesNum }}</b> people like this post
       </p>
       <font-awesome-icon @click="addLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
       <font-awesome-icon class="post-icon" icon="fa-regular fa-comment" />
@@ -23,6 +23,7 @@ export default {
   data() {
     return {
       haveLike: null,
+      likesNum: this.likes,
     };
   },
 
@@ -49,6 +50,11 @@ export default {
       headers.append("Content-Type", "application/json");
 
       this.haveLike = !this.haveLike;
+      if (this.haveLike) {
+        this.likesNum++;
+      } else {
+        this.likesNum--;
+      }
 
       let requestOptions = {
         method: "put",
