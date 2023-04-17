@@ -3,12 +3,12 @@
     <dashboard-header></dashboard-header>
     <base-dialog v-if="dialogIsOpen" title="Join organization" @close="closeDialog">
       <template #main>
+        <base-message v-if="submitMessage" :message="submitMessage" :mode="messageType"></base-message>
         <h3>Insert your organization's key to join!</h3>
         <form id="join-org--form" @submit.prevent="submitFormToJoin">
           <auth-form-input @data="getOrgsKey" id="join-org--input" type="text" name="join-org" placeholder="Organization's key..." required></auth-form-input>
           <base-button>Join</base-button>
           <h4 id="support-message--h4">Having any problems? <a>Contact us</a></h4>
-          <h4 v-if="submitMessage != ''" class="submit-message" :class="toogleMessageColor">{{ submitMessage }}</h4>
         </form>
       </template>
     </base-dialog>
@@ -29,21 +29,17 @@ import BaseCard from "../basic-components/BaseCard.vue";
 import OrganizationList from "../dashboard/OrganizationList.vue";
 import DashboardSearchbarContainer from "../dashboard/DashboardSearchbarContainer.vue";
 import AuthFormInput from "../auth/AuthFormInput.vue";
+import BaseMessage from "../basic-components/BaseMessage.vue";
 
 export default {
-  components: { DashboardHeader, DashboardFooter, BaseCard, OrganizationList, DashboardSearchbarContainer, AuthFormInput },
+  components: { DashboardHeader, DashboardFooter, BaseCard, OrganizationList, DashboardSearchbarContainer, AuthFormInput, BaseMessage },
   data() {
     return {
+      organizationKeyInput: "",
       dialogIsOpen: false,
       submitMessage: "",
-      organizationKeyInput: "",
-      isSuccess: false,
+      messageType: "",
     };
-  },
-  computed: {
-    toogleMessageColor() {
-      return { error: !this.isSuccess, success: this.isSuccess };
-    },
   },
   methods: {
     async submitFormToJoin() {
@@ -52,18 +48,15 @@ export default {
           .dispatch("joinOrganization", { organizationKey: this.organizationKeyInput })
           .then((response) => {
             this.submitMessage = response.message;
-
-            this.isSuccess = true;
+            this.messageType = "success";
           })
           .catch((error) => {
             this.submitMessage = error.message || "Failed to join organization.";
-
-            this.isSuccess = false;
+            this.messageType = "error";
           });
       } catch (error) {
         this.submitMessage = error.message || "Failed to join organization.";
-
-        this.isSuccess = false;
+        this.messageType = "error";
       }
     },
     closeDialog() {
@@ -101,17 +94,5 @@ export default {
 
 #support-message--h4 {
   margin-top: 10px;
-}
-
-.submit-message {
-  margin-top: 15px;
-}
-
-.error {
-  color: red;
-}
-
-.success {
-  color: green;
 }
 </style>

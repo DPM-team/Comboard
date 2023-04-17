@@ -42,7 +42,6 @@ export default {
         }
       } catch (error) {
         this.message = error.message || "Something went wrong!";
-        console.log(error.message || "Something went wrong!");
       }
     },
   },

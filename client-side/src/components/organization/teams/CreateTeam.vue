@@ -1,6 +1,7 @@
 <template>
   <base-dialog title="Create Team" @close="closeDialog">
     <template #main>
+      <base-message v-if="submitMessage" :message="submitMessage" :mode="messageType"></base-message>
       <form id="create-team--form" @submit.prevent="submitFormToCreate">
         <auth-form-input @data="getTeamName" id="team-name" class="create-team--input" type="text" name="team-name" placeholder="Team's name" required></auth-form-input>
         <div class="textarea-control">
@@ -34,10 +35,11 @@
 import AuthFormInput from "../../auth/AuthFormInput.vue";
 import MemberItem from "./MemberItem.vue";
 import BaseSpinner from "../../basic-components/BaseSpinner.vue";
+import BaseMessage from "../../basic-components/BaseMessage.vue";
 import { VueDraggableNext } from "vue-draggable-next";
 
 export default {
-  components: { AuthFormInput, draggable: VueDraggableNext, MemberItem, BaseSpinner },
+  components: { AuthFormInput, BaseMessage, MemberItem, BaseSpinner, draggable: VueDraggableNext },
   data() {
     return {
       teamName: "",
@@ -45,6 +47,8 @@ export default {
       orgMembers: [],
       isLoading: false,
       teamMembers: [],
+      submitMessage: "",
+      messageType: "",
     };
   },
   methods: {
@@ -74,9 +78,11 @@ export default {
 
         const successData = await this.$store.dispatch("createTeam", { teamObj });
 
-        console.log(successData.successMessage);
+        this.submitMessage = successData.successMessage;
+        this.messageType = "success";
       } catch (error) {
-        console.log(error.message || "Something went wrong!");
+        this.submitMessage = error.message || "Something went wrong!";
+        this.messageType = "error";
       }
     },
     closeDialog() {

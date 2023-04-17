@@ -38,7 +38,7 @@ export default {
       // Return the created team data
       return successData;
     } catch (error) {
-      throw new Error("Failed to create team.");
+      throw new Error(error.message || "Failed to create team.");
     }
   },
   async addTeamToOrganization(_, payload) {
