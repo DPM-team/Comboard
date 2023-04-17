@@ -7,7 +7,10 @@
           <label for="team-description">Team's description</label>
           <textarea v-model="teamDescription" rows="5" id="team-description"></textarea>
         </div>
-        <div class="members">
+        <div v-if="isLoading">
+          <base-spinner></base-spinner>
+        </div>
+        <div class="members" v-else>
           <div class="col-50">
             <h3>Organization's Members</h3>
             <draggable class="list-group" :list="orgMembers" group="members" itemKey="id">
@@ -30,22 +33,28 @@
 <script>
 import AuthFormInput from "../../auth/AuthFormInput.vue";
 import MemberItem from "./MemberItem.vue";
+import BaseSpinner from "../../basic-components/BaseSpinner.vue";
 import { VueDraggableNext } from "vue-draggable-next";
 
 export default {
-  components: { AuthFormInput, draggable: VueDraggableNext, MemberItem },
+  components: { AuthFormInput, draggable: VueDraggableNext, MemberItem, BaseSpinner },
   data() {
     return {
       teamName: "",
       teamDescription: "",
       orgMembers: [],
+      isLoading: false,
       teamMembers: [],
     };
   },
   methods: {
     async loadOrganizationMembers() {
       try {
+        this.isLoading = true;
+
         const members = await this.$store.dispatch("getOrganizationUsers", { organizationID: this.$store.getters.selectedOrganizationID });
+
+        this.isLoading = false;
 
         // We use filter, because the logged user will be the supervisor by default, and we don't want to can move himself from the on list to the other
         this.orgMembers = members.filter((memberObj) => memberObj.id !== this.$store.getters.loggedUserID);
