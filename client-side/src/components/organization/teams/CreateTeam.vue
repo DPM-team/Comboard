@@ -6,7 +6,7 @@
         <auth-form-input @data="getTeamName" id="team-name" class="create-team--input" type="text" name="team-name" placeholder="Team's name" required></auth-form-input>
         <div class="textarea-control">
           <label for="team-description">Team's description</label>
-          <textarea v-model="teamDescription" rows="5" id="team-description"></textarea>
+          <textarea v-model="teamDescription" rows="5" id="team-description" required></textarea>
         </div>
         <div v-if="isLoading">
           <base-spinner></base-spinner>

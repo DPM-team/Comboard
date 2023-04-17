@@ -29,6 +29,7 @@ import NewsList from "./NewsList.vue";
 import PostBox from "./PostBox.vue";
 
 export default {
+  components: { CreatePostBox, PostBox, ConnectionSuggestionList, NewsList, OrganizationPageTab },
   props: {
     userID: {
       type: String,
@@ -38,35 +39,6 @@ export default {
       type: String,
       required: true,
     },
-  },
-  async created() {
-    var myHeaders = new Headers();
-
-    myHeaders.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
-    myHeaders.append("AuthorizationOrg", `${this.$store.getters.selectedOrganizationID}`);
-
-    var requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    const postResponse = await fetch(`/api/org/${this.$store.getters.selectedOrganizationID}/posts`, requestOptions);
-
-    const posts = await postResponse.json();
-
-    posts.forEach((post, ind) => {
-      console.log(post);
-      this.posts[ind] = {
-        id: post._id,
-        pictureLink: `/api/users/${post.userId}/profilePhoto`,
-        firstname: post.firstname,
-        lastname: post.lastname,
-        date: new Date(post.createdAt).toLocaleDateString(),
-        content: post.contentString,
-        likes: post.likes,
-      };
-    });
   },
   data() {
     return {
@@ -107,7 +79,35 @@ export default {
       ],
     };
   },
-  components: { CreatePostBox, PostBox, ConnectionSuggestionList, NewsList, OrganizationPageTab },
+  async created() {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", `Bearer ${this.$store.getters.loggedUserToken}`);
+    myHeaders.append("AuthorizationOrg", `${this.$store.getters.selectedOrganizationID}`);
+
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    const postResponse = await fetch(`/api/org/${this.$store.getters.selectedOrganizationID}/posts`, requestOptions);
+
+    const posts = await postResponse.json();
+
+    posts.forEach((post, ind) => {
+      console.log(post);
+      this.posts[ind] = {
+        id: post._id,
+        pictureLink: `/api/users/${post.userId}/profilePhoto`,
+        firstname: post.firstname,
+        lastname: post.lastname,
+        date: new Date(post.createdAt).toLocaleDateString(),
+        content: post.contentString,
+        likes: post.likes,
+      };
+    });
+  },
 };
 </script>
 
