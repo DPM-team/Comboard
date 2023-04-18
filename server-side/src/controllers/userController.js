@@ -1,6 +1,7 @@
 const User = require("../models/user.js");
 const Team = require("../models/team.js");
 const Data = require("../models/data.js");
+const Project = require("../models/project.js");
 
 const getUserOrganizations = async (req, res) => {
   try {
@@ -114,8 +115,58 @@ const addTeamToUser = async (req, res) => {
   }
 };
 
+// Controller to add a project to the user's projects list
+const addProjectToUser = async (req, res) => {
+  try {
+    const userID = req.body.userID;
+    const organizationID = req.body.organizationID;
+    const projectID = req.body.projectID;
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    if (!projectID) {
+      return res.status(400).json({ error: "ProjectID is required!" });
+    }
+
+    const projectObj = await Project.findById(projectID);
+
+    if (!projectObj) {
+      return res.status(404).json({ error: "Provided project doesn't exists!" });
+    }
+
+    // We get the user's data for a specific organization
+    const userOrgData = await Data.findOne({ userID, organizationID });
+
+    if (!userOrgData) {
+      return res.status(404).json({ error: "User's data for this organization doesn't found!" });
+    }
+
+    // Add the project to the user's 'projects' array
+    if (!userOrgData?.projects.includes(projectID)) {
+      userOrgData.projects.push(projectID);
+    } else {
+      return res.status(400).json({ error: "Project is already added!" });
+    }
+
+    // Save the updated document
+    await userOrgData.save();
+
+    res.status(200).json({ successMessage: "The project has been successfully added to the user!" });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   getUserOrganizations,
   getUserTeams,
   addTeamToUser,
+  addProjectToUser,
 };

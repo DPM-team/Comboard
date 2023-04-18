@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!-- For the pop up dialog for the team creation -->
-    <router-view name="dialog"></router-view>
     <h1>My Projects</h1>
     <ul>
       <project-item v-for="project in projects" :key="project.id" :projectName="project.projectName" :projectDescription="project.projectDescription"></project-item>

@@ -7,6 +7,7 @@ import organizationModule from "./modules/organization/index.js";
 import userModule from "./modules/user/index.js";
 import postModule from "./modules/posts/index.js";
 import teamModule from "./modules/team/index.js";
+import projectModule from "./modules/project/index.js";
 import fileModule from "./modules/files/index.js";
 
 const store = createStore({
@@ -17,6 +18,7 @@ const store = createStore({
     userModule,
     postModule,
     teamModule,
+    projectModule,
     fileModule,
   },
 });

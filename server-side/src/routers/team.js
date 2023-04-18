@@ -7,6 +7,11 @@ const router = new express.Router();
 // Router to create a new organization team
 router.post("/api/team/create", teamController.createTeam);
 
+router.get("/api/team/members", teamController.getTeamMembers);
+
+// Router to add a new project to the team the belongs
+router.post("/api/team/project", teamController.addProjectToTeam);
+
 router.get("/api/teams", async function (req, res) {
   try {
     Team.find({}).then((result) => {

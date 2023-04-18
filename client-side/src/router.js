@@ -16,7 +16,6 @@ import TasksTab from "./components/organization/tasks/TasksTab.vue";
 import ProjectsTab from "./components/organization/projects/ProjectsTab.vue";
 import AllProjectsTab from "./components/organization/projects/AllProjectsTab.vue";
 import MyProjectsTab from "./components/organization/projects/MyProjectsTab.vue";
-import CreateProject from "./components/organization/projects/CreateProject.vue";
 import TeamsTab from "./components/organization/teams/TeamsTab.vue";
 import MyTeamsTab from "./components/organization/teams/MyTeamsTab.vue";
 import AllTeamsTab from "./components/organization/teams/AllTeamsTab.vue";
@@ -32,6 +31,8 @@ import UserProfileSettings from "./components/organization/profile/UserProfileSe
 import HelpPage from "./components/dashboard/HelpPage.vue";
 import UserProfileTeams from "./components/organization/profile/UserProfileTeams.vue";
 import UserProfileProjects from "./components/organization/profile/UserProfileProjects.vue";
+import TeamPrivateProfile from "./components/organization/profile/TeamPrivateProfile.vue";
+import CreateProject from "./components/organization/projects/CreateProject.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -147,6 +148,18 @@ const router = createRouter({
       ],
     },
     {
+      path: "/organization/team-private",
+      component: TeamPrivateProfile,
+      children: [
+        {
+          path: "new-project",
+          components: {
+            dialog: CreateProject,
+          },
+        },
+      ],
+    },
+    {
       path: "/organization/user",
       component: UserProfile,
       children: [
@@ -160,7 +173,6 @@ const router = createRouter({
         },
       ],
     },
-
     {
       path: "/organization",
       component: OrganizationPage,
@@ -189,26 +201,10 @@ const router = createRouter({
             {
               path: "participate",
               component: MyProjectsTab,
-              children: [
-                {
-                  path: "new",
-                  components: {
-                    dialog: CreateProject,
-                  },
-                },
-              ],
             },
             {
               path: "all",
               component: AllProjectsTab,
-              children: [
-                {
-                  path: "new",
-                  components: {
-                    dialog: CreateProject,
-                  },
-                },
-              ],
             },
           ],
         },

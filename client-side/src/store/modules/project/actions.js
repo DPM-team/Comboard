@@ -1,18 +1,20 @@
 export default {
-  async createTeam(context, payload) {
-    const teamObj = payload.teamObj;
+  async createProject(context, payload) {
+    const projectObj = payload.projectObj;
+    // The id of the team that the project belongs to
+    const teamID = payload.teamID;
 
     const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(teamObj),
+      body: JSON.stringify(projectObj),
     };
 
     try {
       // Make a POST request to the API endpoint
-      const response = await fetch("/api/team/create", requestOptions);
+      const response = await fetch("/api/project/create", requestOptions);
 
       // Check if the response is successful
       if (!response.ok) {
@@ -21,18 +23,26 @@ export default {
         throw new Error(errorObj.error);
       }
 
-      // Extract the created team data from the response
+      // Extract the created project data from the response
       const successData = await response.json();
 
-      //Add the created team to the organiation's teams
-      await context.dispatch("addTeamToOrganization", { organizationID: context.rootGetters.selectedOrganizationID, teamID: successData.createdTeam._id });
+      //Add the created project to the team's projects
+      await context.dispatch("addProjectToTeam", { teamID, projectID: successData.createdProject._id });
 
-      //Add the created team to the supervisor's teams
-      await context.dispatch("addTeamToUser", { userID: successData?.createdTeam?.supervisor, organizationID: context.rootGetters.selectedOrganizationID, teamID: successData.createdTeam._id });
+      //Add the created project to the supervisor's projects
+      await context.dispatch("addProjectToUser", {
+        userID: successData?.createdProject?.supervisor,
+        organizationID: context.rootGetters.selectedOrganizationID,
+        projectID: successData.createdProject._id,
+      });
 
-      //Add the created team to the user's teams
-      for (const userID of successData?.createdTeam?.members) {
-        await context.dispatch("addTeamToUser", { userID, organizationID: context.rootGetters.selectedOrganizationID, teamID: successData.createdTeam._id });
+      //Add the created project to the user's projects
+      for (const userID of successData?.createdProject?.members) {
+        await context.dispatch("addProjectToUser", {
+          userID,
+          organizationID: context.rootGetters.selectedOrganizationID,
+          projectID: successData.createdProject._id,
+        });
       }
 
       // Return the created team data
@@ -41,20 +51,20 @@ export default {
       throw new Error(error.message || "Failed to create team.");
     }
   },
-  async addTeamToOrganization(_, payload) {
-    const organizationID = payload.organizationID;
+  async addProjectToTeam(_, payload) {
     const teamID = payload.teamID;
+    const projectID = payload.projectID;
 
     const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ organizationID, teamID }),
+      body: JSON.stringify({ teamID, projectID }),
     };
 
     try {
-      const response = await fetch("/api/organization/team", requestOptions);
+      const response = await fetch("/api/team/project", requestOptions);
 
       // Check if the response is successful
       if (!response.ok) {
@@ -72,21 +82,21 @@ export default {
       throw new Error("Failed to add team.");
     }
   },
-  async addTeamToUser(_, payload) {
+  async addProjectToUser(_, payload) {
     const userID = payload.userID;
     const organizationID = payload.organizationID;
-    const teamID = payload.teamID;
+    const projectID = payload.projectID;
 
     const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userID, organizationID, teamID }),
+      body: JSON.stringify({ userID, organizationID, projectID }),
     };
 
     try {
-      const response = await fetch("/api/user/team", requestOptions);
+      const response = await fetch("/api/user/project", requestOptions);
 
       // Check if the response is successful
       if (!response.ok) {
@@ -102,23 +112,6 @@ export default {
     } catch (error) {
       console.error(error);
       throw new Error("Failed to add team.");
-    }
-  },
-  async getTeamMembers(_, payload) {
-    const teamID = payload.teamID;
-
-    try {
-      const response = await fetch(`/api/team/members?teamID=${teamID}`);
-
-      const data = await response.json();
-
-      if (response.ok) {
-        return data?.members;
-      } else {
-        throw new Error(data.error); // Throw error to be caught in the component
-      }
-    } catch (error) {
-      throw new Error(error.message); // Throw error to be caught in the component
     }
   },
 };

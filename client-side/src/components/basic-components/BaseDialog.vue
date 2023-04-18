@@ -54,13 +54,13 @@ div {
   left: 0;
   height: 100vh;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: rgba(0, 0, 0, 0.65);
   z-index: 10;
 }
 
 dialog {
   position: fixed;
-  top: 20vh;
+  top: 10vh;
   left: 10%;
   width: 80%;
   z-index: 100;

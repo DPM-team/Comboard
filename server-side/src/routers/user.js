@@ -12,4 +12,7 @@ router.get("/api/user/teams", userController.getUserTeams);
 // Router to add a new team to the user the belongs
 router.post("/api/user/team", userController.addTeamToUser);
 
+// Router to add a new project to the user the belongs
+router.post("/api/user/project", userController.addProjectToUser);
+
 module.exports = router;
