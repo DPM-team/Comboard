@@ -12,6 +12,7 @@ const postRouter = require("../routers/post.js");
 const teamRouter = require("../routers/team.js");
 const projectRouter = require("../routers/project.js");
 const organizationRouter = require("../routers/organization.js");
+const connectionRouter = require("../routers/connections.js");
 const errorRouter = require("../routers/error.js");
 
 const app = express();
@@ -31,6 +32,7 @@ app.use(connectRouter);
 app.use(logoutRouter);
 app.use(uploadRouter);
 app.use(postRouter);
+app.use(connectionRouter);
 app.use(teamRouter);
 app.use(projectRouter);
 app.use(organizationRouter);

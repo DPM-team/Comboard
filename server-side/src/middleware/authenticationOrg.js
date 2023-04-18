@@ -20,6 +20,8 @@ const authenticationOrg = async (req, res, next) => {
       throw new Error(); //Move to catch and prints the error
     }
 
+    req.orgId = organization._id;
+
     next();
   } catch (error) {
     res.status(401).send({ error: "Please authenticate!" });
