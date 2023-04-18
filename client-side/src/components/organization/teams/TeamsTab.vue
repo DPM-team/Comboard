@@ -12,11 +12,10 @@
 </template>
 
 <script>
-import BaseButton from "../../basic-components/BaseButton.vue";
 import OrganizationPageTab from "../../layout/pages/organization/OrganizationPageTab.vue";
 
 export default {
-  components: { OrganizationPageTab, BaseButton },
+  components: { OrganizationPageTab },
   data() {
     return {};
   },

@@ -54,7 +54,7 @@ div {
   left: 0;
   height: 100vh;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.45);
   z-index: 10;
 }
 

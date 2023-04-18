@@ -1,5 +1,6 @@
 <template>
   <organization-page-tab :layout="'block'">
+    <base-button @click="createProjectLink()">Create Project</base-button>
     <div class="projects-page-container">
       <div class="links-container">
         <router-link to="/organization/projects/participate">My Projects</router-link>
@@ -18,7 +19,19 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    createProjectLink() {
+      let createProjectLink = this.$route.path;
+
+      if (this.$route.path === "/organization/projects/participate") {
+        createProjectLink = "/organization/projects/participate/new";
+      } else if (this.$route.path === "/organization/projects/all") {
+        createProjectLink = "/organization/projects/all/new";
+      }
+
+      this.$router.push(createProjectLink);
+    },
+  },
 };
 </script>
 
