@@ -44,6 +44,12 @@ const dataSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   }),
+  pendingRequestsSend: new Array({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  }),
+
+  pendingRequestsReceive: new Array({ type: mongoose.Schema.Types.ObjectId, ref: "user" }),
   personalTasks: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "taskBoard",
