@@ -189,6 +189,10 @@ export default {
   .image-name-date-container h2 {
     width: 300px;
   }
+
+  .write-comment-input {
+    width: 380px;
+  }
 }
 @media (max-width: 600px) {
   .post-box {
@@ -197,6 +201,9 @@ export default {
   .image-name-date-container h2 {
     width: 200px;
   }
+  .write-comment-input {
+    width: 280px;
+  }
 }
 @media (max-width: 500px) {
   .post-box {
@@ -204,6 +211,9 @@ export default {
   }
   .image-name-date-container h2 {
     width: 180px;
+  }
+  .write-comment-input {
+    width: 220px;
   }
 }
 @media (max-width: 430px) {
@@ -219,8 +229,14 @@ export default {
   .post-button {
     margin-left: 13px;
   }
+  .write-comment-input {
+    width: 190px;
+  }
 }
 @media (max-width: 400px) {
+  .write-comment-input {
+    width: 170px;
+  }
   .post-input {
     width: 140px;
   }
