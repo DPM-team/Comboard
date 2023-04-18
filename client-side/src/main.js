@@ -52,6 +52,7 @@ import {
   faEnvelope,
   faUserMinus,
   faAngleDown,
+  faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faComment, faFilePdf, faFileWord, faFileExcel, faImage } from "@fortawesome/free-regular-svg-icons";
@@ -97,7 +98,8 @@ library.add(
   faPhone,
   faEnvelope,
   faUserMinus,
-  faAngleDown
+  faAngleDown,
+  faPaperPlane
 );
 
 const app = createApp(App);

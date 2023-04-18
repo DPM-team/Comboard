@@ -13,17 +13,49 @@
         <b>{{ likesNum }}</b> people like this post
       </p>
       <font-awesome-icon @click="addLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
-      <font-awesome-icon class="post-icon" icon="fa-regular fa-comment" />
+      <font-awesome-icon @click="writeComment" class="post-icon" icon="fa-regular fa-comment" />
+    </div>
+    <div v-if="showCommentSection" class="comment-section">
+      <div class="write-comment">
+        <input class="write-comment-input" type="text" name="write-comment" placeholder="Leave a comment.." /> <font-awesome-icon class="post-comment-button" :icon="['fas', 'paper-plane']" />
+      </div>
+      <comment-item
+        v-for="comment in comments"
+        :key="comment.id"
+        :description="comment.description"
+        :firstname="comment.firstname"
+        :lastname="comment.lastname"
+        :pictureLink="comment.pictureLink"
+      ></comment-item>
     </div>
   </div>
 </template>
 
 <script>
+import CommentItem from "./CommentItem.vue";
 export default {
+  components: { CommentItem },
   data() {
     return {
       haveLike: null,
       likesNum: this.likes,
+      showCommentSection: false,
+      comments: [
+        {
+          id: 1,
+          firstname: "Dionisis",
+          lastname: "Lougaris",
+          description: "comment1",
+          pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s",
+        },
+        {
+          id: 2,
+          firstname: "Panos",
+          lastname: "Lougaris",
+          description: "comment2",
+          pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s",
+        },
+      ],
     };
   },
 
@@ -48,6 +80,9 @@ export default {
       this.$store.dispatch("addLike", {
         id: this.id,
       });
+    },
+    writeComment() {
+      this.showCommentSection = !this.showCommentSection;
     },
   },
 };
@@ -124,6 +159,27 @@ export default {
 .user-pfp {
   width: 100%;
   border-radius: 50%;
+}
+.write-comment {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border: solid 1px rgba(14, 42, 128, 0.397);
+  padding: 5px 20px 5px 20px;
+}
+.write-comment-input {
+  width: 450px;
+  padding: 5px 0;
+  font-size: 14px;
+  margin: 10px 0;
+  border: none;
+  border-bottom: 1px solid var(--color-fourth);
+  outline: none;
+  resize: none;
+}
+.post-comment-button {
+  font-size: 17px;
+  margin-left: 10px;
+  color: var(--color-primary);
+  cursor: pointer;
 }
 
 @media (max-width: 770px) {
