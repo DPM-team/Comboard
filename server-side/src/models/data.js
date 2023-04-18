@@ -36,6 +36,10 @@ const dataSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "team",
   }),
+  projects: new Array({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "project",
+  }),
   posts: new Array({
     type: mongoose.Schema.Types.ObjectId,
     ref: "post",
