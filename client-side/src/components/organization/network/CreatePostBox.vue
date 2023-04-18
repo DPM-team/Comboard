@@ -1,7 +1,12 @@
 <template>
   <div class="create-post-box">
+    <div class="visibility-button-container"><font-awesome-icon @click="toggleVisibilityOptions" class="visibility-button" :icon="['fas', 'earth-europe']" /></div>
+    <div v-if="showVisibilityOptions" class="visibilty-options">
+      <input type="radio" value="Connections" /><span>Connections</span> <input type="radio" value="Organization" /><span>Organization</span>
+    </div>
     <div class="pfp-container"><img class="user-pfp" :src="pictureLink" /></div>
     <input @change="input" class="post-input" type="text" id="create-post" name="create-post" :placeholder="message" ref="dataInput" />
+
     <button @click="makePost" class="post-button">Post</button>
   </div>
 </template>
@@ -12,6 +17,7 @@ export default {
     return {
       message: "Share your thoughts with your organization..",
       post: null,
+      showVisibilityOptions: false,
     };
   },
   props: ["firstname", "pictureLink"],
@@ -27,11 +33,37 @@ export default {
         post: this.post,
       });
     },
+    toggleVisibilityOptions() {
+      this.showVisibilityOptions = !this.showVisibilityOptions;
+    },
   },
 };
 </script>
 
 <style scoped>
+.visibilty-options {
+  display: block;
+  width: 100%;
+  padding-right: 30px;
+}
+.visibilty-options input[type="radio"],
+.visibilty-options span {
+  font-size: 13px;
+  float: right;
+  margin-right: 4px;
+}
+.visibility-button-container {
+  display: block;
+  width: 100%;
+}
+.visibility-button {
+  color: var(--color-primary);
+  float: right;
+  padding-right: 15px;
+  padding-top: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
 .create-post-box {
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
@@ -39,10 +71,12 @@ export default {
   /* border-radius: 10px; */
   width: 600px;
   display: flex;
-  height: 80px;
+  flex-wrap: wrap;
+  height: 100px;
   justify-content: center;
   align-items: center;
   margin: 20px auto;
+  padding-bottom: 20px;
 }
 .pfp-container {
   width: 35px;
