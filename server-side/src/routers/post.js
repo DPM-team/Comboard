@@ -88,7 +88,7 @@ router.get("/api/org/:id/posts", authentication, authenticationOrg, async functi
       _id: posts[i]._id,
       firstname: posts[i].userId.name,
       lastname: posts[i].userId.surname,
-      likes: posts[i].likes.length,
+      likes: posts[i]?.likes?.length || 0,
       contentString: posts[i].contentString,
       createdAt: posts[i].createdAt,
     });
