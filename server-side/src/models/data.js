@@ -16,9 +16,41 @@ const dataSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  profilePhoto: {
+    type: Buffer,
+    required: false,
+  },
+  bio: {
+    type: String,
+    required: false,
+  },
+  email: {
+    type: String,
+    required: false,
+  },
+  telephone: {
+    type: String,
+    required: false,
+  },
   teams: new Array({
     type: mongoose.Schema.Types.ObjectId,
     ref: "team",
+  }),
+  posts: new Array({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "post",
+  }),
+  connections: new Array({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  }),
+  personalTasks: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "taskBoard",
+  },
+  files: new Array({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "file",
   }),
 });
 

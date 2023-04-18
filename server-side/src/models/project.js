@@ -25,6 +25,14 @@ const projectSchema = mongoose.Schema(
       type: Buffer,
       required: false,
     },
+    members: new Array({
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    }),
+    projectTasks: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "taskBoard",
+    },
   },
   {
     timestamps: true,

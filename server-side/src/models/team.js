@@ -21,6 +21,10 @@ const teamSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     }),
+    teamsTasks: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "taskBoard",
+    },
   },
   {
     timestamps: true,

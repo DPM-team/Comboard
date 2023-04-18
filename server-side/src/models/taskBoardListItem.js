@@ -2,13 +2,8 @@ const mongoose = require("mongoose");
 
 const taskBoardListItemSchema = mongoose.Schema(
   {
-    taskBoardListId: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      refs: "TaskBoardList",
-    },
-    description: {
-      type: mongoose.Schema.Types.ObjectId,
+    title: {
+      type: String,
       required: true,
     },
   },
@@ -17,6 +12,6 @@ const taskBoardListItemSchema = mongoose.Schema(
   }
 );
 
-const taskBoardListItem = mongoose.model("TaskBoardListItem", taskBoardListItemSchema);
+const taskBoardListItem = mongoose.model("taskBoardListItem", taskBoardListItemSchema);
 
 module.exports = taskBoardListItem;
