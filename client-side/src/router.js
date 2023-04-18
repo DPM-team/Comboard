@@ -16,6 +16,7 @@ import TasksTab from "./components/organization/tasks/TasksTab.vue";
 import ProjectsTab from "./components/organization/projects/ProjectsTab.vue";
 import AllProjectsTab from "./components/organization/projects/AllProjectsTab.vue";
 import MyProjectsTab from "./components/organization/projects/MyProjectsTab.vue";
+import CreateProject from "./components/organization/projects/CreateProject.vue";
 import TeamsTab from "./components/organization/teams/TeamsTab.vue";
 import MyTeamsTab from "./components/organization/teams/MyTeamsTab.vue";
 import AllTeamsTab from "./components/organization/teams/AllTeamsTab.vue";
@@ -188,10 +189,26 @@ const router = createRouter({
             {
               path: "participate",
               component: MyProjectsTab,
+              children: [
+                {
+                  path: "new",
+                  components: {
+                    dialog: CreateProject,
+                  },
+                },
+              ],
             },
             {
               path: "all",
               component: AllProjectsTab,
+              children: [
+                {
+                  path: "new",
+                  components: {
+                    dialog: CreateProject,
+                  },
+                },
+              ],
             },
           ],
         },

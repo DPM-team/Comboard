@@ -21,6 +21,10 @@ const teamSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     }),
+    projects: new Array({
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "project",
+    }),
     teamsTasks: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "taskBoard",
