@@ -1,6 +1,7 @@
 const randomstring = require("randomstring");
 const Organization = require("../models/organization");
 const Team = require("../models/team.js");
+const Project = require("../models/project.js");
 const User = require("../models/user.js");
 const Data = require("../models/data.js");
 
@@ -190,6 +191,37 @@ const getOrganizationTeams = async (req, res) => {
   }
 };
 
+// Controller to get all the projects of an organization
+const getOrganizationProjects = async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    const organizationObj = await Organization.findById(organizationID).populate("teams");
+
+    if (!organizationObj) {
+      return res.status(404).json({ error: "Organization not found!" });
+    }
+
+    const projects = new Array();
+
+    for (const teamObj of organizationObj.teams) {
+      for (const projectID of teamObj.projects) {
+        const projectObj = await Project.findById(projectID);
+        projects.push({ id: projectObj._id, name: projectObj.name, description: projectObj.description });
+      }
+    }
+
+    res.status(200).json({ projects });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 // Controller to add a team to the organization's teams list
 const addTeamToOrganization = async (req, res) => {
   try {
@@ -240,5 +272,6 @@ module.exports = {
   joinOrganization,
   getOrganizationMembers,
   getOrganizationTeams,
+  getOrganizationProjects,
   addTeamToOrganization,
 };

@@ -16,6 +16,9 @@ router.get("/api/organization/members", organizationController.getOrganizationMe
 // Router for /api/organization/teams
 router.get("/api/organization/teams", organizationController.getOrganizationTeams);
 
+// Router to get all the projects of an organization
+router.get("/api/organization/projects", organizationController.getOrganizationProjects);
+
 //Router to get all the stored organizations
 router.get("/api/organizations", organizationController.getAllStoredOrganizations);
 
