@@ -71,10 +71,6 @@ const userSchema = mongoose.Schema(
       type: String,
       required: false,
     },
-    specialization: {
-      type: String,
-      required: false,
-    },
     gender: {
       type: String,
       required: false,
@@ -85,6 +81,10 @@ const userSchema = mongoose.Schema(
     },
     profilePhoto: {
       type: Buffer,
+      required: false,
+    },
+    linkedinLink: {
+      type: String,
       required: false,
     },
     tokens: new Array({

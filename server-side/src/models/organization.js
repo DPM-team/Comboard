@@ -49,6 +49,14 @@ const organizationSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "team",
     }),
+    posts: new Array({
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "post",
+    }),
+    news: new Array({
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "news",
+    }),
   },
   {
     timestamps: true,

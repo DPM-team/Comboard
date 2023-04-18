@@ -20,16 +20,15 @@ const postSchema = mongoose.Schema(
       type: Buffer,
       required: false,
     },
-    likes: {
-      type: new Array({
-        type: mongoose.Types.ObjectId,
-      }),
-    },
-    comments: {
-      type: new Array({
-        type: String,
-      }),
-    },
+    likes: new Array({
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    }),
+    comments: new Array({
+      userID: mongoose.Schema.Types.ObjectId,
+      content: String,
+      commenter: String, // The fullname of the user who comments
+    }),
   },
   {
     timestamps: true,
