@@ -19,11 +19,17 @@ const projectSchema = mongoose.Schema(
     },
     completed: {
       type: Boolean,
+      required: false,
       default: false,
     },
     image: {
       type: Buffer,
       required: false,
+    },
+    supervisor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
     },
     members: new Array({
       type: mongoose.Schema.Types.ObjectId,

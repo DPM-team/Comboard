@@ -1,20 +1,10 @@
 const express = require("express");
 const Project = require("../models/project.js");
+const projectController = require("../controllers/projectController.js");
 
 const router = new express.Router();
 
-router.post("/api/project", async function (req, res) {
-  const projectObj = new Project({
-    ...req.body,
-  });
-
-  try {
-    await projectObj.save();
-    res.status(201).send(projectObj);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
+router.post("/api/project/create", projectController.createProject);
 
 router.get("/api/projects", async function (req, res) {
   try {
