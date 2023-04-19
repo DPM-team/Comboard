@@ -132,6 +132,7 @@ const router = createRouter({
     {
       path: "/organization/my-profile",
       component: UserProfile,
+      redirect: "/organization/my-profile/posts",
       children: [
         {
           path: "posts",
