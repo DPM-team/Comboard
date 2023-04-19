@@ -4,6 +4,9 @@ const teamController = require("../controllers/teamController.js");
 
 const router = new express.Router();
 
+// Router to get all the data of a specific team
+router.get("/api/team/", teamController.getTeam);
+
 // Router to create a new organization team
 router.post("/api/team/create", teamController.createTeam);
 
@@ -17,22 +20,6 @@ router.get("/api/teams", async function (req, res) {
     Team.find({}).then((result) => {
       res.status(200).send(result);
     });
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-router.get("/api/team/:identifier", async function (req, res) {
-  const _id = req.params.identifier;
-
-  try {
-    const teamObj = await Team.findOne({ _id });
-
-    if (!teamObj) {
-      return res.status(404).send("Team don't found");
-    }
-
-    res.status(200).send(teamObj);
   } catch (error) {
     res.status(500).send(error);
   }

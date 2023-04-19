@@ -4,7 +4,7 @@
       <header>
         <h3>{{ teamName }}</h3>
         <nav>
-          <a :href="''">View Team</a>
+          <router-link :to="'/organization/team-private/' + teamID">Edit Team</router-link>
         </nav>
       </header>
       <p>{{ teamDescription }}</p>
@@ -15,6 +15,10 @@
 <script>
 export default {
   props: {
+    teamID: {
+      type: String,
+      required: true,
+    },
     teamName: {
       type: String,
       required: true,

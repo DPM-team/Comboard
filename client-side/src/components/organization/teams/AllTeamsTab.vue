@@ -8,7 +8,7 @@
     </div>
     <h4 v-if="message">{{ message }}</h4>
     <ul v-else>
-      <team-item v-for="team in teams" :key="team.id" :teamName="team.name" :teamDescription="team.description"></team-item>
+      <team-item v-for="team in teams" :key="team.id" :teamID="team.id" :teamName="team.name" :teamDescription="team.description"></team-item>
     </ul>
   </div>
 </template>

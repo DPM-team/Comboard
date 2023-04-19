@@ -2,6 +2,26 @@ const Project = require("../models/project.js");
 const Team = require("../models/team.js");
 const userUtils = require("../utils/userUtils.js");
 
+const getTeam = async (req, res) => {
+  try {
+    const _id = req.query.teamID;
+
+    if (!_id) {
+      return res.status(400).json({ error: "TeamID is required field!" });
+    }
+
+    const teamObj = await Team.findById({ _id });
+
+    if (!teamObj) {
+      return res.status(404).json({ error: "Team don't found!" });
+    }
+
+    res.status(200).json({ teamObj });
+  } catch (error) {
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 const createTeam = async (req, res) => {
   try {
     let { name, description, supervisor, members } = req.body;
@@ -130,6 +150,7 @@ const addProjectToTeam = async (req, res) => {
 };
 
 module.exports = {
+  getTeam,
   createTeam,
   getTeamMembers,
   addProjectToTeam,

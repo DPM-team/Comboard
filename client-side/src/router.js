@@ -148,10 +148,12 @@ const router = createRouter({
       ],
     },
     {
-      path: "/organization/team-private",
+      path: "/organization/team-private/:teamID",
       component: TeamPrivateProfile,
+      props: true,
       children: [
         {
+          name: "create-project",
           path: "new-project",
           components: {
             dialog: CreateProject,

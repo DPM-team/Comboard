@@ -51,7 +51,7 @@ export default {
       projectMembers: [],
       submitMessage: "",
       messageType: "",
-      teamID: "643f1bf0b30121b048fa5f09",
+      teamID: "",
     };
   },
   methods: {
@@ -100,6 +100,7 @@ export default {
     },
   },
   created() {
+    this.teamID = this.$route.params.teamID;
     this.loadTeamMembers();
   },
 };
