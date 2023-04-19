@@ -111,7 +111,7 @@ const userSchema = mongoose.Schema(
   }
 );
 
-// Override .toJSON() method to hide private data and big data
+// Override .toJSON() method to hide private data
 userSchema.methods.toJSON = function () {
   const user = this;
 
@@ -121,9 +121,6 @@ userSchema.methods.toJSON = function () {
   // Hide private fields
   delete userObjPublic.password;
   delete userObjPublic.tokens;
-  // Hide big files
-  delete userObjPublic.profilePhoto;
-  delete userObjPublic.files;
 
   return userObjPublic;
 };

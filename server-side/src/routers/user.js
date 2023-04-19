@@ -3,6 +3,9 @@ const userController = require("../controllers/userController.js");
 
 const router = express.Router();
 
+// Router to get the user
+router.get("/api/user/", userController.getUser);
+
 // Router to get all the organizations that a user is member
 router.get("/api/user/organizations", userController.getUserOrganizations);
 

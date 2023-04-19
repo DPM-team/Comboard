@@ -1,37 +1,51 @@
 <template>
   <div class="create-post-box">
-    <div class="visibility-button-container"><font-awesome-icon @click="toggleVisibilityOptions" class="visibility-button" :icon="['fas', 'earth-europe']" /></div>
-    <div v-if="showVisibilityOptions" class="visibilty-options">
-      <input type="radio" value="Connections" /><span>Connections</span> <input type="radio" value="Organization" /><span>Organization</span>
+    <div class="visibility-button-container">
+      <font-awesome-icon @click="toggleVisibilityOptions" class="visibility-button" :icon="['fas', 'earth-europe']" />
     </div>
-    <div class="pfp-container"><img class="user-pfp" :src="pictureLink" /></div>
-    <input @change="input" class="post-input" type="text" id="create-post" name="create-post" :placeholder="message" ref="dataInput" />
-
-    <button @click="makePost" class="post-button">Post</button>
+    <div v-if="showVisibilityOptions" class="visibilty-options">
+      <input type="radio" value="Connections" />
+      <span>Connections</span>
+      <input type="radio" value="Organization" />
+      <span>Organization</span>
+    </div>
+    <div class="pfp-container">
+      <img class="user-pfp" :src="pictureLink" />
+    </div>
+    <input v-model="postContent" class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
+    <button @click="createPost()" class="post-button">Post</button>
   </div>
 </template>
 
 <script>
 export default {
+  props: ["firstname", "pictureLink"],
   data() {
     return {
-      message: "Share your thoughts with your organization..",
-      post: null,
       showVisibilityOptions: false,
+      postContent: "",
+      submitMessage: "",
     };
   },
-  props: ["firstname", "pictureLink"],
   methods: {
-    input() {
-      this.$emit("data", this.$refs.dataInput.value);
+    async createPost() {
+      const postObj = {
+        creatorID: this.$store.getters.loggedUserID,
+        contentString: this.postContent,
+      };
 
-      this.post = this.$refs.dataInput.value;
-    },
+      try {
+        const successData = await this.$store.dispatch("createPost", {
+          postObj,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
 
-    async makePost() {
-      await this.$store.dispatch("createPost", {
-        post: this.post,
-      });
+        this.submitMessage = successData.successMessage;
+      } catch (error) {
+        this.submitMessage = error.message || "Something went wrong!";
+      }
+
+      console.log(this.submitMessage);
     },
     toggleVisibilityOptions() {
       this.showVisibilityOptions = !this.showVisibilityOptions;
