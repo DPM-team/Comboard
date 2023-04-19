@@ -6,7 +6,7 @@ const authenticationOrg = require("../middleware/authenticationOrg");
 
 const router = express.Router();
 
-router.post("/api/user/requestConnection", authentication, async function (req, res) {
+router.post("/api/user/requestConnection", authentication, authenticationOrg, async function (req, res) {
   try {
     const userFromRequest = req.user;
     const userToRequest = await User.findOne({ _id: req.query.userId });
@@ -15,14 +15,14 @@ router.post("/api/user/requestConnection", authentication, async function (req, 
       throw new Error();
     }
 
-    const userFromRequestData = await Data.findOne({ userId: userFromRequest._id, orgId: req.orgId });
-    const userToRequestData = await Data.findOne({ userId: userToRequest._id, orgId: req.orgId });
+    const userFromRequestData = await Data.findOne({ userID: userFromRequest._id, organizationID: req.orgId });
+    const userToRequestData = await Data.findOne({ userID: userToRequest._id, organizationID: req.orgId });
 
     if (!userFromRequestData.pendingRequestsSend.includes(userToRequest._id) && !userToRequestData.pendingRequestsReceive.includes(userFromRequest._id)) {
       userFromRequestData.pendingRequestsSend.push(userToRequest._id);
-      userToRequestData.pendingRequestsReceive.remove(userFromRequest._id);
+      userToRequestData.pendingRequestsReceive.push(userFromRequest._id);
     } else {
-      userFromRequestData.pendingRequestsSend.push(userToRequest._id);
+      userFromRequestData.pendingRequestsSend.remove(userToRequest._id);
       userToRequestData.pendingRequestsReceive.remove(userFromRequest._id);
     }
 
