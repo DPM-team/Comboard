@@ -2,8 +2,8 @@
   <div class="sug-item-container">
     <div><img class="user-pfp" :src="pictureLink" /></div>
     <li>{{ firstname }} {{ lastname }}</li>
-    <font-awesome-icon v-if="added === false" @click="sendRequest(firstname, lastname)" class="icon" icon="fa-solid fa-user-plus" />
-    <font-awesome-icon v-if="added === true" @click="removeRequest(firstname, lastname)" class="icon" :icon="['fas', 'user-check']" />
+    <font-awesome-icon v-if="added === false" @click="sendRequest('643eeb4ccdc942f537f389ec')" class="icon" icon="fa-solid fa-user-plus" />
+    <font-awesome-icon v-if="added === true" @click="sendRequest('643eeb4ccdc942f537f389ec')" class="icon" :icon="['fas', 'user-check']" />
   </div>
 </template>
 
@@ -16,13 +16,15 @@ export default {
   },
   props: ["firstname", "lastname", "pictureLink"],
   methods: {
-    sendRequest(firstname, lastname) {
-      console.log("Friend request sent to " + firstname + " " + lastname);
-      this.added = true;
-    },
-    removeRequest(firstname, lastname) {
-      console.log("Friend request for " + firstname + " " + lastname + " removed");
-      this.added = false;
+    async sendRequest(id) {
+      try {
+        this.added = !this.added;
+        await this.$store.dispatch("requestConnection", {
+          userId: id,
+        });
+      } catch (_) {
+        this.added = !this.added;
+      }
     },
   },
 };
