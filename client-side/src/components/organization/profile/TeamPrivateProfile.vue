@@ -1,25 +1,66 @@
 <template>
   <div>
+    <organization-page-header><button class="rtn-button">Return to Dashboard</button><font-awesome-icon class="back-icon" :icon="['fas', 'circle-chevron-left']" /></organization-page-header>
     <div v-if="teamObj">
       <router-view name="dialog"></router-view>
-      <router-link :to="createProjectLink()">Create Project</router-link>
-      <h2>Param: {{ teamID }}</h2>
-      <h2>{{ teamObj.name }}</h2>
-      <h2>{{ teamObj.description }}</h2>
-      <h2>{{ teamObj._id }}</h2>
-      <h2>{{ teamObj.supervisor }}</h2>
+      <div class="team-page-container">
+        <div class="left-col">
+          <h1 class="team-name">
+            <!-- Blue highlight effect -->
+            <span class="highlight">{{ teamObj.name }}</span>
+          </h1>
+          <form enctype="multipart/form-data" class="personal-information" action="" method="post">
+            <h2>Update your teams profile</h2>
+            <h3>Param: {{ teamID }}</h3>
+            <div class="inputBox">
+              <span class="input-title">Team name</span>
+              <input type="text" name="teamName" class="" value="" :placeholder="teamObj.name" required />
+            </div>
+            <span class="input-title">Supervisor id</span>
+            <h3>{{ teamObj.supervisor }}</h3>
+            <div class="inputBox">
+              <span class="input-title">Description</span>
+              <textarea type="text" name="description" value="" :placeholder="teamObj.description" />
+            </div>
+            <div class="inputBox">
+              <input type="submit" name="submit-non-sensitive" value="Save" />
+            </div>
+          </form>
+        </div>
+        <div class="right-col">
+          <h3 class="create-project-title">Create a project for {{ teamObj.name }}</h3>
+          <router-link class="router-button" :to="createProjectLink()">Create Project</router-link>
+          <h4 class="search-area-demo">Search area</h4>
+          <div class="members-list">
+            <h2>Team members</h2>
+            <ul>
+              <member-list-item v-for="member in members" :key="member.id" :firstname="member.firstname" :lastname="member.lastname"></member-list-item>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
     <h3 v-else>{{ errorMessage }}</h3>
   </div>
 </template>
 
 <script>
+import BaseButton from "../../basic-components/BaseButton.vue";
+import OrganizationPageHeader from "../../layout/headers/OrganizationPageHeader.vue";
+import MemberListItem from "./MemberListItem.vue";
 export default {
+  components: { OrganizationPageHeader, BaseButton, MemberListItem },
   props: ["teamID"],
   data() {
     return {
       teamObj: null,
       errorMessage: "",
+      members: [
+        { id: 1, firstname: "Dionisis", lastname: "Lougaris" },
+        { id: 2, firstname: "Panos", lastname: "Machairas" },
+        { id: 3, firstname: "Minas", lastname: "Charakopoulos" },
+        { id: 4, firstname: "Giorgos", lastname: "Stefou" },
+      ],
     };
   },
   methods: {
@@ -43,3 +84,167 @@ export default {
   },
 };
 </script>
+<style scoped>
+.members-list {
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  width: 250px;
+}
+ul {
+  list-style-type: none;
+}
+.create-project-title {
+  font-size: 24px;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+.search-area-demo {
+  height: 100px;
+  margin-top: 50px;
+}
+.router-button {
+  padding: 0.5rem 1.2rem;
+  font-family: inherit;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+.router-button:hover,
+.router-button:active {
+  background-color: #000875;
+  border-color: #000875;
+}
+.team-name {
+  font-size: 58px;
+  line-height: 1.35;
+  margin-top: 40px;
+  text-align: center;
+}
+.highlight {
+  position: relative;
+}
+
+.highlight::after {
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  opacity: 0.7;
+  transform: scale(1.07, 1.05) skewX(-15deg);
+  background-image: var(--gradient-team);
+}
+.team-name {
+  font-size: 64px;
+}
+.back-icon {
+  position: absolute;
+  top: 15px;
+  left: 30px;
+  font-size: 28px;
+  color: var(--color-primary);
+  display: none;
+}
+.rtn-button {
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  padding: 0.5rem 1.2rem;
+  font-family: inherit;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: white;
+  cursor: pointer;
+}
+.rtn-button:hover,
+.rtn-button:active {
+  background-color: #000875;
+  border-color: #000875;
+}
+.team-page-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.left-col {
+  width: 60%;
+}
+.right-col {
+  width: 40%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.input-title {
+  color: var(--color-primary);
+  font-size: 14px;
+}
+.personal-information {
+  width: 90%;
+  padding: 20px;
+  /* background: white; */
+}
+
+.personal-information h2 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  color: var(--color-fourth);
+  font-weight: 600;
+}
+.personal-information h3 {
+  font-size: 20px;
+  color: var(--color-fourth);
+  font-weight: 600;
+}
+
+.personal-information .inputBox {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.personal-information .inputBox input[type="text"],
+.personal-information .inputBox input[type="email"],
+.personal-information .inputBox input[type="password"],
+.personal-information .inputBox textarea {
+  width: 100%;
+  padding: 5px 0;
+  font-size: 16px;
+  margin: 10px 0;
+  border: none;
+  border-bottom: 2px solid var(--color-fourth);
+  outline: none;
+  resize: none;
+}
+
+.personal-information .inputBox input[type="submit"] {
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: white;
+  cursor: pointer;
+}
+
+.personal-information .inputBox input[type="submit"]:hover,
+.personal-information .inputBox input[type="submit"]:active {
+  background-color: #000875;
+  border-color: #000875;
+}
+
+@media (max-width: 600px) {
+  .rtn-button {
+    display: none;
+  }
+  .back-icon {
+    display: block;
+  }
+  .right-col,
+  .left-col {
+    width: 100%;
+  }
+}
+</style>
