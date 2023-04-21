@@ -1,72 +1,121 @@
 export default {
-  async addPosts(context) {
-    var myHeaders = new Headers();
-
-    myHeaders.append("Authorization", `Bearer ${context.getters.loggedUserToken}`);
-    myHeaders.append("AuthorizationOrg", `${context.getters.selectedOrganizationID}`);
-
-    var requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    const postResponse = await fetch(`/api/org/${context.getters.selectedOrganizationID}/posts`, requestOptions);
-
-    const posts = await postResponse.json();
-
-    context.commit("setPosts", {
-      posts,
-    });
-  },
-
-  async addLike(context, payload) {
-    let headers = new Headers();
-    headers.append("Authorization", `Bearer ${context.getters.loggedUserToken}`);
-    headers.append("AuthorizationOrg", `${context.getters.selectedOrganizationID}`);
-    headers.append("Content-Type", "application/json");
-
-    let requestOptions = {
-      method: "put",
-      headers,
-      body: JSON.stringify({ like: !this.haveLike }),
-    };
-
-    await fetch(`/api/user/like/post/${payload.id}`, requestOptions);
-  },
-
   async isLiked(context, payload) {
-    let headers = new Headers();
-    headers.append("Authorization", `Bearer ${context.getters.loggedUserToken}`);
-    headers.append("AuthorizationOrg", `${context.getters.selectedOrganizationID}`);
+    const userID = payload.userID;
+    const postID = payload.postID;
 
-    let requestOptions = {
-      method: "get",
-      headers,
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
     };
 
-    const respones = await fetch(`/api/user/like/post/${payload.id}`, requestOptions);
+    try {
+      const response = await fetch(`/api/post/isliked?userID=${userID}&postID=${postID}`, requestOptions);
 
-    return respones;
+      const data = await response.json();
+
+      if (response.ok) {
+        return data?.isLiked;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
+    }
+  },
+  async loadPosts(context, payload) {
+    const userID = payload.userID;
+    const organizationID = payload.organizationID;
+
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+    };
+
+    try {
+      const response = await fetch(`/api/network/posts?userID=${userID}&organizationID=${organizationID}`, requestOptions);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        context.commit("setPosts", {
+          posts: data?.posts,
+        });
+
+        return data?.succesMessage;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
+    }
   },
   async createPost(context, payload) {
-    let headers = new Headers();
-    headers.append("Authorization", `Bearer ${context.getters.loggedUserToken}`);
-    headers.append("AuthorizationOrg", `${context.getters.selectedOrganizationID}`);
-    headers.append("Content-Type", "application/json");
+    const postObj = payload.postObj;
+    const organizationID = payload.organizationID;
 
-    let body = JSON.stringify({
-      userId: context.getters.loggedUserID,
-      orgId: context.getters.selectedOrganizationID,
-      contentString: payload.post,
-    });
-
-    let options = {
+    const requestOptions = {
       method: "POST",
-      headers,
-      body,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ postObj, organizationID }),
     };
 
-    await fetch("/api/user/post", options);
+    try {
+      // Make a POST request to the API endpoint
+      const response = await fetch("/api/post", requestOptions);
+
+      // Check if the response is successful
+      if (!response.ok) {
+        // Handle error response
+        const errorObj = await response.json();
+        throw new Error(errorObj.error);
+      }
+
+      // Extract the created project data from the response
+      const successData = await response.json();
+
+      return successData;
+    } catch (error) {
+      throw new Error(error.message || "Failed to create post.");
+    }
+  },
+  async toogleLike(context, payload) {
+    const postID = payload.postID;
+    const userID = payload.userID;
+
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+    };
+
+    try {
+      // Make a POST request to the API endpoint
+      const response = await fetch(`/api/post/like?postID=${postID}&userID=${userID}`, requestOptions);
+
+      // Check if the response is successful
+      if (!response.ok) {
+        // Handle error response
+        const errorObj = await response.json();
+        throw new Error(errorObj.error);
+      }
+
+      // Extract the created project data from the response
+      const successData = await response.json();
+
+      return successData;
+    } catch (error) {
+      throw new Error(error.message || "Failed to toogle like.");
+    }
   },
 };

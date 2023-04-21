@@ -1,5 +1,5 @@
 <template>
-  <div class="post-box" @dblclick="addLike">
+  <div class="post-box" @dblclick="toogleLike">
     <div class="image-name-date-container">
       <div class="pfp-container"><img class="user-pfp" :src="pictureLink" /></div>
       <h2>{{ firstname }} {{ lastname }}</h2>
@@ -12,15 +12,16 @@
       <p>
         <b>{{ likesNum }}</b> people like this post
       </p>
-      <font-awesome-icon @click="addLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
+      <font-awesome-icon @click="toogleLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
       <font-awesome-icon @click="writeComment" class="post-icon" icon="fa-regular fa-comment" />
     </div>
     <div v-if="showCommentSection" class="comment-section">
       <div class="write-comment">
-        <input class="write-comment-input" type="text" name="write-comment" placeholder="Leave a comment.." /> <font-awesome-icon class="post-comment-button" :icon="['fas', 'paper-plane']" />
+        <input class="write-comment-input" type="text" name="write-comment" placeholder="Leave a comment.." />
+        <font-awesome-icon class="post-comment-button" :icon="['fas', 'paper-plane']" />
       </div>
       <comment-item
-        v-for="comment in comments"
+        v-for="comment in commentsDummy"
         :key="comment.id"
         :description="comment.description"
         :firstname="comment.firstname"
@@ -33,14 +34,49 @@
 
 <script>
 import CommentItem from "./CommentItem.vue";
+
 export default {
   components: { CommentItem },
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    firstname: {
+      type: String,
+      required: true,
+    },
+    lastname: {
+      type: String,
+      required: true,
+    },
+    pictureLink: {
+      type: String,
+      required: true,
+    },
+    likes: {
+      type: Array,
+      required: true,
+    },
+    comments: {
+      type: Array,
+      required: true,
+    },
+    date: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
-      haveLike: null,
-      likesNum: this.likes,
+      haveLike: false,
+      likesNum: this.likes?.length || 0,
       showCommentSection: false,
-      comments: [
+      commentsDummy: [
         {
           id: 1,
           firstname: "Dionisis",
@@ -58,32 +94,43 @@ export default {
       ],
     };
   },
-
-  async created() {
-    const respones = await this.$store.dispatch("isLiked", {
-      id: this.id,
-    });
-
-    this.haveLike = await respones.json();
-  },
-
-  props: ["firstname", "lastname", "pictureLink", "content", "date", "id", "likes"],
   methods: {
-    async addLike() {
+    async toogleLike() {
       this.haveLike = !this.haveLike;
+
       if (this.haveLike) {
         this.likesNum++;
       } else {
         this.likesNum--;
       }
 
-      this.$store.dispatch("addLike", {
-        id: this.id,
-      });
+      try {
+        const successData = await this.$store.dispatch("toogleLike", {
+          userID: this.$store.getters.loggedUserID,
+          postID: this.id,
+        });
+
+        console.log(successData.succesMessage);
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
+    },
+    async isLiked() {
+      try {
+        this.haveLike = await this.$store.dispatch("isLiked", {
+          userID: this.$store.getters.loggedUserID,
+          postID: this.id,
+        });
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
     },
     writeComment() {
       this.showCommentSection = !this.showCommentSection;
     },
+  },
+  created() {
+    this.isLiked();
   },
 };
 </script>

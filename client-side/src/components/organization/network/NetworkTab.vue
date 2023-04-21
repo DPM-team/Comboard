@@ -5,13 +5,14 @@
       <post-box
         v-for="post in posts"
         :key="post.id"
-        :pictureLink="post.pictureLink"
+        :id="post.id"
+        :content="post.content"
         :firstname="post.firstname"
         :lastname="post.lastname"
-        :content="post.content"
-        :date="post.date"
-        :id="post.id"
+        :pictureLink="post.pictureLink"
         :likes="post.likes"
+        :comments="post.comments"
+        :date="post.date"
       ></post-box>
     </div>
     <div class="side-section">
@@ -30,36 +31,46 @@ import PostBox from "./PostBox.vue";
 
 export default {
   components: { CreatePostBox, PostBox, ConnectionSuggestionList, NewsList, OrganizationPageTab },
-  props: {
-    userID: {
-      type: String,
-      required: true,
-    },
-    organizationID: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
-      myUser: { firstname: "Dio", lastname: "Lou", pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" },
+      myUser: {
+        firstname: "Dio",
+        lastname: "Lou",
+        pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s",
+      },
       posts: [],
+      message: "",
     };
   },
-  async created() {
-    await this.$store.dispatch("addPosts");
+  methods: {
+    async loadPosts() {
+      try {
+        await this.$store.dispatch("loadPosts", {
+          userID: this.$store.getters.loggedUserID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
 
-    this.$store.getters.posts.forEach((post, ind) => {
-      this.posts[ind] = {
-        id: post._id,
-        pictureLink: `/api/users/${post.userId}/profilePhoto`,
-        firstname: post.firstname,
-        lastname: post.lastname,
-        date: new Date(post.createdAt).toLocaleDateString(),
-        content: post.contentString,
-        likes: post.likes,
-      };
-    });
+        this.message = "";
+      } catch (error) {
+        this.message = error.message || "Something went wrong!";
+      }
+
+      this.$store.getters.posts.forEach((post, index) => {
+        this.posts[index] = {
+          id: post.postObj._id,
+          content: post.postObj.contentString,
+          firstname: post.creatorObj.name,
+          lastname: post.creatorObj.surname,
+          pictureLink: `/api/users/${post.postObj.creatorID}/profilePhoto`,
+          likes: post.postObj?.likes,
+          comments: post.postObj?.comments,
+          date: new Date(post.postObj.createdAt).toLocaleDateString(),
+        };
+      });
+    },
+  },
+  async created() {
+    this.loadPosts();
   },
 };
 </script>

@@ -3,6 +3,27 @@ const Team = require("../models/team.js");
 const Data = require("../models/data.js");
 const Project = require("../models/project.js");
 
+const getUser = async (req, res) => {
+  try {
+    const userID = req.query.userID;
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    const userObj = await User.findById(userID);
+
+    if (!userObj) {
+      return res.status(200).json({ error: "User not found!" });
+    }
+
+    res.status(200).json({ userObj });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 const getUserOrganizations = async (req, res) => {
   try {
     const userID = req.query.userID;
@@ -201,6 +222,7 @@ const addProjectToUser = async (req, res) => {
 };
 
 module.exports = {
+  getUser,
   getUserOrganizations,
   getUserTeams,
   getUserProjects,
