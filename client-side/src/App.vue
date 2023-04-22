@@ -24,6 +24,8 @@ export default {
   --color-fifth: #bfe2fa;
   --color-sixth: #168630;
   --gradient-primary: linear-gradient(#ffffff, var(--color-secondary));
+  --gradient-team: linear-gradient(#ffffff, rgb(70, 78, 239));
+  --gradient-project: linear-gradient(#ffffff, rgb(255, 255, 93));
   --tab-grey-background: rgba(212, 212, 212, 0.551);
 }
 

@@ -5,8 +5,8 @@
       <connection-suggestion-item
         v-for="member in fellowOrgMembers"
         :key="member.id"
-        :firstname="member.firstname"
-        :lastname="member.lastname"
+        :firstname="member.name"
+        :lastname="member.surname"
         :pictureLink="member.pictureLink"
       ></connection-suggestion-item>
     </ul>
@@ -17,15 +17,18 @@
 import ConnectionSuggestionItem from "./ConnectionSuggestionItem.vue";
 export default {
   components: { ConnectionSuggestionItem },
+  async created() {
+    try {
+      this.fellowOrgMembers = await this.$store.dispatch("recommentedConnections");
+    } catch (e) {
+      this.error = e;
+    }
+  },
   data() {
     return {
       title: "Expand your network",
-      fellowOrgMembers: [
-        { id: 1, firstname: "Dionisis", lastname: "Lougaris", pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" },
-        { id: 2, firstname: "Panagiotis", lastname: "Machairas", pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" },
-        { id: 3, firstname: "Minas", lastname: "Charakopoulos", pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" },
-        { id: 4, firstname: "Giorgos", lastname: "Stefou", pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" },
-      ],
+      fellowOrgMembers: [],
+      error: null,
     };
   },
 };
