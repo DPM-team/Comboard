@@ -79,7 +79,6 @@ export default {
         throw new Error(errorObj.error);
       }
 
-      // Extract the created project data from the response
       const successData = await response.json();
 
       return successData;
@@ -110,7 +109,6 @@ export default {
         throw new Error(errorObj.error);
       }
 
-      // Extract the created project data from the response
       const successData = await response.json();
 
       return successData;

@@ -1,21 +1,18 @@
 <template>
   <div class="button-container">
     <label class="button" for="upload">Upload File</label>
-    <input id="upload" type="file" />
+    <input id="upload" type="file" @change="input()" ref="fileInput" />
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {
-      file: "",
-    };
+    return {};
   },
-  method: {
+  methods: {
     input() {
-      console.log("ygusdhjx");
-      this.$emit("file");
+      this.$emit("fileData", this.$refs.fileInput.files[0]);
     },
   },
 };
@@ -25,9 +22,11 @@ export default {
 input[type="file"] {
   display: none;
 }
+
 .button-wrap {
   position: relative;
 }
+
 .button {
   display: inline-block;
   background-color: var(--color-primary);
@@ -42,9 +41,11 @@ input[type="file"] {
   cursor: pointer;
   margin: 5px;
 }
+
 .button:hover {
   opacity: 0.9;
 }
+
 .button-container {
   display: inline-block;
 }
