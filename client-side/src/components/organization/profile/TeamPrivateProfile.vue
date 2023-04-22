@@ -45,11 +45,11 @@
 </template>
 
 <script>
-import BaseButton from "../../basic-components/BaseButton.vue";
 import OrganizationPageHeader from "../../layout/headers/OrganizationPageHeader.vue";
 import ButtonOptionsItemList from "./ButtonOptionsItemList.vue";
+
 export default {
-  components: { OrganizationPageHeader, BaseButton, ButtonOptionsItemList },
+  components: { OrganizationPageHeader, ButtonOptionsItemList },
   props: ["teamID"],
   data() {
     return {
