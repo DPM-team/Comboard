@@ -32,6 +32,7 @@ import HelpPage from "./components/dashboard/HelpPage.vue";
 import UserProfileTeams from "./components/organization/profile/UserProfileTeams.vue";
 import UserProfileProjects from "./components/organization/profile/UserProfileProjects.vue";
 import TeamPrivateProfile from "./components/organization/profile/TeamPrivateProfile.vue";
+import TeamPublicProfile from "./components/organization/profile/TeamPublicProfile.vue";
 import CreateProject from "./components/organization/projects/CreateProject.vue";
 
 const router = createRouter({
@@ -161,6 +162,10 @@ const router = createRouter({
           },
         },
       ],
+    },
+    {
+      path: "/organization/team-public",
+      component: TeamPublicProfile,
     },
     {
       path: "/organization/user",

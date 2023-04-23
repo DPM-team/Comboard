@@ -1,49 +1,70 @@
 export default {
   async getFiles(context, payload) {
-    try {
-      let myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${context.rootGetters.loggedUserToken}`);
+    const userID = payload.userID;
+    const organizationID = payload.organizationID;
+    const page = payload.page;
+    const limit = payload.limit;
 
-      let requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-
-      const files = await fetch(`/api/user/files?limit=10&skip=${payload.skip}`, requestOptions);
-      // console.log("a");
-
-      const file = await files.json();
-
-      if (file.length > 0) {
-        context.commit("setFiles", { files: file });
-        context.commit("setNextFiles", { files: file });
-      } else {
-        context.commit("setNextFilesg");
-      }
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-
-  async upload(context, payload) {
-    let myHeaders = new Headers();
-
-    // console.log(context);
-
-    myHeaders.append("Authorization", `Bearer ${context.rootGetters.loggedUserToken}`);
-
-    let formdata = new FormData();
-
-    formdata.append("upload", payload.file, payload.file.name);
-
-    let requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: formdata,
-      redirect: "follow",
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
     };
 
-    await fetch("/api/user/upload", requestOptions);
+    try {
+      // Make a POST request to the API endpoint
+      const response = await fetch(`/api/storage/files?userID=${userID}&organizationID=${organizationID}&page=${page}&limit=${limit}`, requestOptions);
+
+      // Check if the response is successful
+      if (!response.ok) {
+        // Handle error response
+        const errorObj = await response.json();
+        throw new Error(errorObj.error);
+      }
+
+      const successData = await response.json();
+
+      return successData;
+    } catch (error) {
+      throw new Error(error.message || "Failed to get files.");
+    }
+  },
+  async storageFileUpload(context, payload) {
+    const userID = payload.userID;
+    const organizationID = payload.organizationID;
+    const file = payload.file;
+
+    const formData = new FormData();
+
+    formData.append("userID", userID);
+    formData.append("organizationID", organizationID);
+    formData.append("upload", file, file.name);
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: formData,
+    };
+
+    try {
+      // Make a POST request to the API endpoint
+      const response = await fetch("/api/storage/upload", requestOptions);
+
+      // Check if the response is successful
+      if (!response.ok) {
+        // Handle error response
+        const errorObj = await response.json();
+        throw new Error(errorObj.error);
+      }
+
+      const successData = await response.json();
+
+      return successData;
+    } catch (error) {
+      throw new Error(error.message || "Failed to store file.");
+    }
   },
 };

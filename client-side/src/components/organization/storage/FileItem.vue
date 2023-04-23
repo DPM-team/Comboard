@@ -1,10 +1,10 @@
 <template>
-  <li class="file-item" :class="{ loading: spinner }">
-    <base-spinner v-if="spinner" class="base-spinner"></base-spinner>
-    <div v-else class="file-item-content-iframe">
-      <iframe v-if="icon !== 'fa-regular fa-file-word'" :src="src" class="frame"></iframe>
-      <div :class="{ 'content-name': icon !== 'fa-regular fa-file-word' }">
-        <font-awesome-icon :icon="icon" :class="{ icon: icon === 'fa-regular fa-file-word' }" />
+  <li class="file-item" @dblclick="openFile()">
+    <base-spinner v-if="fileLoading" class="base-spinner"></base-spinner>
+    <div class="file-item-content-iframe" :class="{ visibility: fileLoading }">
+      <iframe v-if="allowPreview()" class="frame" :src="`/api/storage/file/${this.id}`" @load="onFileLoaded()"></iframe>
+      <div :class="{ 'content-name': allowPreview() }">
+        <font-awesome-icon :icon="getIcon()" :class="{ icon: !allowPreview() }" />
         <p>{{ fileName }}</p>
       </div>
     </div>
@@ -14,36 +14,57 @@
 <script>
 export default {
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
+      required: true,
     },
     type: {
       type: String,
-    },
-    icon: {
-      type: String,
-    },
-    src: {
-      type: String,
-    },
-    spinner: {
-      type: Boolean,
-      default: false,
+      required: true,
     },
   },
-
-  created() {
-    if (this.name?.length > 30) {
-      this.fileName = this.name.slice(0, 27) + "...";
-    } else {
-      this.fileName = this.name;
-    }
-  },
-
   data() {
     return {
-      fileName: "",
+      fileName: this.name?.length > 30 ? this.name.slice(0, 27) + "..." : this.name,
+      fileLoading: true,
     };
+  },
+  methods: {
+    getIcon() {
+      switch (this.type) {
+        case "application/pdf":
+          return "fa-regular fa-file-pdf";
+        case "application/msword":
+          return "fa-regular fa-file-word";
+        case "xls":
+        case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+          return "fa-regular fa-file-excel";
+        case "image/png":
+        case "image/jpeg":
+        case "image/jpg":
+          return "fa-regular fa-file-image";
+        default:
+          return "fa-regular fa-file";
+      }
+    },
+    allowPreview() {
+      if (this.type === "application/pdf" || this.type === "image/png" || this.type === "image/jpeg") {
+        return true;
+      } else {
+        this.fileLoading = false;
+        return false;
+      }
+    },
+    onFileLoaded() {
+      this.fileLoading = false;
+    },
+    openFile() {
+      window.open(`/api/storage/file/${this.id}`, "_blank");
+    },
   },
 };
 </script>
@@ -59,6 +80,10 @@ export default {
   margin-bottom: 60px;
 
   background: white;
+}
+
+.visibility {
+  display: none;
 }
 
 .file-item :hover {
@@ -109,6 +134,7 @@ export default {
   font-size: 12px;
   font-weight: bold;
 }
+
 @media screen and (max-width: 1400px) {
   .file-item {
     width: 25%;

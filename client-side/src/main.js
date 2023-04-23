@@ -56,7 +56,7 @@ import {
   faEarthEurope,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { faComment, faFilePdf, faFileWord, faFileExcel, faImage } from "@fortawesome/free-regular-svg-icons";
+import { faComment, faFilePdf, faFileWord, faFileExcel, faImage, faFileImage, faFile } from "@fortawesome/free-regular-svg-icons";
 import { faGoogle, faApple, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 /* add icons to the library */
@@ -77,9 +77,11 @@ library.add(
   faEllipsisVertical,
   faHeart,
   faComment,
+  faFile,
   faFilePdf,
   faFileWord,
   faFileExcel,
+  faFileImage,
   faUserPlus,
   faAnglesRight,
   faGoogle,
