@@ -79,7 +79,6 @@ export default {
         throw new Error(errorObj.error);
       }
 
-      // Extract the created project data from the response
       const successData = await response.json();
 
       return successData;
@@ -110,12 +109,45 @@ export default {
         throw new Error(errorObj.error);
       }
 
-      // Extract the created project data from the response
       const successData = await response.json();
 
       return successData;
     } catch (error) {
       throw new Error(error.message || "Failed to toogle like.");
+    }
+  },
+
+  async createComment(context, payload) {
+    try {
+      const requestOptions = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+          AuthorizationOrg: `${context.rootGetters.selectedOrganizationID}`,
+        },
+        body: JSON.stringify({ context: payload.content }),
+        redirect: "follow",
+      };
+
+      await fetch(`/api/post/${payload.postID}/createComment`, requestOptions);
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
+
+  async loadCommentsOfPost(context, payload) {
+    try {
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+      };
+
+      await fetch(`/api/post/${payload.postID}/comments?orgID=${context.rootGetters.selectedOrganizationID}`, requestOptions);
+    } catch (e) {
+      throw new Error(e);
     }
   },
 };

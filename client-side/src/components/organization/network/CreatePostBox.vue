@@ -1,20 +1,19 @@
 <template>
-  <div class="create-post-box">
-    <div class="visibility-button-container">
-      <font-awesome-icon @click="toggleVisibilityOptions" class="visibility-button" :icon="['fas', 'earth-europe']" />
+  <form>
+    <div class="create-post-box">
+      <div class="visibilty-options">
+        <input type="radio" name="visibility" value="Connections" required @click="toogleVisibility" />
+        <span>Connections</span>
+        <input type="radio" name="visibility" value="Organization" required @click="toogleVisibility" checked />
+        <span>Organization</span>
+      </div>
+      <div class="pfp-container">
+        <img class="user-pfp" :src="pictureLink" />
+      </div>
+      <input v-model="postContent" class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
+      <button @click="createPost()" class="post-button">Post</button>
     </div>
-    <div v-if="showVisibilityOptions" class="visibilty-options">
-      <input type="radio" value="Connections" />
-      <span>Connections</span>
-      <input type="radio" value="Organization" />
-      <span>Organization</span>
-    </div>
-    <div class="pfp-container">
-      <img class="user-pfp" :src="pictureLink" />
-    </div>
-    <input v-model="postContent" class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
-    <button @click="createPost()" class="post-button">Post</button>
-  </div>
+  </form>
 </template>
 
 <script>
@@ -22,7 +21,7 @@ export default {
   props: ["firstname", "pictureLink"],
   data() {
     return {
-      showVisibilityOptions: false,
+      visibilityPost: "Organization",
       postContent: "",
       submitMessage: "",
     };
@@ -32,6 +31,7 @@ export default {
       const postObj = {
         creatorID: this.$store.getters.loggedUserID,
         contentString: this.postContent,
+        visibilityPost: this.visibilityPost,
       };
 
       try {
@@ -46,6 +46,9 @@ export default {
       }
 
       console.log(this.submitMessage);
+    },
+    toogleVisibility(e) {
+      this.visibilityPost = e.srcElement.value;
     },
     toggleVisibilityOptions() {
       this.showVisibilityOptions = !this.showVisibilityOptions;

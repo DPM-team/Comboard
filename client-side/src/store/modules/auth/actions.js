@@ -18,16 +18,25 @@ export default {
         .then((response) => {
           return response.json();
         })
-        .then((data) => {
+        .then(async (data) => {
           if (data.error) {
             error = new Error(data.error);
           } else {
             localStorage.setItem("userID", data.userObj._id);
             localStorage.setItem("token", data.generatedToken);
+            localStorage.setItem("name", data.userObj.name);
 
             context.commit("setUser", {
               userID: data.userObj._id,
               token: data.generatedToken,
+            });
+
+            const profilePhoto = await fetch(`/api/users/${data.userObj._id}/profilePhoto`);
+
+            const photo = await profilePhoto.text();
+
+            context.commit("setProfilePhoto", {
+              photo,
             });
           }
         });

@@ -1,29 +1,17 @@
 <template>
-  <organization-page-tab @scroll="scrollFiles" :layout="'block'">
-    <upload-file-button @change="getData"></upload-file-button>
-
+  <organization-page-tab :layout="'block'" @scroll="handleScroll()" ref="filesTab">
+    <upload-file-button @fileData="getData"></upload-file-button>
     <div class="load-file">
-      <p class="chosen-file">{{ this.selectedFile?.name || "No file chosen" }}</p>
-      <base-spinner v-if="spinnerFile"></base-spinner>
+      <base-spinner v-if="loadingUploadedFile"></base-spinner>
+      <p v-else class="chosen-file">{{ selectedFile?.name || "No file chosen" }}</p>
     </div>
-
     <div class="files-container">
-      <ul class="file-ul">
-        <div v-if="this.$store.getters.getFiles.length === 0 && this.loaddingFiles" class="file-ul">
-          <file-item v-for="i in 4" :key="i" :spinner="true"></file-item>
-        </div>
-        <p v-else-if="this.$store.getters.getFiles.length === 0 && !this.loaddingFiles">No Files</p>
-        <file-item
-          v-else-if="this.files.length > 0 && !this.loaddingFiles"
-          v-for="(file, i) in files"
-          @dblclick="openFile(`/api/users/${this.$store.getters.loggedUserID}/file/${file._id}`)"
-          :key="i"
-          :icon="getIcon(i)"
-          :src="`/api/users/${this.$store.getters.loggedUserID}/file/${file._id}`"
-          :name="file.name"
-        ></file-item>
+      <base-spinner v-if="loadingFiles"></base-spinner>
+      <p v-else-if="files.length === 0 && !loadingFiles" class="empty-message">No Files</p>
+      <ul class="file-ul" v-else>
+        <file-item v-for="file in files" :key="file._id" :id="file._id" :name="file.name" :type="file.type"></file-item>
       </ul>
-      <base-spinner v-if="this.spinnerScroll"></base-spinner>
+      <base-spinner v-if="loadingMoreFiles"></base-spinner>
     </div>
   </organization-page-tab>
 </template>
@@ -33,94 +21,84 @@ import BaseSpinner from "../../basic-components/BaseSpinner.vue";
 import OrganizationPageTab from "../../layout/pages/organization/OrganizationPageTab.vue";
 import FileItem from "./FileItem.vue";
 import UploadFileButton from "./UploadFileButton.vue";
+
 export default {
-  components: {
-    FileItem,
-    OrganizationPageTab,
-    UploadFileButton,
-    BaseSpinner,
-  },
-  async created() {
-    await this.$store.dispatch("getFiles", {
-      skip: 0,
-    });
-
-    this.files = this.$store.getters.getFiles;
-
-    this.skip = this.$store.getters.getFiles.length;
-
-    this.loaddingFiles = false;
-  },
-
+  components: { FileItem, OrganizationPageTab, UploadFileButton, BaseSpinner },
   data() {
     return {
-      loaddingFiles: true,
-      files: [],
       selectedFile: null,
-      skip: 0,
-      spinnerFile: false,
-      spinnerScroll: false,
+      files: [],
+      limit: 12,
+      page: 1,
+      loadingUploadedFile: false,
+      loadingFiles: false,
+      loadingMoreFiles: false,
+      moreFilesExists: false,
     };
   },
-  // computed: {
-  //   elementScreen(e) {
-  //     let boundaries = e.getBoundaryClientRect();
-  //     if (
-  //       (boundaries.top >= 0 && boundaries.left >= 0 && boundaries.bottom <= window.innerHeight) ||
-  //       (document.documentElement && boundaries.rigth <= (window.innerWidth || document.documentElement.clientWidth))
-  //     ) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   },
-  // },
   methods: {
-    getIcon(ind) {
-      if (this.files[ind].type === "application/pdf") {
-        console.log("efzd");
-        return "fa-regular fa-file-pdf";
-      } else if (this.files[ind].type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-        return "fa-regular fa-file-word";
-      } else if (this.files[ind].type === "xls") {
-        return "fa-regular fa-file-excel";
-      } else if (this.files[ind].type === "image/jpeg") {
-        console.log("");
-        return ["far", "image"];
-      }
-    },
-
     //Insert into selected file the object of file.
-    async getData(e) {
-      this.spinnerFile = true;
-      this.selectedFile = e.srcElement.files[0];
+    async getData(value) {
+      this.loadingUploadedFile = true;
+      this.selectedFile = value;
 
-      await this.$store.dispatch("upload", { file: this.selectedFile });
-      this.spinnerFile = false;
-      setTimeout(() => {
-        this.selectedFile = null;
-      }, 4000);
-    },
-    async scrollFiles(e) {
-      if (e.srcElement.offsetHeight + e.srcElement.scrollTop >= e.srcElement.scrollHeight) {
-        this.spinnerScroll = true;
-
-        await this.$store.dispatch("getFiles", {
-          skip: this.skip,
+      try {
+        const successData = await this.$store.dispatch("storageFileUpload", {
+          userID: this.$store.getters.loggedUserID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+          file: this.selectedFile,
         });
 
-        if (this.$store.getters.getNextFiles.length === 0) {
-          this.spinnerScroll = false;
-          return;
+        console.log(successData);
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
+
+      this.loadingUploadedFile = false;
+      setTimeout(() => {
+        this.selectedFile = null;
+      }, 3000);
+    },
+    async loadFiles() {
+      try {
+        const successData = await this.$store.dispatch("getFiles", {
+          userID: this.$store.getters.loggedUserID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+          page: this.page,
+          limit: this.limit,
+        });
+
+        this.files = [...this.files, ...successData.files];
+
+        if (successData.totalFiles <= this.limit * this.page) {
+          this.moreFilesExists = false;
         } else {
-          this.skip = this.$store.getters.getFiles.length;
+          this.moreFilesExists = true;
+        }
+
+        this.page++;
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
+    },
+    async handleScroll() {
+      if (!this.loadingMoreFiles && this.moreFilesExists) {
+        const container = this.$refs.filesTab.$el; // get the container element
+        const scrollPosition = container.scrollHeight - container.scrollTop - container.clientHeight;
+        // calculate the scroll position relative to the bottom of the container
+
+        if (scrollPosition === 0) {
+          this.loadingMoreFiles = true;
+          await this.loadFiles();
+          this.loadingMoreFiles = false;
         }
       }
     },
-
-    openFile(file) {
-      window.open(file, "_blank");
-    },
+  },
+  async created() {
+    this.loadingFiles = true;
+    await this.loadFiles();
+    this.loadingFiles = false;
   },
 };
 </script>
@@ -147,6 +125,10 @@ export default {
   list-style-type: none;
   width: 100%;
   justify-content: center;
+}
+
+.empty-message {
+  text-align: center;
 }
 
 /* Responsiveness */

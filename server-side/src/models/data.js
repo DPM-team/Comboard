@@ -56,10 +56,10 @@ const dataSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   }),
-  personalTasks: {
+  taskBoards: new Array({
     type: mongoose.Schema.Types.ObjectId,
     ref: "taskBoard",
-  },
+  }),
   files: new Array({
     type: mongoose.Schema.Types.ObjectId,
     ref: "file",

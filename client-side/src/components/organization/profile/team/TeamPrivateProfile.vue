@@ -47,6 +47,7 @@
 <script>
 import OrganizationPageHeader from "../../../layout/headers/OrganizationPageHeader.vue";
 import ButtonOptionsItemList from "../ButtonOptionsItemList.vue";
+
 export default {
   components: { OrganizationPageHeader, ButtonOptionsItemList },
   props: ["teamID"],

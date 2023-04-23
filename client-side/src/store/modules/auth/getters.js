@@ -11,4 +11,8 @@ export default {
     // We do this convert because we want to return a Boolean value and not null or number
     return !!state.loggedUserToken;
   },
+
+  userImage(state) {
+    return state.userImage;
+  },
 };

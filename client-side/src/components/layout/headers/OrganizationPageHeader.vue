@@ -21,7 +21,7 @@
           <li @click="toggleUserOptions" class="header-li">
             <a class="header-a"
               ><div class="img-container">
-                <img class="user-icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s" /></div
+                <img class="user-icon" :src="`${this.$store.getters.userImage}`" /></div
             ></a>
           </li>
           <li class="header-li" @click="toggleMobileOptionsMenu">

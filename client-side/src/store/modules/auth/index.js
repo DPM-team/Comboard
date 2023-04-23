@@ -7,6 +7,7 @@ const authModule = {
     return {
       loggedUserID: null,
       loggedUserToken: null,
+      userImage: null,
     };
   },
   mutations,
