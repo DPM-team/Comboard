@@ -13,6 +13,7 @@ const teamRouter = require("../routers/team.js");
 const projectRouter = require("../routers/project.js");
 const organizationRouter = require("../routers/organization.js");
 const connectionRouter = require("../routers/connections.js");
+const tasksRouter = require("../routers/tasks.js");
 const errorRouter = require("../routers/error.js");
 
 const app = express();
@@ -37,6 +38,7 @@ app.use(teamRouter);
 app.use(projectRouter);
 app.use(organizationRouter);
 app.use(userRouter);
+app.use(tasksRouter);
 // This must be the last
 app.use(errorRouter);
 
