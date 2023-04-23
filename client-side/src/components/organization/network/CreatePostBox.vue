@@ -4,9 +4,9 @@
       <font-awesome-icon @click="toggleVisibilityOptions" class="visibility-button" :icon="['fas', 'earth-europe']" />
     </div>
     <div v-if="showVisibilityOptions" class="visibilty-options">
-      <input type="radio" value="Connections" />
+      <input type="radio" name="visibility" value="Connections" />
       <span>Connections</span>
-      <input type="radio" value="Organization" />
+      <input type="radio" name="visibility" value="Organization" />
       <span>Organization</span>
     </div>
     <div class="pfp-container">
