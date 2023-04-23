@@ -1,6 +1,7 @@
 const Post = require("../models/post.js");
 const Data = require("../models/data.js");
 const User = require("../models/user.js");
+const Organization = require("../models/organization.js");
 const userUtils = require("../utils/userUtils.js");
 
 // Create a post for a user
@@ -177,9 +178,71 @@ const isLiked = async (req, res) => {
   }
 };
 
+const createComment = async (req, res) => {
+  try {
+    const userCreator = req.user;
+
+    const userData = await Data.findOne({
+      userID: userCreator._id,
+      organizationID: req.orgId,
+    });
+
+    if (!userData) {
+      throw new Error("v");
+    }
+
+    await userData.populate({ path: "organizationID", model: "organization" });
+
+    const post = await Post.findOne({ _id: req.params.postId });
+
+    post.comments.push({
+      userID: userData.userID,
+      content: req.body.content,
+      commenter: userCreator.name + " " + userCreator.surname,
+    });
+
+    await post.save();
+
+    res.status(201).send();
+  } catch (e) {
+    console.log(e);
+    res.status(400).send(e);
+  }
+};
+
+const commentsOfPost = async (req, res) => {
+  try {
+    const userData = await Data.findOne({
+      userID: req.user._id,
+      organizationID: req.query.orgId,
+    });
+
+    if (!userData) {
+      throw new Error("");
+    }
+
+    await userData.populate({ path: "organizationID", model: "organization", populate: { path: "posts", model: "post" } });
+
+    if (!userData.posts.includes(req.params.postId) || !userData.organizationID.posts.includes(req.params.postIds)) {
+      throw new Error();
+    }
+
+    const post = await Post.findOne({ _id: req.params.postId });
+
+    await post.save();
+
+    res.status(201).send();
+  } catch (e) {
+    console.log(e);
+    res.status(400).send(e);
+  }
+};
+
 module.exports = {
   createPost,
   getPosts,
   toogleUserLike,
   isLiked,
+  createComment,
+  commentsOfPost,
 };

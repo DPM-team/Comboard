@@ -101,13 +101,18 @@ router.get("/api/users/:id/profilephoto", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
-    if (!user || !user.profilePhoto) {
+    if (!user) {
       throw new Error("No user");
+    }
+
+    if (!user.profilePhoto) {
+      throw new Error("No photo");
     }
     res.set("Content-Type", "image/png");
     res.send(user.profilePhoto);
   } catch (error) {
-    res.status(400).send();
+    console.log(error);
+    res.status(400).send(error);
   }
 });
 

@@ -118,4 +118,38 @@ export default {
       throw new Error(error.message || "Failed to toogle like.");
     }
   },
+
+  async createComment(context, payload) {
+    try {
+      const requestOptions = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+          AuthorizationOrg: `${context.rootGetters.selectedOrganizationID}`,
+        },
+        body: JSON.stringify({ context: payload.content }),
+        redirect: "follow",
+      };
+
+      await fetch(`/api/post/${payload.postID}/createComment`, requestOptions);
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
+
+  async loadCommentOfPost(context, payload) {
+    try {
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loginUserToken}`,
+        },
+      };
+
+      await fetch(`/api/post/${payload}/comments?${context.rootGetters.selectedOrganizationID}`, requestOptions);
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
 };

@@ -2,13 +2,7 @@
   <div class="connection-sug-list">
     <h2>{{ title }}</h2>
     <ul>
-      <connection-suggestion-item
-        v-for="member in fellowOrgMembers"
-        :key="member.id"
-        :firstname="member.name"
-        :lastname="member.surname"
-        :pictureLink="member.pictureLink"
-      ></connection-suggestion-item>
+      <connection-suggestion-item v-for="member in fellowOrgMembers" :key="member.id" :firstname="member.name" :lastname="member.surname" :pictureLink="member.picturLink"></connection-suggestion-item>
     </ul>
   </div>
 </template>
@@ -20,6 +14,9 @@ export default {
   async created() {
     try {
       this.fellowOrgMembers = await this.$store.dispatch("recommentedConnections");
+      this.fellowOrgMembers.forEach((member) => {
+        member.pictureLink = `/api/users/${member.id}/profilePhoto`;
+      });
     } catch (e) {
       this.error = e;
     }

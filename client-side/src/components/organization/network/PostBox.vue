@@ -17,8 +17,10 @@
     </div>
     <div v-if="showCommentSection" class="comment-section">
       <div class="write-comment">
-        <input class="write-comment-input" type="text" name="write-comment" placeholder="Leave a comment.." />
-        <font-awesome-icon class="post-comment-button" :icon="['fas', 'paper-plane']" />
+        <form>
+          <input class="write-comment-input" type="text" name="write-comment" placeholder="Leave a comment.." ref="createComment" />
+          <font-awesome-icon class="post-comment-button" type="submit" :icon="['fas', 'paper-plane']" @click="createComment" />
+        </form>
       </div>
       <comment-item
         v-for="comment in commentsDummy"
@@ -127,6 +129,25 @@ export default {
     },
     writeComment() {
       this.showCommentSection = !this.showCommentSection;
+      try {
+        this.$store.dispatch("", {
+          postID: this.id,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async createComment() {
+      let comment = this.$refs.createComment.value;
+
+      try {
+        await this.$store.dispatch("createComment", {
+          content: comment,
+          postID: this.id,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   created() {
