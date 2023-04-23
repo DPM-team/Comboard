@@ -145,7 +145,11 @@ export default {
         },
       };
 
-      await fetch(`/api/post/${payload.postID}/comments?orgID=${context.rootGetters.selectedOrganizationID}`, requestOptions);
+      const response = await fetch(`/api/post/${payload.postID}/comments?orgID=${context.rootGetters.selectedOrganizationID}`, requestOptions);
+
+      const comments = await response.json();
+
+      return comments;
     } catch (e) {
       throw new Error(e);
     }

@@ -2,15 +2,15 @@
   <div class="comment-box">
     <div class="image-name-container">
       <div class="pfp-container"><img class="user-pfp" :src="pictureLink" /></div>
-      <h2>{{ firstname }} {{ lastname }}</h2>
+      <h2>{{ commenter }}</h2>
     </div>
-    <p>{{ description }}</p>
+    <p>{{}}</p>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["description", "firstname", "lastname", "pictureLink"],
+  props: ["", "commenter", "pictureLink"],
 };
 </script>
 

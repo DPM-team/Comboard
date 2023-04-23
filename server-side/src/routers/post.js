@@ -19,6 +19,6 @@ router.get("/api/post/isliked", authentication, postControllers.isLiked);
 
 router.put("/api/post/:postId/createComment", authentication, authenticationOrg, postControllers.createComment);
 
-router.get("/api/post/:postId/comments", authentication, postControllers.commentsOfPost);
+router.get("/api/post/:postID/comments", authentication, postControllers.commentsOfPost);
 
 module.exports = router;
