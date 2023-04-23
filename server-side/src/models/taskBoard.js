@@ -6,10 +6,10 @@ const taskBoardSchema = mongoose.Schema({
     required: true,
     trim: true,
   },
-  taskBoardListLists: {
+  taskBoardListLists: new Array({
     type: mongoose.Schema.Types.ObjectId,
     ref: "taskBoardList",
-  },
+  }),
 });
 
 const TaskBoard = mongoose.model("taskBoard", taskBoardSchema);

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import TeamItem from "../teams/TeamItem.vue";
+import TeamItem from "../../teams/TeamItem.vue";
 export default {
   components: { TeamItem },
   data() {

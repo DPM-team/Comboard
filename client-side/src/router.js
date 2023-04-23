@@ -23,17 +23,18 @@ import CreateTeam from "./components/organization/teams/CreateTeam.vue";
 import StorageTab from "./components/organization/storage/StorageTab.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
 import NotFoundPage from "./components/pages/NotFoundPage.vue";
-import UserProfile from "./components/organization/profile/UserProfile.vue";
+import UserProfile from "./components/organization/profile/user/UserProfile.vue";
 import UserDashboardProfile from "./components/dashboard/UserDashboardProfile.vue";
-import UserProfilePosts from "./components/organization/profile/UserProfilePosts.vue";
-import UserProfileConnections from "./components/organization/profile/UserProfileConnections.vue";
-import UserProfileSettings from "./components/organization/profile/UserProfileSettings.vue";
+import UserProfilePosts from "./components/organization/profile/user/UserProfilePosts.vue";
+import UserProfileConnections from "./components/organization/profile/user/UserProfileConnections.vue";
+import UserProfileSettings from "./components/organization/profile/user/UserProfileSettings.vue";
 import HelpPage from "./components/dashboard/HelpPage.vue";
-import UserProfileTeams from "./components/organization/profile/UserProfileTeams.vue";
-import UserProfileProjects from "./components/organization/profile/UserProfileProjects.vue";
-import TeamPrivateProfile from "./components/organization/profile/TeamPrivateProfile.vue";
-import TeamPublicProfile from "./components/organization/profile/TeamPublicProfile.vue";
+import UserProfileTeams from "./components/organization/profile/user/UserProfileTeams.vue";
+import UserProfileProjects from "./components/organization/profile/user/UserProfileProjects.vue";
+import TeamPrivateProfile from "./components/organization/profile/team/TeamPrivateProfile.vue";
+import TeamPublicProfile from "./components/organization/profile/team/TeamPublicProfile.vue";
 import CreateProject from "./components/organization/projects/CreateProject.vue";
+import OrganizationPrivateProfile from "./components/organization/profile/organization/OrganizationPrivateProfile.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -148,6 +149,10 @@ const router = createRouter({
           component: UserProfileSettings,
         },
       ],
+    },
+    {
+      path: "/organization/my-organization",
+      component: OrganizationPrivateProfile,
     },
     {
       path: "/organization/team-private/:teamID",
