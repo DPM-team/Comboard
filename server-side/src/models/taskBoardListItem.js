@@ -6,6 +6,14 @@ const taskBoardListItemSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    fromDate: {
+      type: Date,
+      required: false,
+    },
+    toDate: {
+      type: Date,
+      required: false,
+    },
   },
   {
     timestamps: true,
