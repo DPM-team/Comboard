@@ -130,7 +130,7 @@ export default {
     writeComment() {
       this.showCommentSection = !this.showCommentSection;
       try {
-        this.$store.dispatch("", {
+        this.$store.dispatch("loadCommentsOfPost", {
           postID: this.id,
         });
       } catch (e) {

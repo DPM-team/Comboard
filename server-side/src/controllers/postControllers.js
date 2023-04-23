@@ -18,6 +18,10 @@ const createPost = async (req, res) => {
       return res.status(400).json({ error: "Post's creator (userID) is required field!" });
     }
 
+    if (!postObj?.visibilityPost) {
+      return res.status(400).json({ error: "Post's visibility is required field!" });
+    }
+
     if (!organizationID) {
       return res.status(400).json({ error: "The organization that the post belongs to (organizationID), is required field!" });
     }
@@ -45,10 +49,14 @@ const createPost = async (req, res) => {
     // Save the post to the database
     const createdPost = await post.save();
 
-    // Save the new added post to he user's organization posts
-    userOrgData.posts.push(createdPost._id);
-
-    await userOrgData.save();
+    if (postObj.visibilityPost === "Organization") {
+      await userOrgData.populate({ path: "organizationID", model: "" });
+      userOrgData.organizationID.posts.push(createdPost._id); // Save the new added post to user's organization posts all the members can see this
+      await userOrgData.organizationID.save();
+    } else {
+      userOrgData.posts.push(createdPost._id); // Save the new assed post to user's post connections can see this
+      await userOrgData.save();
+    }
 
     res.status(201).json({ successMessage: "Post is created with success!", createdPost });
   } catch (error) {
@@ -214,11 +222,11 @@ const commentsOfPost = async (req, res) => {
   try {
     const userData = await Data.findOne({
       userID: req.user._id,
-      organizationID: req.query.orgId,
+      organizationID: req.query.orgID,
     });
 
     if (!userData) {
-      throw new Error("");
+      throw new Error();
     }
 
     await userData.populate({ path: "organizationID", model: "organization", populate: { path: "posts", model: "post" } });

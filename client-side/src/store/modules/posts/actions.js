@@ -136,16 +136,16 @@ export default {
     }
   },
 
-  async loadCommentOfPost(context, payload) {
+  async loadCommentsOfPost(context, payload) {
     try {
       const requestOptions = {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${context.rootGetters.loginUserToken}`,
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
         },
       };
 
-      await fetch(`/api/post/${payload}/comments?${context.rootGetters.selectedOrganizationID}`, requestOptions);
+      await fetch(`/api/post/${payload.postID}/comments?orgID=${context.rootGetters.selectedOrganizationID}`, requestOptions);
     } catch (e) {
       throw new Error(e);
     }
