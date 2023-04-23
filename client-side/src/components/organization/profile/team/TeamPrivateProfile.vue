@@ -1,44 +1,54 @@
 <template>
   <div>
     <organization-page-header><button class="rtn-button">Return to Dashboard</button><font-awesome-icon class="back-icon" :icon="['fas', 'circle-chevron-left']" /></organization-page-header>
-    <div>
+    <div v-if="teamObj">
       <router-view name="dialog"></router-view>
       <div class="team-page-container">
         <div class="left-col">
           <h1 class="team-name">
             <!-- Blue highlight effect -->
-            <span class="highlight">Team name</span>
+            <span class="highlight">{{ teamObj.name }}</span>
           </h1>
-          <p>{{ bio }}</p>
-          <h2>{{ supervisorName }}</h2>
+          <form enctype="multipart/form-data" class="personal-information" action="" method="post">
+            <h2>Update your teams profile</h2>
+            <h3>Param: {{ teamID }}</h3>
+            <div class="inputBox">
+              <span class="input-title">Team name</span>
+              <input type="text" name="teamName" class="" value="" :placeholder="teamObj.name" required />
+            </div>
+            <span class="input-title">Supervisor id</span>
+            <h3>{{ teamObj.supervisor }}</h3>
+            <div class="inputBox">
+              <span class="input-title">Description</span>
+              <textarea type="text" name="description" value="" :placeholder="teamObj.description" />
+            </div>
+            <div class="inputBox">
+              <input type="submit" name="submit-non-sensitive" value="Save" />
+            </div>
+          </form>
         </div>
         <div class="right-col">
-          <div class="projects-list">
-            <h2>Projects of teamName</h2>
-            <ul>
-              <button-options-item-list v-for="project in projects" :key="project.id" :text="project.title" :isPrivateProfile="false"></button-options-item-list>
-            </ul>
-          </div>
-
+          <h3 class="create-project-title">Create a project for {{ teamObj.name }}</h3>
+          <router-link class="router-button" :to="createProjectLink()">Create Project</router-link>
           <h4 class="search-area-demo">Search area</h4>
           <div class="members-list">
             <h2>Team members</h2>
             <ul>
-              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false"></button-options-item-list>
+              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="true"></button-options-item-list>
             </ul>
           </div>
         </div>
       </div>
     </div>
+    <h3 v-else>{{ errorMessage }}</h3>
   </div>
 </template>
 
 <script>
-import BaseButton from "../../basic-components/BaseButton.vue";
-import OrganizationPageHeader from "../../layout/headers/OrganizationPageHeader.vue";
-import ButtonOptionsItemList from "./ButtonOptionsItemList.vue";
+import OrganizationPageHeader from "../../../layout/headers/OrganizationPageHeader.vue";
+import ButtonOptionsItemList from "../ButtonOptionsItemList.vue";
 export default {
-  components: { OrganizationPageHeader, BaseButton, ButtonOptionsItemList },
+  components: { OrganizationPageHeader, ButtonOptionsItemList },
   props: ["teamID"],
   data() {
     return {
@@ -50,27 +60,31 @@ export default {
         { id: 3, fullname: "Minas Charakopoulos" },
         { id: 4, fullname: "Giorgos Stefou" },
       ],
-      projects: [
-        { id: 1, title: "Frontend" },
-        { id: 2, title: "Backend" },
-      ],
-      bio: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.",
-      supervisorName: "Chatzigeorgiou Alexander",
     };
+  },
+  methods: {
+    async loadTeamData() {
+      try {
+        this.teamObj = await this.$store.dispatch("getTeamData", { teamID: this.teamID });
+        this.errorMessage = "";
+      } catch (error) {
+        this.errorMessage = error.message || "Something went wrong!";
+      }
+    },
+    createProjectLink() {
+      return {
+        name: "create-project",
+        params: { teamID: this.teamID },
+      };
+    },
+  },
+  created() {
+    this.loadTeamData();
   },
 };
 </script>
 <style scoped>
-.left-col p {
-  text-align: center;
-  font-size: 18px;
-  padding: 20px;
-}
-.left-col h2 {
-  text-align: center;
-}
-.members-list,
-.projects-list {
+.members-list {
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   width: 250px;

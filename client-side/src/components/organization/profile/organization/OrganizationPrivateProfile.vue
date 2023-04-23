@@ -3,45 +3,67 @@
     <organization-page-header><button class="rtn-button">Return to Dashboard</button><font-awesome-icon class="back-icon" :icon="['fas', 'circle-chevron-left']" /></organization-page-header>
     <div class="header__wrapper">
       <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
-      <div class="cols__container">
-        <div class="left__col">
-          <div class="img__container">
-            <img :src="pfp" alt="User Profile Pic" />
-            <span></span>
+    </div>
+    <div class="img__container">
+      <img :src="pfp" alt="User Profile Pic" />
+      <span></span>
+    </div>
+    <div class="main-area">
+      <div class="settings">
+        <h2>Organization name</h2>
+        <form enctype="multipart/form-data" class="personal-information" action="" method="post">
+          <h2>Update your profile</h2>
+          <div class="inputBox">
+            <input type="text" name="firstname" class="" value="" required />
+            <span>First name</span>
           </div>
-          <h2 class="name">{{ firstname }} {{ lastname }}</h2>
-          <h4 class="location">{{ location }}</h4>
-          <p class="bio">{{ bio }}</p>
-          <div class="content">
-            <ul class="profile-ul">
-              <a :href="phoneLink"><font-awesome-icon class="icon" :icon="['fas', 'phone']" /></a>
-              <a :href="mailLink"><font-awesome-icon class="icon" :icon="['fas', 'envelope']" /></a>
-              <a :href="linkedinLink" target="_blank"> <font-awesome-icon class="icon" :icon="['fab', 'linkedin']" /></a>
-            </ul>
-            <base-button>Organization Profile</base-button>
+          <div class="inputBox">
+            <input type="text" name="lastname" class="" value="" required />
+            <span>Last name</span>
           </div>
-        </div>
-        <div class="right__col">
-          <div class="menu-ul">
-            <router-link class="link" to="/organization/my-profile/posts">Posts</router-link>
-            <router-link class="link" to="/organization/my-profile/connections">Connections</router-link>
-            <router-link class="link" to="/organization/my-profile/settings">Settings</router-link>
-            <router-link v-if="false" class="link" to="/organization/user/teams">Teams</router-link>
-            <router-link v-if="false" class="link" to="/organization/user/projects">Projects</router-link>
-            <base-button v-if="false">Add connection</base-button>
+          <div class="inputBox">
+            <input type="text" name="phone" class="" value="" required />
+            <span>Phone</span>
           </div>
-          <router-view></router-view>
-        </div>
+          <div class="inputBox">
+            <input type="email" name="email" class="" value="" required />
+            <span>Email</span>
+          </div>
+          <div class="inputBox">
+            <input type="text" name="linkedin" value="" />
+            <span>LinkedIn</span>
+          </div>
+          <div class="inputBox">
+            <input type="text" name="location" value="" />
+            <span>Location</span>
+          </div>
+          <div class="inputBox">
+            <textarea type="text" name="Bio" value="" />
+            <span>Bio</span>
+          </div>
+          <div class="inputBox">
+            <input type="file" name="profile-picture" value="" />
+            <span>Profile picture</span>
+          </div>
+          <div class="inputBox">
+            <input type="file" name="profile-banner" value="" />
+            <span>Profile banner</span>
+          </div>
+          <div class="inputBox">
+            <input type="submit" name="submit-non-sensitive" value="Save" id="submit-non-sensitive" />
+          </div>
+        </form>
       </div>
+      <div><button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="true"></button-options-item-list></div>
     </div>
   </div>
 </template>
 <script>
-import BaseButton from "../../basic-components/BaseButton.vue";
-import OrganizationPageHeader from "../../layout/headers/OrganizationPageHeader.vue";
+import OrganizationPageHeader from "../../../layout/headers/OrganizationPageHeader.vue";
+import ButtonOptionsItemList from "../ButtonOptionsItemList.vue";
 
 export default {
-  components: { OrganizationPageHeader, BaseButton },
+  components: { OrganizationPageHeader, ButtonOptionsItemList },
   data() {
     return {
       userID: "",
@@ -55,6 +77,12 @@ export default {
       bio: "Hello fellow Uom Members, I am Dionisis and I am a senior at the Uom Computer Science Dept.",
       pfp: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
       backgroundImage: "https://img.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg?w=2000",
+      members: [
+        { id: 1, fullname: "Dionisis Lougaris" },
+        { id: 2, fullname: "Panos Machairas" },
+        { id: 3, fullname: "Minas Charakopoulos" },
+        { id: 4, fullname: "Giorgos Stefou" },
+      ],
     };
   },
   created() {
@@ -66,6 +94,93 @@ export default {
 };
 </script>
 <style scoped>
+.settings {
+  padding-top: 20px;
+  padding-bottom: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 50%;
+}
+.settings,
+.sensitive-information {
+  margin-left: 2%;
+}
+.personal-information {
+  width: 90%;
+  padding: 20px;
+  background: white;
+}
+
+.personal-information h2 {
+  font-size: 28px;
+  color: var(--color-fourth);
+  font-weight: 600;
+}
+
+.personal-information .inputBox {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.personal-information .inputBox input[type="text"],
+.personal-information .inputBox input[type="email"],
+.personal-information .inputBox input[type="password"],
+.personal-information .inputBox textarea {
+  width: 100%;
+  padding: 5px 0;
+  font-size: 16px;
+  margin: 10px 0;
+  border: none;
+  border-bottom: 2px solid var(--color-fourth);
+  outline: none;
+  resize: none;
+}
+.personal-information .inputBox input[type="file"] {
+  width: 100%;
+  padding: 5px 0;
+  font-size: 16px;
+  margin: 10px 0;
+  border: none;
+
+  outline: none;
+  resize: none;
+}
+
+.personal-information .inputBox span {
+  position: absolute;
+  left: 0;
+  padding: 5px 0;
+  font-size: 16px;
+  margin: 10px 0;
+  pointer-events: none;
+  transition: 0.5s;
+  color: #666;
+}
+
+.personal-information .inputBox input:focus ~ span,
+.personal-information .inputBox input:valid ~ span,
+.personal-information .inputBox textarea:focus ~ span,
+.personal-information .inputBox textarea:valid ~ span {
+  color: var(--color-primary);
+  font-size: 12px;
+  transform: translateY(-20px);
+}
+
+.personal-information .inputBox input[type="submit"] {
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: white;
+  cursor: pointer;
+}
+
+.personal-information .inputBox input[type="submit"]:hover,
+.personal-information .inputBox input[type="submit"]:active {
+  background-color: #000875;
+  border-color: #000875;
+}
 .back-icon {
   position: absolute;
   top: 15px;
@@ -124,38 +239,24 @@ export default {
   text-decoration: none;
 }
 
-.header__wrapper .cols__container .left__col {
-  padding: 25px 20px;
-  text-align: center;
-  max-width: 350px;
-  position: relative;
-  margin: 0 auto;
+.img__container {
+  display: flex;
+  justify-content: center;
 }
 
-.header__wrapper .cols__container .left__col .img__container {
-  position: absolute;
-  top: -60px;
-  left: 50%;
-  transform: translatex(-50%);
-}
-.header__wrapper .cols__container .left__col .img__container img {
-  width: 140px;
-  height: 140px;
+.img__container img {
+  width: 200px;
+  height: 200px;
   object-fit: cover;
   border-radius: 50%;
-  display: block;
+  display: inline-block;
   box-shadow: 1px 3px 12px rgba(0, 0, 0, 0.18);
+  margin-top: -70px;
 }
-.header__wrapper .cols__container .left__col .img__container span {
-  position: absolute;
-  background: #2afa6a;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  bottom: 3px;
-  right: 11px;
-  border: 2px solid #fff;
+
+.main-area {
 }
+
 .name {
   margin-top: 70px;
   font-weight: 600;
