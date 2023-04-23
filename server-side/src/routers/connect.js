@@ -9,13 +9,13 @@ const fieldsAreMissing = require("../validation/fields-are-missing");
 const router = new express.Router();
 
 router.post("/api/register", async (req, res) => {
-  const userObj = new User(req.body);
   try {
+    const userObj = new User(req.body);
     await userObj.save();
     const generatedToken = await userObj.generateAuthenticationToken();
-    res.status(201).send({ userObj, generatedToken });
+    res.status(201).json({ userObj, generatedToken });
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 });
 
@@ -30,9 +30,9 @@ router.post("/api/login", async (req, res) => {
 
     const userObj = await User.checkCredentials(req.body.username, req.body.password);
     const generatedToken = await userObj.generateAuthenticationToken();
-    res.status(200).send({ userObj, generatedToken });
+    res.status(200).json({ userObj, generatedToken });
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 });
 

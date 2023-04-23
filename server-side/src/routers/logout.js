@@ -1,5 +1,4 @@
 const express = require("express");
-const User = require("../models/user");
 const authentication = require("../middleware/authentication");
 
 const router = new express.Router();
@@ -11,9 +10,9 @@ router.post("/api/logout", authentication, async (req, res) => {
       return tokenObj.token !== req.token;
     });
     await req.user.save();
-    res.status(200).send({ message: "You have logged out!!!" });
+    res.status(200).json({ message: "You have logged out!" });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -22,9 +21,9 @@ router.post("/api/logoutAll", authentication, async (req, res) => {
   try {
     req.user.tokens = [];
     await req.user.save();
-    res.status(200).send({ message: "You have logged out from all devices!!!" });
+    res.status(200).json({ message: "You have logged out from all devices!" });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({ error: error.message });
   }
 });
 

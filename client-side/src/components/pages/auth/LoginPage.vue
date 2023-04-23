@@ -7,7 +7,7 @@
         <h4 style="padding-bottom: 10px">Sign in to your account</h4>
       </auth-header>
       <auth-form-input @data="getUsername" id="username" type="text" name="username" placeholder="Username" required />
-      <auth-form-input @data="getPassword" id="password" type="password" name="password" placeholder="Password" :minLength="8" required />
+      <auth-form-input @data="getPassword" id="password" type="password" name="password" placeholder="Password" required />
       <router-link id="forgot-password--link-login" to="/retrieve-password/step-1">Forgot Password?</router-link>
       <auth-form-input id="login-btn" type="submit" name="submit" value="Login" />
     </auth-form>
@@ -42,20 +42,12 @@ export default {
   methods: {
     async submitLoginForm() {
       try {
-        // Call login action from Auth module
-        // We want await because we need to finish first the api call. We need to wait for call to end
-        await this.$store
-          .dispatch("login", {
-            username: this.username,
-            password: this.password,
-          })
-          .then((response) => {
-            if (response instanceof Error) {
-              throw response;
-            }
+        await this.$store.dispatch("login", {
+          username: this.username,
+          password: this.password,
+        });
 
-            this.$router.push("/dashboard");
-          });
+        this.$router.push("/dashboard");
       } catch (error) {
         this.errorMessage = error.message || "Failed to authenticate.";
       }

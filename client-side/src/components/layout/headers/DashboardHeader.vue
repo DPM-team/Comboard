@@ -36,10 +36,13 @@ export default {
         }
       });
     },
-    logout() {
-      this.$store.dispatch("logout");
-      this.$store.dispatch("removeSelectedOrganization");
-      this.$router.push("/");
+    async logout() {
+      try {
+        await this.$store.dispatch("logout");
+        this.$router.push("/");
+      } catch (error) {
+        console.log(error.message || "Failed to logout.");
+      }
     },
   },
 };
