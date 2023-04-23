@@ -10,8 +10,9 @@
     </div>
     <div class="like-comment-container">
       <p>
-        <b>{{ likesNum }}</b> people like this post
+        <b>{{ likesNum }}</b> likes <b>{{ commentsNum }}</b> comments
       </p>
+
       <font-awesome-icon @click="toogleLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
       <font-awesome-icon @click="writeComment" class="post-icon" icon="fa-regular fa-comment" />
     </div>
@@ -22,14 +23,7 @@
           <font-awesome-icon class="post-comment-button" type="submit" :icon="['fas', 'paper-plane']" @click="createComment" />
         </form>
       </div>
-      <comment-item
-        v-for="comment in commentsDummy"
-        :key="comment.id"
-        :description="comment.description"
-        :firstname="comment.firstname"
-        :lastname="comment.lastname"
-        :pictureLink="comment.pictureLink"
-      ></comment-item>
+      <comment-item v-for="comment in nextComments" :key="comment._id" :comment="comment.content" :commenter="comment.commenter" :pictureLink="comment.pictureLink"></comment-item>
     </div>
   </div>
 </template>
@@ -77,23 +71,9 @@ export default {
     return {
       haveLike: false,
       likesNum: this.likes?.length || 0,
+      commentsNum: this.comments?.length || 0,
       showCommentSection: false,
-      commentsDummy: [
-        {
-          id: 1,
-          firstname: "Dionisis",
-          lastname: "Lougaris",
-          description: "comment1",
-          pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s",
-        },
-        {
-          id: 2,
-          firstname: "Panos",
-          lastname: "Lougaris",
-          description: "comment2",
-          pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s",
-        },
-      ],
+      nextComments: [],
     };
   },
   methods: {
@@ -127,10 +107,10 @@ export default {
         console.log(error.message || "Something went wrong!");
       }
     },
-    writeComment() {
+    async writeComment() {
       this.showCommentSection = !this.showCommentSection;
       try {
-        this.$store.dispatch("loadCommentsOfPost", {
+        this.nextComments = await this.$store.dispatch("loadCommentsOfPost", {
           postID: this.id,
         });
       } catch (e) {
@@ -205,10 +185,11 @@ export default {
   margin-top: 5px;
   width: 100%;
 }
-.like-comment-container p {
+.like-comment-container > p {
   width: 70%;
   font-size: 14px;
 }
+
 .post-icon {
   margin-right: 12px;
   font-size: 22px;

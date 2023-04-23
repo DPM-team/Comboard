@@ -48,9 +48,12 @@ router.get("/api/organization/recommentedConnections", authentication, authentic
     for (let i = 0; i < 4; i++) {
       let roundomNumber = Math.floor(Math.random() * (userData.organizationID.users.length - 1));
       let selectedUser = userData.organizationID.users[roundomNumber];
-      if (!recommentedConnections.includes(selectedUser) && req.user !== selectedUser) {
+
+      if (!recommentedConnections.includes(selectedUser) && req.user.email !== selectedUser.email) {
         recommentedConnections.push(selectedUser);
       }
+
+      console.log(req.user._id, selectedUser._id);
 
       if (userData.organizationID.users.length < 4 && userData.organizationID.users.length === i) {
         break;

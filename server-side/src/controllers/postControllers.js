@@ -196,7 +196,7 @@ const createComment = async (req, res) => {
     });
 
     if (!userData) {
-      throw new Error("v");
+      throw new Error("The user data mut be existed.");
     }
 
     await userData.populate({ path: "organizationID", model: "organization" });
@@ -231,15 +231,15 @@ const commentsOfPost = async (req, res) => {
 
     await userData.populate({ path: "organizationID", model: "organization", populate: { path: "posts", model: "post" } });
 
-    if (!userData.posts.includes(req.params.postId) || !userData.organizationID.posts.includes(req.params.postIds)) {
-      throw new Error();
+    if (!userData.posts.includes(req.params.postID) && !userData.organizationID.posts.includes(req.params.postID)) {
+      throw new Error("Post id must to be included at least in organization or on connection's list. ");
     }
 
-    const post = await Post.findOne({ _id: req.params.postId });
+    const post = await Post.findOne({ _id: req.params.postID });
 
-    await post.save();
+    const comments = post.comments;
 
-    res.status(201).send();
+    res.status(200).send(comments);
   } catch (e) {
     console.log(e);
     res.status(400).send(e);
