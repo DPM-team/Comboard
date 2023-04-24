@@ -94,11 +94,16 @@ export default {
   tryAutoLogin(context) {
     const userID = localStorage.getItem("userID");
     const token = localStorage.getItem("token");
+    const profilePhoto = localStorage.getItem("profilePhoto");
 
     if (userID && token) {
       context.commit("setUser", {
         userID,
         token,
+      });
+
+      context.commit("setProfilePhoto", {
+        photo: profilePhoto,
       });
     }
   },

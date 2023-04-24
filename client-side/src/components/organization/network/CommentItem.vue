@@ -4,13 +4,13 @@
       <div class="pfp-container"><img class="user-pfp" :src="pictureLink" /></div>
       <h2>{{ commenter }}</h2>
     </div>
-    <p>{{}}</p>
+    <p>{{ comment }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["", "commenter", "pictureLink"],
+  props: ["comment", "commenter", "pictureLink"],
 };
 </script>
 
