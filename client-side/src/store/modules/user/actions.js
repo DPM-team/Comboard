@@ -55,17 +55,14 @@ export default {
 
   async requestConnection(context, payload) {
     try {
-      let myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${context.getters.loggedUserToken}`);
-      myHeaders.append("AuthorizationOrg", `${context.getters.selectedOrganizationID}`);
-
-      let requestOptions = {
+      const requestOptions = {
         method: "PUT",
-        headers: myHeaders,
-        redirect: "follow",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
       };
 
-      const request = await fetch(`/api/user/requestConnection?userId=${payload.userId}`, requestOptions);
+      const request = await fetch(`/api/user/requestConnection?userId=${payload.userId}&orgID=${payload.orgID}`, requestOptions);
 
       if (!request.ok) {
         throw new Error();
@@ -75,22 +72,18 @@ export default {
     }
   },
 
-  async recommentedConnections(context) {
+  async recommentedConnections(context, payload) {
     try {
-      let myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${context.getters.loggedUserToken}`);
-      myHeaders.append("AuthorizationOrg", `${context.getters.selectedOrganizationID}`);
-
-      let requestOptions = {
+      const requestOptions = {
         method: "GET",
-        headers: myHeaders,
-
-        redirect: "follow",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
       };
 
-      let response = await fetch("/api/organization/recommentedConnections", requestOptions);
+      const response = await fetch(`/api/organization/recommentedConnections?orgID=${payload.orgID}`, requestOptions);
 
-      let reccomentedConnections = await response.json();
+      const reccomentedConnections = await response.json();
 
       return reccomentedConnections;
     } catch (e) {

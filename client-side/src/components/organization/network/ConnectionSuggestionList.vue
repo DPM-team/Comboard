@@ -2,7 +2,14 @@
   <div class="connection-sug-list">
     <h2>{{ title }}</h2>
     <ul>
-      <connection-suggestion-item v-for="member in fellowOrgMembers" :key="member.id" :firstname="member.name" :lastname="member.surname" :pictureLink="member.picturLink"></connection-suggestion-item>
+      <connection-suggestion-item
+        v-for="member in fellowOrgMembers"
+        :key="member.id"
+        :id="member.id"
+        :firstname="member.name"
+        :lastname="member.surname"
+        :pictureLink="member.picturLink"
+      ></connection-suggestion-item>
     </ul>
   </div>
 </template>
@@ -11,15 +18,8 @@
 import ConnectionSuggestionItem from "./ConnectionSuggestionItem.vue";
 export default {
   components: { ConnectionSuggestionItem },
-  async created() {
-    try {
-      this.fellowOrgMembers = await this.$store.dispatch("recommentedConnections");
-      this.fellowOrgMembers.forEach((member) => {
-        member.pictureLink = `/api/users/${member.id}/profilePhoto`;
-      });
-    } catch (e) {
-      this.error = e;
-    }
+  created() {
+    this.recommentedConnections();
   },
   data() {
     return {
@@ -27,6 +27,20 @@ export default {
       fellowOrgMembers: [],
       error: null,
     };
+  },
+  methods: {
+    async recommentedConnections() {
+      try {
+        this.fellowOrgMembers = await this.$store.dispatch("recommentedConnections", {
+          orgID: this.$store.getters.selectedOrganizationID,
+        });
+        this.fellowOrgMembers.forEach((member) => {
+          member.pictureLink = `/api/users/${member.id}/profilePhoto`;
+        });
+      } catch (e) {
+        this.error = e;
+      }
+    },
   },
 };
 </script>

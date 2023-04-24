@@ -2,21 +2,20 @@ const express = require("express");
 const User = require("../models/user.js");
 const Data = require("../models/data.js");
 const authentication = require("../middleware/authentication");
-const authenticationOrg = require("../middleware/authenticationOrg");
 
 const router = express.Router();
 
-router.put("/api/user/requestConnection", authentication, authenticationOrg, async function (req, res) {
+router.put("/api/user/requestConnection", authentication, async function (req, res) {
   try {
     const userFromRequest = req.user;
     const userToRequest = await User.findOne({ _id: req.query.userId });
 
     if (!userToRequest) {
-      throw new Error();
+      throw new Error("");
     }
 
-    const userFromRequestData = await Data.findOne({ userID: userFromRequest._id, organizationID: req.orgId });
-    const userToRequestData = await Data.findOne({ userID: userToRequest._id, organizationID: req.orgId });
+    const userFromRequestData = await Data.findOne({ userID: userFromRequest._id, organizationID: req.query.orgID });
+    const userToRequestData = await Data.findOne({ userID: userToRequest._id, organizationID: req.query.orgID });
 
     console.log(!userToRequestData.pendingRequestsReceive.includes(userFromRequest._id));
     if (!userFromRequestData.pendingRequestsSend.includes(userToRequest._id) && !userToRequestData.pendingRequestsReceive.includes(userFromRequest._id)) {
@@ -37,17 +36,17 @@ router.put("/api/user/requestConnection", authentication, authenticationOrg, asy
   }
 });
 
-router.get("/api/organization/recommentedConnections", authentication, authenticationOrg, async function (req, res) {
+router.get("/api/organization/recommentedConnections", authentication, async function (req, res) {
   try {
-    const userData = await Data.findOne({ userID: req.user._id, organizationID: req.orgId });
+    const userOrgData = await Data.findOne({ userID: req.user._id, organizationID: req.query.orgID });
 
-    await userData.populate({ path: "organizationID", model: "organization", populate: { path: "users", model: "user" } });
+    await userOrgData.populate({ path: "organizationID", model: "organization", populate: { path: "users", model: "user" } });
 
     let recommentedConnections = [];
 
     for (let i = 0; i < 4; i++) {
-      let roundomNumber = Math.floor(Math.random() * (userData.organizationID.users.length - 1));
-      let selectedUser = userData.organizationID.users[roundomNumber];
+      let roundomNumber = Math.floor(Math.random() * (userOrgData.organizationID.users.length - 1));
+      let selectedUser = userOrgData.organizationID.users[roundomNumber];
 
       if (!recommentedConnections.includes(selectedUser) && req.user.email !== selectedUser.email) {
         recommentedConnections.push(selectedUser);
@@ -55,7 +54,7 @@ router.get("/api/organization/recommentedConnections", authentication, authentic
 
       console.log(req.user._id, selectedUser._id);
 
-      if (userData.organizationID.users.length < 4 && userData.organizationID.users.length === i) {
+      if (userOrgData.organizationID.users.length < 4 && userOrgData.organizationID.users.length === i) {
         break;
       }
     }

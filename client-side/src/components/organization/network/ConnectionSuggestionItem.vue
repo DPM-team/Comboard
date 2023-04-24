@@ -2,8 +2,8 @@
   <div class="sug-item-container">
     <div><img class="user-pfp" :src="pictureLink" /></div>
     <li>{{ firstname }} {{ lastname }}</li>
-    <font-awesome-icon v-if="added === false" @click="sendRequest('643eeb4ccdc942f537f389ec')" class="icon" icon="fa-solid fa-user-plus" />
-    <font-awesome-icon v-if="added === true" @click="sendRequest('643eeb4ccdc942f537f389ec')" class="icon" :icon="['fas', 'user-check']" />
+    <font-awesome-icon v-if="!added" @click="sendRequest()" class="icon" icon="fa-solid fa-user-plus" />
+    <font-awesome-icon v-if="added === true" @click="sendRequest()" class="icon" :icon="['fas', 'user-check']" />
   </div>
 </template>
 
@@ -14,13 +14,14 @@ export default {
       added: false,
     };
   },
-  props: ["firstname", "lastname", "pictureLink"],
+  props: ["id", "firstname", "lastname", "pictureLink"],
   methods: {
-    async sendRequest(id) {
+    async sendRequest() {
       try {
         this.added = !this.added;
         await this.$store.dispatch("requestConnection", {
-          userId: id,
+          userId: this.id,
+          orgID: this.$store.getters.selectedOrganizationID,
         });
       } catch (_) {
         this.added = !this.added;
