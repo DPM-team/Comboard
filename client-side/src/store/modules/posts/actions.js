@@ -126,7 +126,7 @@ export default {
           Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
           AuthorizationOrg: `${context.rootGetters.selectedOrganizationID}`,
         },
-        body: JSON.stringify({ context: payload.content }),
+        body: JSON.stringify({ content: payload.content }),
         redirect: "follow",
       };
 

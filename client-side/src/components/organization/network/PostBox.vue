@@ -78,6 +78,7 @@ export default {
   },
   methods: {
     async toogleLike() {
+      console.log(this.comments);
       this.haveLike = !this.haveLike;
 
       if (this.haveLike) {
