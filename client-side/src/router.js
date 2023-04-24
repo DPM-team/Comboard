@@ -23,7 +23,8 @@ import CreateTeam from "./components/organization/teams/CreateTeam.vue";
 import StorageTab from "./components/organization/storage/StorageTab.vue";
 import PermissionDeniedPage from "./components/pages/PermissionDeniedPage.vue";
 import NotFoundPage from "./components/pages/NotFoundPage.vue";
-import UserProfile from "./components/organization/profile/user/UserProfile.vue";
+import UserPrivateProfile from "./components/organization/profile/user/UserPrivateProfile.vue";
+import UserPublicProfile from "./components/organization/profile/user/UserPublicProfile.vue";
 import UserDashboardProfile from "./components/dashboard/UserDashboardProfile.vue";
 import UserProfilePosts from "./components/organization/profile/user/UserProfilePosts.vue";
 import UserProfileConnections from "./components/organization/profile/user/UserProfileConnections.vue";
@@ -133,7 +134,7 @@ const router = createRouter({
     },
     {
       path: "/organization/my-profile",
-      component: UserProfile,
+      component: UserPrivateProfile,
       redirect: "/organization/my-profile/posts",
       children: [
         {
@@ -174,8 +175,13 @@ const router = createRouter({
     },
     {
       path: "/organization/user",
-      component: UserProfile,
+      component: UserPublicProfile,
+      redirect: "/organization/user/posts",
       children: [
+        {
+          path: "posts",
+          component: UserProfilePosts,
+        },
         {
           path: "teams",
           component: UserProfileTeams,
