@@ -74,7 +74,7 @@ const createOrganization = async function (req, res) {
         // Save the updated user document
         await userObj.save();
 
-        return res.status(201).json({ publicKey });
+        return res.status(201).json({ publicKey, organizationID: savedOrganization._id });
       }
     }
   } catch (error) {

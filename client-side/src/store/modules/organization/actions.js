@@ -38,11 +38,23 @@ export default {
 
       const data = await response.json();
 
-      if (response.ok) {
-        return data;
-      } else {
+      if (!response.ok) {
         throw new Error(data.error); // Throw error to be caught in the component
       }
+
+      try {
+        const successData = await context.dispatch("createTaskBoard", {
+          userID,
+          organizationID: data?.organizationID,
+          taskBoardName: "Personal Tasks",
+        });
+
+        console.log(successData);
+      } catch (error) {
+        console.log(error.message);
+      }
+
+      return data;
     } catch (error) {
       throw new Error(error.message || "Error creating new organization!");
     }
@@ -64,12 +76,25 @@ export default {
 
       const data = await response.json();
 
-      if (response.ok) {
-        context.commit("addOrganization", { organizationID: data?.organizationID, organizationName: data?.organizationName });
-        return data;
-      } else {
+      if (!response.ok) {
         throw new Error(data.error); // Throw error to be caught in the component
       }
+
+      context.commit("addOrganization", { organizationID: data?.organizationID, organizationName: data?.organizationName });
+
+      try {
+        const successData = await context.dispatch("createTaskBoard", {
+          userID,
+          organizationID: data?.organizationID,
+          taskBoardName: "Personal Tasks",
+        });
+
+        console.log(successData);
+      } catch (error) {
+        console.log(error.message);
+      }
+
+      return data;
     } catch (error) {
       throw new Error(error.message || "Error joining organization!");
     }
