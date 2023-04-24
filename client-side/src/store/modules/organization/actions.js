@@ -33,27 +33,23 @@ export default {
       body: JSON.stringify({ organizationObj, userID }),
     };
 
-    return new Promise((resolve, reject) => {
-      try {
-        fetch("/api/organization", requestOptions)
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            if (data.error) {
-              reject(new Error(data.error));
-            } else {
-              resolve(data);
-            }
-          });
-      } catch (error) {
-        reject(new Error(error));
+    try {
+      const response = await fetch("/api/organization", requestOptions);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
       }
-    });
+    } catch (error) {
+      throw new Error(error.message || "Error creating new organization!");
+    }
   },
   async joinOrganization(context, payload) {
     const organizationKey = payload.organizationKey;
-    const userID = context.rootGetters.loggedUserID;
+    const userID = payload.userID;
 
     const requestOptions = {
       method: "POST",
@@ -63,52 +59,36 @@ export default {
       body: JSON.stringify({ organizationKey, userID }),
     };
 
-    return new Promise((resolve, reject) => {
-      try {
-        fetch("/api/organization/join", requestOptions)
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            if (data.error) {
-              reject(new Error(data.error));
-            } else {
-              context.commit("addOrganization", { organizationID: data.organizationID, organizationName: data.organizationName });
+    try {
+      const response = await fetch("/api/organization/join", requestOptions);
 
-              resolve(data);
-            }
-          });
-      } catch (error) {
-        reject(new Error(error));
+      const data = await response.json();
+
+      if (response.ok) {
+        context.commit("addOrganization", { organizationID: data?.organizationID, organizationName: data?.organizationName });
+        return data;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
       }
-    });
+    } catch (error) {
+      throw new Error(error.message || "Error joining organization!");
+    }
   },
   async getUserOrganizations(context, payload) {
     const userID = payload.userID;
 
     try {
-      await fetch(`/api/user/organizations?userID=${userID}`)
-        .then((response) => {
-          // To catch errors from server (e.g. server isn't running)
-          if (!response.ok) {
-            throw new Error("Failed to fetch!");
-          }
+      const response = await fetch(`/api/user/organizations?userID=${userID}`);
 
-          return response.json();
-        })
-        .then((data) => {
-          // To catch errors like user don't found or other error that caused by the server while is on
-          if (data.error) {
-            throw new Error(data.error);
-          }
+      const data = await response.json();
 
-          const organizations = data.organizations;
+      if (!response.ok) {
+        throw new Error(data.error);
+      }
 
-          context.commit("setOrganizations", organizations);
-        });
+      context.commit("setOrganizations", data?.organizations);
     } catch (error) {
-      // Fror there, the error will return to the component that calls the action method
-      throw new Error(error.message);
+      throw new Error(error.message || "Error get user's organization!");
     }
   },
   async getOrganizationUsers(_, payload) {

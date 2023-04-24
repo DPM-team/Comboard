@@ -44,16 +44,13 @@ export default {
   methods: {
     async submitFormToJoin() {
       try {
-        await this.$store
-          .dispatch("joinOrganization", { organizationKey: this.organizationKeyInput })
-          .then((response) => {
-            this.submitMessage = response.message;
-            this.messageType = "success";
-          })
-          .catch((error) => {
-            this.submitMessage = error.message || "Failed to join organization.";
-            this.messageType = "error";
-          });
+        const successData = await this.$store.dispatch("joinOrganization", {
+          organizationKey: this.organizationKeyInput,
+          userID: this.$store.getters.loggedUserID,
+        });
+
+        this.submitMessage = successData.message;
+        this.messageType = "success";
       } catch (error) {
         this.submitMessage = error.message || "Failed to join organization.";
         this.messageType = "error";
