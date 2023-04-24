@@ -1,6 +1,6 @@
 <template>
   <div class="task-container">
-    <div class="task">
+    <div class="task" @click="moveToBoard()">
       <h1 class="task-title">{{ title }}</h1>
     </div>
   </div>
@@ -16,6 +16,11 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+  },
+  methods: {
+    moveToBoard() {
+      this.$router.push(`/organization/tasks/boards/${this.id}`);
     },
   },
 };

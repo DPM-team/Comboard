@@ -13,6 +13,8 @@ import OrganizationPage from "./components/pages/OrganizationPage.vue";
 import NetworkTab from "./components/organization/network/NetworkTab.vue";
 import CalendarTab from "./components/organization/calendar/CalendarTab.vue";
 import TasksTab from "./components/organization/tasks/TasksTab.vue";
+import TaskBoard from "./components/organization/tasks/TaskBoard.vue";
+import TaskBoardList from "./components/organization/tasks/TaskBoardList.vue";
 import ProjectsTab from "./components/organization/projects/ProjectsTab.vue";
 import AllProjectsTab from "./components/organization/projects/AllProjectsTab.vue";
 import MyProjectsTab from "./components/organization/projects/MyProjectsTab.vue";
@@ -216,6 +218,18 @@ const router = createRouter({
         {
           path: "tasks",
           component: TasksTab,
+          redirect: "/organization/tasks/boards",
+          children: [
+            {
+              path: "boards",
+              component: TaskBoardList,
+            },
+            {
+              path: "boards/:boardID",
+              component: TaskBoard,
+              props: true,
+            },
+          ],
         },
         {
           path: "projects",
@@ -262,10 +276,6 @@ const router = createRouter({
               ],
             },
           ],
-        },
-        {
-          path: "teams",
-          component: TeamsTab,
         },
         {
           path: "storage",

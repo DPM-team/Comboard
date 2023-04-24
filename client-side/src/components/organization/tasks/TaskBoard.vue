@@ -16,6 +16,12 @@ import BoardList from "./BoardList.vue";
 
 export default {
   components: { draggable: VueDraggableNext, BoardList },
+  props: {
+    boardID: {
+      required: true,
+      type: String,
+    },
+  },
   data() {
     return {
       boardTitle: "Personal Tasks",
