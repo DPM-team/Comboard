@@ -70,46 +70,39 @@ export default {
       }
 
       try {
-        // Call register action from Auth module
-        // We want await because we need to finish first the api call. We need to wait for call to end
-        await this.$store
-          .dispatch("register", {
-            name: this.name,
-            surname: this.surname,
-            username: this.username,
-            email: this.email,
-            password: this.password,
-          })
-          .then((response) => {
-            if (response instanceof Error) {
-              throw response;
-            }
-            this.$router.push("/dashboard");
-          });
+        await this.$store.dispatch("register", {
+          name: this.name,
+          surname: this.surname,
+          username: this.username,
+          email: this.email,
+          password: this.password,
+        });
+
+        this.$router.push("/dashboard");
       } catch (error) {
-        this.errorMessage = error.message || "Failed to authenticate.";
+        this.errorMessage = error.message || "Failed to register.";
       }
     },
     confirmPassword() {
       return this.password === this.passwordConfirmation;
     },
-    getName(i) {
-      this.name = i;
+    getName(inputValue) {
+      this.name = inputValue;
     },
-    getSurname(i) {
-      this.surname = i;
+    getSurname(inputValue) {
+      this.surname = inputValue;
     },
-    getUsername(i) {
-      this.username = i;
+    getUsername(inputValue) {
+      this.username = inputValue;
     },
-    getEmail(i) {
-      this.email = i;
+    getEmail(inputValue) {
+      this.email = inputValue;
     },
-    getPassword(i) {
-      this.password = i;
+    getPassword(inputValue) {
+      this.password = inputValue;
     },
-    getPasswordConfirmation(i) {
-      this.passwordConfirmation = i;
+    getPasswordConfirmation(inputValue) {
+      this.passwordConfirmation = inputValue;
     },
   },
 };

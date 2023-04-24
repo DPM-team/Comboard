@@ -1,7 +1,11 @@
 <template>
   <div class="task-board-container">
     <base-card :width="'80%'">
-      <div class="content"><task-board-list-item v-for="taskBoard in taskBoards" :key="taskBoard.id" :id="taskBoard.id" :title="taskBoard.title"></task-board-list-item></div>
+      <div class="content">
+        <base-spinner v-if="isLoading"></base-spinner>
+        <h3 v-if="taskBoards.length === 0 && !isLoading">No Task boards</h3>
+        <task-board-list-item v-else v-for="taskBoard in taskBoards" :key="taskBoard._id" :id="taskBoard._id" :title="taskBoard.name"></task-board-list-item>
+      </div>
     </base-card>
   </div>
 </template>
@@ -14,12 +18,28 @@ export default {
   components: { BaseCard, TaskBoardListItem },
   data() {
     return {
-      taskBoards: [
-        { title: "Personal Tasks", id: 1 },
-        { title: "Project1 Tasks", id: 2 },
-        { title: "Team1 Tasks", id: 3 },
-      ],
+      taskBoards: new Array(),
+      isLoading: false,
     };
+  },
+  methods: {
+    async loadTaskBoards() {
+      try {
+        this.isLoading = true;
+
+        this.taskBoards = await this.$store.dispatch("getTaskBoards", {
+          userID: this.$store.getters.loggedUserID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        this.isLoading = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  created() {
+    this.loadTaskBoards();
   },
 };
 </script>

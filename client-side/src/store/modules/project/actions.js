@@ -34,6 +34,7 @@ export default {
         userID: successData?.createdProject?.supervisor,
         organizationID: context.rootGetters.selectedOrganizationID,
         projectID: successData.createdProject._id,
+        projectName: successData.createdProject.name,
       });
 
       //Add the created project to the user's projects
@@ -42,6 +43,7 @@ export default {
           userID,
           organizationID: context.rootGetters.selectedOrganizationID,
           projectID: successData.createdProject._id,
+          projectName: successData.createdProject.name,
         });
       }
 
@@ -82,10 +84,11 @@ export default {
       throw new Error("Failed to add team.");
     }
   },
-  async addProjectToUser(_, payload) {
+  async addProjectToUser(context, payload) {
     const userID = payload.userID;
     const organizationID = payload.organizationID;
     const projectID = payload.projectID;
+    const projectName = payload.projectName;
 
     const requestOptions = {
       method: "POST",
@@ -106,6 +109,18 @@ export default {
       }
 
       const successData = await response.json();
+
+      try {
+        const data = await context.dispatch("createTaskBoard", {
+          userID,
+          organizationID,
+          taskBoardName: `Tasks for '${projectName}' project`,
+        });
+
+        console.log(data);
+      } catch (error) {
+        console.log(error.message);
+      }
 
       // Return the success data from the api call
       return successData;

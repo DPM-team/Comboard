@@ -42,6 +42,34 @@ const createTaskBoard = async (req, res) => {
   }
 };
 
+const getTaskBoards = async (req, res) => {
+  try {
+    const userID = req.query.userID;
+    const organizationID = req.query.organizationID;
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    // We get the user's data for a specific organization
+    const userOrgData = await Data.findOne({ userID, organizationID }).populate("taskBoards");
+
+    if (!userOrgData) {
+      return res.status(404).json({ error: "User's data for this organization doesn't found!" });
+    }
+
+    res.status(200).json({ taskBoards: userOrgData.taskBoards });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   createTaskBoard,
+  getTaskBoards,
 };

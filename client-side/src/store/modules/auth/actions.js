@@ -1,6 +1,7 @@
 export default {
   async login(context, payload) {
-    let error = null;
+    const username = payload.username;
+    const password = payload.password;
 
     const requestOptions = {
       method: "POST",
@@ -8,49 +9,44 @@ export default {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: payload.username,
-        password: payload.password,
+        username,
+        password,
       }),
     };
 
     try {
-      await fetch("/api/login", requestOptions)
-        .then((response) => {
-          return response.json();
-        })
-        .then(async (data) => {
-          if (data.error) {
-            error = new Error(data.error);
-          } else {
-            localStorage.setItem("userID", data.userObj._id);
-            localStorage.setItem("token", data.generatedToken);
-            localStorage.setItem("name", data.userObj.name);
+      const response = await fetch("/api/login", requestOptions);
 
-            context.commit("setUser", {
-              userID: data.userObj._id,
-              token: data.generatedToken,
-            });
+      // Check if the response is successful
+      if (!response.ok) {
+        // Handle error response
+        const errorObj = await response.json();
+        throw new Error(errorObj.error);
+      }
 
-            const profilePhoto = await fetch(`/api/users/${data.userObj._id}/profilePhoto`);
+      const successData = await response.json();
 
-            const photo = await profilePhoto.text();
+      localStorage.setItem("userID", successData.userObj._id);
+      localStorage.setItem("token", successData.generatedToken);
+      localStorage.setItem("name", successData.userObj.name);
 
-            context.commit("setProfilePhoto", {
-              photo,
-            });
-          }
-        });
-    } catch (e) {
-      return new Error("Internal Server Error: Failed to authenticate.");
-    }
+      context.commit("setUser", {
+        userID: successData.userObj._id,
+        token: successData.generatedToken,
+      });
 
-    if (error) {
-      return error;
+      const profilePhoto = await fetch(`/api/users/${successData.userObj._id}/profilePhoto`);
+
+      const photo = await profilePhoto.text();
+
+      context.commit("setProfilePhoto", {
+        photo,
+      });
+    } catch (error) {
+      throw new Error(error.message || "Internal Server Error: Failed to authenticate.");
     }
   },
   async register(context, payload) {
-    let error = null;
-
     const requestOptions = {
       method: "POST",
       headers: {
@@ -66,29 +62,26 @@ export default {
     };
 
     try {
-      await fetch("/api/register", requestOptions)
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          if (data.error) {
-            error = new Error(data.error);
-          } else {
-            localStorage.setItem("userID", data.userObj._id);
-            localStorage.setItem("token", data.generatedToken);
+      const response = await fetch("/api/register", requestOptions);
 
-            context.commit("setUser", {
-              userID: data.userObj._id,
-              token: data.generatedToken,
-            });
-          }
-        });
-    } catch (e) {
-      return new Error("Internal Server Error: Failed to register.");
-    }
+      // Check if the response is successful
+      if (!response.ok) {
+        // Handle error response
+        const errorObj = await response.json();
+        throw new Error(errorObj.error);
+      }
 
-    if (error) {
-      return error;
+      const successData = await response.json();
+
+      localStorage.setItem("userID", successData.userObj._id);
+      localStorage.setItem("token", successData.generatedToken);
+
+      context.commit("setUser", {
+        userID: successData.userObj._id,
+        token: successData.generatedToken,
+      });
+    } catch (error) {
+      throw new Error(error.message || "Internal Server Error: Failed to register.");
     }
   },
   tryAutoLogin(context) {
@@ -107,7 +100,7 @@ export default {
       });
     }
   },
-  logout(context) {
+  async logout(context) {
     const requestOptions = {
       method: "POST",
       headers: {
@@ -116,21 +109,32 @@ export default {
       },
     };
 
-    fetch("/api/logout", requestOptions)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
+    try {
+      const response = await fetch("/api/logout", requestOptions);
+
+      // Check if the response is successful
+      if (!response.ok) {
+        // Handle error response
+        const errorObj = await response.json();
+        throw new Error(errorObj.error);
+      }
+
+      const successData = await response.json();
+
+      // Remove the logged User from the local storage
+      localStorage.removeItem("userID");
+      localStorage.removeItem("token");
+
+      context.commit("setUser", {
+        userID: null,
+        token: null,
       });
 
-    // Remove the logged User from the local storage
-    localStorage.removeItem("userID");
-    localStorage.removeItem("token");
+      context.dispatch("removeSelectedOrganization");
 
-    context.commit("setUser", {
-      userID: null,
-      token: null,
-    });
+      return successData;
+    } catch (error) {
+      throw new Error(error.message || "Internal Server Error: Failed to logout.");
+    }
   },
 };

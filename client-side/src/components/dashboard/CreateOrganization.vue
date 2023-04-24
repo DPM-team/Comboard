@@ -54,19 +54,13 @@ export default {
   methods: {
     async submitForm() {
       try {
-        await this.$store
-          .dispatch("registerOrganization", this.organizationObj)
-          .then((response) => {
-            this.orgKeyToJoin = response.publicKey;
+        const successData = await this.$store.dispatch("registerOrganization", this.organizationObj);
 
-            this.openDialog();
+        this.orgKeyToJoin = successData.publicKey;
 
-            this.errorMessage = "";
-          })
-          .catch((error) => {
-            this.errorMessage = error.message || "Failed to create organization.";
-            this.orgKeyToJoin = "";
-          });
+        this.openDialog();
+
+        this.errorMessage = "";
       } catch (error) {
         this.errorMessage = error.message || "Failed to create organization.";
         this.orgKeyToJoin = "";

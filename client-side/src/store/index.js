@@ -9,6 +9,7 @@ import postModule from "./modules/posts/index.js";
 import teamModule from "./modules/team/index.js";
 import projectModule from "./modules/project/index.js";
 import fileModule from "./modules/files/index.js";
+import tasksModule from "./modules/tasks/index.js";
 
 const store = createStore({
   modules: {
@@ -20,6 +21,7 @@ const store = createStore({
     teamModule,
     projectModule,
     fileModule,
+    tasksModule,
   },
 });
 

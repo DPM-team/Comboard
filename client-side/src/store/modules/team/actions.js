@@ -28,11 +28,21 @@ export default {
       await context.dispatch("addTeamToOrganization", { organizationID: context.rootGetters.selectedOrganizationID, teamID: successData.createdTeam._id });
 
       //Add the created team to the supervisor's teams
-      await context.dispatch("addTeamToUser", { userID: successData?.createdTeam?.supervisor, organizationID: context.rootGetters.selectedOrganizationID, teamID: successData.createdTeam._id });
+      await context.dispatch("addTeamToUser", {
+        userID: successData?.createdTeam?.supervisor,
+        organizationID: context.rootGetters.selectedOrganizationID,
+        teamID: successData.createdTeam._id,
+        teamName: successData.createdTeam.name,
+      });
 
       //Add the created team to the user's teams
       for (const userID of successData?.createdTeam?.members) {
-        await context.dispatch("addTeamToUser", { userID, organizationID: context.rootGetters.selectedOrganizationID, teamID: successData.createdTeam._id });
+        await context.dispatch("addTeamToUser", {
+          userID,
+          organizationID: context.rootGetters.selectedOrganizationID,
+          teamID: successData.createdTeam._id,
+          teamName: successData.createdTeam.name,
+        });
       }
 
       // Return the created team data
@@ -72,10 +82,11 @@ export default {
       throw new Error("Failed to add team.");
     }
   },
-  async addTeamToUser(_, payload) {
+  async addTeamToUser(context, payload) {
     const userID = payload.userID;
     const organizationID = payload.organizationID;
     const teamID = payload.teamID;
+    const teamName = payload.teamName;
 
     const requestOptions = {
       method: "POST",
@@ -96,6 +107,18 @@ export default {
       }
 
       const successData = await response.json();
+
+      try {
+        const data = await context.dispatch("createTaskBoard", {
+          userID,
+          organizationID,
+          taskBoardName: `Tasks for '${teamName}' team`,
+        });
+
+        console.log(data);
+      } catch (error) {
+        console.log(error.message);
+      }
 
       // Return the success data from the api call
       return successData;
