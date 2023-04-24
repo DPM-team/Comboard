@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const organizationSchema = mongoose.Schema(
   {
@@ -14,6 +15,13 @@ const organizationSchema = mongoose.Schema(
       type: String,
       unique: true,
       required: [true, "Organization's email is required!"],
+      trim: true,
+      lowercase: true,
+      validate: function (value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Wrong email format!");
+        }
+      },
     },
     telephone: {
       type: String,

@@ -39,10 +39,10 @@ export default {
     async logout() {
       try {
         await this.$store.dispatch("logout");
-        this.$router.push("/");
       } catch (error) {
         console.log(error.message || "Failed to logout.");
       }
+      this.$router.push("/");
     },
   },
 };
