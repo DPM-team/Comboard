@@ -11,62 +11,24 @@
     <div class="main-area">
       <div class="settings">
         <h2>Organization name</h2>
-        <form enctype="multipart/form-data" class="personal-information" action="" method="post">
-          <h2>Update your profile</h2>
-          <div class="inputBox">
-            <input type="text" name="firstname" class="" value="" required />
-            <span>First name</span>
-          </div>
-          <div class="inputBox">
-            <input type="text" name="lastname" class="" value="" required />
-            <span>Last name</span>
-          </div>
-          <div class="inputBox">
-            <input type="text" name="phone" class="" value="" required />
-            <span>Phone</span>
-          </div>
-          <div class="inputBox">
-            <input type="email" name="email" class="" value="" required />
-            <span>Email</span>
-          </div>
-          <div class="inputBox">
-            <input type="text" name="linkedin" value="" />
-            <span>LinkedIn</span>
-          </div>
-          <div class="inputBox">
-            <input type="text" name="location" value="" />
-            <span>Location</span>
-          </div>
-          <div class="inputBox">
-            <textarea type="text" name="Bio" value="" />
-            <span>Bio</span>
-          </div>
-          <div class="inputBox">
-            <input type="file" name="profile-picture" value="" />
-            <span>Profile picture</span>
-          </div>
-          <div class="inputBox">
-            <input type="file" name="profile-banner" value="" />
-            <span>Profile banner</span>
-          </div>
-          <div class="inputBox">
-            <input type="submit" name="submit-non-sensitive" value="Save" id="submit-non-sensitive" />
-          </div>
-        </form>
+        <h3>Email</h3>
+        <h3>Location</h3>
       </div>
       <div class="lists-container">
         <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="true"></button-options-item-list>
         <button-options-item-list v-for="project in projects" :key="project.id" :text="project.title" :isPrivateProfile="true"></button-options-item-list>
       </div>
+      <news-list></news-list>
     </div>
   </div>
 </template>
 <script>
 import OrganizationPageHeader from "../../../layout/headers/OrganizationPageHeader.vue";
+import NewsList from "../../network/NewsList.vue";
 import ButtonOptionsItemList from "../ButtonOptionsItemList.vue";
 
 export default {
-  components: { OrganizationPageHeader, ButtonOptionsItemList },
+  components: { OrganizationPageHeader, ButtonOptionsItemList, NewsList },
   data() {
     return {
       userID: "",

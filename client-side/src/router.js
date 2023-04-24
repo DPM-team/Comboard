@@ -36,6 +36,7 @@ import TeamPrivateProfile from "./components/organization/profile/team/TeamPriva
 import TeamPublicProfile from "./components/organization/profile/team/TeamPublicProfile.vue";
 import CreateProject from "./components/organization/projects/CreateProject.vue";
 import OrganizationPrivateProfile from "./components/organization/profile/organization/OrganizationPrivateProfile.vue";
+import OrganizationPublicProfile from "./components/organization/profile/organization/OrganizationPublicProfile.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -152,8 +153,12 @@ const router = createRouter({
       ],
     },
     {
-      path: "/organization/my-organization",
+      path: "/organization/my-organization-private",
       component: OrganizationPrivateProfile,
+    },
+    {
+      path: "/organization/my-organization",
+      component: OrganizationPublicProfile,
     },
     {
       path: "/organization/team-private/:teamID",
