@@ -1,6 +1,6 @@
 <template>
   <div>
-    <organization-page-header><button class="rtn-button">Return to Dashboard</button><font-awesome-icon class="back-icon" :icon="['fas', 'circle-chevron-left']" /></organization-page-header>
+    <organization-page-header><back-header-button></back-header-button></organization-page-header>
     <div class="header__wrapper">
       <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
       <div class="cols__container">
@@ -26,9 +26,6 @@
             <router-link class="link" to="/organization/my-profile/posts">Posts</router-link>
             <router-link class="link" to="/organization/my-profile/connections">Connections</router-link>
             <router-link class="link" to="/organization/my-profile/settings">Settings</router-link>
-            <router-link v-if="false" class="link" to="/organization/user/teams">Teams</router-link>
-            <router-link v-if="false" class="link" to="/organization/user/projects">Projects</router-link>
-            <base-button v-if="false">Add connection</base-button>
           </div>
           <router-view></router-view>
         </div>
@@ -37,11 +34,11 @@
   </div>
 </template>
 <script>
-import BaseButton from "../../../basic-components/BaseButton.vue";
 import OrganizationPageHeader from "../../../layout/headers/OrganizationPageHeader.vue";
+import BackHeaderButton from "../../../layout/headers/BackHeaderButton.vue";
 
 export default {
-  components: { OrganizationPageHeader, BaseButton },
+  components: { OrganizationPageHeader, BackHeaderButton },
   data() {
     return {
       userID: "",
@@ -66,31 +63,6 @@ export default {
 };
 </script>
 <style scoped>
-.back-icon {
-  position: absolute;
-  top: 15px;
-  left: 30px;
-  font-size: 28px;
-  color: var(--color-primary);
-  display: none;
-}
-.rtn-button {
-  position: absolute;
-  top: 10px;
-  left: 40px;
-  padding: 0.5rem 1.2rem;
-  font-family: inherit;
-  background-color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  color: white;
-  cursor: pointer;
-}
-.rtn-button:hover,
-.rtn-button:active {
-  background-color: #000875;
-  border-color: #000875;
-}
-
 .profile-header img {
   width: 100%;
   background: no-repeat 50% 20% / cover;
@@ -291,14 +263,7 @@ export default {
     text-align: center;
   }
 }
-@media (max-width: 600px) {
-  .rtn-button {
-    display: none;
-  }
-  .back-icon {
-    display: block;
-  }
-}
+
 @media (max-width: 900px) {
   .menu-ul {
     display: flex;
