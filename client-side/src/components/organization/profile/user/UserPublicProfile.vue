@@ -1,13 +1,13 @@
 <template>
   <div>
-    <organization-page-header><button class="rtn-button">Return to Dashboard</button><font-awesome-icon class="back-icon" :icon="['fas', 'circle-chevron-left']" /></organization-page-header>
+    <organization-page-header><back-header-button></back-header-button></organization-page-header>
     <div class="header__wrapper">
       <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
       <div class="cols__container">
         <div class="left__col">
           <div class="img__container">
             <img :src="pfp" alt="User Profile Pic" />
-            <span></span>
+            <!-- <span></span> -->
           </div>
           <h2 class="name">{{ firstname }} {{ lastname }}</h2>
           <h4 class="location">{{ location }}</h4>
@@ -35,11 +35,11 @@
   </div>
 </template>
 <script>
-import BaseButton from "../../../basic-components/BaseButton.vue";
+import BackHeaderButton from "../../../layout/headers/BackHeaderButton.vue";
 import OrganizationPageHeader from "../../../layout/headers/OrganizationPageHeader.vue";
 
 export default {
-  components: { OrganizationPageHeader, BaseButton },
+  components: { OrganizationPageHeader, BackHeaderButton },
   data() {
     return {
       userID: "",
@@ -147,7 +147,7 @@ export default {
   display: block;
   box-shadow: 1px 3px 12px rgba(0, 0, 0, 0.18);
 }
-.header__wrapper .cols__container .left__col .img__container span {
+/* .header__wrapper .cols__container .left__col .img__container span {
   position: absolute;
   background: #2afa6a;
   width: 16px;
@@ -156,7 +156,7 @@ export default {
   bottom: 3px;
   right: 11px;
   border: 2px solid #fff;
-}
+} */
 .name {
   margin-top: 70px;
   font-weight: 600;
@@ -292,14 +292,7 @@ export default {
     text-align: center;
   }
 }
-@media (max-width: 600px) {
-  .rtn-button {
-    display: none;
-  }
-  .back-icon {
-    display: block;
-  }
-}
+
 @media (max-width: 900px) {
   .menu-ul {
     display: flex;
