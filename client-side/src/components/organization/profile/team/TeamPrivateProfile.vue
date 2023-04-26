@@ -124,6 +124,7 @@ ul {
   line-height: 1.35;
   margin-top: 40px;
   text-align: center;
+  font-size: 64px;
 }
 .highlight {
   position: relative;
@@ -141,9 +142,6 @@ ul {
   opacity: 0.7;
   transform: scale(1.07, 1.05) skewX(-15deg);
   background-image: var(--gradient-team);
-}
-.team-name {
-  font-size: 64px;
 }
 
 .team-page-container {

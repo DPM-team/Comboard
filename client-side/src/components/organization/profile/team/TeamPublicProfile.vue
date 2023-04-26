@@ -1,6 +1,6 @@
 <template>
   <div>
-    <organization-page-header><button class="rtn-button">Return to Dashboard</button><font-awesome-icon class="back-icon" :icon="['fas', 'circle-chevron-left']" /></organization-page-header>
+    <organization-page-header><back-header-button></back-header-button></organization-page-header>
     <div>
       <router-view name="dialog"></router-view>
       <div class="team-page-container">
@@ -34,11 +34,12 @@
 </template>
 
 <script>
+import BackHeaderButton from "../../../layout/headers/BackHeaderButton.vue";
 import OrganizationPageHeader from "../../../layout/headers/OrganizationPageHeader.vue";
 import ButtonOptionsItemList from "../ButtonOptionsItemList.vue";
 
 export default {
-  components: { OrganizationPageHeader, ButtonOptionsItemList },
+  components: { OrganizationPageHeader, ButtonOptionsItemList, BackHeaderButton },
   props: ["teamID"],
   data() {
     return {
@@ -58,13 +59,19 @@ export default {
       supervisorName: "Chatzigeorgiou Alexander",
     };
   },
+  methods: {
+    created() {
+      document.body.classList.remove("no-scrolling");
+    },
+  },
 };
 </script>
 <style scoped>
 .left-col p {
   text-align: center;
   font-size: 18px;
-  padding: 20px;
+  padding: 40px;
+  margin-top: 10px;
 }
 .left-col h2 {
   text-align: center;
@@ -78,30 +85,15 @@ export default {
 ul {
   list-style-type: none;
 }
-.create-project-title {
-  font-size: 24px;
-  padding-top: 50px;
-  padding-bottom: 20px;
-}
+
 .search-area-demo {
   height: 100px;
   margin-top: 50px;
 }
-.router-button {
-  padding: 0.5rem 1.2rem;
-  font-family: inherit;
-  background-color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  color: white;
-  cursor: pointer;
-  text-decoration: none;
-}
-.router-button:hover,
-.router-button:active {
-  background-color: #000875;
-  border-color: #000875;
-}
+
 .team-name {
+  font-size: 64px;
+  padding-top: 50px;
   font-size: 58px;
   line-height: 1.35;
   margin-top: 40px;
@@ -124,111 +116,28 @@ ul {
   transform: scale(1.07, 1.05) skewX(-15deg);
   background-image: var(--gradient-team);
 }
-.team-name {
-  font-size: 64px;
-}
-.back-icon {
-  position: absolute;
-  top: 15px;
-  left: 30px;
-  font-size: 28px;
-  color: var(--color-primary);
-  display: none;
-}
-.rtn-button {
-  position: absolute;
-  top: 10px;
-  left: 40px;
-  padding: 0.5rem 1.2rem;
-  font-family: inherit;
-  background-color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  color: white;
-  cursor: pointer;
-}
-.rtn-button:hover,
-.rtn-button:active {
-  background-color: #000875;
-  border-color: #000875;
-}
+
 .team-page-container {
   display: flex;
   flex-wrap: wrap;
 }
 .left-col {
   width: 60%;
+  box-sizing: border-box;
+  padding-left: 40px;
 }
 .right-col {
   width: 40%;
-  padding: 10px;
+  padding-left: 40px;
   box-sizing: border-box;
 }
-.input-title {
-  color: var(--color-primary);
-  font-size: 14px;
-}
-.personal-information {
-  width: 90%;
-  padding: 20px;
-  /* background: white; */
-}
 
-.personal-information h2 {
-  margin-bottom: 10px;
-  font-size: 28px;
-  color: var(--color-fourth);
-  font-weight: 600;
-}
-.personal-information h3 {
-  font-size: 20px;
-  color: var(--color-fourth);
-  font-weight: 600;
-}
-
-.personal-information .inputBox {
-  position: relative;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.personal-information .inputBox input[type="text"],
-.personal-information .inputBox input[type="email"],
-.personal-information .inputBox input[type="password"],
-.personal-information .inputBox textarea {
-  width: 100%;
-  padding: 5px 0;
-  font-size: 16px;
-  margin: 10px 0;
-  border: none;
-  border-bottom: 2px solid var(--color-fourth);
-  outline: none;
-  resize: none;
-}
-
-.personal-information .inputBox input[type="submit"] {
-  padding: 0.75rem 1.5rem;
-  font-family: inherit;
-  background-color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  color: white;
-  cursor: pointer;
-}
-
-.personal-information .inputBox input[type="submit"]:hover,
-.personal-information .inputBox input[type="submit"]:active {
-  background-color: #000875;
-  border-color: #000875;
-}
-
-@media (max-width: 600px) {
-  .rtn-button {
-    display: none;
-  }
-  .back-icon {
-    display: block;
-  }
-  .right-col,
+@media (max-width: 800px) {
   .left-col {
+    width: 100%;
+    padding-bottom: 40px;
+  }
+  .right-col {
     width: 100%;
   }
 }
