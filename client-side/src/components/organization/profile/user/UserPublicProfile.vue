@@ -27,8 +27,9 @@
             <router-link class="link" to="/organization/user/teams">Teams</router-link>
             <router-link class="link" to="/organization/user/projects">Projects</router-link>
             <base-button class="add-con-button">Add connection</base-button>
+            <font-awesome-icon class="add-con-button-icon" :icon="['fas', 'user-plus']" />
           </div>
-          <router-view></router-view>
+          <router-view class="dynamic-area"></router-view>
         </div>
       </div>
     </div>
@@ -64,32 +65,21 @@ export default {
 };
 </script>
 <style scoped>
+.dynamic-area {
+  width: 90%;
+  margin-top: 20px;
+}
+
 .add-con-button {
   float: right;
+  margin-top: -10px;
 }
-.back-icon {
-  position: absolute;
-  top: 15px;
-  left: 30px;
-  font-size: 28px;
-  color: var(--color-primary);
+.add-con-button-icon {
   display: none;
-}
-.rtn-button {
-  position: absolute;
-  top: 10px;
-  left: 40px;
-  padding: 0.5rem 1.2rem;
-  font-family: inherit;
-  background-color: var(--color-primary);
-  border: 1px solid var(--color-primary);
+  margin-left: 15px;
+  background: var(--color-primary);
   color: white;
-  cursor: pointer;
-}
-.rtn-button:hover,
-.rtn-button:active {
-  background-color: #000875;
-  border-color: #000875;
+  padding: 3px;
 }
 
 .profile-header img {
@@ -254,6 +244,19 @@ export default {
 }
 
 /* Responsiveness */
+@media (max-width: 900px) {
+  .add-con-button {
+    margin-left: 20px;
+  }
+}
+@media (max-width: 450px) {
+  .add-con-button-icon {
+    display: block;
+  }
+  .add-con-button {
+    display: none;
+  }
+}
 
 @media (min-width: 900px) {
   .header__wrapper .cols__container {
