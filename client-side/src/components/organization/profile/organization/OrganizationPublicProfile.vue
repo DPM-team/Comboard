@@ -1,18 +1,19 @@
 <template>
   <div>
-    <organization-page-header><button class="rtn-button">Return to Dashboard</button><font-awesome-icon class="back-icon" :icon="['fas', 'circle-chevron-left']" /></organization-page-header>
+    <organization-page-header><back-header-button></back-header-button></organization-page-header>
     <div class="header__wrapper">
       <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
     </div>
     <div class="img__container">
-      <img :src="pfp" alt="User Profile Pic" />
+      <img :src="organizationPfp" alt="User Profile Pic" />
       <span></span>
     </div>
     <div class="main-area">
       <div class="settings">
-        <h2>Organization name</h2>
-        <h3>Email</h3>
-        <h3>Location</h3>
+        <h2>{{ organizationName }}</h2>
+        <h3>{{ email }}</h3>
+        <h3>{{ location }}</h3>
+        <p>{{ bio }}</p>
       </div>
       <div class="lists-container">
         <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="true"></button-options-item-list>
@@ -23,24 +24,20 @@
   </div>
 </template>
 <script>
+import BackHeaderButton from "../../../layout/headers/BackHeaderButton.vue";
 import OrganizationPageHeader from "../../../layout/headers/OrganizationPageHeader.vue";
 import NewsList from "../../network/NewsList.vue";
 import ButtonOptionsItemList from "../ButtonOptionsItemList.vue";
 
 export default {
-  components: { OrganizationPageHeader, ButtonOptionsItemList, NewsList },
+  components: { OrganizationPageHeader, ButtonOptionsItemList, NewsList, BackHeaderButton },
   data() {
     return {
-      userID: "",
-      organizationID: "",
-      firstname: "Dionisis",
-      lastname: "Lougaris",
+      organizationName: "Comboard",
       location: "Thessaloniki",
-      phoneLink: "tel:69999999999",
-      linkedinLink: "https://www.linkedin.com/in/dionisis-lougaris/",
-      mailLink: "mailto:example@gmail.com",
-      bio: "Hello fellow Uom Members, I am Dionisis and I am a senior at the Uom Computer Science Dept.",
-      pfp: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
+      email: "example@gmail.com",
+      bio: "Comboard is an organization that blah blah blah blah blah blah blah blah blah blah blah blah",
+      organizationPfp: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
       backgroundImage: "https://img.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg?w=2000",
       members: [
         { id: 1, fullname: "Dionisis Lougaris" },
@@ -55,12 +52,6 @@ export default {
         { id: 4, title: "Project4" },
       ],
     };
-  },
-  created() {
-    // document.body.classList.add("no-scrolling");
-
-    this.userID = this.$store.getters.loggedUserID;
-    this.organizationID = this.$store.getters.selectedOrganizationID;
   },
 };
 </script>
@@ -152,30 +143,6 @@ export default {
 
 .personal-information .inputBox input[type="submit"]:hover,
 .personal-information .inputBox input[type="submit"]:active {
-  background-color: #000875;
-  border-color: #000875;
-}
-.back-icon {
-  position: absolute;
-  top: 15px;
-  left: 30px;
-  font-size: 28px;
-  color: var(--color-primary);
-  display: none;
-}
-.rtn-button {
-  position: absolute;
-  top: 10px;
-  left: 40px;
-  padding: 0.5rem 1.2rem;
-  font-family: inherit;
-  background-color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  color: white;
-  cursor: pointer;
-}
-.rtn-button:hover,
-.rtn-button:active {
   background-color: #000875;
   border-color: #000875;
 }
@@ -366,20 +333,6 @@ export default {
 @media (max-width: 867px) {
   .updates-message {
     text-align: center;
-  }
-}
-@media (max-width: 600px) {
-  .rtn-button {
-    display: none;
-  }
-  .back-icon {
-    display: block;
-  }
-}
-@media (max-width: 900px) {
-  .menu-ul {
-    display: flex;
-    justify-content: center;
   }
 }
 </style>
