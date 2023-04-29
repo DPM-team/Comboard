@@ -4,7 +4,7 @@
       <div class="content">
         <base-spinner v-if="isLoading"></base-spinner>
         <h3 v-if="taskBoards.length === 0 && !isLoading">No Task boards</h3>
-        <task-board-list-item v-else v-for="taskBoard in taskBoards" :key="taskBoard._id" :id="taskBoard._id" :title="taskBoard.name"></task-board-list-item>
+        <task-board-list-item v-else v-for="taskBoard in taskBoards" :key="taskBoard._id" :boardID="taskBoard._id" :title="taskBoard.name"></task-board-list-item>
       </div>
     </base-card>
   </div>

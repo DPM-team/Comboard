@@ -1,13 +1,16 @@
 <template>
   <div class="list-item">
-    <p>{{ this.content }}</p>
+    <p>{{ title }}</p>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    content: String,
+    title: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {};

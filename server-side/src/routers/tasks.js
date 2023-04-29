@@ -8,4 +8,6 @@ router.post("/api/taskboard", authentication, tasksController.createTaskBoard);
 
 router.get("/api/taskboards", authentication, tasksController.getTaskBoards);
 
+router.get("/api/taskboard", authentication, tasksController.getTaskBoard);
+
 module.exports = router;

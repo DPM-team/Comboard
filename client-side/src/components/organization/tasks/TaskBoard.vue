@@ -1,10 +1,10 @@
 <template>
   <div class="task-board-container">
-    <font-awesome-icon class="back-button" :icon="['fas', 'circle-chevron-left']" />
-    <h1>{{ boardTitle }}</h1>
-    <div class="all-lists">
-      <draggable @change="log" group="entire-list" class="draggable">
-        <board-list v-for="list in numberOfLists" :key="list" :listTitle="listTitle"></board-list>
+    <font-awesome-icon class="back-button" :icon="['fas', 'circle-chevron-left']" @click="goBack()" />
+    <h1 v-if="taskBoard">{{ taskBoard.name }}</h1>
+    <div class="all-lists" v-if="taskBoard">
+      <draggable group="entire-list" class="draggable">
+        <board-list v-for="listObj in taskBoard.taskLists" :key="listObj._id" :listTitle="listObj.name" :tasks="listObj?.taskItems"></board-list>
       </draggable>
     </div>
   </div>
@@ -24,17 +24,23 @@ export default {
   },
   data() {
     return {
-      boardTitle: "Personal Tasks",
-      enabled: true,
-      numberOfLists: 3,
-      listTitle: "List title",
-      dragging: false,
+      taskBoard: null,
     };
   },
   methods: {
-    log(event) {
-      console.log(event);
+    async loadTaskBoardData() {
+      try {
+        this.taskBoard = await this.$store.dispatch("getTaskBoard", { taskBoardID: this.boardID });
+      } catch (error) {
+        console.log(error);
+      }
     },
+    goBack() {
+      this.$router.push("/organization/tasks/boards/");
+    },
+  },
+  created() {
+    this.loadTaskBoardData();
   },
 };
 </script>

@@ -26,7 +26,7 @@ const createTaskBoard = async (req, res) => {
       return res.status(404).json({ error: "User's data for this organization doesn't found!" });
     }
 
-    const taskBoardObj = new TaskBoard({ name: taskBoardName });
+    const taskBoardObj = new TaskBoard({ name: taskBoardName, taskLists: [{ name: "Doing" }, { name: "To Do" }, { name: "Done" }] });
 
     const savedTaskBoard = await taskBoardObj.save();
 
@@ -69,7 +69,29 @@ const getTaskBoards = async (req, res) => {
   }
 };
 
+const getTaskBoard = async (req, res) => {
+  try {
+    const taskBoardID = req.query.taskBoardID;
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    const taskBoard = await TaskBoard.findById(taskBoardID);
+
+    if (!taskBoard) {
+      return res.status(404).json({ error: "Task board doesn't found!" });
+    }
+
+    res.status(200).json({ taskBoard });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   createTaskBoard,
   getTaskBoards,
+  getTaskBoard,
 };

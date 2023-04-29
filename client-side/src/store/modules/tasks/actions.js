@@ -55,4 +55,30 @@ export default {
       throw new Error(error.message || "Failed to get Task Boards.");
     }
   },
+  async getTaskBoard(context, payload) {
+    const taskBoardID = payload.taskBoardID;
+
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+    };
+
+    try {
+      // Make a POST request to the API endpoint
+      const response = await fetch(`/api/taskboard?taskBoardID=${taskBoardID}`, requestOptions);
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.error);
+      }
+
+      return responseData?.taskBoard;
+    } catch (error) {
+      throw new Error(error.message || "Failed to get Task Board's data!");
+    }
+  },
 };
