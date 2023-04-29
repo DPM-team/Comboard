@@ -37,8 +37,14 @@ export default {
     },
     async addNewTask({ listID, title }) {
       try {
-        const successData = await this.$store.dispatch("addTask", { taskBoardID: this.boardID, taskListID: listID, taskObj: { title } });
-        console.log(successData);
+        await this.$store.dispatch("addTask", { taskBoardID: this.boardID, taskListID: listID, taskObj: { title } });
+
+        for (const taskListObj of this.taskBoard.taskLists) {
+          if (taskListObj._id === listID) {
+            taskListObj.taskItems.push({ title });
+            break;
+          }
+        }
       } catch (error) {
         console.log(error);
       }
