@@ -4,7 +4,7 @@
     <h1 v-if="taskBoard">{{ taskBoard.name }}</h1>
     <div class="all-lists" v-if="taskBoard">
       <draggable group="entire-list" class="draggable">
-        <board-list v-for="listObj in taskBoard.taskLists" :key="listObj._id" :listTitle="listObj.name" :tasks="listObj?.taskItems"></board-list>
+        <board-list v-for="listObj in taskBoard.taskLists" :key="listObj._id" :listID="listObj._id" :listTitle="listObj.name" :tasks="listObj?.taskItems" @addTask="addNewTask"></board-list>
       </draggable>
     </div>
   </div>
@@ -31,6 +31,14 @@ export default {
     async loadTaskBoardData() {
       try {
         this.taskBoard = await this.$store.dispatch("getTaskBoard", { taskBoardID: this.boardID });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async addNewTask({ listID, title }) {
+      try {
+        const successData = await this.$store.dispatch("addTask", { taskBoardID: this.boardID, taskListID: listID, taskObj: { title } });
+        console.log(successData);
       } catch (error) {
         console.log(error);
       }

@@ -81,4 +81,32 @@ export default {
       throw new Error(error.message || "Failed to get Task Board's data!");
     }
   },
+  async addTask(context, payload) {
+    const taskBoardID = payload.taskBoardID;
+    const taskListID = payload.taskListID;
+    const taskObj = payload.taskObj;
+
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ taskBoardID, taskListID, taskObj }),
+    };
+
+    try {
+      const response = await fetch("/api/task/add", requestOptions);
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.error);
+      }
+
+      return responseData;
+    } catch (error) {
+      throw new Error(error.message || "Failed to add Task.");
+    }
+  },
 };

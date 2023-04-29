@@ -3,7 +3,7 @@
     <h3>{{ listTitle }}</h3>
     <draggable :list="tasks" group="tasks">
       <board-list-item v-for="task in tasks" :key="task._id" :title="task.title"></board-list-item>
-      <input class="task-input" type="text" name="task-input" placeholder=" + Add list item.." />
+      <input class="task-input" type="text" name="task-input" placeholder=" + Add list item.." v-model="newTask" @keyup.enter="addTask()" />
     </draggable>
   </div>
 </template>
@@ -15,6 +15,10 @@ import BoardListItem from "./BoardListItem.vue";
 export default {
   components: { draggable: VueDraggableNext, BoardListItem },
   props: {
+    listID: {
+      type: String,
+      required: true,
+    },
     listTitle: {
       type: String,
       required: true,
@@ -26,9 +30,18 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      newTask: "",
+    };
   },
-  methods: {},
+  methods: {
+    addTask() {
+      if (this.newTask.trim() !== "") {
+        this.$emit("add-task", { title: this.newTask, listID: this.listID });
+        this.newTask = "";
+      }
+    },
+  },
 };
 </script>
 
