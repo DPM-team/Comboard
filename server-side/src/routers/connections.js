@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/user.js");
 const Data = require("../models/data.js");
 const authentication = require("../middleware/authentication");
+const Notification = require("../models/notifications.js");
 
 const router = express.Router();
 
@@ -17,13 +18,23 @@ router.put("/api/user/requestConnection", authentication, async function (req, r
     const userFromRequestData = await Data.findOne({ userID: userFromRequest._id, organizationID: req.query.orgID });
     const userToRequestData = await Data.findOne({ userID: userToRequest._id, organizationID: req.query.orgID });
 
-    console.log(!userToRequestData.pendingRequestsReceive.includes(userFromRequest._id));
     if (!userFromRequestData.pendingRequestsSend.includes(userToRequest._id) && !userToRequestData.pendingRequestsReceive.includes(userFromRequest._id)) {
       userFromRequestData.pendingRequestsSend.push(userToRequest._id);
       userToRequestData.pendingRequestsReceive.push(userFromRequest._id);
+      const notification = new Notification({
+        userID: userToRequest._id,
+        from: userFromRequest._id,
+        type: "connection",
+      });
+      await notification.save();
+      userToRequestData.notifications.push(notification._id);
+      await userToRequestData.save();
     } else {
       userFromRequestData.pendingRequestsSend.remove(userToRequest._id);
       userToRequestData.pendingRequestsReceive.remove(userFromRequest._id);
+      const notification = await Notification.findOne({ from: userFromRequest._id, type: "connection" });
+      userToRequestData.notifications.remove(notification._id);
+      await notification.delete();
     }
 
     await userFromRequestData.save();
@@ -45,10 +56,11 @@ router.get("/api/organization/recommentedConnections", authentication, async fun
     let recommentedConnections = [];
 
     for (let i = 0; i < 4; i++) {
-      let roundomNumber = Math.floor(Math.random() * (userOrgData.organizationID.users.length - 1));
+      let roundomNumber = Math.round(Math.random() * (userOrgData.organizationID.users.length - 1));
+
       let selectedUser = userOrgData.organizationID.users[roundomNumber];
 
-      if (!recommentedConnections.includes(selectedUser) && req.user.email !== selectedUser.email) {
+      if (!recommentedConnections.includes(selectedUser) && selectedUser.email !== req.user.email) {
         recommentedConnections.push(selectedUser);
       }
 

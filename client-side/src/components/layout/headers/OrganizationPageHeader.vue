@@ -59,8 +59,7 @@
       </div></header-toggle-option
     >
     <header-toggle-option v-if="notificationOptionsAreVisible" :position="'notifications-toggle'">
-      <li class="notification-item">Notification #1</li>
-      <li class="notification-item">Notification #2</li>
+      <li class="notification-item" v-for="notification in notifications" :key="notification"><button>Accept</button></li>
     </header-toggle-option>
   </div>
 </template>
@@ -75,7 +74,11 @@ export default {
       videoOptionsAreVisible: false,
       messageOptionsAreVisible: false,
       notificationOptionsAreVisible: false,
+      notifications: [],
     };
+  },
+  created() {
+    this.loadNotifications();
   },
   methods: {
     noScrolling() {
@@ -137,6 +140,16 @@ export default {
     },
     toggleMobileOptionsMenu() {
       console.log("clicked");
+    },
+    async loadNotifications() {
+      try {
+        this.notifications = await this.$store.dispatch("loadNotifications", {
+          orgID: this.$store.getters.selectedOrganizationID,
+        });
+        console.log(this.notifications);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   components: { HeaderToggleOption },

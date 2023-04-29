@@ -8,6 +8,7 @@ import userModule from "./modules/user/index.js";
 import postModule from "./modules/posts/index.js";
 import teamModule from "./modules/team/index.js";
 import projectModule from "./modules/project/index.js";
+import notificationsModule from "./modules/notifications/index.js";
 import fileModule from "./modules/files/index.js";
 import tasksModule from "./modules/tasks/index.js";
 
@@ -18,6 +19,7 @@ const store = createStore({
     organizationModule,
     userModule,
     postModule,
+    notificationsModule,
     teamModule,
     projectModule,
     fileModule,

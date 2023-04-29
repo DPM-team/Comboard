@@ -64,6 +64,10 @@ const dataSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "file",
   }),
+  notifications: new Array({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "notification",
+  }),
 });
 
 const Data = mongoose.model("data", dataSchema);
