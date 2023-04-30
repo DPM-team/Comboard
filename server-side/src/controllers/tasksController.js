@@ -173,10 +173,64 @@ const moveTaskList = async (req, res) => {
   }
 };
 
+const moveTaskBetweenCurrList = async (req, res) => {
+  try {
+    const taskBoardID = req.body.taskBoardID;
+    const taskListID = req.body.taskListID;
+    const movedTaskNewIndex = req.body.movedTaskNewIndex;
+    const movedTaskOldIndex = req.body.movedTaskOldIndex;
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    if (!taskListID) {
+      return res.status(400).json({ error: "taskListID is required!" });
+    }
+
+    if (!movedTaskNewIndex && movedTaskNewIndex !== 0) {
+      return res.status(400).json({ error: "movedTaskNewIndex is required!" });
+    }
+
+    if (!movedTaskOldIndex && movedTaskOldIndex !== 0) {
+      return res.status(400).json({ error: "movedTaskOldIndex is required!" });
+    }
+
+    const taskBoard = await TaskBoard.findById(taskBoardID);
+
+    if (!taskBoard) {
+      return res.status(404).json({ error: "Task board doesn't found!" });
+    }
+
+    let moved = false;
+
+    for (const taskListObj of taskBoard.taskLists) {
+      if (taskListObj._id.toString() === taskListID) {
+        const temp = taskListObj.taskItems[movedTaskNewIndex];
+        taskListObj.taskItems[movedTaskNewIndex] = taskListObj.taskItems[movedTaskOldIndex];
+        taskListObj.taskItems[movedTaskOldIndex] = temp;
+        moved = true;
+        break;
+      }
+    }
+
+    if (moved) {
+      const updatedTaskBoard = await taskBoard.save();
+      res.status(200).json({ updatedTaskBoard });
+    } else {
+      res.status(400).json({ error: "Task doesn't moved!" });
+    }
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   createTaskBoard,
   getTaskBoards,
   getTaskBoard,
   addTask,
   moveTaskList,
+  moveTaskBetweenCurrList,
 };

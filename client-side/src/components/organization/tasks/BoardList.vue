@@ -3,8 +3,8 @@
     <h3>{{ listTitle }}</h3>
     <draggable :list="tasks" group="tasks" itemKey="_id" @change="log">
       <board-list-item v-for="task in tasks" :key="task._id" :title="task.title"></board-list-item>
-      <input class="task-input" type="text" name="task-input" placeholder=" + Add list item.." v-model="newTask" @keyup.enter="addTask()" />
     </draggable>
+    <input class="task-input" type="text" name="task-input" placeholder=" + Add list item.." v-model="newTask" @keyup.enter="addTask()" />
   </div>
 </template>
 
@@ -42,7 +42,11 @@ export default {
       }
     },
     log(evt) {
-      console.log(evt);
+      if (evt?.moved) {
+        this.$emit("move-task-same", { listID: this.listID, newIndex: evt.moved.newIndex, oldIndex: evt.moved.oldIndex });
+      } else {
+        console.log(evt);
+      }
     },
   },
 };

@@ -4,7 +4,15 @@
     <h1 v-if="taskBoard">{{ taskBoard.name }}</h1>
     <div class="all-lists" v-if="taskBoard">
       <draggable class="draggable" :list="taskBoard.taskLists" group="entire-list" itemKey="_id" @change="moveList">
-        <board-list v-for="listObj in taskBoard.taskLists" :key="listObj._id" :listID="listObj._id" :listTitle="listObj.name" :tasks="listObj?.taskItems" @addTask="addNewTask"></board-list>
+        <board-list
+          v-for="listObj in taskBoard.taskLists"
+          :key="listObj._id"
+          :listID="listObj._id"
+          :listTitle="listObj.name"
+          :tasks="listObj?.taskItems"
+          @addTask="addNewTask"
+          @moveTaskSame="moveTaskInTheCurrList"
+        ></board-list>
       </draggable>
     </div>
   </div>
@@ -53,22 +61,33 @@ export default {
         console.log(error);
       }
     },
-    goBack() {
-      this.$router.push("/organization/tasks/boards/");
-    },
     async moveList(evt) {
       if (evt?.moved) {
         try {
-          const message = await this.$store.dispatch("moveTaskList", {
+          await this.$store.dispatch("moveTaskList", {
             taskBoardID: this.boardID,
             movedListNewIndex: evt.moved.newIndex,
             movedListOldIndex: evt.moved.oldIndex,
           });
-          console.log(message);
         } catch (error) {
           console.log(error);
         }
       }
+    },
+    async moveTaskInTheCurrList({ listID, newIndex, oldIndex }) {
+      try {
+        await this.$store.dispatch("moveTaskBetweenCurrList", {
+          taskBoardID: this.boardID,
+          taskListID: listID,
+          movedTaskNewIndex: newIndex,
+          movedTaskOldIndex: oldIndex,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    goBack() {
+      this.$router.push("/organization/tasks/boards/");
     },
   },
   created() {
