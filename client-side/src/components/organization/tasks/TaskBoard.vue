@@ -3,7 +3,7 @@
     <font-awesome-icon class="back-button" :icon="['fas', 'circle-chevron-left']" @click="goBack()" />
     <h1 v-if="taskBoard">{{ taskBoard.name }}</h1>
     <div class="all-lists" v-if="taskBoard">
-      <draggable group="entire-list" class="draggable">
+      <draggable class="draggable" :list="taskBoard.taskLists" group="entire-list" itemKey="_id" @change="moveList">
         <board-list v-for="listObj in taskBoard.taskLists" :key="listObj._id" :listID="listObj._id" :listTitle="listObj.name" :tasks="listObj?.taskItems" @addTask="addNewTask"></board-list>
       </draggable>
     </div>
@@ -37,7 +37,11 @@ export default {
     },
     async addNewTask({ listID, title }) {
       try {
-        await this.$store.dispatch("addTask", { taskBoardID: this.boardID, taskListID: listID, taskObj: { title } });
+        await this.$store.dispatch("addTask", {
+          taskBoardID: this.boardID,
+          taskListID: listID,
+          taskObj: { title },
+        });
 
         for (const taskListObj of this.taskBoard.taskLists) {
           if (taskListObj._id === listID) {
@@ -51,6 +55,20 @@ export default {
     },
     goBack() {
       this.$router.push("/organization/tasks/boards/");
+    },
+    async moveList(evt) {
+      if (evt?.moved) {
+        try {
+          const message = await this.$store.dispatch("moveTaskList", {
+            taskBoardID: this.boardID,
+            movedListNewIndex: evt.moved.newIndex,
+            movedListOldIndex: evt.moved.oldIndex,
+          });
+          console.log(message);
+        } catch (error) {
+          console.log(error);
+        }
+      }
     },
   },
   created() {

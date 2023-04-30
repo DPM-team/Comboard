@@ -109,4 +109,32 @@ export default {
       throw new Error(error.message || "Failed to add Task.");
     }
   },
+  async moveTaskList(context, payload) {
+    const taskBoardID = payload.taskBoardID;
+    const movedListNewIndex = payload.movedListNewIndex;
+    const movedListOldIndex = payload.movedListOldIndex;
+
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ taskBoardID, movedListNewIndex, movedListOldIndex }),
+    };
+
+    try {
+      const response = await fetch("/api/tasklist/move", requestOptions);
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.error);
+      }
+
+      return responseData;
+    } catch (error) {
+      throw new Error(error.message || "Failed to move Task list.");
+    }
+  },
 };

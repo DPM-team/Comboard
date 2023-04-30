@@ -12,4 +12,6 @@ router.get("/api/taskboard", authentication, tasksController.getTaskBoard);
 
 router.put("/api/task/add", authentication, tasksController.addTask);
 
+router.put("/api/tasklist/move", authentication, tasksController.moveTaskList);
+
 module.exports = router;

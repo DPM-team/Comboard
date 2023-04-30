@@ -136,9 +136,47 @@ const addTask = async (req, res) => {
   }
 };
 
+const moveTaskList = async (req, res) => {
+  try {
+    const taskBoardID = req.body.taskBoardID;
+    const movedListNewIndex = req.body.movedListNewIndex;
+    const movedListOldIndex = req.body.movedListOldIndex;
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    if (!movedListNewIndex && movedListNewIndex !== 0) {
+      return res.status(400).json({ error: "movedListNewIndex is required!" });
+    }
+
+    if (!movedListOldIndex && movedListOldIndex !== 0) {
+      return res.status(400).json({ error: "movedListOldIndex is required!" });
+    }
+
+    const taskBoard = await TaskBoard.findById(taskBoardID);
+
+    if (!taskBoard) {
+      return res.status(404).json({ error: "Task board doesn't found!" });
+    }
+
+    const tempList = taskBoard.taskLists[movedListNewIndex];
+    taskBoard.taskLists[movedListNewIndex] = taskBoard.taskLists[movedListOldIndex];
+    taskBoard.taskLists[movedListOldIndex] = tempList;
+
+    const updatedTaskBoard = await taskBoard.save();
+
+    res.status(200).json({ updatedTaskBoard });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   createTaskBoard,
   getTaskBoards,
   getTaskBoard,
   addTask,
+  moveTaskList,
 };

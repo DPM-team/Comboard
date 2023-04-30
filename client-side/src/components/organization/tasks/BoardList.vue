@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <h3>{{ listTitle }}</h3>
-    <draggable :list="tasks" group="tasks">
+    <draggable :list="tasks" group="tasks" itemKey="_id" @change="log">
       <board-list-item v-for="task in tasks" :key="task._id" :title="task.title"></board-list-item>
       <input class="task-input" type="text" name="task-input" placeholder=" + Add list item.." v-model="newTask" @keyup.enter="addTask()" />
     </draggable>
@@ -40,6 +40,9 @@ export default {
         this.$emit("add-task", { title: this.newTask, listID: this.listID });
         this.newTask = "";
       }
+    },
+    log(evt) {
+      console.log(evt);
     },
   },
 };
