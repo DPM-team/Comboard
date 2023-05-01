@@ -59,13 +59,20 @@
       </div></header-toggle-option
     >
     <header-toggle-option v-if="notificationOptionsAreVisible" :position="'notifications-toggle'">
-      <li class="notification-item" v-for="notification in notifications" :key="notification"><button>Accept</button></li>
+      <base-spinner class="notification-item" v-if="spinner"></base-spinner>
+      <div v-if="notifications.length > 0">
+        <li class="notification-item" v-for="notification in notifications" :key="notification._id">
+          <div v-if="notification.type === 'connection'"><button @click="acceptConnection(notification.from, true)">Accept</button> <button>Delete</button></div>
+        </li>
+      </div>
+      <p class="notification-item" v-else>No Notifications Now</p>
     </header-toggle-option>
   </div>
 </template>
 
 <script>
 import HeaderToggleOption from "../../organization/HeaderToggleOption.vue";
+import BaseSpinner from "../../basic-components/BaseSpinner.vue";
 
 export default {
   data() {
@@ -75,10 +82,8 @@ export default {
       messageOptionsAreVisible: false,
       notificationOptionsAreVisible: false,
       notifications: [],
+      spinner: null,
     };
-  },
-  created() {
-    this.loadNotifications();
   },
   methods: {
     noScrolling() {
@@ -126,7 +131,7 @@ export default {
       }
       this.messageOptionsAreVisible = !this.messageOptionsAreVisible;
     },
-    toggleNotificationOptions() {
+    async toggleNotificationOptions() {
       if (this.userOptionsAreVisible === true) {
         this.userOptionsAreVisible = !this.userOptionsAreVisible;
       }
@@ -137,22 +142,38 @@ export default {
         this.messageOptionsAreVisible = !this.messageOptionsAreVisible;
       }
       this.notificationOptionsAreVisible = !this.notificationOptionsAreVisible;
+      if (this.notificationOptionsAreVisible) {
+        this.spinner = true;
+        await this.loadNotifications();
+        this.spinner = false;
+      }
     },
     toggleMobileOptionsMenu() {
       console.log("clicked");
     },
     async loadNotifications() {
       try {
-        this.notifications = await this.$store.dispatch("loadNotifications", {
+        const notifications = await this.$store.dispatch("loadNotifications", {
           orgID: this.$store.getters.selectedOrganizationID,
         });
-        console.log(this.notifications);
+        this.notifications = notifications.notifications;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async acceptConnection(id, acceptConnection) {
+      try {
+        await this.$store.dispatch("acceptConnection", {
+          accept: acceptConnection,
+          userConnectionID: id,
+          orgID: this.$store.getters.selectedOrganizationID,
+        });
       } catch (error) {
         console.log(error);
       }
     },
   },
-  components: { HeaderToggleOption },
+  components: { HeaderToggleOption, BaseSpinner },
 };
 </script>
 

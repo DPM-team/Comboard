@@ -10,16 +10,12 @@
     </div>
     <div class="main-area">
       <div class="settings">
-        <h2>Organization name</h2>
-        <form enctype="multipart/form-data" class="personal-information" action="" method="post">
-          <h2>Update your profile</h2>
+        <h2 class="title">Organization name</h2>
+        <form enctype="multipart/form-data" class="organization-information" action="" method="post">
+          <h2>Update your organization</h2>
           <div class="inputBox">
-            <input type="text" name="firstname" class="" value="" required />
-            <span>First name</span>
-          </div>
-          <div class="inputBox">
-            <input type="text" name="lastname" class="" value="" required />
-            <span>Last name</span>
+            <input type="text" name="organizationName" class="" value="" required />
+            <span>Organization name</span>
           </div>
           <div class="inputBox">
             <input type="text" name="phone" class="" value="" required />
@@ -43,11 +39,11 @@
           </div>
           <div class="inputBox">
             <input type="file" name="profile-picture" value="" />
-            <span>Profile picture</span>
+            <span>Organization picture</span>
           </div>
           <div class="inputBox">
             <input type="file" name="profile-banner" value="" />
-            <span>Profile banner</span>
+            <span>Organization banner</span>
           </div>
           <div class="inputBox">
             <input type="submit" name="submit-non-sensitive" value="Save" id="submit-non-sensitive" />
@@ -55,8 +51,16 @@
         </form>
       </div>
       <div class="lists-container">
-        <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="true"></button-options-item-list>
-        <button-options-item-list v-for="project in projects" :key="project.id" :text="project.title" :isPrivateProfile="true"></button-options-item-list>
+        <div class="members-list">
+          <ul>
+            <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="true"></button-options-item-list>
+          </ul>
+        </div>
+        <div class="projects-list">
+          <ul>
+            <button-options-item-list v-for="project in projects" :key="project.id" :text="project.title" :isPrivateProfile="true"></button-options-item-list>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -78,8 +82,8 @@ export default {
       linkedinLink: "https://www.linkedin.com/in/dionisis-lougaris/",
       mailLink: "mailto:example@gmail.com",
       bio: "Hello fellow Uom Members, I am Dionisis and I am a senior at the Uom Computer Science Dept.",
-      pfp: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
-      backgroundImage: "https://img.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg?w=2000",
+      pfp: "https://www.uom.gr/site/images/logos/UOMLOGOGR.jpg",
+      backgroundImage: "https://parallaximag.gr/wp-content/uploads/pamak-1280x720.jpg",
       members: [
         { id: 1, fullname: "Dionisis Lougaris" },
         { id: 2, fullname: "Panos Machairas" },
@@ -103,6 +107,20 @@ export default {
 };
 </script>
 <style scoped>
+.lists-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.members-list,
+.projects-list {
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  width: 250px;
+  margin-left: 10px;
+}
+ul {
+  list-style-type: none;
+}
 .org-profile-container {
   display: flex;
 }
@@ -113,32 +131,39 @@ export default {
   padding-right: 10px;
   width: 50%;
 }
+.settings .title {
+  font-size: 48px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: -10px;
+  padding-left: 20px;
+}
 .settings,
 .sensitive-information {
   margin-left: 2%;
 }
-.personal-information {
+.organization-information {
   width: 90%;
   padding: 20px;
   background: white;
 }
 
-.personal-information h2 {
+.organization-information h2 {
   font-size: 28px;
   color: var(--color-fourth);
   font-weight: 600;
 }
 
-.personal-information .inputBox {
+.organization-information .inputBox {
   position: relative;
   width: 100%;
   margin-top: 10px;
 }
 
-.personal-information .inputBox input[type="text"],
-.personal-information .inputBox input[type="email"],
-.personal-information .inputBox input[type="password"],
-.personal-information .inputBox textarea {
+.organization-information .inputBox input[type="text"],
+.organization-information .inputBox input[type="email"],
+.organization-information .inputBox input[type="password"],
+.organization-information .inputBox textarea {
   width: 100%;
   padding: 5px 0;
   font-size: 16px;
@@ -148,7 +173,7 @@ export default {
   outline: none;
   resize: none;
 }
-.personal-information .inputBox input[type="file"] {
+.organization-information .inputBox input[type="file"] {
   width: 100%;
   padding: 5px 0;
   font-size: 16px;
@@ -159,7 +184,7 @@ export default {
   resize: none;
 }
 
-.personal-information .inputBox span {
+.organization-information .inputBox span {
   position: absolute;
   left: 0;
   padding: 5px 0;
@@ -170,16 +195,16 @@ export default {
   color: #666;
 }
 
-.personal-information .inputBox input:focus ~ span,
-.personal-information .inputBox input:valid ~ span,
-.personal-information .inputBox textarea:focus ~ span,
-.personal-information .inputBox textarea:valid ~ span {
+.organization-information .inputBox input:focus ~ span,
+.organization-information .inputBox input:valid ~ span,
+.organization-information .inputBox textarea:focus ~ span,
+.organization-information .inputBox textarea:valid ~ span {
   color: var(--color-primary);
   font-size: 12px;
   transform: translateY(-20px);
 }
 
-.personal-information .inputBox input[type="submit"] {
+.organization-information .inputBox input[type="submit"] {
   padding: 0.75rem 1.5rem;
   font-family: inherit;
   background-color: var(--color-primary);
@@ -188,8 +213,8 @@ export default {
   cursor: pointer;
 }
 
-.personal-information .inputBox input[type="submit"]:hover,
-.personal-information .inputBox input[type="submit"]:active {
+.organization-information .inputBox input[type="submit"]:hover,
+.organization-information .inputBox input[type="submit"]:active {
   background-color: #000875;
   border-color: #000875;
 }
