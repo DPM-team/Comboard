@@ -15,6 +15,10 @@
           @moveTaskToOtherList="moveTaskToOtherList"
         ></board-list>
       </draggable>
+      <form @submit.prevent="createTaskList()">
+        <input id="tasklist--input" type="text" name="tasklist-name" placeholder="Task list name..." v-model="newTaskListName" />
+        <input id="tasklist-create--btn" type="submit" value="Create Task List" />
+      </form>
       <loading-spinner v-if="isLoading"></loading-spinner>
     </div>
   </div>
@@ -36,6 +40,7 @@ export default {
     return {
       taskBoard: null,
       isLoading: false,
+      newTaskListName: "",
     };
   },
   methods: {
@@ -111,6 +116,18 @@ export default {
         console.log(error);
       }
     },
+    async createTaskList() {
+      try {
+        const successData = await this.$store.dispatch("addTaskList", {
+          taskBoardID: this.boardID,
+          taskListName: this.newTaskListName,
+        });
+
+        this.taskBoard = successData.updatedTaskBoard || this.taskBoard;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     goBack() {
       this.$router.push("/organization/tasks/boards/");
     },
@@ -127,6 +144,7 @@ export default {
   width: calc(100% - 200px);
   overflow-x: auto;
 }
+
 .task-board-container h1 {
   color: rgb(30, 30, 30);
   font-size: 23px;
@@ -136,29 +154,37 @@ export default {
   padding-left: 25px;
   display: inline-block;
 }
+
 .all-lists {
   display: flex !important;
   flex-wrap: nowrap;
   width: 1000px;
   height: 80px;
 }
+
 .draggable {
   display: flex;
   height: 300px;
 }
+
 .back-button {
   font-size: 30px;
   display: inline;
   cursor: pointer;
   margin-left: 20px;
 }
-/* Responsiveness */
 
+#tasklist-create--btn {
+  display: block;
+}
+
+/* Responsiveness */
 @media (max-width: 1250px) {
   .task-board-container {
     width: calc(100% - 180px);
   }
 }
+
 @media (max-width: 1150px) {
   .task-board-container {
     width: calc(100% - 80px);
@@ -170,6 +196,7 @@ export default {
     width: calc(100% - 55px);
   }
 }
+
 @media (max-width: 450px) {
   .task-board-container {
     width: calc(100% - 45px);

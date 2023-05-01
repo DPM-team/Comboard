@@ -28,6 +28,34 @@ export default {
       throw new Error(error.message || "Failed to create Task Board.");
     }
   },
+  async addTaskList(context, payload) {
+    const taskBoardID = payload.taskBoardID;
+    const taskListName = payload.taskListName;
+
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ taskBoardID, taskListName }),
+    };
+
+    try {
+      // Make a POST request to the API endpoint
+      const response = await fetch("/api/tasklist", requestOptions);
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.error);
+      }
+
+      return responseData;
+    } catch (error) {
+      throw new Error(error.message || "Failed to add Task List.");
+    }
+  },
   async getTaskBoards(context, payload) {
     const userID = payload.userID;
     const organizationID = payload.organizationID;

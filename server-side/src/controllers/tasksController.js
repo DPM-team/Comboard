@@ -42,6 +42,36 @@ const createTaskBoard = async (req, res) => {
   }
 };
 
+const addTaskList = async (req, res) => {
+  try {
+    const taskBoardID = req.body.taskBoardID;
+    const taskListName = req.body.taskListName;
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    if (!taskListName) {
+      return res.status(400).json({ error: "The name of the task list is required!" });
+    }
+
+    const taskBoard = await TaskBoard.findById(taskBoardID);
+
+    if (!taskBoard) {
+      return res.status(404).json({ error: "Task board doesn't found!" });
+    }
+
+    taskBoard.taskLists.push({ name: taskListName });
+
+    const updatedTaskBoard = await taskBoard.save();
+
+    res.status(200).json({ successMessage: "Task list has been successfully added to the board!", updatedTaskBoard });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 const getTaskBoards = async (req, res) => {
   try {
     const userID = req.query.userID;
@@ -298,6 +328,7 @@ const moveTaskToOtherList = async (req, res) => {
 
 module.exports = {
   createTaskBoard,
+  addTaskList,
   getTaskBoards,
   getTaskBoard,
   addTask,
