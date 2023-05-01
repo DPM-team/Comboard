@@ -2,8 +2,8 @@
   <div class="task-board-container">
     <font-awesome-icon class="back-button" :icon="['fas', 'circle-chevron-left']" @click="goBack()" />
     <h1 v-if="taskBoard">{{ taskBoard.name }}</h1>
-    <div class="all-lists" v-if="taskBoard">
-      <draggable class="draggable" :list="taskBoard.taskLists" group="entire-list" itemKey="_id" @change="moveList">
+    <div class="all-lists">
+      <draggable v-if="taskBoard" class="draggable" :list="taskBoard.taskLists" group="entire-list" itemKey="_id" @change="moveList">
         <board-list
           v-for="listObj in taskBoard.taskLists"
           :key="listObj._id"
