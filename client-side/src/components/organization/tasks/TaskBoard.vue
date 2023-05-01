@@ -1,10 +1,18 @@
 <template>
   <div class="task-board-container">
-    <font-awesome-icon class="back-button" :icon="['fas', 'circle-chevron-left']" />
-    <h1>{{ boardTitle }}</h1>
-    <div class="all-lists">
-      <draggable @change="log" group="entire-list" class="draggable">
-        <board-list v-for="list in numberOfLists" :key="list" :listTitle="listTitle"></board-list>
+    <font-awesome-icon class="back-button" :icon="['fas', 'circle-chevron-left']" @click="goBack()" />
+    <h1 v-if="taskBoard">{{ taskBoard.name }}</h1>
+    <div class="all-lists" v-if="taskBoard">
+      <draggable class="draggable" :list="taskBoard.taskLists" group="entire-list" itemKey="_id" @change="moveList">
+        <board-list
+          v-for="listObj in taskBoard.taskLists"
+          :key="listObj._id"
+          :listID="listObj._id"
+          :listTitle="listObj.name"
+          :tasks="listObj?.taskItems"
+          @addTask="addNewTask"
+          @moveTaskSame="moveTaskInTheCurrList"
+        ></board-list>
       </draggable>
     </div>
   </div>
@@ -24,17 +32,66 @@ export default {
   },
   data() {
     return {
-      boardTitle: "Personal Tasks",
-      enabled: true,
-      numberOfLists: 3,
-      listTitle: "List title",
-      dragging: false,
+      taskBoard: null,
     };
   },
   methods: {
-    log(event) {
-      console.log(event);
+    async loadTaskBoardData() {
+      try {
+        this.taskBoard = await this.$store.dispatch("getTaskBoard", { taskBoardID: this.boardID });
+      } catch (error) {
+        console.log(error);
+      }
     },
+    async addNewTask({ listID, title }) {
+      try {
+        await this.$store.dispatch("addTask", {
+          taskBoardID: this.boardID,
+          taskListID: listID,
+          taskObj: { title },
+        });
+
+        for (const taskListObj of this.taskBoard.taskLists) {
+          if (taskListObj._id === listID) {
+            taskListObj.taskItems.push({ title });
+            break;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async moveList(evt) {
+      if (evt?.moved) {
+        try {
+          await this.$store.dispatch("moveTaskList", {
+            taskBoardID: this.boardID,
+            movedListNewIndex: evt.moved.newIndex,
+            movedListOldIndex: evt.moved.oldIndex,
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+    async moveTaskInTheCurrList({ listID, newIndex, oldIndex }) {
+      try {
+        await this.$store.dispatch("moveTaskBetweenCurrList", {
+          taskBoardID: this.boardID,
+          taskListID: listID,
+          movedTaskNewIndex: newIndex,
+          movedTaskOldIndex: oldIndex,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    goBack() {
+      this.$router.push("/organization/tasks/boards/");
+    },
+  },
+  created() {
+    this.loadTaskBoardData();
   },
 };
 </script>

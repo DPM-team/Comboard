@@ -1,10 +1,10 @@
 <template>
   <div class="list">
     <h3>{{ listTitle }}</h3>
-    <draggable :list="aList" @change="log" group="tasks">
-      <board-list-item v-for="element in aList" :key="element.id" :content="element.content"></board-list-item>
-      <input class="task-input" type="text" name="task-input" placeholder=" + Add list item.." />
+    <draggable :list="tasks" group="tasks" itemKey="_id" @change="log">
+      <board-list-item v-for="task in tasks" :key="task._id" :title="task.title"></board-list-item>
     </draggable>
+    <input class="task-input" type="text" name="task-input" placeholder=" + Add list item.." v-model="newTask" @keyup.enter="addTask()" />
   </div>
 </template>
 
@@ -13,28 +13,40 @@ import { VueDraggableNext } from "vue-draggable-next";
 import BoardListItem from "./BoardListItem.vue";
 
 export default {
-  props: {
-    listTitle: String,
-  },
   components: { draggable: VueDraggableNext, BoardListItem },
+  props: {
+    listID: {
+      type: String,
+      required: true,
+    },
+    listTitle: {
+      type: String,
+      required: true,
+    },
+    tasks: {
+      type: Array,
+      required: false,
+      default: new Array(),
+    },
+  },
   data() {
     return {
-      boardTitle: "Personal Tasks",
-      enabled: true,
-      aList: [
-        { content: "Task1", id: 1 },
-        { content: "Task2", id: 2 },
-        { content: "Task3", id: 3 },
-        { content: "Task4", id: 4 },
-      ],
-      dragging: false,
+      newTask: "",
     };
   },
   methods: {
-    log(event) {
-      console.log(event);
-      console.log(this.toDolist);
-      console.log(this.donelist);
+    addTask() {
+      if (this.newTask.trim() !== "") {
+        this.$emit("add-task", { title: this.newTask, listID: this.listID });
+        this.newTask = "";
+      }
+    },
+    log(evt) {
+      if (evt?.moved) {
+        this.$emit("move-task-same", { listID: this.listID, newIndex: evt.moved.newIndex, oldIndex: evt.moved.oldIndex });
+      } else {
+        console.log(evt);
+      }
     },
   },
 };

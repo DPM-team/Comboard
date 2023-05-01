@@ -6,9 +6,31 @@ const taskBoardSchema = mongoose.Schema({
     required: true,
     trim: true,
   },
-  taskBoardListLists: new Array({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "taskBoardList",
+  taskLists: new Array({
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    taskItems: new Array({
+      title: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      description: {
+        type: String,
+        required: false,
+      },
+      fromDate: {
+        type: Date,
+        required: false,
+      },
+      toDate: {
+        type: Date,
+        required: false,
+      },
+    }),
   }),
 });
 

@@ -9,7 +9,7 @@
 <script>
 export default {
   props: {
-    id: {
+    boardID: {
       type: String,
       required: true,
     },
@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     moveToBoard() {
-      this.$router.push(`/organization/tasks/boards/${this.id}`);
+      this.$router.push(`/organization/tasks/boards/${this.boardID}`);
     },
   },
 };

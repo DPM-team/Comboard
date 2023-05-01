@@ -8,4 +8,12 @@ router.post("/api/taskboard", authentication, tasksController.createTaskBoard);
 
 router.get("/api/taskboards", authentication, tasksController.getTaskBoards);
 
+router.get("/api/taskboard", authentication, tasksController.getTaskBoard);
+
+router.put("/api/task/add", authentication, tasksController.addTask);
+
+router.put("/api/tasklist/move", authentication, tasksController.moveTaskList);
+
+router.put("/api/task/move/currlist", authentication, tasksController.moveTaskBetweenCurrList);
+
 module.exports = router;
