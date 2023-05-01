@@ -13,7 +13,9 @@ router.get("/api/user/organization/notifications", authentication, async (req, r
       throw new Error();
     }
 
-    const notifications = await userOrgData.populate({ path: "notifications", model: "notification" });
+    await userOrgData.populate({ path: "notifications", model: "notification" });
+
+    const notifications = userOrgData.notifications;
 
     res.status(200).send({ message: "Correct load of notifications!", notifications });
   } catch (error) {

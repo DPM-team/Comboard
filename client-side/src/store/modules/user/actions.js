@@ -91,4 +91,25 @@ export default {
       throw new Error();
     }
   },
+
+  async acceptConnection(context, payload) {
+    try {
+      const requestsOptions = {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ acceptConnection: payload.accept }),
+      };
+
+      const response = await fetch(`/api/organization/user/${payload.userConnectionID}/connection?orgID=${payload.orgID}`, requestsOptions);
+
+      if (!response.ok) {
+        throw new Error();
+      }
+    } catch (error) {
+      return new Error();
+    }
+  },
 };
