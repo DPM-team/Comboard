@@ -12,8 +12,10 @@
           :tasks="listObj?.taskItems"
           @addTask="addNewTask"
           @moveTaskSame="moveTaskInTheCurrList"
+          @moveTaskToOtherList="moveTaskToOtherList"
         ></board-list>
       </draggable>
+      <loading-spinner v-if="isLoading"></loading-spinner>
     </div>
   </div>
 </template>
@@ -33,30 +35,33 @@ export default {
   data() {
     return {
       taskBoard: null,
+      isLoading: false,
     };
   },
   methods: {
     async loadTaskBoardData() {
       try {
+        this.isLoading = true;
+
         this.taskBoard = await this.$store.dispatch("getTaskBoard", { taskBoardID: this.boardID });
+
+        this.isLoading = false;
       } catch (error) {
         console.log(error);
       }
     },
     async addNewTask({ listID, title }) {
       try {
-        await this.$store.dispatch("addTask", {
+        this.isLoading = true;
+
+        const successData = await this.$store.dispatch("addTask", {
           taskBoardID: this.boardID,
           taskListID: listID,
           taskObj: { title },
         });
 
-        for (const taskListObj of this.taskBoard.taskLists) {
-          if (taskListObj._id === listID) {
-            taskListObj.taskItems.push({ title });
-            break;
-          }
-        }
+        this.taskBoard = successData.updatedTaskBoard || this.taskBoard;
+        this.isLoading = false;
       } catch (error) {
         console.log(error);
       }
@@ -76,12 +81,32 @@ export default {
     },
     async moveTaskInTheCurrList({ listID, newIndex, oldIndex }) {
       try {
+        this.isLoading = true;
+
         await this.$store.dispatch("moveTaskBetweenCurrList", {
           taskBoardID: this.boardID,
           taskListID: listID,
           movedTaskNewIndex: newIndex,
           movedTaskOldIndex: oldIndex,
         });
+
+        this.isLoading = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async moveTaskToOtherList({ listIDToMove, taskObj, newIndex }) {
+      try {
+        this.isLoading = true;
+
+        await this.$store.dispatch("moveTaskToOtherList", {
+          taskBoardID: this.boardID,
+          listIDToMove: listIDToMove,
+          taskObj: taskObj,
+          moveToIndex: newIndex,
+        });
+
+        this.isLoading = false;
       } catch (error) {
         console.log(error);
       }

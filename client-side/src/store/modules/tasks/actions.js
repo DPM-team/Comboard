@@ -166,4 +166,33 @@ export default {
       throw new Error(error.message || "Failed to move Task under the current list.");
     }
   },
+  async moveTaskToOtherList(context, payload) {
+    const taskBoardID = payload.taskBoardID;
+    const listIDToMove = payload.listIDToMove;
+    const taskObj = payload.taskObj;
+    const moveToIndex = payload.moveToIndex;
+
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ taskBoardID, listIDToMove, taskObj, moveToIndex }),
+    };
+
+    try {
+      const response = await fetch("/api/move/task", requestOptions);
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.error);
+      }
+
+      return responseData;
+    } catch (error) {
+      throw new Error(error.message || "Failed to move Task.");
+    }
+  },
 };

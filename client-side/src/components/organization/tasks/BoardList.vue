@@ -44,8 +44,8 @@ export default {
     log(evt) {
       if (evt?.moved) {
         this.$emit("move-task-same", { listID: this.listID, newIndex: evt.moved.newIndex, oldIndex: evt.moved.oldIndex });
-      } else {
-        console.log(evt);
+      } else if (evt?.added) {
+        this.$emit("move-task-to-other-list", { listIDToMove: this.listID, taskObj: evt.added.element, newIndex: evt.added.newIndex });
       }
     },
   },

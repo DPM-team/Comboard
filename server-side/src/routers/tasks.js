@@ -16,4 +16,6 @@ router.put("/api/tasklist/move", authentication, tasksController.moveTaskList);
 
 router.put("/api/task/move/currlist", authentication, tasksController.moveTaskBetweenCurrList);
 
+router.put("/api/move/task", authentication, tasksController.moveTaskToOtherList);
+
 module.exports = router;
