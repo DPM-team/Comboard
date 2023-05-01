@@ -5,21 +5,11 @@
       <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
       <div class="cols__container">
         <div class="left__col">
-          <div class="img__container">
-            <img :src="pfp" alt="User Profile Pic" />
-            <span></span>
-          </div>
+          <profile-picture :pfp="pfp"></profile-picture>
           <h2 class="name">{{ firstname }} {{ lastname }}</h2>
           <h4 class="location">{{ location }}</h4>
           <p class="bio">{{ bio }}</p>
-          <div class="content">
-            <ul class="profile-ul">
-              <a :href="phoneLink"><font-awesome-icon class="icon" :icon="['fas', 'phone']" /></a>
-              <a :href="mailLink"><font-awesome-icon class="icon" :icon="['fas', 'envelope']" /></a>
-              <a :href="linkedinLink" target="_blank"> <font-awesome-icon class="icon" :icon="['fab', 'linkedin']" /></a>
-            </ul>
-            <base-button>Organization Profile</base-button>
-          </div>
+          <user-data-area :phoneLink="phoneLink" :linkedinLink="linkedinLink" :mailLink="mailLink"></user-data-area>
         </div>
         <div class="right__col">
           <div class="menu-ul">
@@ -36,9 +26,11 @@
 <script>
 import OrganizationPageHeader from "../../../layout/headers/OrganizationPageHeader.vue";
 import BackHeaderButton from "../../../layout/headers/BackHeaderButton.vue";
+import ProfilePicture from "../../../organization/profile/user/ProfilePicture.vue";
+import UserDataArea from "./UserDataArea.vue";
 
 export default {
-  components: { OrganizationPageHeader, BackHeaderButton },
+  components: { OrganizationPageHeader, BackHeaderButton, ProfilePicture, UserDataArea },
   data() {
     return {
       userID: "",
@@ -104,20 +96,6 @@ export default {
   margin: 0 auto;
 }
 
-.header__wrapper .cols__container .left__col .img__container {
-  position: absolute;
-  top: -60px;
-  left: 50%;
-  transform: translatex(-50%);
-}
-.header__wrapper .cols__container .left__col .img__container img {
-  width: 140px;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 50%;
-  display: block;
-  box-shadow: 1px 3px 12px rgba(0, 0, 0, 0.18);
-}
 .header__wrapper .cols__container .left__col .img__container span {
   position: absolute;
   background: #2afa6a;
