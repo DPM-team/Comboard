@@ -6,8 +6,10 @@
         <h3 v-if="taskBoards.length === 0 && !isLoading">No Task boards</h3>
         <task-board-list-item v-else v-for="taskBoard in taskBoards" :key="taskBoard._id" :boardID="taskBoard._id" :title="taskBoard.name"></task-board-list-item>
         <div>
-          <input id="taskboard--input" type="text" name="taskboard-name" placeholder="Task board name..." v-model="newTaskBoardName" />
-          <input id="taskboard-create--btn" type="button" value="Create Task board" @click="createTaskBoard()" />
+          <form @submit.prevent="createTaskBoard()">
+            <input id="taskboard--input" type="text" name="taskboard-name" placeholder="Task board name..." v-model="newTaskBoardName" />
+            <input id="taskboard-create--btn" type="submit" value="Create Task board" />
+          </form>
         </div>
       </div>
     </base-card>
