@@ -59,7 +59,7 @@
       </div></header-toggle-option
     >
     <header-toggle-option v-if="notificationOptionsAreVisible" :position="'notifications-toggle'">
-      <base-spinner></base-spinner>
+      <base-spinner class="notification-item" v-if="spinner"></base-spinner>
       <div v-if="notifications.length > 0">
         <li class="notification-item" v-for="notification in notifications" :key="notification._id">
           <div v-if="notification.type === 'connection'"><button @click="acceptConnection(notification.from, true)">Accept</button> <button>Delete</button></div>
