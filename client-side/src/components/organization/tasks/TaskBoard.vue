@@ -144,7 +144,7 @@ export default {
 }
 .draggable {
   display: flex;
-  height: 220px;
+  height: 300px;
 }
 .back-button {
   font-size: 30px;
