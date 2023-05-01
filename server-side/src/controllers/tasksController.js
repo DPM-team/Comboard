@@ -35,7 +35,7 @@ const createTaskBoard = async (req, res) => {
     // Save the updated document
     await userOrgData.save();
 
-    res.status(200).json({ successMessage: "Task board has been successfully added to the user!" });
+    res.status(200).json({ successMessage: "Task board has been successfully added to the user!", savedTaskBoard });
   } catch (error) {
     console.error(error); // Log the error for debugging purposes
     res.status(500).json({ error: "Server error." });

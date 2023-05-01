@@ -5,6 +5,10 @@
         <base-spinner v-if="isLoading"></base-spinner>
         <h3 v-if="taskBoards.length === 0 && !isLoading">No Task boards</h3>
         <task-board-list-item v-else v-for="taskBoard in taskBoards" :key="taskBoard._id" :boardID="taskBoard._id" :title="taskBoard.name"></task-board-list-item>
+        <div>
+          <input id="taskboard--input" type="text" name="taskboard-name" placeholder="Task board name..." v-model="newTaskBoardName" />
+          <input id="taskboard-create--btn" type="button" value="Create Task board" @click="createTaskBoard()" />
+        </div>
       </div>
     </base-card>
   </div>
@@ -20,6 +24,7 @@ export default {
     return {
       taskBoards: new Array(),
       isLoading: false,
+      newTaskBoardName: "",
     };
   },
   methods: {
@@ -35,6 +40,23 @@ export default {
         this.isLoading = false;
       } catch (error) {
         console.log(error);
+      }
+    },
+    async createTaskBoard() {
+      if (this.newTaskBoardName) {
+        try {
+          const successData = await this.$store.dispatch("createTaskBoard", {
+            userID: this.$store.getters.loggedUserID,
+            organizationID: this.$store.getters.selectedOrganizationID,
+            taskBoardName: this.newTaskBoardName,
+          });
+
+          this.taskBoards.push(successData.savedTaskBoard);
+
+          this.newTaskBoardName = "";
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
   },
@@ -68,6 +90,10 @@ export default {
   padding-top: 25px;
   padding-left: 25px;
   display: inline-block;
+}
+
+#taskboard-create--btn {
+  display: block;
 }
 
 /* Responsiveness */
