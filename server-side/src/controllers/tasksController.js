@@ -35,7 +35,37 @@ const createTaskBoard = async (req, res) => {
     // Save the updated document
     await userOrgData.save();
 
-    res.status(200).json({ successMessage: "Task board has been successfully added to the user!" });
+    res.status(200).json({ successMessage: "Task board has been successfully added to the user!", savedTaskBoard });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
+const addTaskList = async (req, res) => {
+  try {
+    const taskBoardID = req.body.taskBoardID;
+    const taskListName = req.body.taskListName;
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    if (!taskListName) {
+      return res.status(400).json({ error: "The name of the task list is required!" });
+    }
+
+    const taskBoard = await TaskBoard.findById(taskBoardID);
+
+    if (!taskBoard) {
+      return res.status(404).json({ error: "Task board doesn't found!" });
+    }
+
+    taskBoard.taskLists.push({ name: taskListName });
+
+    const updatedTaskBoard = await taskBoard.save();
+
+    res.status(200).json({ successMessage: "Task list has been successfully added to the board!", updatedTaskBoard });
   } catch (error) {
     console.error(error); // Log the error for debugging purposes
     res.status(500).json({ error: "Server error." });
@@ -125,7 +155,7 @@ const addTask = async (req, res) => {
     }
 
     if (added) {
-      const updatedTaskBoard = await taskBoard.save();
+      const updatedTaskBoard = await TaskBoard.findByIdAndUpdate(taskBoardID, taskBoard, { new: true });
       res.status(200).json({ updatedTaskBoard });
     } else {
       res.status(400).json({ error: "Task doesn't added!" });
@@ -160,13 +190,16 @@ const moveTaskList = async (req, res) => {
       return res.status(404).json({ error: "Task board doesn't found!" });
     }
 
-    const tempList = taskBoard.taskLists[movedListNewIndex];
-    taskBoard.taskLists[movedListNewIndex] = taskBoard.taskLists[movedListOldIndex];
-    taskBoard.taskLists[movedListOldIndex] = tempList;
+    if (movedListNewIndex >= 0 && movedListOldIndex >= 0 && movedListNewIndex < taskBoard.taskLists.length && movedListOldIndex < taskBoard.taskLists.length) {
+      const [listToMove] = taskBoard.taskLists.splice(movedListOldIndex, 1);
+      taskBoard.taskLists.splice(movedListNewIndex, 0, listToMove);
 
-    const updatedTaskBoard = await taskBoard.save();
+      const updatedTaskBoard = await taskBoard.save();
 
-    res.status(200).json({ updatedTaskBoard });
+      res.status(200).json({ updatedTaskBoard });
+    } else {
+      res.status(400).json({ error: "Task list doesn't moved!" });
+    }
   } catch (error) {
     console.error(error); // Log the error for debugging purposes
     res.status(500).json({ error: "Server error." });
@@ -206,16 +239,83 @@ const moveTaskBetweenCurrList = async (req, res) => {
 
     for (const taskListObj of taskBoard.taskLists) {
       if (taskListObj._id.toString() === taskListID) {
-        const temp = taskListObj.taskItems[movedTaskNewIndex];
-        taskListObj.taskItems[movedTaskNewIndex] = taskListObj.taskItems[movedTaskOldIndex];
-        taskListObj.taskItems[movedTaskOldIndex] = temp;
+        const [itemToMove] = taskListObj.taskItems.splice(movedTaskOldIndex, 1);
+        taskListObj.taskItems.splice(movedTaskNewIndex, 0, itemToMove);
         moved = true;
         break;
       }
     }
 
     if (moved) {
-      const updatedTaskBoard = await taskBoard.save();
+      const updatedTaskBoard = await TaskBoard.findByIdAndUpdate(taskBoardID, taskBoard, { new: true });
+      res.status(200).json({ updatedTaskBoard });
+    } else {
+      res.status(400).json({ error: "Task doesn't moved!" });
+    }
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
+const moveTaskToOtherList = async (req, res) => {
+  try {
+    const taskBoardID = req.body.taskBoardID;
+    const listIDToMove = req.body.listIDToMove;
+    const taskObj = req.body.taskObj;
+    const moveToIndex = req.body.moveToIndex;
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    if (!listIDToMove) {
+      return res.status(400).json({ error: "listIDToMove is required!" });
+    }
+
+    if (!taskObj) {
+      return res.status(400).json({ error: "taskObj is required!" });
+    }
+
+    if (!moveToIndex && moveToIndex !== 0) {
+      return res.status(400).json({ error: "moveToIndex is required!" });
+    }
+
+    const taskBoard = await TaskBoard.findById(taskBoardID);
+
+    if (!taskBoard) {
+      return res.status(404).json({ error: "Task board doesn't found!" });
+    }
+
+    let moved = false;
+
+    for (const taskListObj of taskBoard.taskLists) {
+      if (taskListObj._id.toString() === listIDToMove) {
+        if (moveToIndex >= 0 && moveToIndex <= taskListObj.taskItems.length) {
+          taskListObj.taskItems.splice(moveToIndex, 0, taskObj);
+          moved = true;
+          break;
+        }
+      }
+    }
+
+    if (moved) {
+      for (const taskListObj of taskBoard.taskLists) {
+        if (taskListObj._id.toString() !== listIDToMove) {
+          for (const [index, task] of taskListObj.taskItems.entries()) {
+            if (task._id.toString() === taskObj._id) {
+              if (index !== -1) {
+                taskListObj.taskItems.splice(index, 1);
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (moved) {
+      const updatedTaskBoard = await TaskBoard.findByIdAndUpdate(taskBoardID, taskBoard, { new: true });
       res.status(200).json({ updatedTaskBoard });
     } else {
       res.status(400).json({ error: "Task doesn't moved!" });
@@ -228,9 +328,11 @@ const moveTaskBetweenCurrList = async (req, res) => {
 
 module.exports = {
   createTaskBoard,
+  addTaskList,
   getTaskBoards,
   getTaskBoard,
   addTask,
   moveTaskList,
   moveTaskBetweenCurrList,
+  moveTaskToOtherList,
 };

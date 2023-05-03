@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <h3>{{ listTitle }}</h3>
-    <draggable :list="tasks" group="tasks" itemKey="_id" @change="log">
+    <draggable class="scroll" :list="tasks" group="tasks" itemKey="_id" @change="log">
       <board-list-item v-for="task in tasks" :key="task._id" :title="task.title"></board-list-item>
     </draggable>
     <input class="task-input" type="text" name="task-input" placeholder=" + Add list item.." v-model="newTask" @keyup.enter="addTask()" />
@@ -44,8 +44,8 @@ export default {
     log(evt) {
       if (evt?.moved) {
         this.$emit("move-task-same", { listID: this.listID, newIndex: evt.moved.newIndex, oldIndex: evt.moved.oldIndex });
-      } else {
-        console.log(evt);
+      } else if (evt?.added) {
+        this.$emit("move-task-to-other-list", { listIDToMove: this.listID, taskObj: evt.added.element, newIndex: evt.added.newIndex });
       }
     },
   },
@@ -80,5 +80,10 @@ export default {
 .task-input::placeholder {
   color: black;
   opacity: 0.8;
+}
+
+.scroll {
+  overflow-y: auto;
+  height: 200px;
 }
 </style>

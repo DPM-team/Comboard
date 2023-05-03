@@ -2,8 +2,8 @@
   <div class="task-board-container">
     <font-awesome-icon class="back-button" :icon="['fas', 'circle-chevron-left']" @click="goBack()" />
     <h1 v-if="taskBoard">{{ taskBoard.name }}</h1>
-    <div class="all-lists" v-if="taskBoard">
-      <draggable class="draggable" :list="taskBoard.taskLists" group="entire-list" itemKey="_id" @change="moveList">
+    <div class="all-lists">
+      <draggable v-if="taskBoard" class="draggable" :list="taskBoard.taskLists" group="entire-list" itemKey="_id" @change="moveList">
         <board-list
           v-for="listObj in taskBoard.taskLists"
           :key="listObj._id"
@@ -12,8 +12,14 @@
           :tasks="listObj?.taskItems"
           @addTask="addNewTask"
           @moveTaskSame="moveTaskInTheCurrList"
+          @moveTaskToOtherList="moveTaskToOtherList"
         ></board-list>
       </draggable>
+      <form @submit.prevent="createTaskList()">
+        <input id="tasklist--input" type="text" name="tasklist-name" placeholder="Task list name..." v-model="newTaskListName" />
+        <input id="tasklist-create--btn" type="submit" value="Create Task List" />
+      </form>
+      <loading-spinner v-if="isLoading"></loading-spinner>
     </div>
   </div>
 </template>
@@ -33,30 +39,34 @@ export default {
   data() {
     return {
       taskBoard: null,
+      isLoading: false,
+      newTaskListName: "",
     };
   },
   methods: {
     async loadTaskBoardData() {
       try {
+        this.isLoading = true;
+
         this.taskBoard = await this.$store.dispatch("getTaskBoard", { taskBoardID: this.boardID });
+
+        this.isLoading = false;
       } catch (error) {
         console.log(error);
       }
     },
     async addNewTask({ listID, title }) {
       try {
-        await this.$store.dispatch("addTask", {
+        this.isLoading = true;
+
+        const successData = await this.$store.dispatch("addTask", {
           taskBoardID: this.boardID,
           taskListID: listID,
           taskObj: { title },
         });
 
-        for (const taskListObj of this.taskBoard.taskLists) {
-          if (taskListObj._id === listID) {
-            taskListObj.taskItems.push({ title });
-            break;
-          }
-        }
+        this.taskBoard = successData.updatedTaskBoard || this.taskBoard;
+        this.isLoading = false;
       } catch (error) {
         console.log(error);
       }
@@ -76,12 +86,44 @@ export default {
     },
     async moveTaskInTheCurrList({ listID, newIndex, oldIndex }) {
       try {
+        this.isLoading = true;
+
         await this.$store.dispatch("moveTaskBetweenCurrList", {
           taskBoardID: this.boardID,
           taskListID: listID,
           movedTaskNewIndex: newIndex,
           movedTaskOldIndex: oldIndex,
         });
+
+        this.isLoading = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async moveTaskToOtherList({ listIDToMove, taskObj, newIndex }) {
+      try {
+        this.isLoading = true;
+
+        await this.$store.dispatch("moveTaskToOtherList", {
+          taskBoardID: this.boardID,
+          listIDToMove: listIDToMove,
+          taskObj: taskObj,
+          moveToIndex: newIndex,
+        });
+
+        this.isLoading = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async createTaskList() {
+      try {
+        const successData = await this.$store.dispatch("addTaskList", {
+          taskBoardID: this.boardID,
+          taskListName: this.newTaskListName,
+        });
+
+        this.taskBoard = successData.updatedTaskBoard || this.taskBoard;
       } catch (error) {
         console.log(error);
       }
@@ -102,6 +144,7 @@ export default {
   width: calc(100% - 200px);
   overflow-x: auto;
 }
+
 .task-board-container h1 {
   color: rgb(30, 30, 30);
   font-size: 23px;
@@ -111,29 +154,37 @@ export default {
   padding-left: 25px;
   display: inline-block;
 }
+
 .all-lists {
   display: flex !important;
   flex-wrap: nowrap;
   width: 1000px;
   height: 80px;
 }
+
 .draggable {
   display: flex;
-  height: 220px;
+  height: 300px;
 }
+
 .back-button {
   font-size: 30px;
   display: inline;
   cursor: pointer;
   margin-left: 20px;
 }
-/* Responsiveness */
 
+#tasklist-create--btn {
+  display: block;
+}
+
+/* Responsiveness */
 @media (max-width: 1250px) {
   .task-board-container {
     width: calc(100% - 180px);
   }
 }
+
 @media (max-width: 1150px) {
   .task-board-container {
     width: calc(100% - 80px);
@@ -145,6 +196,7 @@ export default {
     width: calc(100% - 55px);
   }
 }
+
 @media (max-width: 450px) {
   .task-board-container {
     width: calc(100% - 45px);

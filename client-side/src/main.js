@@ -8,6 +8,7 @@ import App from "./App.vue";
 import BaseSection from "./components/basic-components/BaseSection.vue";
 import BaseCard from "./components/basic-components/BaseCard.vue";
 import BaseSpinner from "./components/basic-components/BaseSpinner";
+import LoadingSpinner from "./components/basic-components/LoadingSpinner";
 import BaseDialog from "./components/basic-components/BaseDialog.vue";
 import BaseButton from "./components/basic-components/BaseButton.vue";
 
@@ -124,6 +125,7 @@ app.component("base-section", BaseSection);
 app.component("base-card", BaseCard);
 app.component("base-dialog", BaseDialog);
 app.component("base-spinner", BaseSpinner);
+app.component("loading-spinner", LoadingSpinner);
 app.component("base-button", BaseButton);
 app.component("font-awesome-icon", FontAwesomeIcon);
 
