@@ -42,9 +42,11 @@ export default {
 
       const data = await response.json();
 
+      console.log(data);
+
       if (response.ok) {
         context.commit("setPosts", {
-          posts: data?.posts,
+          posts: data?.allPosts,
         });
 
         return data?.succesMessage;

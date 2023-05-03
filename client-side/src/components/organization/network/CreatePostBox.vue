@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="createPost">
     <div class="create-post-box">
       <div class="visibilty-options">
         <input type="radio" name="visibility" value="Connections" required @click="toogleVisibility" />
@@ -11,7 +11,7 @@
         <img class="user-pfp" :src="pictureLink" />
       </div>
       <input v-model="postContent" class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
-      <button @click="createPost()" class="post-button">Post</button>
+      <input class="post-button" value="Post" type="submit" />
     </div>
   </form>
 </template>
@@ -41,6 +41,7 @@ export default {
         });
 
         this.submitMessage = successData.successMessage;
+        this.$emit("createPost", successData.createdPost);
       } catch (error) {
         this.submitMessage = error.message || "Something went wrong!";
       }

@@ -9,7 +9,7 @@ const router = new express.Router();
 router.post("/api/post", authentication, postControllers.createPost);
 
 // Router to get user's post for a specific organization
-router.get("/api/network/posts", authentication, postControllers.getPosts);
+router.get("/api/network/posts", authentication, postControllers.getCurrentPosts);
 
 // Router to add or remove a like
 router.put("/api/post/like", authentication, postControllers.toogleUserLike);

@@ -1,14 +1,14 @@
 <template>
   <organization-page-tab layout="flex">
     <div class="main-section">
-      <create-post-box :pictureLink="this.myUser.pictureLink"></create-post-box>
+      <create-post-box :pictureLink="this.myUser.pictureLink" @create-post="loadCreatedPost"></create-post-box>
       <post-box
         v-for="post in posts"
         :key="post.id"
         :id="post.id"
         :content="post.content"
-        :firstname="post.firstname"
-        :lastname="post.lastname"
+        :firstname="post.name"
+        :lastname="post.surname"
         :pictureLink="post.pictureLink"
         :likes="post.likes"
         :comments="post.comments"
@@ -43,24 +43,35 @@ export default {
     };
   },
   methods: {
+    loadCreatedPost(post) {
+      this.posts.unshift({
+        id: post._id,
+        content: post.contentString,
+        name: post.creatorObj.name,
+        surname: post.creatorObj.surname,
+        pictureLink: `/api/users/${post.creatorID}/profilePhoto`,
+        likes: post.likes,
+        comments: post.comments,
+        date: new Date(post.createdAt).toLocaleDateString(),
+      });
+    },
     async loadPosts() {
       try {
         await this.$store.dispatch("loadPosts", {
           userID: this.$store.getters.loggedUserID,
           organizationID: this.$store.getters.selectedOrganizationID,
         });
-
-        this.message = "";
       } catch (error) {
         this.message = error.message || "Something went wrong!";
       }
 
-      this.$store.getters.posts.forEach((post, index) => {
-        this.posts[index] = {
+      this.posts = this.$store.getters.posts.map((post) => {
+        console.log(post);
+        return {
           id: post.postObj._id,
           content: post.postObj.contentString,
-          firstname: post.creatorObj.name,
-          lastname: post.creatorObj.surname,
+          name: post.creatorObj.name,
+          surname: post.creatorObj.surname,
           pictureLink: `/api/users/${post.postObj.creatorID}/profilePhoto`,
           likes: post.postObj?.likes,
           comments: post.postObj?.comments,
