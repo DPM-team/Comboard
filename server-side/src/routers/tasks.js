@@ -18,6 +18,8 @@ router.put("/api/task/move/currlist", authentication, tasksController.moveTaskBe
 
 router.put("/api/move/task", authentication, tasksController.moveTaskToOtherList);
 
-router.put("/api/tasklist", authentication, tasksController.addTaskList)
+router.put("/api/tasklist", authentication, tasksController.addTaskList);
+
+router.put("/api/task/update", authentication, tasksController.updateTask);
 
 module.exports = router;

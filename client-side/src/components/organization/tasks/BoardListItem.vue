@@ -2,10 +2,11 @@
   <div>
     <base-dialog v-if="dialogIsOpen" :title="title" @close="closeDialog">
       <template #main>
+        <base-message v-if="updateTaskMessage" :message="updateTaskMessage" :mode="messageType"></base-message>
         <form @submit.prevent="updateTask()">
           <div class="input-control">
             <label for="task-name">Edit task's name</label>
-            <input type="text" v-model="mutableTitle" name="task-name" />
+            <input type="text" v-model="mutableTitle" name="task-name" required />
           </div>
           <div class="input-control">
             <label for="task-description">Task's description</label>
@@ -31,7 +32,7 @@
       </template>
     </base-dialog>
     <div class="list-item" @click="openDialog">
-      <p>{{ title }}</p>
+      <p>{{ mutableTitle || title }}</p>
     </div>
   </div>
 </template>
@@ -39,6 +40,10 @@
 <script>
 export default {
   props: {
+    taskListID: {
+      type: String,
+      required: true,
+    },
     taskID: {
       type: String,
       required: true,
@@ -72,19 +77,43 @@ export default {
       mutableDescription: this.description,
       mutableDateStarts: this.dateStarts,
       mutableDateExpires: this.dateExpires,
+      updateTaskMessage: "",
+      messageType: "",
     };
   },
   methods: {
-    updateTask() {
-      console.log("fds");
+    async updateTask() {
+      if (this.changesHappened()) {
+        try {
+          const successData = await this.$store.dispatch("updateTask", {
+            taskListID: this.taskListID,
+            taskBoardID: this.$store.getters.getSelectedBoardID,
+            updatedTaskObj: {
+              _id: this.taskID,
+              title: this.mutableTitle,
+              description: this.mutableDescription,
+              fromDate: this.mutableDateStarts,
+              toDate: this.mutableDateExpires,
+            },
+          });
+
+          this.updateTaskMessage = successData?.successMessage;
+          this.messageType = "success";
+        } catch (error) {
+          this.updateTaskMessage = error?.message || "Can't update task!";
+          this.messageType = "error";
+        }
+      }
     },
     closeDialog() {
       this.dialogIsOpen = false;
-
-      this.submitMessage = "";
+      this.updateTaskMessage = "";
     },
     openDialog() {
       this.dialogIsOpen = true;
+    },
+    changesHappened() {
+      return this.title !== this.mutableTitle || this.description !== this.mutableDescription || this.dateStarts !== this.mutableDateStarts || this.dateExpires !== this.mutableDateExpires;
     },
   },
 };

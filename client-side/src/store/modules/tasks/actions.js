@@ -1,4 +1,7 @@
 export default {
+  selectBoardID(context, payload) {
+    context.commit("setSelectedBoardID", { boardID: payload.boardID });
+  },
   async createTaskBoard(context, payload) {
     const userID = payload.userID;
     const organizationID = payload.organizationID;
@@ -135,6 +138,34 @@ export default {
       return responseData;
     } catch (error) {
       throw new Error(error.message || "Failed to add Task.");
+    }
+  },
+  async updateTask(context, payload) {
+    const taskBoardID = payload.taskBoardID;
+    const taskListID = payload.taskListID;
+    const updatedTaskObj = payload.updatedTaskObj;
+
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ taskBoardID, taskListID, updatedTaskObj }),
+    };
+
+    try {
+      const response = await fetch("/api/task/update", requestOptions);
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.error);
+      }
+
+      return responseData;
+    } catch (error) {
+      throw new Error(error.message || "Failed to update Task.");
     }
   },
   async moveTaskList(context, payload) {

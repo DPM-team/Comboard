@@ -7,6 +7,5 @@ export default {
 
   setProfilePhoto(state, payload) {
     state.userImage = payload.photo;
-    console.log(state);
   },
 };

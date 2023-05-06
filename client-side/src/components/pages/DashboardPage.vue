@@ -29,10 +29,9 @@ import BaseCard from "../basic-components/BaseCard.vue";
 import OrganizationList from "../dashboard/OrganizationList.vue";
 import DashboardSearchbarContainer from "../dashboard/DashboardSearchbarContainer.vue";
 import AuthFormInput from "../auth/AuthFormInput.vue";
-import BaseMessage from "../basic-components/BaseMessage.vue";
 
 export default {
-  components: { DashboardHeader, DashboardFooter, BaseCard, OrganizationList, DashboardSearchbarContainer, AuthFormInput, BaseMessage },
+  components: { DashboardHeader, DashboardFooter, BaseCard, OrganizationList, DashboardSearchbarContainer, AuthFormInput },
   data() {
     return {
       organizationKeyInput: "",

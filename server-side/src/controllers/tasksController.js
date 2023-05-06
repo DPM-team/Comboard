@@ -166,6 +166,60 @@ const addTask = async (req, res) => {
   }
 };
 
+const updateTask = async (req, res) => {
+  try {
+    const taskBoardID = req.body.taskBoardID;
+    const taskListID = req.body.taskListID;
+    const updatedTaskObj = req.body.updatedTaskObj;
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    if (!taskListID) {
+      return res.status(400).json({ error: "taskListID is required!" });
+    }
+
+    if (!updatedTaskObj) {
+      return res.status(400).json({ error: "updatedTaskObj is required!" });
+    }
+
+    if (!updatedTaskObj?.title.trim()) {
+      return res.status(400).json({ error: "Task title is required!" });
+    }
+
+    const taskBoard = await TaskBoard.findById(taskBoardID);
+
+    if (!taskBoard) {
+      return res.status(404).json({ error: "Task board doesn't found!" });
+    }
+
+    let updated = false;
+
+    for (const taskListObj of taskBoard.taskLists) {
+      if (taskListObj._id.toString() === taskListID) {
+        for (let [index, taskObj] of taskListObj.taskItems.entries()) {
+          if (taskObj._id.toString() === updatedTaskObj._id) {
+            taskListObj.taskItems[index] = updatedTaskObj;
+            updated = true;
+            break;
+          }
+        }
+      }
+    }
+
+    if (updated) {
+      const updatedTaskBoard = await TaskBoard.findByIdAndUpdate(taskBoardID, taskBoard, { new: true });
+      res.status(200).json({ updatedTaskBoard, updatedTaskObj, successMessage: "Task updated with Success!" });
+    } else {
+      res.status(400).json({ error: "Task doesn't updated!" });
+    }
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 const moveTaskList = async (req, res) => {
   try {
     const taskBoardID = req.body.taskBoardID;
@@ -332,6 +386,7 @@ module.exports = {
   getTaskBoards,
   getTaskBoard,
   addTask,
+  updateTask,
   moveTaskList,
   moveTaskBetweenCurrList,
   moveTaskToOtherList,

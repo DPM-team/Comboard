@@ -133,6 +133,7 @@ export default {
     },
   },
   created() {
+    this.$store.dispatch("selectBoardID", { boardID: this.boardID });
     this.loadTaskBoardData();
   },
 };
