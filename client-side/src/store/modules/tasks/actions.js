@@ -54,6 +54,8 @@ export default {
         throw new Error(responseData.error);
       }
 
+      context.commit("setSelectedTaskBoard", { selectedTaskBoard: responseData?.updatedTaskBoard });
+
       return responseData;
     } catch (error) {
       throw new Error(error.message || "Failed to add Task List.");
@@ -107,7 +109,9 @@ export default {
         throw new Error(responseData.error);
       }
 
-      return responseData?.taskBoard;
+      context.commit("setSelectedTaskBoard", { selectedTaskBoard: responseData?.taskBoard });
+
+      return responseData;
     } catch (error) {
       throw new Error(error.message || "Failed to get Task Board's data!");
     }
@@ -134,6 +138,8 @@ export default {
       if (!response.ok) {
         throw new Error(responseData.error);
       }
+
+      context.commit("setSelectedTaskBoard", { selectedTaskBoard: responseData?.updatedTaskBoard });
 
       return responseData;
     } catch (error) {

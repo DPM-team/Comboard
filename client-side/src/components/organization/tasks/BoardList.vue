@@ -14,6 +14,7 @@
       ></board-list-item>
     </draggable>
     <input class="task-input" type="text" name="task-input" placeholder=" + Add list item.." v-model="newTask" @keyup.enter="addTask()" />
+    <loading-spinner v-if="isLoading"></loading-spinner>
   </div>
 </template>
 
@@ -41,20 +42,60 @@ export default {
   data() {
     return {
       newTask: "",
+      isLoading: false,
     };
   },
   methods: {
-    addTask() {
+    async addTask() {
       if (this.newTask.trim() !== "") {
-        this.$emit("add-task", { title: this.newTask, listID: this.listID });
+        try {
+          this.isLoading = true;
+
+          await this.$store.dispatch("addTask", {
+            taskBoardID: this.$store.getters.getSelectedBoardID,
+            taskListID: this.listID,
+            taskObj: { title: this.newTask },
+          });
+
+          this.isLoading = false;
+        } catch (error) {
+          console.log(error);
+        }
+
         this.newTask = "";
       }
     },
-    log(evt) {
+    async log(evt) {
       if (evt?.moved) {
-        this.$emit("move-task-same", { listID: this.listID, newIndex: evt.moved.newIndex, oldIndex: evt.moved.oldIndex });
+        try {
+          this.isLoading = true;
+
+          await this.$store.dispatch("moveTaskBetweenCurrList", {
+            taskBoardID: this.$store.getters.getSelectedBoardID,
+            taskListID: this.listID,
+            movedTaskNewIndex: evt.moved.newIndex,
+            movedTaskOldIndex: evt.moved.oldIndex,
+          });
+
+          this.isLoading = false;
+        } catch (error) {
+          console.log(error);
+        }
       } else if (evt?.added) {
-        this.$emit("move-task-to-other-list", { listIDToMove: this.listID, taskObj: evt.added.element, newIndex: evt.added.newIndex });
+        try {
+          this.isLoading = true;
+
+          await this.$store.dispatch("moveTaskToOtherList", {
+            taskBoardID: this.$store.getters.getSelectedBoardID,
+            listIDToMove: this.listID,
+            taskObj: evt.added.element,
+            moveToIndex: evt.added.newIndex,
+          });
+
+          this.isLoading = false;
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
   },

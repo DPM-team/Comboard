@@ -6,6 +6,7 @@ const tasksModule = {
   state() {
     return {
       selectedBoardID: "",
+      selectedTaskBoard: null,
     };
   },
   actions,
