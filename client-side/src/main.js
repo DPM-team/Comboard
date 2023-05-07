@@ -56,6 +56,9 @@ import {
   faAngleDown,
   faPaperPlane,
   faEarthEurope,
+  faLock,
+  faPen,
+  faKey,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faComment, faFilePdf, faFileWord, faFileExcel, faImage, faFileImage, faFile } from "@fortawesome/free-regular-svg-icons";
@@ -105,7 +108,10 @@ library.add(
   faUserMinus,
   faAngleDown,
   faPaperPlane,
-  faEarthEurope
+  faEarthEurope,
+  faLock,
+  faPen,
+  faKey
 );
 
 const app = createApp(App);

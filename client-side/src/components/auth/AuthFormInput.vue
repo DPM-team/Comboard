@@ -1,12 +1,15 @@
 <template>
   <div class="input-container">
     <input @change="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :value="value" :min="minLength" :accept="accept" ref="inputField" :required="required" />
-    <font-awesome-icon class="input-item-icon" :icon="['fas', 'user']" />
+    <font-awesome-icon class="input-item-icon" :icon="['fas', `${phdIcon}`]" />
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {};
+  },
   props: {
     id: {
       type: String,
@@ -41,6 +44,7 @@ export default {
       required: false,
       default: false,
     },
+    phdIcon: { type: String, required: true },
   },
   methods: {
     input() {
@@ -60,7 +64,7 @@ export default {
 }
 .input-item-icon {
   position: absolute;
-  left: 28px;
+
   top: 12px;
   color: gray;
 }
@@ -111,5 +115,50 @@ input[type="file"] {
 input[type="button"]:hover,
 input[type="submit"]:hover {
   filter: brightness(0.8);
+}
+@media (min-width: 1700px) {
+  .input-item-icon {
+    left: 45px;
+  }
+}
+@media (max-width: 1700px) {
+  .input-item-icon {
+    left: 32px;
+  }
+}
+@media (max-width: 1500px) {
+  .input-item-icon {
+    left: 28px;
+  }
+}
+@media (max-width: 1350px) {
+  .input-item-icon {
+    left: 26px;
+  }
+}
+@media (max-width: 650px) {
+  .input-item-icon {
+    left: 38px;
+  }
+}
+@media (max-width: 600px) {
+  .input-item-icon {
+    left: 30px;
+  }
+}
+@media (max-width: 480px) {
+  .input-item-icon {
+    left: 26px;
+  }
+}
+@media (max-width: 430px) {
+  .input-item-icon {
+    left: 22px;
+  }
+}
+@media (max-width: 400px) {
+  .input-item-icon {
+    left: 18px;
+  }
 }
 </style>

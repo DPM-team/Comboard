@@ -6,8 +6,8 @@
         <h2>Login</h2>
         <h4 style="padding-bottom: 10px">Sign in to your account</h4>
       </auth-header>
-      <auth-form-input @data="getUsername" id="username" type="text" name="username" placeholder="Username" required />
-      <auth-form-input @data="getPassword" id="password" type="password" name="password" placeholder="Password" required />
+      <auth-form-input @data="getUsername" id="username" type="text" name="username" placeholder="Username" phdIcon="user" required />
+      <auth-form-input @data="getPassword" id="password" type="password" name="password" placeholder="Password" phdIcon="lock" required />
       <router-link id="forgot-password--link-login" to="/retrieve-password/step-1">Forgot Password?</router-link>
       <auth-form-input id="login-btn" type="submit" name="submit" value="Login" />
     </auth-form>
