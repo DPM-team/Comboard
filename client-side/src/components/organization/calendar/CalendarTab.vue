@@ -2,7 +2,13 @@
   <organization-page-tab :layout="'block'">
     <div class="calendar-tab-container">
       <div class="calendar-container">
-        <VCalendar class="calendar" expanded borderless :color="selectedColor" :attributes="data" ref="calendar"></VCalendar>
+        <VCalendar class="calendar" expanded :color="selectedColor" :attributes="data" ref="calendar">
+          <template #footer>
+            <div class="">
+              <button class="" @click="moveToday()">Today</button>
+            </div>
+          </template>
+        </VCalendar>
       </div>
     </div>
   </organization-page-tab>
@@ -63,15 +69,12 @@ export default {
 .calendar-container :deep(.vc-day:not(.on-right)) {
   border-right: 1px solid rgb(226, 232, 240);
 }
-.calendar-container :deep(.vc-day:not(.on-left)) {
-  border-right: 1px solid rgb(226, 232, 240);
-}
-.calendar-container :deep(.vc-day:not(.on-bottom)) {
+
+.calendar-container :deep(.vc-day) {
   border-bottom: 1px solid rgb(226, 232, 240);
 }
 
 /* Responsiveness */
-
 @media (max-width: 1250px) {
   .calendar-tab-container {
     width: calc(100% - 180px);
@@ -98,8 +101,5 @@ export default {
   .calendar-container {
     width: 90%;
   }
-}
-.calendar-container :deep(.vc-weekday-7) {
-  color: #6366f1;
 }
 </style>
