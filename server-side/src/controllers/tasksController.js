@@ -72,6 +72,64 @@ const addTaskList = async (req, res) => {
   }
 };
 
+const getTasksWithDate = async (req, res) => {
+  try {
+    const userID = req.query.userID;
+    const organizationID = req.query.organizationID;
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    // We get the user's data for a specific organization
+    const userOrgData = await Data.findOne({ userID, organizationID }).populate("taskBoards");
+
+    if (!userOrgData) {
+      return res.status(404).json({ error: "User's data for this organization doesn't found!" });
+    }
+
+    const taskDates = new Array();
+
+    for (const taskBoard of userOrgData.taskBoards) {
+      for (const taskListObj of taskBoard.taskLists) {
+        for (const taskObj of taskListObj.taskItems) {
+          if (taskObj.fromDate && taskObj.toDate) {
+            taskDates.push({
+              _id: taskObj._id,
+              title: taskObj.title,
+              dates: {
+                start: new Date(taskObj.fromDate),
+                end: new Date(taskObj.toDate),
+              },
+            });
+          } else if (taskObj.fromDate) {
+            taskDates.push({
+              _id: taskObj._id,
+              title: taskObj.title,
+              dates: new Date(taskObj.fromDate),
+            });
+          } else if (taskObj.toDate) {
+            taskDates.push({
+              _id: taskObj._id,
+              title: taskObj.title,
+              dates: new Date(taskObj.toDate),
+            });
+          }
+        }
+      }
+    }
+
+    res.status(200).json({ taskDates });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 const getTaskBoards = async (req, res) => {
   try {
     const userID = req.query.userID;
@@ -382,6 +440,7 @@ const moveTaskToOtherList = async (req, res) => {
 
 module.exports = {
   createTaskBoard,
+  getTasksWithDate,
   addTaskList,
   getTaskBoards,
   getTaskBoard,
