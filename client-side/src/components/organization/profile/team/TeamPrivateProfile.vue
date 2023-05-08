@@ -51,7 +51,12 @@ import ButtonOptionsItemList from "../ButtonOptionsItemList.vue";
 
 export default {
   components: { OrganizationPageHeader, ButtonOptionsItemList, BackHeaderButton },
-  props: ["teamID"],
+  props: {
+    teamID: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       teamObj: null,

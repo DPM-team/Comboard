@@ -1,68 +1,104 @@
 <template>
   <div>
     <organization-page-header><back-header-button></back-header-button></organization-page-header>
-    <div>
+    <div v-if="teamObj">
       <router-view name="dialog"></router-view>
       <div class="team-page-container">
         <div class="left-col">
           <h1 class="team-name">
-            <!-- Blue highlight effect -->
-            <span class="highlight">Team name</span>
+            <span class="highlight">{{ teamObj?.name }}</span>
           </h1>
-          <p>{{ bio }}</p>
-          <h2>{{ supervisorName }}</h2>
+          <p>{{ teamObj?.description }}</p>
+          <h2 v-if="supervisorObj">Supervisor: {{ supervisorObj?.fullname }}</h2>
         </div>
         <div class="right-col">
           <div class="projects-list">
-            <h2>Projects of teamName</h2>
-            <ul>
-              <button-options-item-list v-for="project in projects" :key="project.id" :text="project.title" :isPrivateProfile="false"></button-options-item-list>
+            <h2>Projects of {{ teamObj?.name }}</h2>
+            <p v-if="projects.length === 0 && loaded">No projects found</p>
+            <ul v-else>
+              <button-options-item-list v-for="project in projects" :key="project.id" :text="project.name" :isPrivateProfile="false"></button-options-item-list>
             </ul>
           </div>
-
           <h4 class="search-area-demo">Search area</h4>
           <div class="members-list">
             <h2>Team members</h2>
-            <ul>
+            <p v-if="members.length === 0 && loaded">No members found</p>
+            <ul v-else>
               <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false"></button-options-item-list>
             </ul>
           </div>
         </div>
       </div>
     </div>
+    <loading-spinner v-if="!loaded"></loading-spinner>
   </div>
 </template>
 
 <script>
+import LoadingSpinner from "../../../basic-components/LoadingSpinner.vue";
 import BackHeaderButton from "../../../layout/headers/BackHeaderButton.vue";
 import OrganizationPageHeader from "../../../layout/headers/OrganizationPageHeader.vue";
 import ButtonOptionsItemList from "../ButtonOptionsItemList.vue";
 
 export default {
-  components: { OrganizationPageHeader, ButtonOptionsItemList, BackHeaderButton },
-  props: ["teamID"],
+  components: { OrganizationPageHeader, ButtonOptionsItemList, BackHeaderButton, LoadingSpinner },
+  props: {
+    teamID: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       teamObj: null,
-      errorMessage: "",
-      members: [
-        { id: 1, fullname: "Dionisis Lougaris" },
-        { id: 2, fullname: "Panos Machairas" },
-        { id: 3, fullname: "Minas Charakopoulos" },
-        { id: 4, fullname: "Giorgos Stefou" },
-      ],
-      projects: [
-        { id: 1, title: "Frontend" },
-        { id: 2, title: "Backend" },
-      ],
-      bio: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.",
-      supervisorName: "Chatzigeorgiou Alexander",
+      supervisorObj: null,
+      members: [],
+      projects: [],
+      loaded: false,
     };
   },
   methods: {
-    created() {
-      document.body.classList.remove("no-scrolling");
+    async loadTeamData() {
+      try {
+        this.teamObj = await this.$store.dispatch("getTeamData", { teamID: this.teamID });
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+        this.$router.push("/not-found");
+      }
+
+      return this.teamObj;
     },
+    async loadTeamMembers() {
+      try {
+        this.members = await this.$store.dispatch("getTeamMembers", { teamID: this.teamID });
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
+    },
+    async getTeamSupervisor() {
+      try {
+        this.supervisorObj = await this.$store.dispatch("getTeamSupervisor", { teamID: this.teamID });
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
+    },
+    async loadTeamProjects() {
+      try {
+        this.projects = await this.$store.dispatch("getTeamProjects", { teamID: this.teamID });
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
+    },
+  },
+  async created() {
+    this.loaded = false;
+    if (await this.loadTeamData()) {
+      await this.loadTeamMembers();
+      await this.getTeamSupervisor();
+      await this.loadTeamProjects();
+      this.loaded = true;
+      document.body.classList.remove("no-scrolling");
+    }
   },
 };
 </script>

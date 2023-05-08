@@ -177,8 +177,9 @@ const router = createRouter({
       ],
     },
     {
-      path: "/organization/team-public",
+      path: "/organization/team-public/:teamID",
       component: TeamPublicProfile,
+      props: true,
     },
     {
       path: "/organization/user",
@@ -297,6 +298,10 @@ const router = createRouter({
     },
     {
       path: "/:pathMatch(.*)",
+      redirect: "/not-found",
+    },
+    {
+      path: "/not-found",
       component: NotFoundPage,
     },
   ],

@@ -1,6 +1,19 @@
 <template>
-  <div><button class="rtn-button">Return to Dashboard</button><font-awesome-icon class="back-icon" :icon="['fas', 'circle-chevron-left']" /></div>
+  <div @click="moveToDashboard()">
+    <button class="rtn-button">Return to Dashboard</button>
+    <font-awesome-icon class="back-icon" :icon="['fas', 'circle-chevron-left']" />
+  </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    moveToDashboard() {
+      this.$router.push("/organization");
+    },
+  },
+};
+</script>
 
 <style scoped>
 .back-icon {
@@ -11,6 +24,7 @@
   color: var(--color-primary);
   display: none;
 }
+
 .rtn-button {
   position: absolute;
   top: 10px;
@@ -22,11 +36,13 @@
   color: white;
   cursor: pointer;
 }
+
 .rtn-button:hover,
 .rtn-button:active {
   background-color: #000875;
   border-color: #000875;
 }
+
 @media (max-width: 600px) {
   .rtn-button {
     display: none;

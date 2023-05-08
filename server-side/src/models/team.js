@@ -10,7 +10,6 @@ const teamSchema = mongoose.Schema(
     description: {
       type: String,
       required: true,
-      trim: true,
     },
     supervisor: {
       type: mongoose.Schema.Types.ObjectId,

@@ -4,6 +4,7 @@
       <header>
         <h3>{{ teamName }}</h3>
         <nav>
+          <router-link :to="'/organization/team-public/' + teamID">View Team</router-link>
           <router-link :to="'/organization/team-private/' + teamID">Edit Team</router-link>
         </nav>
       </header>
