@@ -9,12 +9,13 @@ const { connection } = require("mongoose");
 // Create a post for a user
 const createPost = async (req, res) => {
   try {
-    const { postObj, organizationID } = req.body;
+    const organizationID = req.body.organizationID;
+    const postObj = JSON.parse(req.body.postObj);
 
     // Validate required fields
-    if (!postObj?.contentString) {
-      return res.status(400).json({ error: "Post's content is required field!" });
-    }
+    // if (!postObj?.contentString) {
+    //   return res.status(400).json({ error: "Post's content is required field!" });
+    // }
 
     if (!postObj?.creatorID) {
       return res.status(400).json({ error: "Post's creator (userID) is required field!" });
@@ -46,6 +47,7 @@ const createPost = async (req, res) => {
     const post = new Post({
       creatorID: postObj.creatorID,
       contentString: postObj.contentString,
+      contentMedia: req?.file.buffer,
     });
 
     // Save the post to the database
@@ -169,9 +171,7 @@ const getCurrentPosts = async (req, res) => {
     }
 
     allPosts.sort((post1, post2) => {
-      console.log();
-
-      return 0;
+      return "";
     });
 
     console.log("");

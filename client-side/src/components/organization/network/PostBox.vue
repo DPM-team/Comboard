@@ -42,6 +42,10 @@ export default {
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+      required: false,
+    },
     firstname: {
       type: String,
       required: true,

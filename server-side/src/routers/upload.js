@@ -71,11 +71,8 @@ router.get("/api/users/:id/profilephoto", async (req, res) => {
       throw new Error("No user");
     }
 
-    if (!user.profilePhoto) {
-      throw new Error("No photo");
-    }
     res.set("Content-Type", "image/png");
-    res.send(user.profilePhoto);
+    res.send(user?.profilePhoto);
   } catch (error) {
     console.log(error);
     res.status(400).send(error);

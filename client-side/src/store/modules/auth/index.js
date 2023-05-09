@@ -7,6 +7,8 @@ const authModule = {
     return {
       loggedUserID: null,
       loggedUserToken: null,
+      name: "",
+      surname: "",
       userImage: null,
     };
   },

@@ -42,8 +42,6 @@ export default {
 
       const data = await response.json();
 
-      console.log(data);
-
       if (response.ok) {
         context.commit("setPosts", {
           posts: data?.allPosts,
@@ -58,16 +56,21 @@ export default {
     }
   },
   async createPost(context, payload) {
-    const postObj = payload.postObj;
     const organizationID = payload.organizationID;
+    const postObj = payload.postObj;
+    const postMedia = payload.postMedia;
+
+    const formData = new FormData();
+    formData.append("upload", postMedia, postMedia.name);
+    formData.append("postObj", JSON.stringify(postObj));
+    formData.append("organizationID", organizationID);
 
     const requestOptions = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
       },
-      body: JSON.stringify({ postObj, organizationID }),
+      body: formData,
     };
 
     try {

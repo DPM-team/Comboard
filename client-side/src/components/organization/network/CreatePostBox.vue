@@ -10,6 +10,16 @@
       <div class="pfp-container">
         <img class="user-pfp" :src="pictureLink" />
       </div>
+      <input type="button" name="file" id="file" @click="openModal" />
+      <base-dialog v-if="modal">
+        <template #main>
+          <form>
+            <input type="file" ref="file" />
+            <input v-model="postContent" type="text" />
+            <input type="button" @click="createPost" />
+          </form>
+        </template>
+      </base-dialog>
       <input v-model="postContent" class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
       <input class="post-button" value="Post" type="submit" />
     </div>
@@ -17,29 +27,35 @@
 </template>
 
 <script>
+import BaseDialog from "../../basic-components/BaseDialog.vue";
 export default {
+  components: { BaseDialog },
   props: ["firstname", "pictureLink"],
   data() {
     return {
       visibilityPost: "Organization",
       postContent: "",
+      postFile: null,
       submitMessage: "",
+      modal: false,
     };
   },
   methods: {
     async createPost() {
+      this.postMedia = this.$refs.file.files[0];
       const postObj = {
         creatorID: this.$store.getters.loggedUserID,
         contentString: this.postContent,
         visibilityPost: this.visibilityPost,
       };
+      const postMedia = this.postMedia;
 
       try {
         const successData = await this.$store.dispatch("createPost", {
           postObj,
+          postMedia,
           organizationID: this.$store.getters.selectedOrganizationID,
         });
-
         this.submitMessage = successData.successMessage;
         this.$emit("createPost", successData.createdPost);
       } catch (error) {
@@ -47,6 +63,9 @@ export default {
       }
 
       console.log(this.submitMessage);
+    },
+    openModal() {
+      this.modal = !this.modal;
     },
     toogleVisibility(e) {
       this.visibilityPost = e.srcElement.value;

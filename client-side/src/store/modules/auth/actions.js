@@ -29,15 +29,22 @@ export default {
       localStorage.setItem("userID", successData.userObj._id);
       localStorage.setItem("token", successData.generatedToken);
       localStorage.setItem("name", successData.userObj.name);
+      localStorage.setItem("surname", successData.userObj.surname);
 
       context.commit("setUser", {
         userID: successData.userObj._id,
         token: successData.generatedToken,
       });
 
+      context.commit("setUserInfo", {
+        name: successData.userObj.name,
+        surname: successData.surname,
+      });
+
       const profilePhoto = await fetch(`/api/users/${successData.userObj._id}/profilePhoto`);
 
-      const photo = await profilePhoto.text();
+      const photo = await profilePhoto.arrayBuffer();
+      localStorage.setItem("profilePhoto", photo);
 
       context.commit("setProfilePhoto", {
         photo,
@@ -87,16 +94,20 @@ export default {
   tryAutoLogin(context) {
     const userID = localStorage.getItem("userID");
     const token = localStorage.getItem("token");
-    const profilePhoto = localStorage.getItem("profilePhoto");
+    const name = localStorage.getItem("name");
+    const surname = localStorage.getItem("surname");
 
     if (userID && token) {
       context.commit("setUser", {
         userID,
         token,
       });
+    }
 
-      context.commit("setProfilePhoto", {
-        photo: profilePhoto,
+    if (name && surname) {
+      context.commit("setUserInfo", {
+        name,
+        surname,
       });
     }
   },

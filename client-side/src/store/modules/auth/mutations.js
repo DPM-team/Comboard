@@ -5,6 +5,11 @@ export default {
     state.loggedUserToken = payload.token;
   },
 
+  setUserInfo(state, payload) {
+    state.name = payload.name;
+    state.surname = payload.surname;
+  },
+
   setProfilePhoto(state, payload) {
     state.userImage = payload.photo;
     console.log(state);

@@ -21,8 +21,11 @@
           <li @click="toggleUserOptions" class="header-li">
             <a class="header-a"
               ><div class="img-container">
-                <img class="user-icon" :src="`${this.$store.getters.userImage}`" /></div
-            ></a>
+                <img v-if="profilePhoto !== ''" class="user-icon" :src="`/api/users/${this.$store.getters.loggedUserID}/profilephoto`" />
+                <font-awesome-icon v-else class="user-icon" :icon="['fas', 'user']"></font-awesome-icon>
+              </div>
+              <fon></fon>
+            </a>
           </li>
           <li class="header-li" @click="toggleMobileOptionsMenu">
             <a class="header-a"><font-awesome-icon class="more-menu-icon" icon="fa-solid fa-ellipsis-vertical" /></a>
@@ -83,9 +86,16 @@ export default {
       notificationOptionsAreVisible: false,
       notifications: [],
       spinner: null,
+      profilePhoto: "",
     };
   },
+  async created() {
+    await this.setPhoto();
+  },
   methods: {
+    async setPhoto() {
+      this.profilePhoto = await fetch(`/api/users/${this.$store.getters.loggedUserID}/profilephoto`);
+    },
     noScrolling() {
       document.getElementById("check").addEventListener("change", function () {
         if (this.checked) {

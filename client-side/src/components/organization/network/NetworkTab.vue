@@ -1,7 +1,7 @@
 <template>
   <organization-page-tab layout="flex">
     <div class="main-section">
-      <create-post-box :pictureLink="this.myUser.pictureLink" @create-post="loadCreatedPost"></create-post-box>
+      <create-post-box :pictureLink="`/api/users/${this.$store.getters.loggedUserID}/profilephoto`" @create-post="loadCreatedPost"></create-post-box>
       <post-box
         v-for="post in posts"
         :key="post.id"
@@ -9,6 +9,7 @@
         :content="post.content"
         :firstname="post.name"
         :lastname="post.surname"
+        :image="post.contentMedia"
         :pictureLink="post.pictureLink"
         :likes="post.likes"
         :comments="post.comments"
@@ -47,8 +48,9 @@ export default {
       this.posts.unshift({
         id: post._id,
         content: post.contentString,
-        name: post.creatorObj.name,
-        surname: post.creatorObj.surname,
+        name: "",
+        surname: "",
+        contentMedia: post.contentMedia,
         pictureLink: `/api/users/${post.creatorID}/profilePhoto`,
         likes: post.likes,
         comments: post.comments,

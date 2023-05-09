@@ -2,11 +2,26 @@ const express = require("express");
 const postControllers = require("../controllers/postControllers.js");
 const authentication = require("../middleware/authentication.js");
 const authenticationOrg = require("../middleware/authenticationOrg.js");
+const multer = require("multer");
 
 const router = new express.Router();
 
+const uploadMedia = multer({
+  limits: {
+    fileSize: 10 * 1024 * 1024,
+  },
+  fileFilter(req, file, callback) {
+    if (!file.originalname.match(/\.(png)$/)) {
+      return callback(new Error());
+    }
+
+    callback(undefined, true);
+  },
+});
 // Router to add a post to user's post for a specific organization
-router.post("/api/post", authentication, postControllers.createPost);
+router.post("/api/post", authentication, uploadMedia.single("upload"), postControllers.createPost, (error, req, res, next) => {
+  res.status(400).send();
+});
 
 // Router to get user's post for a specific organization
 router.get("/api/network/posts", authentication, postControllers.getCurrentPosts);
