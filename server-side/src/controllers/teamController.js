@@ -106,6 +106,60 @@ const getTeamMembers = async (req, res) => {
   }
 };
 
+const getTeamSupervisor = async (req, res) => {
+  try {
+    const teamID = req.query.teamID;
+
+    if (!teamID) {
+      return res.status(400).json({ error: "TeamID is required!" });
+    }
+
+    const teamObj = await Team.findById(teamID).populate("supervisor");
+
+    if (!teamObj) {
+      return res.status(404).json({ error: "Team not found!" });
+    }
+
+    res.status(200).json({
+      teamSupervisor: {
+        id: teamObj?.supervisor?._id,
+        fullname: teamObj?.supervisor?.name + " " + teamObj?.supervisor?.surname,
+      },
+    });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
+const getTeamProjects = async (req, res) => {
+  try {
+    const teamID = req.query.teamID;
+
+    if (!teamID) {
+      return res.status(400).json({ error: "TeamID is required!" });
+    }
+
+    const teamObj = await Team.findById(teamID).populate("projects");
+
+    if (!teamObj) {
+      return res.status(404).json({ error: "Team not found!" });
+    }
+
+    const projects = teamObj.projects.map((projectObj) => {
+      return {
+        id: projectObj._id,
+        name: projectObj.name,
+      };
+    });
+
+    res.status(200).json({ projects });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 // Controller to add a project to the project's projects list
 const addProjectToTeam = async (req, res) => {
   try {
@@ -153,5 +207,7 @@ module.exports = {
   getTeam,
   createTeam,
   getTeamMembers,
+  getTeamSupervisor,
+  getTeamProjects,
   addProjectToTeam,
 };

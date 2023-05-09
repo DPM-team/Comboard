@@ -12,6 +12,10 @@ router.post("/api/team/create", teamController.createTeam);
 
 router.get("/api/team/members", teamController.getTeamMembers);
 
+router.get("/api/team/projects", teamController.getTeamProjects);
+
+router.get("/api/team/supervisor", teamController.getTeamSupervisor);
+
 // Router to add a new project to the team the belongs
 router.post("/api/team/project", teamController.addProjectToTeam);
 

@@ -19,6 +19,10 @@
             <span class="input-title">Supervisor id</span>
             <h3>{{ teamObj.supervisor }}</h3>
             <div class="inputBox">
+              <span class="input-title">Deadline</span>
+              <input type="date" name="deadline" :value="teamObj.deadline" />
+            </div>
+            <div class="inputBox">
               <span class="input-title">Description</span>
               <textarea type="text" name="description" value="" :placeholder="teamObj.description" />
             </div>
@@ -28,8 +32,6 @@
           </form>
         </div>
         <div class="right-col">
-          <h3 class="create-project-title">Create a project for {{ teamObj.name }}</h3>
-          <router-link class="router-button" :to="createProjectLink()">Create Project</router-link>
           <h4 class="search-area-demo">Search area</h4>
           <div class="members-list">
             <h2>Team members</h2>
@@ -51,15 +53,16 @@ import ButtonOptionsItemList from "../ButtonOptionsItemList.vue";
 
 export default {
   components: { OrganizationPageHeader, ButtonOptionsItemList, BackHeaderButton },
-  props: {
-    teamID: {
-      type: String,
-      required: true,
-    },
-  },
+  //   props: {
+  //     teamID: {
+  //       type: String,
+  //       required: true,
+  //     },
+  //   },
   data() {
     return {
-      teamObj: null,
+      //needs to be changed
+      teamObj: { name: "test", description: "dassdasadsda", supervisor: "fdsfd", deadline: "2023/06/25" },
       errorMessage: "",
       members: [
         { id: 1, fullname: "Dionisis Lougaris" },
@@ -67,6 +70,7 @@ export default {
         { id: 3, fullname: "Minas Charakopoulos" },
         { id: 4, fullname: "Giorgos Stefou" },
       ],
+      teamID: "123123",
     };
   },
   methods: {

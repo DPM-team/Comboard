@@ -6,11 +6,11 @@
         <h2>Join Our Community!</h2>
         <h4 style="padding-bottom: 10px">Create an account with a few steps</h4>
       </auth-header>
-      <auth-form-input @data="getName" id="firstname" name="name" :value="name" type="text" placeholder="Firstname" required />
-      <auth-form-input @data="getSurname" id="surname" name="surname" :value="surname" type="text" placeholder="Surname" required />
-      <auth-form-input @data="getUsername" id="username" name="username" :value="username" type="text" placeholder="Username" required />
-      <auth-form-input @data="getEmail" id="email" name="email" type="email" :value="email" placeholder="Email" required />
-      <auth-form-input @data="getPassword" id="password" name="password" :value="password" type="password" placeholder="Password" :minLength="8" required />
+      <auth-form-input @data="getName" id="firstname" name="name" :value="name" type="text" placeholder="Firstname" phdIcon="pen" required />
+      <auth-form-input @data="getSurname" id="surname" name="surname" :value="surname" type="text" placeholder="Surname" phdIcon="pen" required />
+      <auth-form-input @data="getUsername" id="username" name="username" :value="username" type="text" placeholder="Username" phdIcon="user" required />
+      <auth-form-input @data="getEmail" id="email" name="email" type="email" :value="email" placeholder="Email" phdIcon="envelope" required />
+      <auth-form-input @data="getPassword" id="password" name="password" :value="password" type="password" placeholder="Password" :minLength="8" phdIcon="lock" required />
       <p id="password-mandatory">Use 8 or more characters with a combination of letters, numbers and symbols</p>
       <auth-form-input
         @data="getPasswordConfirmation"
@@ -20,6 +20,7 @@
         type="password"
         placeholder="Confirm Password"
         :minLength="8"
+        phdIcon="lock"
         required
       />
       <auth-form-input id="login-btn" name="loginButton" type="submit" value="Agree & Join" />

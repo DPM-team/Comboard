@@ -11,6 +11,7 @@ import projectModule from "./modules/project/index.js";
 import notificationsModule from "./modules/notifications/index.js";
 import fileModule from "./modules/files/index.js";
 import tasksModule from "./modules/tasks/index.js";
+import calendarModule from "./modules/calendar/index.js";
 
 const store = createStore({
   modules: {
@@ -24,6 +25,7 @@ const store = createStore({
     projectModule,
     fileModule,
     tasksModule,
+    calendarModule,
   },
 });
 

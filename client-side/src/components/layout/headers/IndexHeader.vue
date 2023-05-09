@@ -1,12 +1,12 @@
 <template>
   <header>
     <nav class="header-nav">
-      <input type="checkbox" id="check" />
+      <!-- <input type="checkbox" id="check" />
       <label v-on:click="noScrolling" for="check" class="checkbtn">
         <font-awesome-icon :icon="['fas', 'bars']" />
-      </label>
+      </label> -->
       <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
-      <ul class="header-ul">
+      <ul class="header-ul desktop">
         <li class="header-li">
           <a class="header-a" href="#features-section">Features</a>
         </li>
@@ -20,27 +20,30 @@
           <router-link class="header-a" to="/login"><font-awesome-icon :icon="['fas', 'user']" /></router-link>
         </li>
       </ul>
+      <ul class="header-ul mobile">
+        <li class="header-li">
+          <router-link class="header-a" to="/login"><font-awesome-icon class="login-icon" :icon="['fas', 'user']" /></router-link>
+        </li>
+      </ul>
     </nav>
   </header>
 </template>
 
 <script>
-export default {
-  methods: {
-    noScrolling() {
-      document.getElementById("check").addEventListener("change", function () {
-        if (this.checked) {
-          document.body.classList.add("no-scrolling");
-        } else {
-          document.body.classList.remove("no-scrolling");
-        }
-      });
-    },
-  },
-};
+export default {};
 </script>
 
 <style scoped>
+.login-icon {
+  font-size: 24px;
+}
+/* Bug fix */
+.mobile {
+  display: none;
+}
+.desktop {
+  margin-right: 100px;
+}
 /* Bug fix */
 .header-logo:hover {
   background: none;
@@ -52,7 +55,6 @@ export default {
 }
 .header-nav .header-ul {
   float: right;
-  margin-right: 100px;
 }
 .header-nav .header-ul .header-li {
   display: inline-block;
@@ -95,44 +97,17 @@ export default {
 }
 
 @media (max-width: 850px) {
-  .checkbtn {
-    display: block;
+  .mobile {
+    display: inline-block;
+    margin-right: 40px;
   }
+  .desktop {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
   .nav__logo {
-    margin-left: 20px;
-  }
-  .header-nav {
-    height: 100px;
-  }
-  .header-nav .header-ul {
-    z-index: 10;
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    background: var(--color-primary);
-    top: 100px;
-    left: -100%;
-    text-align: center;
-    transition: all 0.5s;
-  }
-  .header-nav .header-ul .header-li {
-    display: block;
-    margin: 50px;
-    line-height: 30px;
-  }
-  .header-nav .header-ul .header-li .header-a {
-    font-size: 20px;
-  }
-  .header-nav .header-ul .header-li .header-a {
-    color: white;
-  }
-
-  .header-a:hover {
-    background: none;
-    opacity: 0.8;
-  }
-  #check:checked ~ .header-ul {
-    left: 0;
+    margin-left: 40px;
   }
 }
 </style>

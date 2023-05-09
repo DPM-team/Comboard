@@ -16,15 +16,15 @@
       <base-card>
         <div v-if="this.checkActiveStep(1)">
           <h5 class="form-title">Account Information</h5>
-          <auth-form-input @data="getDataInput" id="email" type="email" name="email" placeholder="Email" required></auth-form-input>
+          <auth-form-input @data="getDataInput" id="email" type="email" name="email" placeholder="Email" phdIcon="envelope" required></auth-form-input>
         </div>
         <div v-else-if="this.checkActiveStep(2)">
           <h5 class="form-title">Verify the code you received via email</h5>
-          <auth-form-input @data="getDataInput" id="code" type="text" name="code" placeholder="Code" required></auth-form-input>
+          <auth-form-input @data="getDataInput" id="code" type="text" name="code" placeholder="Code" phdIcon="key" required></auth-form-input>
         </div>
         <div v-else-if="this.checkActiveStep(3)">
           <h5 class="form-title">Create new Password!</h5>
-          <auth-form-input @data="getDataInput" id="newPassword" type="password" name="code" placeholder="Password" required></auth-form-input>
+          <auth-form-input @data="getDataInput" id="newPassword" type="password" name="code" placeholder="Password" phdIcon="lock" required></auth-form-input>
         </div>
         <div v-else>
           <a href="/login" class="btn btn-final width-50 mc-auto">Go to Login</a>

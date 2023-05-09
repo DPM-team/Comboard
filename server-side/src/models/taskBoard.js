@@ -23,11 +23,11 @@ const taskBoardSchema = mongoose.Schema({
         required: false,
       },
       fromDate: {
-        type: Date,
+        type: String,
         required: false,
       },
       toDate: {
-        type: Date,
+        type: String,
         required: false,
       },
     }),

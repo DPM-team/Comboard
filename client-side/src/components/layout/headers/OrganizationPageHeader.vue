@@ -36,7 +36,8 @@
     <header-toggle-option v-if="userOptionsAreVisible" :position="'user-toggle'">
       <li class="list-item">View profile</li>
       <li class="list-item">View organization</li>
-      <li class="list-item">Profile settings</li></header-toggle-option
+      <li class="list-item">Profile settings</li>
+      <li class="list-item">Logout</li></header-toggle-option
     >
     <header-toggle-option v-if="videoOptionsAreVisible" :position="'video-toggle'">
       <li class="list-item">Join meeting</li>

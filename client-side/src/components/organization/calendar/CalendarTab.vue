@@ -2,7 +2,14 @@
   <organization-page-tab :layout="'block'">
     <div class="calendar-tab-container">
       <div class="calendar-container">
-        <VCalendar class="calendar" expanded borderless :color="selectedColor" :attributes="data" ref="calendar"></VCalendar>
+        <base-spinner v-if="isLoading"></base-spinner>
+        <VCalendar v-else class="calendar" expanded :attributes="attributes" :color="selectedColor" ref="calendar">
+          <template #footer>
+            <div class="">
+              <button class="" @click="moveToday()">Today</button>
+            </div>
+          </template>
+        </VCalendar>
       </div>
     </div>
   </organization-page-tab>
@@ -15,30 +22,75 @@ export default {
   components: { OrganizationPageTab },
   data() {
     return {
-      selectedColor: "red",
-      data: [
+      updateNeeded: false,
+      isLoading: false,
+      selectedColor: "blue",
+      attributes: [
         {
           key: "today",
-          highlight: true,
+          highlight: {
+            color: "red",
+            fillMode: "light",
+          },
           dates: new Date(),
-        },
-        {
-          key: "test",
-          highlight: true,
-          dates: { start: new Date(2023, 3, 15), end: new Date(2023, 3, 19) },
-        },
-        {
-          key: "test",
-          highlight: true,
-          dates: { start: new Date(2023, 3, 11), end: new Date(2023, 3, 13) },
+          popover: {
+            label: "Today",
+            visibility: "click",
+          },
         },
       ],
     };
   },
   methods: {
+    async loadTodos() {
+      try {
+        this.isLoading = true;
+
+        const successData = await this.$store.dispatch("loadTaskDates", {
+          userID: this.$store.getters.loggedUserID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        this.attributes = [
+          ...this.attributes,
+          ...successData.taskDates.map((todoObj) => {
+            return {
+              key: todoObj._id,
+              highlight: {
+                color: "blue",
+              },
+              dates: todoObj.dates,
+              popover: {
+                label: todoObj.title,
+                visibility: "click",
+              },
+            };
+          }),
+        ];
+
+        this.isLoading = false;
+        this.updateNeeded = true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    fetchDataOnRouteChange() {
+      if (this.updateNeeded) {
+        this.loadTodos();
+      }
+    },
     moveToday() {
       this.$refs.calendar.move(new Date());
     },
+  },
+  created() {
+    this.loadTodos();
+    this.updateNeeded = false;
+  },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.fetchDataOnRouteChange();
+    });
   },
 };
 </script>
@@ -57,21 +109,18 @@ export default {
 }
 
 .calendar-container :deep(.vc-day) {
-  padding: 50px;
+  padding: 40px;
 }
 
 .calendar-container :deep(.vc-day:not(.on-right)) {
   border-right: 1px solid rgb(226, 232, 240);
 }
-.calendar-container :deep(.vc-day:not(.on-left)) {
-  border-right: 1px solid rgb(226, 232, 240);
-}
-.calendar-container :deep(.vc-day:not(.on-bottom)) {
+
+.calendar-container :deep(.vc-day) {
   border-bottom: 1px solid rgb(226, 232, 240);
 }
 
 /* Responsiveness */
-
 @media (max-width: 1250px) {
   .calendar-tab-container {
     width: calc(100% - 180px);
@@ -98,8 +147,5 @@ export default {
   .calendar-container {
     width: 90%;
   }
-}
-.calendar-container :deep(.vc-weekday-7) {
-  color: #6366f1;
 }
 </style>

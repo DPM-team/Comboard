@@ -11,6 +11,7 @@ import BaseSpinner from "./components/basic-components/BaseSpinner";
 import LoadingSpinner from "./components/basic-components/LoadingSpinner";
 import BaseDialog from "./components/basic-components/BaseDialog.vue";
 import BaseButton from "./components/basic-components/BaseButton.vue";
+import BaseMessage from "./components/basic-components/BaseMessage.vue";
 
 import { setupCalendar, Calendar, DatePicker } from "v-calendar";
 import "v-calendar/style.css";
@@ -55,6 +56,12 @@ import {
   faAngleDown,
   faPaperPlane,
   faEarthEurope,
+  faLock,
+  faPen,
+  faKey,
+  faFileSignature,
+  faLocationDot,
+  faGlobe,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faComment, faFilePdf, faFileWord, faFileExcel, faImage, faFileImage, faFile } from "@fortawesome/free-regular-svg-icons";
@@ -104,7 +111,13 @@ library.add(
   faUserMinus,
   faAngleDown,
   faPaperPlane,
-  faEarthEurope
+  faEarthEurope,
+  faLock,
+  faPen,
+  faKey,
+  faFileSignature,
+  faLocationDot,
+  faGlobe
 );
 
 const app = createApp(App);
@@ -127,6 +140,7 @@ app.component("base-dialog", BaseDialog);
 app.component("base-spinner", BaseSpinner);
 app.component("loading-spinner", LoadingSpinner);
 app.component("base-button", BaseButton);
+app.component("base-message", BaseMessage);
 app.component("font-awesome-icon", FontAwesomeIcon);
 
 app.mount("#app");

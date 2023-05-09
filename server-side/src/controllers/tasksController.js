@@ -72,6 +72,64 @@ const addTaskList = async (req, res) => {
   }
 };
 
+const getTasksWithDate = async (req, res) => {
+  try {
+    const userID = req.query.userID;
+    const organizationID = req.query.organizationID;
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    // We get the user's data for a specific organization
+    const userOrgData = await Data.findOne({ userID, organizationID }).populate("taskBoards");
+
+    if (!userOrgData) {
+      return res.status(404).json({ error: "User's data for this organization doesn't found!" });
+    }
+
+    const taskDates = new Array();
+
+    for (const taskBoard of userOrgData.taskBoards) {
+      for (const taskListObj of taskBoard.taskLists) {
+        for (const taskObj of taskListObj.taskItems) {
+          if (taskObj.fromDate && taskObj.toDate) {
+            taskDates.push({
+              _id: taskObj._id,
+              title: taskObj.title,
+              dates: {
+                start: new Date(taskObj.fromDate),
+                end: new Date(taskObj.toDate),
+              },
+            });
+          } else if (taskObj.fromDate) {
+            taskDates.push({
+              _id: taskObj._id,
+              title: taskObj.title,
+              dates: new Date(taskObj.fromDate),
+            });
+          } else if (taskObj.toDate) {
+            taskDates.push({
+              _id: taskObj._id,
+              title: taskObj.title,
+              dates: new Date(taskObj.toDate),
+            });
+          }
+        }
+      }
+    }
+
+    res.status(200).json({ taskDates });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 const getTaskBoards = async (req, res) => {
   try {
     const userID = req.query.userID;
@@ -159,6 +217,60 @@ const addTask = async (req, res) => {
       res.status(200).json({ updatedTaskBoard });
     } else {
       res.status(400).json({ error: "Task doesn't added!" });
+    }
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
+const updateTask = async (req, res) => {
+  try {
+    const taskBoardID = req.body.taskBoardID;
+    const taskListID = req.body.taskListID;
+    const updatedTaskObj = req.body.updatedTaskObj;
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    if (!taskListID) {
+      return res.status(400).json({ error: "taskListID is required!" });
+    }
+
+    if (!updatedTaskObj) {
+      return res.status(400).json({ error: "updatedTaskObj is required!" });
+    }
+
+    if (!updatedTaskObj?.title.trim()) {
+      return res.status(400).json({ error: "Task title is required!" });
+    }
+
+    const taskBoard = await TaskBoard.findById(taskBoardID);
+
+    if (!taskBoard) {
+      return res.status(404).json({ error: "Task board doesn't found!" });
+    }
+
+    let updated = false;
+
+    for (const taskListObj of taskBoard.taskLists) {
+      if (taskListObj._id.toString() === taskListID) {
+        for (let [index, taskObj] of taskListObj.taskItems.entries()) {
+          if (taskObj._id.toString() === updatedTaskObj._id) {
+            taskListObj.taskItems[index] = updatedTaskObj;
+            updated = true;
+            break;
+          }
+        }
+      }
+    }
+
+    if (updated) {
+      const updatedTaskBoard = await TaskBoard.findByIdAndUpdate(taskBoardID, taskBoard, { new: true });
+      res.status(200).json({ updatedTaskBoard, updatedTaskObj, successMessage: "Task updated with Success!" });
+    } else {
+      res.status(400).json({ error: "Task doesn't updated!" });
     }
   } catch (error) {
     console.error(error); // Log the error for debugging purposes
@@ -328,10 +440,12 @@ const moveTaskToOtherList = async (req, res) => {
 
 module.exports = {
   createTaskBoard,
+  getTasksWithDate,
   addTaskList,
   getTaskBoards,
   getTaskBoard,
   addTask,
+  updateTask,
   moveTaskList,
   moveTaskBetweenCurrList,
   moveTaskToOtherList,

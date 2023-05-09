@@ -144,6 +144,23 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
+  async getTeamProjects(_, payload) {
+    const teamID = payload.teamID;
+
+    try {
+      const response = await fetch(`/api/team/projects?teamID=${teamID}`);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data?.projects;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
+    }
+  },
   async getTeamData(_, payload) {
     const teamID = payload.teamID;
 
@@ -154,6 +171,23 @@ export default {
 
       if (response.ok) {
         return data?.teamObj;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
+    }
+  },
+  async getTeamSupervisor(_, payload) {
+    const teamID = payload.teamID;
+
+    try {
+      const response = await fetch(`/api/team/supervisor?teamID=${teamID}`);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data?.teamSupervisor;
       } else {
         throw new Error(data.error); // Throw error to be caught in the component
       }

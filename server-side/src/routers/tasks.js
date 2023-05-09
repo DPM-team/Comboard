@@ -8,6 +8,8 @@ router.post("/api/taskboard", authentication, tasksController.createTaskBoard);
 
 router.get("/api/taskboards", authentication, tasksController.getTaskBoards);
 
+router.get("/api/tasks/dates", authentication, tasksController.getTasksWithDate);
+
 router.get("/api/taskboard", authentication, tasksController.getTaskBoard);
 
 router.put("/api/task/add", authentication, tasksController.addTask);
@@ -18,6 +20,8 @@ router.put("/api/task/move/currlist", authentication, tasksController.moveTaskBe
 
 router.put("/api/move/task", authentication, tasksController.moveTaskToOtherList);
 
-router.put("/api/tasklist", authentication, tasksController.addTaskList)
+router.put("/api/tasklist", authentication, tasksController.addTaskList);
+
+router.put("/api/task/update", authentication, tasksController.updateTask);
 
 module.exports = router;
