@@ -1,27 +1,20 @@
 <template>
   <div>
     <organization-page-header><back-header-button></back-header-button></organization-page-header>
-    <div v-if="teamObj">
+    <div v-if="projectObj">
       <router-view name="dialog"></router-view>
-      <div class="team-page-container">
+      <div class="project-page-container">
         <div class="left-col">
-          <h1 class="team-name">
-            <span class="highlight">{{ teamObj?.name }}</span>
+          <h1 class="project-name">
+            <span class="highlight">{{ projectObj?.name }}</span>
           </h1>
-          <p>{{ teamObj?.description }}</p>
+          <p>{{ projectObj?.description }}</p>
           <h2 v-if="supervisorObj">Supervisor: {{ supervisorObj?.fullname }}</h2>
         </div>
         <div class="right-col">
-          <div class="projects-list">
-            <h2>Projects of {{ teamObj?.name }}</h2>
-            <p v-if="projects.length === 0 && loaded">No projects found</p>
-            <ul v-else>
-              <button-options-item-list v-for="project in projects" :key="project.id" :text="project.name" :isPrivateProfile="false"></button-options-item-list>
-            </ul>
-          </div>
           <h4 class="search-area-demo">Search area</h4>
           <div class="members-list">
-            <h2>Team members</h2>
+            <h2>Project members</h2>
             <p v-if="members.length === 0 && loaded">No members found</p>
             <ul v-else>
               <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false"></button-options-item-list>
@@ -43,14 +36,14 @@ import ButtonOptionsItemList from "../ButtonOptionsItemList.vue";
 export default {
   components: { OrganizationPageHeader, ButtonOptionsItemList, BackHeaderButton, LoadingSpinner },
   props: {
-    teamID: {
+    projectID: {
       type: String,
       required: true,
     },
   },
   data() {
     return {
-      teamObj: null,
+      projectObj: null,
       supervisorObj: null,
       members: [],
       projects: [],
@@ -58,33 +51,26 @@ export default {
     };
   },
   methods: {
-    async loadTeamData() {
+    async loadProjectData() {
       try {
-        this.teamObj = await this.$store.dispatch("getTeamData", { teamID: this.teamID });
+        this.projectObj = await this.$store.dispatch("getProjectData", { projectID: this.projectID });
       } catch (error) {
         console.log(error.message || "Something went wrong!");
         this.$router.push("/not-found");
       }
 
-      return this.teamObj;
+      return this.projectObj;
     },
-    async loadTeamMembers() {
+    async loadProjectMembers() {
       try {
-        this.members = await this.$store.dispatch("getTeamMembers", { teamID: this.teamID });
+        this.members = await this.$store.dispatch("getProjectMembers", { projectID: this.projectID });
       } catch (error) {
         console.log(error.message || "Something went wrong!");
       }
     },
-    async getTeamSupervisor() {
+    async getProjectSupervisor() {
       try {
-        this.supervisorObj = await this.$store.dispatch("getTeamSupervisor", { teamID: this.teamID });
-      } catch (error) {
-        console.log(error.message || "Something went wrong!");
-      }
-    },
-    async loadTeamProjects() {
-      try {
-        this.projects = await this.$store.dispatch("getTeamProjects", { teamID: this.teamID });
+        this.supervisorObj = await this.$store.dispatch("getProjectSupervisor", { projectID: this.projectID });
       } catch (error) {
         console.log(error.message || "Something went wrong!");
       }
@@ -92,10 +78,9 @@ export default {
   },
   async created() {
     this.loaded = false;
-    if (await this.loadTeamData()) {
-      await this.loadTeamMembers();
-      await this.getTeamSupervisor();
-      await this.loadTeamProjects();
+    if (await this.loadProjectData()) {
+      await this.loadProjectMembers();
+      await this.getProjectSupervisor();
       this.loaded = true;
       document.body.classList.remove("no-scrolling");
     }
@@ -109,15 +94,18 @@ export default {
   padding: 40px;
   margin-top: 10px;
 }
+
 .left-col h2 {
   text-align: center;
 }
+
 .members-list,
 .projects-list {
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   width: 250px;
 }
+
 ul {
   list-style-type: none;
 }
@@ -127,7 +115,7 @@ ul {
   margin-top: 50px;
 }
 
-.team-name {
+.project-name {
   font-size: 64px;
   padding-top: 50px;
   font-size: 58px;
@@ -135,6 +123,7 @@ ul {
   margin-top: 40px;
   text-align: center;
 }
+
 .highlight {
   position: relative;
 }
@@ -150,18 +139,20 @@ ul {
   z-index: -1;
   opacity: 0.7;
   transform: scale(1.07, 1.05) skewX(-15deg);
-  background-image: var(--gradient-team);
+  background-image: var(--gradient-project);
 }
 
-.team-page-container {
+.project-page-container {
   display: flex;
   flex-wrap: wrap;
 }
+
 .left-col {
   width: 60%;
   box-sizing: border-box;
   padding-left: 40px;
 }
+
 .right-col {
   width: 40%;
   padding-left: 40px;
@@ -173,6 +164,7 @@ ul {
     width: 100%;
     padding-bottom: 40px;
   }
+
   .right-col {
     width: 100%;
   }

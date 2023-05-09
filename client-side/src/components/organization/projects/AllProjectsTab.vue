@@ -6,7 +6,7 @@
     </div>
     <h4 v-if="message">{{ message }}</h4>
     <ul v-else>
-      <project-item v-for="project in projects" :key="project.id" :projectName="project.name" :projectDescription="project.description"></project-item>
+      <project-item v-for="project in projects" :key="project.id" :projectID="project.id" :projectName="project.name" :projectDescription="project.description"></project-item>
     </ul>
   </div>
 </template>

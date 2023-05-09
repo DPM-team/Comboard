@@ -4,7 +4,8 @@
       <header>
         <h3>{{ projectName }}</h3>
         <nav>
-          <a :href="''">View Project</a>
+          <router-link :to="'/organization/project-public/' + projectID">View Project</router-link>
+          <router-link :to="'/organization/project-private/' + projectID">Edit Project</router-link>
         </nav>
       </header>
       <p>{{ projectDescription }}</p>
@@ -15,6 +16,10 @@
 <script>
 export default {
   props: {
+    projectID: {
+      type: String,
+      required: true,
+    },
     projectName: {
       type: String,
       required: true,

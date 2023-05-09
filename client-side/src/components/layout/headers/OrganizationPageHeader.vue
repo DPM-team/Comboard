@@ -7,7 +7,9 @@
           <i class="fas fa-bars"></i>
         </label>
         <slot></slot>
-        <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
+        <a class="header-logo" href="">
+          <img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" />
+        </a>
         <ul class="header-ul">
           <li class="header-li" @click="toggleNotificationOptions">
             <a class="header-a"><font-awesome-icon class="menu-icon" icon="fa-solid fa-bell" /></a>
@@ -19,12 +21,11 @@
             <a class="header-a"><font-awesome-icon class="menu-icon" icon="fa-solid fa-video" /></a>
           </li>
           <li @click="toggleUserOptions" class="header-li">
-            <a class="header-a"
-              ><div class="img-container">
+            <a class="header-a">
+              <div class="img-container">
                 <img v-if="profilePhoto !== ''" class="user-icon" :src="`/api/users/${this.$store.getters.loggedUserID}/profilephoto`" />
                 <font-awesome-icon v-else class="user-icon" :icon="['fas', 'user']"></font-awesome-icon>
               </div>
-              <fon></fon>
             </a>
           </li>
           <li class="header-li" @click="toggleMobileOptionsMenu">
@@ -37,31 +38,39 @@
       <li class="list-item">View profile</li>
       <li class="list-item">View organization</li>
       <li class="list-item">Profile settings</li>
-      <li class="list-item">Logout</li></header-toggle-option
-    >
+      <li class="list-item">Logout</li>
+    </header-toggle-option>
     <header-toggle-option v-if="videoOptionsAreVisible" :position="'video-toggle'">
       <li class="list-item">Join meeting</li>
       <li class="list-item">Start a meeting</li>
-      <li class="list-item">Schedule a meeting for later</li></header-toggle-option
-    >
+      <li class="list-item">Schedule a meeting for later</li>
+    </header-toggle-option>
     <header-toggle-option v-if="messageOptionsAreVisible" :position="'messages-toggle'">
       <div class="message">
-        <div class="pfp-container"><img class="user-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" /></div>
+        <div class="pfp-container">
+          <img class="user-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" />
+        </div>
         <p>This is a message</p>
       </div>
       <div class="message">
-        <div class="pfp-container"><img class="user-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" /></div>
+        <div class="pfp-container">
+          <img class="user-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" />
+        </div>
         <p>This is a message</p>
       </div>
       <div class="message">
-        <div class="pfp-container"><img class="user-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" /></div>
+        <div class="pfp-container">
+          <img class="user-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" />
+        </div>
         <p>This is a message</p>
       </div>
       <div class="message">
-        <div class="pfp-container"><img class="user-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" /></div>
+        <div class="pfp-container">
+          <img class="user-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s" />
+        </div>
         <p>This is a message</p>
-      </div></header-toggle-option
-    >
+      </div>
+    </header-toggle-option>
     <header-toggle-option v-if="notificationOptionsAreVisible" :position="'notifications-toggle'">
       <base-spinner class="notification-item" v-if="spinner"></base-spinner>
       <div v-if="notifications.length > 0">
@@ -79,6 +88,7 @@ import HeaderToggleOption from "../../organization/HeaderToggleOption.vue";
 import BaseSpinner from "../../basic-components/BaseSpinner.vue";
 
 export default {
+  components: { HeaderToggleOption, BaseSpinner },
   data() {
     return {
       userOptionsAreVisible: false,
@@ -89,9 +99,6 @@ export default {
       spinner: null,
       profilePhoto: "",
     };
-  },
-  async created() {
-    await this.setPhoto();
   },
   methods: {
     async setPhoto() {
@@ -184,7 +191,9 @@ export default {
       }
     },
   },
-  components: { HeaderToggleOption, BaseSpinner },
+  async created() {
+    await this.setPhoto();
+  },
 };
 </script>
 

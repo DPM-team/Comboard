@@ -165,12 +165,14 @@ const router = createRouter({
       component: OrganizationPublicProfile,
     },
     {
-      path: "/organization/project-private",
+      path: "/organization/project-private/:projectID",
       component: ProjectPrivateProfile,
+      props: true,
     },
     {
-      path: "/organization/project-public",
+      path: "/organization/project-public/:projectID",
       component: ProjectPublicProfile,
+      props: true,
     },
     {
       path: "/organization/team-private/:teamID",

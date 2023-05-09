@@ -62,6 +62,27 @@ const createProject = async (req, res) => {
   }
 };
 
+const getProject = async (req, res) => {
+  try {
+    const _id = req.query.projectID;
+
+    if (!_id) {
+      return res.status(400).json({ error: "ProjectID is required field!" });
+    }
+
+    const projectObj = await Project.findById({ _id });
+
+    if (!projectObj) {
+      return res.status(404).json({ error: "Team don't found!" });
+    }
+
+    res.status(200).json({ projectObj });
+  } catch (error) {
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   createProject,
+  getProject,
 };
