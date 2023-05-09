@@ -1,7 +1,7 @@
 <template>
   <div class="input-container">
     <input @change="input" :id="id" :type="type" :name="name" :placeholder="placeholder" :value="value" :min="minLength" :accept="accept" ref="inputField" :required="required" />
-    <font-awesome-icon class="input-item-icon" :icon="['fas', `${phdIcon}`]" />
+    <font-awesome-icon v-if="type != 'submit'" class="input-item-icon" :icon="['fas', `${phdIcon}`]" />
   </div>
 </template>
 
@@ -44,7 +44,7 @@ export default {
       required: false,
       default: false,
     },
-    phdIcon: { type: String, required: true },
+    phdIcon: { type: String, required: true, default: "pen" },
   },
   methods: {
     input() {
