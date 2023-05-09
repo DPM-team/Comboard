@@ -34,6 +34,8 @@ import UserProfileSettings from "./components/organization/profile/user/UserProf
 import HelpPage from "./components/dashboard/HelpPage.vue";
 import UserProfileTeams from "./components/organization/profile/user/UserProfileTeams.vue";
 import UserProfileProjects from "./components/organization/profile/user/UserProfileProjects.vue";
+import ProjectPrivateProfile from "./components/organization/profile/project/ProjectPrivateProfile.vue";
+import ProjectPublicProfile from "./components/organization/profile/project/ProjectPublicProfile.vue";
 import TeamPrivateProfile from "./components/organization/profile/team/TeamPrivateProfile.vue";
 import TeamPublicProfile from "./components/organization/profile/team/TeamPublicProfile.vue";
 import CreateProject from "./components/organization/projects/CreateProject.vue";
@@ -161,6 +163,14 @@ const router = createRouter({
     {
       path: "/organization/my-organization",
       component: OrganizationPublicProfile,
+    },
+    {
+      path: "/organization/project-private",
+      component: ProjectPrivateProfile,
+    },
+    {
+      path: "/organization/project-public",
+      component: ProjectPublicProfile,
     },
     {
       path: "/organization/team-private/:teamID",
