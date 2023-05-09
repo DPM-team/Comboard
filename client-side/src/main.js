@@ -59,6 +59,9 @@ import {
   faLock,
   faPen,
   faKey,
+  faFileSignature,
+  faLocationDot,
+  faGlobe,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faComment, faFilePdf, faFileWord, faFileExcel, faImage, faFileImage, faFile } from "@fortawesome/free-regular-svg-icons";
@@ -111,7 +114,10 @@ library.add(
   faEarthEurope,
   faLock,
   faPen,
-  faKey
+  faKey,
+  faFileSignature,
+  faLocationDot,
+  faGlobe
 );
 
 const app = createApp(App);
