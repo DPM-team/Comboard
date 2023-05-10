@@ -1,5 +1,6 @@
 <template>
-  <div class="connection-sug-list">
+  <base-spinner v-if="loadding && fellowOrgMembers.length === 0"></base-spinner>
+  <div v-else-if="!loadding && fellowOrgMembers.length > 0" class="connection-sug-list">
     <h2>{{ title }}</h2>
     <ul>
       <connection-suggestion-item
@@ -18,13 +19,16 @@
 import ConnectionSuggestionItem from "./ConnectionSuggestionItem.vue";
 export default {
   components: { ConnectionSuggestionItem },
-  created() {
-    this.recommentedConnections();
+  async created() {
+    this.loadding = true;
+    await this.recommentedConnections();
+    this.loadding = false;
   },
   data() {
     return {
       title: "Expand your network",
       fellowOrgMembers: [],
+      loadding: false,
       error: null,
     };
   },
@@ -34,6 +38,7 @@ export default {
         this.fellowOrgMembers = await this.$store.dispatch("recommentedConnections", {
           orgID: this.$store.getters.selectedOrganizationID,
         });
+        console.log(this.fellowOrgMembers);
         this.fellowOrgMembers.forEach((member) => {
           member.pictureLink = `/api/users/${member.id}/profilePhoto`;
         });

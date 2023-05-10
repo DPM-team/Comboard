@@ -42,7 +42,8 @@ export default {
   },
   methods: {
     async createPost() {
-      this.postMedia = this.$refs.file.files[0];
+      this.postMedia = this.$refs.file?.files[0] || null;
+
       const postObj = {
         creatorID: this.$store.getters.loggedUserID,
         contentString: this.postContent,
@@ -51,6 +52,7 @@ export default {
       const postMedia = this.postMedia;
 
       try {
+        console.log("");
         const successData = await this.$store.dispatch("createPost", {
           postObj,
           postMedia,

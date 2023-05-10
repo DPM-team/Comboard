@@ -203,11 +203,26 @@ const addProjectToTeam = async (req, res) => {
   }
 };
 
+const deleteTeam = async function (req, res) {
+  try {
+    const deletedTeam = await Team.findOneAndDelete({ _id: req.params.identifier });
+
+    if (!deletedTeam) {
+      return res.status(404).send("Team doesn't found!");
+    }
+
+    res.status(200).send(deletedTeam);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 module.exports = {
   getTeam,
   createTeam,
   getTeamMembers,
   getTeamSupervisor,
+  deleteTeam,
   getTeamProjects,
   addProjectToTeam,
 };

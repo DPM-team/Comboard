@@ -19,28 +19,6 @@ router.get("/api/team/supervisor", teamController.getTeamSupervisor);
 // Router to add a new project to the team the belongs
 router.post("/api/team/project", teamController.addProjectToTeam);
 
-router.get("/api/teams", async function (req, res) {
-  try {
-    Team.find({}).then((result) => {
-      res.status(200).send(result);
-    });
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-router.delete("/api/team/:identifier", async function (req, res) {
-  try {
-    const deletedTeam = await Team.findOneAndDelete({ _id: req.params.identifier });
-
-    if (!deletedTeam) {
-      return res.status(404).send("Team doesn't found!");
-    }
-
-    res.status(200).send(deletedTeam);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+router.delete("/api/team/:identifier", teamController.deleteTeam);
 
 module.exports = router;

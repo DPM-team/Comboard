@@ -46,7 +46,7 @@ const createPost = async (req, res) => {
     const post = new Post({
       creatorID: postObj.creatorID,
       contentString: postObj.contentString,
-      contentMedia: req?.file.buffer,
+      contentMedia: req?.file?.buffer || null,
     });
 
     // Save the post to the database

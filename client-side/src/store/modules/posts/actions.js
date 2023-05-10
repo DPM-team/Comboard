@@ -87,7 +87,9 @@ export default {
     const postMedia = payload.postMedia;
 
     const formData = new FormData();
-    formData.append("upload", postMedia, postMedia.name);
+    if (postMedia) {
+      formData.append("upload", postMedia, postMedia.name);
+    }
     formData.append("postObj", JSON.stringify(postObj));
     formData.append("organizationID", organizationID);
 
