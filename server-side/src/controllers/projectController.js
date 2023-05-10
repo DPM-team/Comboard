@@ -64,13 +64,13 @@ const createProject = async (req, res) => {
 
 const getProject = async (req, res) => {
   try {
-    const _id = req.query.projectID;
+    const projectID = req.query.projectID;
 
-    if (!_id) {
+    if (!projectID) {
       return res.status(400).json({ error: "ProjectID is required field!" });
     }
 
-    const projectObj = await Project.findById({ _id });
+    const projectObj = await Project.findById(projectID);
 
     if (!projectObj) {
       return res.status(404).json({ error: "Team don't found!" });
@@ -82,7 +82,64 @@ const getProject = async (req, res) => {
   }
 };
 
+// Controller to get all the members of a team
+const getProjectMembers = async (req, res) => {
+  try {
+    const projectID = req.query.projectID;
+
+    if (!projectID) {
+      return res.status(400).json({ error: "projectID is required!" });
+    }
+
+    const projectObj = await Project.findById(projectID).populate("members");
+
+    if (!projectObj) {
+      return res.status(404).json({ error: "Project not found!" });
+    }
+
+    const members = projectObj.members.map((memberObj) => {
+      return {
+        id: memberObj._id,
+        fullname: memberObj.name + " " + memberObj.surname,
+      };
+    });
+
+    res.status(200).json({ members });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
+const getProjectSupervisor = async (req, res) => {
+  try {
+    const projectID = req.query.projectID;
+
+    if (!projectID) {
+      return res.status(400).json({ error: "projectID is required!" });
+    }
+
+    const projectObj = await Project.findById(projectID).populate("supervisor");
+
+    if (!projectObj) {
+      return res.status(404).json({ error: "Project not found!" });
+    }
+
+    res.status(200).json({
+      projectSupervisor: {
+        id: projectObj?.supervisor?._id,
+        fullname: projectObj?.supervisor?.name + " " + projectObj?.supervisor?.surname,
+      },
+    });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   createProject,
   getProject,
+  getProjectMembers,
+  getProjectSupervisor,
 };

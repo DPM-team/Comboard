@@ -4,13 +4,13 @@ const userUtils = require("../utils/userUtils.js");
 
 const getTeam = async (req, res) => {
   try {
-    const _id = req.query.teamID;
+    const teamID = req.query.teamID;
 
-    if (!_id) {
+    if (!teamID) {
       return res.status(400).json({ error: "TeamID is required field!" });
     }
 
-    const teamObj = await Team.findById({ _id });
+    const teamObj = await Team.findById(teamID);
 
     if (!teamObj) {
       return res.status(404).json({ error: "Team don't found!" });
