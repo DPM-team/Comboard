@@ -194,9 +194,10 @@ const router = createRouter({
       props: true,
     },
     {
-      path: "/organization/user",
+      path: "/organization/user/:userID",
       component: UserPublicProfile,
-      redirect: "/organization/user/posts",
+      props: true,
+      redirect: "/organization/user/:userID/posts",
       children: [
         {
           path: "posts",

@@ -13,9 +13,9 @@
         </div>
         <div class="right__col">
           <div class="menu-ul">
-            <router-link class="link" to="/organization/user/posts">Posts</router-link>
-            <router-link class="link" to="/organization/user/teams">Teams</router-link>
-            <router-link class="link" to="/organization/user/projects">Projects</router-link>
+            <router-link class="link" :to="'/organization/user/' + userID + '/posts'">Posts</router-link>
+            <router-link class="link" :to="'/organization/user/' + userID + '/teams'">Teams</router-link>
+            <router-link class="link" :to="'/organization/user/' + userID + '/projects'">Projects</router-link>
             <base-button class="add-con-button">Add connection</base-button>
             <font-awesome-icon class="add-con-button-icon" :icon="['fas', 'user-plus']" />
           </div>
@@ -33,9 +33,14 @@ import UserDataArea from "./UserDataArea.vue";
 
 export default {
   components: { OrganizationPageHeader, BackHeaderButton, ProfilePicture, UserDataArea },
+  props: {
+    userID: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
-      userID: "",
       organizationID: "",
       firstname: "Dionisis",
       lastname: "Lougaris",
@@ -48,12 +53,7 @@ export default {
       backgroundImage: "https://img.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg?w=2000",
     };
   },
-  created() {
-    // document.body.classList.add("no-scrolling");
-
-    this.userID = this.$store.getters.loggedUserID;
-    this.organizationID = this.$store.getters.selectedOrganizationID;
-  },
+  created() {},
 };
 </script>
 <style scoped>
