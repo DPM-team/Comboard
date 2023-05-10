@@ -18,8 +18,30 @@ export default {
       message: "",
     };
   },
-  methods: {},
-  created() {},
+  methods: {
+    async loadOrganizationTeams() {
+      try {
+        this.isLoading = true;
+
+        this.teams = await this.$store.dispatch("getOrganizationTeams", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        this.isLoading = false;
+
+        if (this.teams.length === 0) {
+          this.message = "No member in any team!";
+        } else {
+          this.message = "";
+        }
+      } catch (error) {
+        this.message = error.message || "Something went wrong!";
+      }
+    },
+  },
+  created() {
+    this.loadOrganizationTeams();
+  },
 };
 </script>
 
