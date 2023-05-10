@@ -41,6 +41,10 @@ import TeamPublicProfile from "./components/organization/profile/team/TeamPublic
 import CreateProject from "./components/organization/projects/CreateProject.vue";
 import OrganizationPrivateProfile from "./components/organization/profile/organization/OrganizationPrivateProfile.vue";
 import OrganizationPublicProfile from "./components/organization/profile/organization/OrganizationPublicProfile.vue";
+import OrganizationPosts from "./components/organization/profile/organization/OrganizationPosts.vue";
+import OrganizationTeams from "./components/organization/profile/organization/OrganizationTeams.vue";
+import OrganizationProjects from "./components/organization/profile/organization/OrganizationProjects.vue";
+import OrganizationMembers from "./components/organization/profile/organization/OrganizationMembers.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -163,6 +167,25 @@ const router = createRouter({
     {
       path: "/organization/my-organization",
       component: OrganizationPublicProfile,
+      redirect: "/organization/my-organization/posts",
+      children: [
+        {
+          path: "posts",
+          component: OrganizationPosts,
+        },
+        {
+          path: "members",
+          component: OrganizationMembers,
+        },
+        {
+          path: "teams",
+          component: OrganizationTeams,
+        },
+        {
+          path: "projects",
+          component: OrganizationProjects,
+        },
+      ],
     },
     {
       path: "/organization/project-private/:projectID",
