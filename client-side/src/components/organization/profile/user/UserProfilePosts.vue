@@ -1,6 +1,21 @@
 <template>
   <div class="posts-container">
-    <post-box v-for="post in posts" :key="post.id" :pictureLink="post.pictureLink" :firstname="post.firstname" :lastname="post.lastname" :content="post.content" :date="post.date"></post-box>
+    <base-spinner v-if="isLoading"></base-spinner>
+    <h4 v-else-if="!isLoading && message">{{ message }}</h4>
+    <post-box
+      v-else
+      v-for="post in posts"
+      :key="post.id"
+      :id="post.id"
+      :content="post.content"
+      :firstname="post.name"
+      :lastname="post.surname"
+      :image="post.contentMedia"
+      :pictureLink="post.pictureLink"
+      :likes="post.likes"
+      :comments="post.comments"
+      :date="post.date"
+    ></post-box>
   </div>
 </template>
 
@@ -8,34 +23,52 @@
 import PostBox from "../../network/PostBox.vue";
 export default {
   components: { PostBox },
+  props: {
+    userID: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
-      posts: [
-        {
-          id: 1,
-          pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
-          firstname: "Dionisis",
-          lastname: "Lougaris",
-          date: "9/3/2023",
-          content: "Auto einai to prwto post tou Comboard apo to development!",
-        },
-        {
-          id: 2,
-          pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
-          firstname: "Dionisis",
-          lastname: "Lougaris",
-          date: "9/3/2023",
-          content: "Auto einai to deutero post tou Comboard apo to development!",
-        },
-      ],
+      posts: new Array(),
+      isLoading: false,
+      message: "",
     };
+  },
+  methods: {
+    async loadUserPosts() {
+      try {
+        this.isLoading = true;
+
+        this.posts = await this.$store.dispatch("loadMyPosts", {
+          userID: this.userID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        this.isLoading = false;
+
+        if (this.posts.length === 0) {
+          this.message = "No posts created!";
+        } else {
+          this.message = "";
+        }
+      } catch (error) {
+        this.message = error.message || "Something went wrong!";
+      }
+    },
+  },
+  created() {
+    this.loadUserPosts();
   },
 };
 </script>
+
 <style scoped>
 .posts-container {
   display: inline-block;
 }
+
 @media (max-width: 900px) {
   .posts-container {
     display: block;

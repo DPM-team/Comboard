@@ -4,7 +4,6 @@ const User = require("../models/user.js");
 const moment = require("moment");
 const Organization = require("../models/organization.js");
 const userUtils = require("../utils/userUtils.js");
-const { connection } = require("mongoose");
 
 // Create a post for a user
 const createPost = async (req, res) => {
@@ -70,7 +69,7 @@ const createPost = async (req, res) => {
 };
 
 // Get all user post for a specific organization
-const getPosts = async (req, res) => {
+const getPostsICreateForAnOrganization = async (req, res) => {
   try {
     const userID = req.query.userID;
     const organizationID = req.query.organizationID;
@@ -325,7 +324,7 @@ const commentsOfPost = async (req, res) => {
 
 module.exports = {
   createPost,
-  getPosts,
+  getPostsICreateForAnOrganization,
   getCurrentPosts,
   toogleUserLike,
   isLiked,

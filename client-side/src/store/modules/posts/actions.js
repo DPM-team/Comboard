@@ -55,6 +55,32 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
+  async loadMyPosts(context, payload) {
+    const userID = payload.userID;
+    const organizationID = payload.organizationID;
+
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+    };
+
+    try {
+      const response = await fetch(`/api/network/myposts?userID=${userID}&organizationID=${organizationID}`, requestOptions);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data?.posts;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
+    }
+  },
   async createPost(context, payload) {
     const organizationID = payload.organizationID;
     const postObj = payload.postObj;
@@ -121,7 +147,6 @@ export default {
       throw new Error(error.message || "Failed to toogle like.");
     }
   },
-
   async createComment(context, payload) {
     try {
       const requestOptions = {
@@ -140,7 +165,6 @@ export default {
       throw new Error(e);
     }
   },
-
   async loadCommentsOfPost(context, payload) {
     try {
       const requestOptions = {

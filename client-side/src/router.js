@@ -202,14 +202,17 @@ const router = createRouter({
         {
           path: "posts",
           component: UserProfilePosts,
+          props: true,
         },
         {
           path: "teams",
           component: UserProfileTeams,
+          props: true,
         },
         {
           path: "projects",
           component: UserProfileProjects,
+          props: true,
         },
       ],
     },

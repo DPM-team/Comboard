@@ -8,7 +8,7 @@ const getUser = async (req, res) => {
     const userID = req.query.userID;
 
     if (!userID) {
-      return res.status(400).json({ error: "UserID is required!" });
+      return res.status(400).json({ error: "userID is required!" });
     }
 
     const userObj = await User.findById(userID);
@@ -16,6 +16,49 @@ const getUser = async (req, res) => {
     if (!userObj) {
       return res.status(200).json({ error: "User not found!" });
     }
+
+    res.status(200).json({ userObj });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+const getUserOrganizationData = async (req, res) => {
+  try {
+    const userID = req.query.userID;
+    const organizationID = req.query.organizationID;
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    // We get the user's data for a specific organization
+    const userOrgData = await Data.findOne({ userID, organizationID }).populate("userID");
+
+    if (!userOrgData) {
+      return res.status(404).json({ error: "User's data for this organization doesn't found!" });
+    }
+
+    const userObj = {
+      // Data common for all organizations
+      firstname: userOrgData?.userID?.name,
+      lastname: userOrgData?.userID?.surname,
+      address: userOrgData?.userID?.address,
+      gender: userOrgData?.userID?.gender,
+      birthday: userOrgData?.userID?.birthday,
+      linkedinLink: userOrgData?.userID?.linkedinLink,
+      // Data for the specific organization
+      email: userOrgData?.email,
+      telephone: userOrgData?.telephone,
+      bio: userOrgData?.bio,
+      specialization: userOrgData?.specialization,
+      profilePhoto: userOrgData?.profilePhoto,
+    };
 
     res.status(200).json({ userObj });
   } catch (error) {
@@ -224,6 +267,7 @@ const addProjectToUser = async (req, res) => {
 
 module.exports = {
   getUser,
+  getUserOrganizationData,
   getUserOrganizations,
   getUserTeams,
   getUserProjects,

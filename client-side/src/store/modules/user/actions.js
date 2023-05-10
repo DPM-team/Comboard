@@ -16,6 +16,32 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
+  async getUserDataForAnOrganization(context, payload) {
+    const userID = payload.userID;
+    const organizationID = payload.organizationID;
+
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+    };
+
+    try {
+      const response = await fetch(`/api/user/orgdata?userID=${userID}&organizationID=${organizationID}`, requestOptions);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data.userObj;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
+    }
+  },
   async getUserTeams(_, payload) {
     const userID = payload.userID;
     const organizationID = payload.organizationID;
@@ -52,7 +78,6 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
-
   async requestConnection(context, payload) {
     try {
       const requestOptions = {
@@ -71,7 +96,6 @@ export default {
       throw new Error(e);
     }
   },
-
   async recommentedConnections(context, payload) {
     try {
       const requestOptions = {
@@ -91,7 +115,6 @@ export default {
       throw new Error();
     }
   },
-
   async acceptConnection(context, payload) {
     try {
       const requestsOptions = {

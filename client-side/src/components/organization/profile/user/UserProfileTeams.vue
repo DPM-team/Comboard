@@ -1,6 +1,8 @@
 <template>
   <div class="teams-container">
-    <team-item v-for="team in teams" :key="team.id" :teamName="team.teamName" :teamDescription="team.teamDescription"></team-item>
+    <base-spinner v-if="isLoading"></base-spinner>
+    <h4 v-else-if="!isLoading && message">{{ message }}</h4>
+    <team-item v-for="team in teams" :key="team.id" :teamID="team.id" :teamName="team.name" :teamDescription="team.description"></team-item>
   </div>
 </template>
 
@@ -8,14 +10,43 @@
 import TeamItem from "../../teams/TeamItem.vue";
 export default {
   components: { TeamItem },
+  props: {
+    userID: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
-      teams: new Array(
-        { id: "4", teamName: "Team4", teamDescription: "Description4" },
-        { id: "5", teamName: "Team5", teamDescription: "Description5" },
-        { id: "6", teamName: "Team6", teamDescription: "Description6" }
-      ),
+      teams: new Array(),
+      isLoading: false,
+      message: "",
     };
+  },
+  methods: {
+    async loadUserTeams() {
+      try {
+        this.isLoading = true;
+
+        this.teams = await this.$store.dispatch("getUserTeams", {
+          userID: this.userID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        this.isLoading = false;
+
+        if (this.teams.length === 0) {
+          this.message = "No member in any team!";
+        } else {
+          this.message = "";
+        }
+      } catch (error) {
+        this.message = error.message || "Something went wrong!";
+      }
+    },
+  },
+  created() {
+    this.loadUserTeams();
   },
 };
 </script>

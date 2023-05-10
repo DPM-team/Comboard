@@ -26,6 +26,8 @@ router.post("/api/post", authentication, uploadMedia.single("upload"), postContr
 // Router to get user's post for a specific organization
 router.get("/api/network/posts", authentication, postControllers.getCurrentPosts);
 
+router.get("/api/network/myposts", authentication, postControllers.getPostsICreateForAnOrganization);
+
 // Router to add or remove a like
 router.put("/api/post/like", authentication, postControllers.toogleUserLike);
 
