@@ -15,6 +15,37 @@ const getAllStoredOrganizations = async (req, res) => {
   }
 };
 
+const getOrganizationPublicData = async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "organizationID is required!" });
+    }
+
+    const organization = await Organization.findById(organizationID);
+
+    if (!organization) {
+      return res.status(200).json({ error: "User not found!" });
+    }
+
+    const organizationObj = {
+      name: organization?.name,
+      description: organization?.description,
+      email: organization?.email,
+      telephone: organization?.telephone,
+      vatNumber: organization?.vatNumber,
+      location: organization?.location,
+      websiteURL: organization?.websiteURL,
+    };
+
+    res.status(200).json({ organizationObj });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 // Get a specific organization based on ID
 const getOrganizationByID = async (req, res) => {
   const _id = req.params.identifier;
@@ -268,6 +299,7 @@ const addTeamToOrganization = async (req, res) => {
 module.exports = {
   getAllStoredOrganizations,
   getOrganizationByID,
+  getOrganizationPublicData,
   createOrganization,
   joinOrganization,
   getOrganizationMembers,

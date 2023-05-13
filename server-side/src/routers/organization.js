@@ -1,11 +1,13 @@
 const express = require("express");
-const Organization = require("../models/organization.js");
+const authentication = require("../middleware/authentication.js");
 const organizationController = require("../controllers/organizationController"); // Import the organization controller
 
 const router = express.Router();
 
 // Router to create a new organization
 router.post("/api/organization", organizationController.createOrganization);
+
+router.get("/api/organization/data", authentication, organizationController.getOrganizationPublicData);
 
 // Router to a user can join organization
 router.post("/api/organization/join", organizationController.joinOrganization);

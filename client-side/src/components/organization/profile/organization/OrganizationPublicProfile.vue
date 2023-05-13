@@ -1,30 +1,33 @@
 <template>
   <div>
     <organization-page-header><back-header-button></back-header-button></organization-page-header>
-    <div class="header__wrapper">
-      <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
-    </div>
-    <div class="img__container">
-      <img :src="organizationPfp" alt="User Profile Pic" />
-    </div>
-    <div class="main-area">
-      <div class="organization-data">
-        <h2>{{ organizationName }}</h2>
-        <h3>{{ email }}</h3>
-        <h3>{{ location }}</h3>
-        <p>{{ bio }}</p>
+    <div v-if="organizationObj && !isLoading">
+      <div class="header__wrapper">
+        <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
       </div>
-      <div class="right__col">
-        <div class="menu-ul">
-          <router-link class="link" to="/organization/my-organization/posts">Posts</router-link>
-          <router-link class="link" to="/organization/my-organization/members">Members</router-link>
-          <router-link class="link" to="/organization/my-organization/teams">Teams</router-link>
-          <router-link class="link" to="/organization/my-organization/projects">Projects</router-link>
+      <div class="img__container">
+        <img :src="organizationPfp" alt="User Profile Pic" />
+      </div>
+      <div class="main-area">
+        <div class="organization-data">
+          <h2>{{ organizationObj.name }}</h2>
+          <h3 v-if="organizationObj.email">{{ organizationObj.email }}</h3>
+          <h3 v-if="organizationObj.location">{{ organizationObj.location }}</h3>
+          <p v-if="organizationObj.description">{{ organizationObj.description }}</p>
         </div>
-        <router-view class="dynamic-area"></router-view>
+        <div class="right__col">
+          <div class="menu-ul">
+            <router-link class="link" to="/organization/my-organization/posts">Posts</router-link>
+            <router-link class="link" to="/organization/my-organization/members">Members</router-link>
+            <router-link class="link" to="/organization/my-organization/teams">Teams</router-link>
+            <router-link class="link" to="/organization/my-organization/projects">Projects</router-link>
+          </div>
+          <router-view class="dynamic-area"></router-view>
+        </div>
+        <news-list></news-list>
       </div>
-      <news-list></news-list>
     </div>
+    <loading-spinner v-if="isLoading"></loading-spinner>
   </div>
 </template>
 
@@ -43,11 +46,36 @@ export default {
       bio: "Comboard is an organization that blah blah blah blah blah blah blah blah blah blah blah blah",
       organizationPfp: "https://www.uom.gr/site/images/logos/UOMLOGOGR.jpg",
       backgroundImage: "https://parallaximag.gr/wp-content/uploads/pamak-1280x720.jpg",
+      organizationObj: null,
       members: [],
       team: [],
       projects: [],
       posts: [],
+      isLoading: false,
     };
+  },
+  methods: {
+    async loadOrganizationPublicData() {
+      try {
+        this.isLoading = true;
+
+        this.organizationObj = await this.$store.dispatch("getOrganizationPublicData", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        this.isLoading = false;
+
+        if (!this.organizationObj) {
+          this.$router.push("/not-found");
+        }
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+        this.$router.push("/not-found");
+      }
+    },
+  },
+  created() {
+    this.loadOrganizationPublicData();
   },
 };
 </script>
