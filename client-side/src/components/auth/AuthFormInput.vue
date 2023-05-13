@@ -44,7 +44,11 @@ export default {
       required: false,
       default: false,
     },
-    phdIcon: { type: String, required: true, default: "pen" },
+    phdIcon: {
+      type: String,
+      required: false,
+      default: "pen",
+    },
   },
   methods: {
     input() {
