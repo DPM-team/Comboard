@@ -42,9 +42,22 @@ export default {
       try {
         this.isLoading = true;
 
-        this.posts = await this.$store.dispatch("loadMyPosts", {
+        const postsData = await this.$store.dispatch("loadMyPosts", {
           userID: this.userID,
           organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        this.posts = postsData.map((post) => {
+          return {
+            id: post.postObj._id,
+            content: post.postObj.contentString,
+            name: post.creatorObj.name,
+            surname: post.creatorObj.surname,
+            pictureLink: `/api/users/${post.postObj.creatorID}/profilePhoto`,
+            likes: post.postObj?.likes,
+            comments: post.postObj?.comments,
+            date: new Date(post.postObj.createdAt).toLocaleDateString(),
+          };
         });
 
         this.isLoading = false;

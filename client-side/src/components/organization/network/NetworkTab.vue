@@ -68,7 +68,6 @@ export default {
       }
 
       this.posts = this.$store.getters.posts.map((post) => {
-        console.log(post);
         return {
           id: post.postObj._id,
           content: post.postObj.contentString,
