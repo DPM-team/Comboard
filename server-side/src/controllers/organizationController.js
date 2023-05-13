@@ -163,6 +163,40 @@ const joinOrganization = async function (req, res) {
   }
 };
 
+const getOrganizationGlobalPosts = async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    const organizationObj = await Organization.findById(organizationID).populate("posts");
+
+    if (!organizationObj) {
+      return res.status(404).json({ error: "Organization not found!" });
+    }
+
+    const organizationGlobalPosts = new Array();
+
+    for (const postObj of organizationObj.posts) {
+      const creatorObj = await User.findById(postObj.creatorID);
+      organizationGlobalPosts.push({
+        postObj,
+        creatorObj: {
+          name: creatorObj?.name,
+          surname: creatorObj?.surname,
+        },
+      });
+    }
+
+    res.status(200).json({ succesMessage: "Posts loaded with success!", organizationGlobalPosts });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 // Controller to get all the members of an organization
 const getOrganizationMembers = async (req, res) => {
   try {
@@ -302,6 +336,7 @@ module.exports = {
   getOrganizationPublicData,
   createOrganization,
   joinOrganization,
+  getOrganizationGlobalPosts,
   getOrganizationMembers,
   getOrganizationTeams,
   getOrganizationProjects,

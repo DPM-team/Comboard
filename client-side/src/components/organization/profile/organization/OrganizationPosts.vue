@@ -31,8 +31,43 @@ export default {
       message: "",
     };
   },
-  methods: {},
-  created() {},
+  methods: {
+    async loadOrganizationGlobalPosts() {
+      try {
+        this.isLoading = true;
+
+        const postsData = await this.$store.dispatch("getOrganizationGlobalPosts", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        this.posts = postsData.map((post) => {
+          return {
+            id: post.postObj._id,
+            content: post.postObj.contentString,
+            name: post.creatorObj.name,
+            surname: post.creatorObj.surname,
+            pictureLink: `/api/users/${post.postObj.creatorID}/profilePhoto`,
+            likes: post.postObj?.likes,
+            comments: post.postObj?.comments,
+            date: new Date(post.postObj.createdAt).toLocaleDateString(),
+          };
+        });
+
+        this.isLoading = false;
+
+        if (this.posts.length === 0) {
+          this.message = "No posts created!";
+        } else {
+          this.message = "";
+        }
+      } catch (error) {
+        this.message = error.message || "Something went wrong!";
+      }
+    },
+  },
+  created() {
+    this.loadOrganizationGlobalPosts();
+  },
 };
 </script>
 

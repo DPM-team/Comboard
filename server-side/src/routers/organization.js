@@ -12,6 +12,8 @@ router.get("/api/organization/data", authentication, organizationController.getO
 // Router to a user can join organization
 router.post("/api/organization/join", organizationController.joinOrganization);
 
+router.get("/api/organization/posts", authentication, organizationController.getOrganizationGlobalPosts);
+
 // Router for /api/organization/members
 router.get("/api/organization/members", organizationController.getOrganizationMembers);
 
