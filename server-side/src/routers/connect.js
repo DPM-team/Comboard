@@ -57,7 +57,8 @@ router.post("/api/retrieve-account/step-1", async (req, res) => {
       symbols: true,
       strict: true,
     });
-    const html = `<div>${generatedPassword}</div>`;
+    const html = Email.returnForgotPasswordTemplate(generatedPassword);
+
     const emailObj = new Email(email, "dpmcomboard@gmail.com", subject, html);
     sendEmail(emailObj);
     setTimeout(() => {
