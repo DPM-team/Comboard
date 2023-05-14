@@ -10,7 +10,7 @@
     <base-card v-if="errorMessage" width="25%" bgColor="#f4725b">{{ errorMessage }}</base-card>
     <auth-form @submit.prevent="submitForm">
       <auth-header>
-        <h2>Create an organization</h2>
+        <h2 class="header-title">Create an organization</h2>
       </auth-header>
       <auth-form-input @data="getOrgName" id="organization-name" type="text" name="organization-name" placeholder="Organization's name" phdIcon="pen" required />
       <auth-form-input @data="getOrgEmail" id="organization-email" type="email" name="organization-email" placeholder="Organization's email" phdIcon="envelope" required />
@@ -94,4 +94,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.header-title {
+  text-align: center;
+}
+</style>

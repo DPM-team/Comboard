@@ -24,12 +24,6 @@ import PostBox from "../../network/PostBox.vue";
 
 export default {
   components: { PostBox },
-  props: {
-    userID: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
       posts: new Array(),
@@ -38,12 +32,11 @@ export default {
     };
   },
   methods: {
-    async loadUserPosts() {
+    async loadOrganizationGlobalPosts() {
       try {
         this.isLoading = true;
 
-        const postsData = await this.$store.dispatch("loadMyPosts", {
-          userID: this.userID,
+        const postsData = await this.$store.dispatch("getOrganizationGlobalPosts", {
           organizationID: this.$store.getters.selectedOrganizationID,
         });
 
@@ -73,7 +66,7 @@ export default {
     },
   },
   created() {
-    this.loadUserPosts();
+    this.loadOrganizationGlobalPosts();
   },
 };
 </script>

@@ -64,13 +64,15 @@ export default {
       }
     },
     async createTaskList() {
-      try {
-        await this.$store.dispatch("addTaskList", {
-          taskBoardID: this.boardID,
-          taskListName: this.newTaskListName,
-        });
-      } catch (error) {
-        console.log(error);
+      if (this.newTaskListName.trim()) {
+        try {
+          await this.$store.dispatch("addTaskList", {
+            taskBoardID: this.boardID,
+            taskListName: this.newTaskListName,
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
     goBack() {

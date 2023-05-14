@@ -15,6 +15,37 @@ const getAllStoredOrganizations = async (req, res) => {
   }
 };
 
+const getOrganizationPublicData = async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "organizationID is required!" });
+    }
+
+    const organization = await Organization.findById(organizationID);
+
+    if (!organization) {
+      return res.status(200).json({ error: "User not found!" });
+    }
+
+    const organizationObj = {
+      name: organization?.name,
+      description: organization?.description,
+      email: organization?.email,
+      telephone: organization?.telephone,
+      vatNumber: organization?.vatNumber,
+      location: organization?.location,
+      websiteURL: organization?.websiteURL,
+    };
+
+    res.status(200).json({ organizationObj });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 // Get a specific organization based on ID
 const getOrganizationByID = async (req, res) => {
   const _id = req.params.identifier;
@@ -129,6 +160,40 @@ const joinOrganization = async function (req, res) {
     return res.json({ message: "Organization added with success!", organizationID: updatedOrganization._id, organizationName: updatedOrganization.name });
   } catch (error) {
     return res.status(500).json({ error: error.message });
+  }
+};
+
+const getOrganizationGlobalPosts = async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    const organizationObj = await Organization.findById(organizationID).populate("posts");
+
+    if (!organizationObj) {
+      return res.status(404).json({ error: "Organization not found!" });
+    }
+
+    const organizationGlobalPosts = new Array();
+
+    for (const postObj of organizationObj.posts) {
+      const creatorObj = await User.findById(postObj.creatorID);
+      organizationGlobalPosts.push({
+        postObj,
+        creatorObj: {
+          name: creatorObj?.name,
+          surname: creatorObj?.surname,
+        },
+      });
+    }
+
+    res.status(200).json({ succesMessage: "Posts loaded with success!", organizationGlobalPosts });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
   }
 };
 
@@ -268,8 +333,10 @@ const addTeamToOrganization = async (req, res) => {
 module.exports = {
   getAllStoredOrganizations,
   getOrganizationByID,
+  getOrganizationPublicData,
   createOrganization,
   joinOrganization,
+  getOrganizationGlobalPosts,
   getOrganizationMembers,
   getOrganizationTeams,
   getOrganizationProjects,

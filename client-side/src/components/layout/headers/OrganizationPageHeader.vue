@@ -38,7 +38,7 @@
       <li class="list-item">View profile</li>
       <li class="list-item">View organization</li>
       <li class="list-item">Profile settings</li>
-      <li class="list-item">Logout</li>
+      <li class="list-item" @click="exitOrganization()">Exit organization</li>
     </header-toggle-option>
     <header-toggle-option v-if="videoOptionsAreVisible" :position="'video-toggle'">
       <li class="list-item">Join meeting</li>
@@ -103,6 +103,10 @@ export default {
   methods: {
     async setPhoto() {
       this.profilePhoto = await fetch(`/api/users/${this.$store.getters.loggedUserID}/profilephoto`);
+    },
+    exitOrganization() {
+      this.$store.dispatch("removeSelectedOrganization");
+      this.$router.push("/dashboard");
     },
     noScrolling() {
       document.getElementById("check").addEventListener("change", function () {
@@ -257,6 +261,7 @@ export default {
   padding: 15px;
   color: white;
   border-bottom: solid white 1px;
+  cursor: pointer;
 }
 .notification-item {
   padding: 15px;

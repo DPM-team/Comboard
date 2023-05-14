@@ -1,16 +1,16 @@
 <template>
   <organization-page-tab :layout="'block'">
     <div class="calendar-tab-container">
-      <div class="calendar-container">
-        <base-spinner v-if="isLoading"></base-spinner>
-        <VCalendar v-else class="calendar" expanded :attributes="attributes" :color="selectedColor" ref="calendar">
-          <template #footer>
-            <div class="">
-              <button class="" @click="moveToday()">Today</button>
-            </div>
-          </template>
-        </VCalendar>
-      </div>
+      <!-- <div class="calendar-container"> -->
+      <base-spinner v-if="isLoading"></base-spinner>
+      <VCalendar v-else class="calendar" expanded :attributes="attributes" :color="selectedColor" ref="calendar">
+        <template #footer>
+          <div class="">
+            <button class="" @click="moveToday()">Today</button>
+          </div>
+        </template>
+      </VCalendar>
+      <!-- </div> -->
     </div>
   </organization-page-tab>
 </template>
@@ -101,6 +101,7 @@ export default {
   overflow-x: auto;
   display: flex;
   justify-content: center;
+  align-items: center;
   height: 100%;
 }
 .calendar-container {
@@ -108,15 +109,15 @@ export default {
   width: 70%;
 }
 
-.calendar-container :deep(.vc-day) {
+:deep(.vc-day) {
   padding: 40px;
 }
 
-.calendar-container :deep(.vc-day:not(.on-right)) {
+:deep(.vc-day:not(.on-right)) {
   border-right: 1px solid rgb(226, 232, 240);
 }
 
-.calendar-container :deep(.vc-day) {
+:deep(.vc-day) {
   border-bottom: 1px solid rgb(226, 232, 240);
 }
 
@@ -126,26 +127,44 @@ export default {
     width: calc(100% - 180px);
   }
 }
+@media (max-width: 1200px) {
+  .calendar {
+    width: 50%;
+  }
+}
 @media (max-width: 1150px) {
   .calendar-tab-container {
     width: calc(100% - 80px);
   }
 }
-
+@media (max-width: 900px) {
+  :deep(.vc-day) {
+    padding: 30px;
+  }
+}
+@media (max-width: 700px) {
+  :deep(.vc-day) {
+    padding: 20px;
+  }
+}
+@media (max-width: 550px) {
+  :deep(.vc-day) {
+    padding: 10px;
+  }
+}
+@media (max-width: 400px) {
+  :deep(.vc-day) {
+    padding: 3px;
+  }
+}
 @media (max-width: 700px) {
   .calendar-tab-container {
     width: calc(100% - 55px);
-  }
-  .calendar-container {
-    width: 80%;
   }
 }
 @media (max-width: 450px) {
   .calendar-tab-container {
     width: calc(100% - 45px);
-  }
-  .calendar-container {
-    width: 90%;
   }
 }
 </style>

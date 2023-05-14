@@ -45,7 +45,7 @@ export default {
       }
     },
     async createTaskBoard() {
-      if (this.newTaskBoardName) {
+      if (this.newTaskBoardName.trim()) {
         try {
           const successData = await this.$store.dispatch("createTaskBoard", {
             userID: this.$store.getters.loggedUserID,
