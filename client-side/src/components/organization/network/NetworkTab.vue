@@ -7,6 +7,7 @@
         :key="post.id"
         :id="post.id"
         :content="post.content"
+        :contentMedia="post.contentMedia"
         :firstname="post.name"
         :lastname="post.surname"
         :image="post.contentMedia"
@@ -68,10 +69,10 @@ export default {
       }
 
       this.posts = this.$store.getters.posts.map((post) => {
-        console.log(post);
         return {
           id: post.postObj._id,
           content: post.postObj.contentString,
+          contentMedia: post.postObj.contentMedia,
           name: post.creatorObj.name,
           surname: post.creatorObj.surname,
           pictureLink: `/api/users/${post.postObj.creatorID}/profilePhoto`,

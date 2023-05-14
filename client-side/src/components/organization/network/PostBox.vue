@@ -7,6 +7,7 @@
     </div>
     <div class="paragraph-container">
       <p>{{ content }}</p>
+      <img v-if="contentMedia" :src="p" />
     </div>
     <div class="like-comment-container">
       <p>
@@ -42,8 +43,9 @@ export default {
       type: String,
       required: true,
     },
-    image: {
-      type: String,
+
+    contentMedia: {
+      type: Object,
       required: false,
     },
     firstname: {
@@ -78,11 +80,19 @@ export default {
       commentsNum: this.comments?.length || 0,
       showCommentSection: false,
       nextComments: [],
+      p: null,
     };
   },
   methods: {
     async toogleLike() {
-      console.log(this.comments);
+      const reader = new FileReader();
+
+      reader.onload = async () => {
+        console.log(reader.result);
+      };
+
+      reader.readAsDataURL(new Blob(this.contentMedia?.data));
+
       this.haveLike = !this.haveLike;
 
       if (this.haveLike) {

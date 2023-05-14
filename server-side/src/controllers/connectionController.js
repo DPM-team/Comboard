@@ -59,27 +59,39 @@ const recommentedConnections = async (req, res) => {
       throw new Error();
     }
 
+    console.log("");
+
     await userOrgData.populate({ path: "organizationID", model: "organization", populate: { path: "users", model: "user" } });
 
+    console.log();
+
     let recommentedConnections = [];
+    let organizationsUsers = userOrgData.organizationID.users.filter((user, i) => {
+      if (
+        !userOrgData.connections.includes(user._id) &&
+        user._id.toString() !== req.user._id.toString() &&
+        !userOrgData.pendingRequestsSend.includes(user._id) &&
+        !userOrgData.pendingRequestsReceive.includes(user._id)
+      ) {
+        return user;
+      }
+    });
 
     for (let i = 0; i < 4; i++) {
-      let roundomNumber = Math.round(Math.random() * (userOrgData.organizationID.users.length - 1));
-
-      let selectedUser = userOrgData.organizationID.users[roundomNumber];
-
-      if (
-        !recommentedConnections.includes(selectedUser) &&
-        selectedUser.email !== req.user.email &&
-        !userOrgData.connections.includes(selectedUser._id) &&
-        !userOrgData.pendingRequestsReceive.includes(selectedUser._id) &&
-        !userOrgData.pendingRequestsSend.includes(selectedUser._id)
-      ) {
-        recommentedConnections.push(selectedUser);
-      }
-
       if (userOrgData.organizationID.users.length < 4 && userOrgData.organizationID.users.length === i) {
         break;
+      }
+      let roundomNumber = Math.round(Math.random() * (organizationsUsers.length - 1));
+
+      let selectedUser = organizationsUsers[roundomNumber];
+
+      let index = organizationsUsers.findIndex((user) => user._id === selectedUser._id);
+
+      console.log(index);
+
+      if (index > -1) {
+        organizationsUsers.splice(index, 1);
+        recommentedConnections.push(selectedUser);
       }
     }
 
@@ -91,7 +103,6 @@ const recommentedConnections = async (req, res) => {
       };
     });
 
-    // console.log(recommentedConnections);
     res.status(201).send(recommentedConnections);
   } catch (e) {
     console.log(e);
