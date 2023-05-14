@@ -11,6 +11,10 @@ const teamSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    image: {
+      type: Buffer,
+      required: false,
+    },
     supervisor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
