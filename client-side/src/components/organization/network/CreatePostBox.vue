@@ -1,7 +1,8 @@
 <template>
   <form @submit.prevent="createPost">
     <div class="create-post-box">
-      <div class="visibilty-options">
+      <div class="visibility-button-container"><font-awesome-icon @click="toggleVisibilityOptions" class="visibility-button" :icon="['fas', 'earth-europe']" /></div>
+      <div v-if="showVisibilityOptions" class="visibilty-options">
         <input type="radio" name="visibility" value="Connections" required @click="toogleVisibility" />
         <span>Connections</span>
         <input type="radio" name="visibility" value="Organization" required @click="toogleVisibility" checked />
@@ -34,6 +35,7 @@ export default {
   data() {
     return {
       visibilityPost: "Organization",
+      showVisibilityOptions: false,
       postContent: "",
       postFile: null,
       submitMessage: "",
@@ -175,7 +177,7 @@ export default {
   }
   .create-post-box {
     width: 400px;
-    height: 75px;
+    height: 80px;
   }
   .pfp-container {
     margin-right: 20px;
@@ -190,7 +192,7 @@ export default {
   }
   .create-post-box {
     width: 350px;
-    height: 70px;
+    height: 75px;
   }
   .pfp-container {
     margin-right: 15px;
@@ -205,7 +207,7 @@ export default {
   }
   .create-post-box {
     width: 330px;
-    height: 67px;
+    height: 70px;
   }
   .pfp-container {
     margin-right: 13px;
@@ -220,7 +222,7 @@ export default {
   }
   .create-post-box {
     width: 290px;
-    height: 60px;
+    /* height: 60px; */
   }
   .pfp-container {
     margin-right: 12px;
