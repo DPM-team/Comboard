@@ -1,10 +1,6 @@
 <template>
   <header>
     <nav class="header-nav">
-      <input type="checkbox" id="check" />
-      <label v-on:click="noScrolling" for="check" class="checkbtn">
-        <font-awesome-icon :icon="['fas', 'bars']" />
-      </label>
       <a class="header-logo" href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" /></a>
       <ul class="header-ul">
         <li class="header-li">
@@ -27,15 +23,6 @@
 <script>
 export default {
   methods: {
-    noScrolling() {
-      document.getElementById("check").addEventListener("change", function () {
-        if (this.checked) {
-          document.body.classList.add("no-scrolling");
-        } else {
-          document.body.classList.remove("no-scrolling");
-        }
-      });
-    },
     async logout() {
       try {
         await this.$store.dispatch("logout");
@@ -95,66 +82,24 @@ export default {
   color: var(--color-primary);
 }
 
-.checkbtn {
-  font-size: 30px;
-  color: var(--color-primary);
-  float: right;
-  line-height: 80px;
-  margin-right: 40px;
-  cursor: pointer;
-  display: none;
-}
-
-#check {
-  display: none;
-}
-
-@media (max-width: 650px) {
-  .checkbtn {
-    display: block;
-  }
-
+@media (max-width: 600px) {
   .nav__logo {
-    margin-left: 20px;
+    margin-left: 40px;
   }
-
-  /* .header-nav {
-    height: 100px;
-  } */
-
   .header-nav .header-ul {
-    z-index: 10;
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    background: var(--color-primary);
-    top: 80px;
-    left: -100%;
-    text-align: center;
-    transition: all 0.5s;
+    margin-right: 40px;
   }
-
   .header-nav .header-ul .header-li {
-    display: block;
-    margin: 50px;
-    line-height: 30px;
+    margin: 0 3px;
   }
 
   .header-nav .header-ul .header-li .header-a {
-    font-size: 20px;
+    padding: 5px 5px;
   }
-
-  .header-a:hover {
-    background: none;
-    opacity: 0.8;
-  }
-
-  #check:checked ~ .header-ul {
-    left: 0;
-  }
-
-  .image-menu {
-    color: white;
+}
+@media (max-width: 400px) {
+  .header-nav .header-ul {
+    margin-right: 20px;
   }
 }
 </style>
