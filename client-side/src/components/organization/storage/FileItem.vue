@@ -4,7 +4,7 @@
     <div class="file-item-content-iframe" :class="{ visibility: fileLoading }">
       <iframe v-if="allowPreview()" class="frame" :src="`/api/storage/file/${this.id}`" @load="onFileLoaded()"></iframe>
       <div :class="{ 'content-name': allowPreview() }">
-        <font-awesome-icon :icon="getIcon()" :class="{ icon: !allowPreview() }" />
+        <span style="padding-left: 5px"></span><font-awesome-icon :icon="getIcon()" :class="{ icon: !allowPreview() }" />
         <p>{{ fileName }}</p>
       </div>
     </div>
@@ -123,7 +123,9 @@ export default {
 
 .content-name {
   display: flex;
-  justify-content: space-around;
+}
+.content-name p {
+  margin-left: 7px;
 }
 
 .file-item-content p {
@@ -161,13 +163,13 @@ export default {
 
 @media screen and (max-width: 700px) {
   .file-item {
-    width: 80%;
+    width: 60%;
   }
 }
 
 @media screen and (max-width: 600px) {
   .file-item {
-    width: 85%;
+    width: 65%;
   }
 }
 
