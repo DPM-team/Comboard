@@ -1,7 +1,7 @@
 <template>
   <div class="task-container">
-    <div class="task" @click="moveToBoard()">
-      <h1 class="task-title">{{ title }}</h1>
+    <div class="task" @click="moveToBoard()" :title="title">
+      <h1 class="task-title">{{ newTitle }}</h1>
     </div>
   </div>
 </template>
@@ -16,6 +16,15 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+  },
+  computed: {
+    newTitle() {
+      if (this.title.length > 14) {
+        return this.title.substring(0, 14) + "...";
+      } else {
+        return this.title;
+      }
     },
   },
   methods: {
@@ -34,13 +43,16 @@ export default {
   box-sizing: border-box;
   padding: 15px;
 }
+
 .task {
   background: var(--tab-grey-background);
-  border-radius: 15px;
+  /* border-radius: 2px; */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.445);
-  padding: 25px 50px;
-  display: inline-block;
+  width: 230px;
+  height: 180px;
+  display: flex;
   justify-content: center;
+  align-items: center;
   text-align: center;
 }
 .task:hover {
@@ -50,7 +62,6 @@ export default {
 }
 
 .task-title {
-  padding-top: 15px;
   font-size: 20px;
   color: var(--color-primary);
 }

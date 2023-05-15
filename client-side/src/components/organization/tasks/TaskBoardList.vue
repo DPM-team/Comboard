@@ -5,12 +5,10 @@
         <base-spinner v-if="isLoading"></base-spinner>
         <h3 v-if="taskBoards.length === 0 && !isLoading">No Task boards</h3>
         <task-board-list-item v-else v-for="taskBoard in taskBoards" :key="taskBoard._id" :boardID="taskBoard._id" :title="taskBoard.name"></task-board-list-item>
-        <div>
-          <form @submit.prevent="createTaskBoard()">
-            <input id="taskboard--input" type="text" name="taskboard-name" placeholder="Task board name..." v-model="newTaskBoardName" />
-            <input id="taskboard-create--btn" type="submit" value="Create Task board" />
-          </form>
-        </div>
+        <form class="create-task-board-form" @submit.prevent="createTaskBoard()">
+          <input id="taskboard--input" type="text" name="taskboard-name" placeholder="Task board name..." v-model="newTaskBoardName" />
+          <input id="taskboard-create--btn" type="submit" value="Create Taskboard" />
+        </form>
       </div>
     </base-card>
   </div>
@@ -69,6 +67,16 @@ export default {
 </script>
 
 <style scoped>
+.create-task-board-form {
+  background: var(--tab-grey-background);
+  /* border-radius: 2px; */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.445);
+  width: 200px;
+  height: 120px;
+  display: block;
+  margin-left: 20px;
+  margin-top: 40px;
+}
 .content {
   display: flex;
   flex-wrap: wrap;
@@ -96,6 +104,23 @@ export default {
 
 #taskboard-create--btn {
   display: block;
+  padding: 0.5rem 1.2rem;
+  font-family: inherit;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: white;
+  cursor: pointer;
+  margin-left: 25px;
+  margin-top: 10px;
+}
+#taskboard--input {
+  background-color: rgb(244, 244, 244);
+  padding: 8px;
+  width: 180px;
+  border-radius: 2px;
+  margin-left: 10px;
+  margin-top: 20px;
+  border: 0;
 }
 
 /* Responsiveness */
