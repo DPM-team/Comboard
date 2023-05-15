@@ -16,10 +16,6 @@ const dataSchema = mongoose.Schema({
     type: String,
     required: false,
   },
-  profilePhoto: {
-    type: Buffer,
-    required: false,
-  },
   bio: {
     type: String,
     required: false,
@@ -30,6 +26,10 @@ const dataSchema = mongoose.Schema({
   },
   telephone: {
     type: String,
+    required: false,
+  },
+  profilePhoto: {
+    type: Buffer,
     required: false,
   },
   teams: new Array({

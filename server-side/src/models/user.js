@@ -79,12 +79,12 @@ const userSchema = mongoose.Schema(
       type: Date,
       required: false,
     },
-    profilePhoto: {
-      type: Buffer,
-      required: false,
-    },
     linkedinLink: {
       type: String,
+      required: false,
+    },
+    profilePhoto: {
+      type: Buffer,
       required: false,
     },
     tokens: new Array({

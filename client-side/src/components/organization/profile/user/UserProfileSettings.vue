@@ -1,42 +1,59 @@
 <template>
   <div class="profile-settings">
-    <form enctype="multipart/form-data" class="personal-information" action="" method="post">
+    <base-spinner v-if="isLoading"></base-spinner>
+    <h4 v-else-if="!isLoading && message">{{ message }}</h4>
+    <form v-else enctype="multipart/form-data" class="personal-information" method="post">
       <h2>Update your profile</h2>
       <div class="inputBox">
-        <input type="text" name="firstname" class="" value="" required />
-        <span>First name</span>
+        <input class="disabled" type="text" name="firstname" :value="userObj.firstname || '-'" disabled title="Can changed on dashboard profile settings" />
+        <span id="fixed">Name</span>
       </div>
       <div class="inputBox">
-        <input type="text" name="lastname" class="" value="" required />
-        <span>Last name</span>
+        <input class="disabled" type="text" name="lastname" :value="userObj.lastname || '-'" disabled title="Can changed on dashboard profile settings" />
+        <span id="fixed">Surname</span>
       </div>
       <div class="inputBox">
-        <input type="text" name="phone" class="" value="" required />
-        <span>Phone</span>
+        <input class="disabled" type="text" name="location" :value="userObj.address || '-'" disabled title="Can changed on dashboard profile settings" />
+        <span id="fixed">Location</span>
       </div>
       <div class="inputBox">
-        <input type="email" name="email" class="" value="" required />
-        <span>Email</span>
+        <input class="disabled" type="text" name="gender" :value="userObj.gender || '-'" disabled title="Can changed on dashboard profile settings" />
+        <span id="fixed">Gender</span>
       </div>
       <div class="inputBox">
-        <input type="text" name="linkedin" value="" />
-        <span>LinkedIn</span>
+        <input class="disabled" type="text" name="birthday" :value="userObj.birthday || '-'" disabled title="Can changed on dashboard profile settings" />
+        <span id="fixed">Birthday</span>
       </div>
       <div class="inputBox">
-        <input type="text" name="location" value="" />
-        <span>Location</span>
+        <input class="disabled" type="text" name="linkedin" :value="userObj.linkedinLink || '-'" disabled title="Can changed on dashboard profile settings" />
+        <span id="fixed">LinkedIn</span>
       </div>
       <div class="inputBox">
-        <textarea type="text" name="Bio" value="" />
+        <input type="text" name="specialization" :value="userObj.specialization" />
+        <span v-if="!userObj.specialization">Specialization</span>
+        <span v-else id="fixed">Specialization</span>
+      </div>
+      <div class="inputBox">
+        <input type="email" name="organization-email" :value="userObj.email" />
+        <span v-if="!userObj.email">Organization email</span>
+        <span v-else>Organization email</span>
+      </div>
+      <div class="inputBox">
+        <input type="email" name="organization-phone" :value="userObj.telephone" />
+        <span v-if="!userObj.telephone">Organization phone</span>
+        <span v-else>Organization phone</span>
+      </div>
+      <div class="inputBox">
+        <textarea type="text" name="bio" :value="userObj.bio" />
         <span>Bio</span>
       </div>
       <div class="inputBox">
         <input type="file" name="profile-picture" value="" />
-        <span>Profile picture</span>
+        <span id="fixed">Profile picture</span>
       </div>
       <div class="inputBox">
         <input type="file" name="profile-banner" value="" />
-        <span>Profile banner</span>
+        <span id="fixed">Profile banner</span>
       </div>
       <div class="inputBox">
         <input type="submit" name="submit-non-sensitive" value="Save" id="submit-non-sensitive" />
@@ -44,6 +61,41 @@
     </form>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      userObj: null,
+      isLoading: false,
+    };
+  },
+  methods: {
+    async loadUserPublicData() {
+      try {
+        this.isLoading = true;
+
+        this.userObj = await this.$store.dispatch("getUserDataForAnOrganization", {
+          userID: this.$store.getters.loggedUserID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        this.isLoading = false;
+
+        if (!this.userObj) {
+          this.$router.push("/not-found");
+        }
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+        this.$router.push("/not-found");
+      }
+    },
+  },
+  created() {
+    this.loadUserPublicData();
+  },
+};
+</script>
 
 <style scoped>
 .profile-settings {
@@ -96,7 +148,6 @@
   font-size: 16px;
   margin: 10px 0;
   border: none;
-
   outline: none;
   resize: none;
 }
@@ -113,9 +164,14 @@
 }
 
 .personal-information .inputBox input:focus ~ span,
-.personal-information .inputBox input:valid ~ span,
 .personal-information .inputBox textarea:focus ~ span,
 .personal-information .inputBox textarea:valid ~ span {
+  color: var(--color-primary);
+  font-size: 12px;
+  transform: translateY(-20px);
+}
+
+#fixed {
   color: var(--color-primary);
   font-size: 12px;
   transform: translateY(-20px);
@@ -134,5 +190,9 @@
 .personal-information .inputBox input[type="submit"]:active {
   background-color: #000875;
   border-color: #000875;
+}
+
+.disabled {
+  cursor: not-allowed;
 }
 </style>
