@@ -12,13 +12,19 @@
         </a>
         <ul class="header-ul">
           <li class="header-li" @click="toggleNotificationOptions">
-            <a class="header-a"><font-awesome-icon class="menu-icon" icon="fa-solid fa-bell" /></a>
+            <a class="header-a">
+              <font-awesome-icon class="menu-icon" icon="fa-solid fa-bell" />
+            </a>
           </li>
           <li class="header-li" @click="toggleMessageOptions">
-            <a class="header-a"><font-awesome-icon class="menu-icon" icon="fa-solid fa-inbox" /></a>
+            <a class="header-a">
+              <font-awesome-icon class="menu-icon" icon="fa-solid fa-inbox" />
+            </a>
           </li>
           <li class="header-li" @click="toggleVideoOptions">
-            <a class="header-a"><font-awesome-icon class="menu-icon" icon="fa-solid fa-video" /></a>
+            <a class="header-a">
+              <font-awesome-icon class="menu-icon" icon="fa-solid fa-video" />
+            </a>
           </li>
           <li @click="toggleUserOptions" class="header-li">
             <a class="header-a">
@@ -29,15 +35,17 @@
             </a>
           </li>
           <li class="header-li" @click="toggleMobileOptionsMenu">
-            <a class="header-a"><font-awesome-icon class="more-menu-icon" icon="fa-solid fa-ellipsis-vertical" /></a>
+            <a class="header-a">
+              <font-awesome-icon class="more-menu-icon" icon="fa-solid fa-ellipsis-vertical" />
+            </a>
           </li>
         </ul>
       </nav>
     </header>
     <header-toggle-option v-if="userOptionsAreVisible" :position="'user-toggle'">
-      <li class="list-item">View profile</li>
-      <li class="list-item">View organization</li>
-      <li class="list-item">Profile settings</li>
+      <li class="list-item" @click="viewMyProfile()">View profile</li>
+      <li class="list-item" @click="viewMyOrganization()">View organization</li>
+      <li class="list-item" @click="goToProfileSettings()">Profile settings</li>
       <li class="list-item" @click="exitOrganization()">Exit organization</li>
     </header-toggle-option>
     <header-toggle-option v-if="videoOptionsAreVisible" :position="'video-toggle'">
@@ -75,7 +83,10 @@
       <base-spinner class="notification-item" v-if="spinner"></base-spinner>
       <div v-if="notifications.length > 0">
         <li class="notification-item" v-for="notification in notifications" :key="notification._id">
-          <div v-if="notification.type === 'connection'"><button @click="acceptConnection(notification.from, true)">Accept</button> <button>Delete</button></div>
+          <div v-if="notification.type === 'connection'">
+            <button @click="acceptConnection(notification.from, true)">Accept</button>
+            <button>Delete</button>
+          </div>
         </li>
       </div>
       <p class="notification-item" v-else>No Notifications Now</p>
@@ -103,6 +114,15 @@ export default {
   methods: {
     async setPhoto() {
       this.profilePhoto = await fetch(`/api/users/${this.$store.getters.loggedUserID}/profilephoto`);
+    },
+    viewMyProfile() {
+      this.$router.push("/organization/my-profile");
+    },
+    viewMyOrganization() {
+      this.$router.push("/organization/my-organization");
+    },
+    goToProfileSettings() {
+      this.$router.push("/organization/my-profile/settings");
     },
     exitOrganization() {
       this.$store.dispatch("removeSelectedOrganization");
