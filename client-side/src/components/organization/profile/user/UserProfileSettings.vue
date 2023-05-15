@@ -44,6 +44,7 @@
     </form>
   </div>
 </template>
+
 <style scoped>
 .profile-settings {
   padding-top: 20px;
@@ -51,10 +52,12 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+
 .profile-settings,
 .sensitive-information {
   margin-left: 2%;
 }
+
 .personal-information {
   width: 90%;
   padding: 20px;
@@ -86,6 +89,7 @@
   outline: none;
   resize: none;
 }
+
 .personal-information .inputBox input[type="file"] {
   width: 100%;
   padding: 5px 0;

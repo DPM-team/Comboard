@@ -155,6 +155,14 @@ const router = createRouter({
           component: UserProfileConnections,
         },
         {
+          path: "teams",
+          component: UserProfileTeams,
+        },
+        {
+          path: "projects",
+          component: UserProfileProjects,
+        },
+        {
           path: "settings",
           component: UserProfileSettings,
         },

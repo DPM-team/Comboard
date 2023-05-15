@@ -1,28 +1,33 @@
 <template>
   <div>
     <organization-page-header><back-header-button></back-header-button></organization-page-header>
-    <div class="header__wrapper">
+    <div v-if="userObj" class="header__wrapper">
       <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
       <div class="cols__container">
         <div class="left__col">
           <profile-picture :pfp="pfp"></profile-picture>
-          <h2 class="name">{{ firstname }} {{ lastname }}</h2>
-          <h4 class="location">{{ location }}</h4>
-          <p class="bio">{{ bio }}</p>
-          <user-data-area :phoneLink="phoneLink" :linkedinLink="linkedinLink" :mailLink="mailLink"></user-data-area>
+          <h2 class="name">{{ userObj.firstname }} {{ userObj.lastname }}</h2>
+          <h4 v-if="userObj.specialization" class="specialization">{{ userObj.specialization }}</h4>
+          <h4 v-if="userObj.address" class="location">{{ userObj.address }}</h4>
+          <p v-if="userObj.bio" class="bio">{{ userObj.bio }}</p>
+          <user-data-area :phoneLink="userObj.telephone" :linkedinLink="userObj.linkedinLink" :mailLink="userObj.email"></user-data-area>
         </div>
         <div class="right__col">
           <div class="menu-ul">
             <router-link class="link" to="/organization/my-profile/posts">Posts</router-link>
             <router-link class="link" to="/organization/my-profile/connections">Connections</router-link>
+            <router-link class="link" to="/organization/my-profile/teams">Teams</router-link>
+            <router-link class="link" to="/organization/my-profile/projects">Projects</router-link>
             <router-link class="link" to="/organization/my-profile/settings">Settings</router-link>
           </div>
           <router-view></router-view>
         </div>
       </div>
     </div>
+    <loading-spinner v-if="isLoading"></loading-spinner>
   </div>
 </template>
+
 <script>
 import OrganizationPageHeader from "../../../layout/headers/OrganizationPageHeader.vue";
 import BackHeaderButton from "../../../layout/headers/BackHeaderButton.vue";
@@ -33,27 +38,39 @@ export default {
   components: { OrganizationPageHeader, BackHeaderButton, ProfilePicture, UserDataArea },
   data() {
     return {
-      userID: "",
-      organizationID: "",
-      firstname: "Dionisis",
-      lastname: "Lougaris",
-      location: "Thessaloniki",
-      phoneLink: "tel:69999999999",
-      linkedinLink: "https://www.linkedin.com/in/dionisis-lougaris/",
-      mailLink: "mailto:example@gmail.com",
-      bio: "Hello fellow Uom Members, I am Dionisis and I am a senior at the Uom Computer Science Dept.",
+      userObj: null,
+      isLoading: false,
       pfp: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
       backgroundImage: "https://img.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg?w=2000",
     };
   },
-  created() {
-    // document.body.classList.add("no-scrolling");
+  methods: {
+    async loadUserPublicData() {
+      try {
+        this.isLoading = true;
 
-    this.userID = this.$store.getters.loggedUserID;
-    this.organizationID = this.$store.getters.selectedOrganizationID;
+        this.userObj = await this.$store.dispatch("getUserDataForAnOrganization", {
+          userID: this.$store.getters.loggedUserID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        this.isLoading = false;
+
+        if (!this.userObj) {
+          this.$router.push("/not-found");
+        }
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+        this.$router.push("/not-found");
+      }
+    },
+  },
+  created() {
+    this.loadUserPublicData();
   },
 };
 </script>
+
 <style scoped>
 .profile-header img {
   width: 100%;
@@ -68,17 +85,20 @@ export default {
   display: flex;
   align-items: center;
 }
+
 .menu-ul {
   list-style-type: none;
   margin-top: 30px;
   padding: 0;
 }
+
 .menu-ul .link {
   margin-left: 25px;
   font-size: 18px;
   text-decoration: none;
   color: black;
 }
+
 .icon {
   color: var(--color-primary);
   font-size: 19px;
@@ -106,20 +126,24 @@ export default {
   right: 11px;
   border: 2px solid #fff;
 }
+
 .name {
   margin-top: 70px;
   font-weight: 600;
   font-size: 24px;
   margin-bottom: 5px;
 }
+
 .location {
   font-size: 17px;
   font-weight: 500;
 }
+
 .bio {
   font-size: 15px;
   padding-top: 10px;
 }
+
 .header__wrapper .cols__container .left__col p {
   font-size: 0.9rem;
   color: #818181;
@@ -132,6 +156,7 @@ export default {
   align-items: center;
   margin-top: 25px;
 }
+
 .header__wrapper .cols__container .content ul li {
   display: flex;
 }
@@ -143,11 +168,13 @@ export default {
   justify-content: space-between;
   flex-direction: column;
 }
+
 .header__wrapper .cols__container .right__col nav ul {
   display: flex;
   gap: 20px;
   flex-direction: column;
 }
+
 .profile-ul li {
   cursor: pointer;
   text-align: center;
@@ -170,12 +197,14 @@ export default {
   width: 30%;
   padding: 5px 2px;
 }
+
 .success-message h3 {
   color: white;
   font-weight: bold;
   width: max-content;
   padding-left: 7px;
 }
+
 .reject-message {
   margin-top: 10px;
   border: 1px solid rgb(94, 16, 16);
@@ -184,6 +213,7 @@ export default {
   width: 30%;
   padding: 5px 2px;
 }
+
 .reject-message h3 {
   color: white;
   font-weight: bold;
@@ -214,9 +244,11 @@ export default {
     grid-template-columns: 1fr 2fr;
     gap: 50px;
   }
+
   .header__wrapper .cols__container .left__col {
     padding: 25px 0px;
   }
+
   .header__wrapper .cols__container .right__col nav ul {
     flex-direction: row;
     gap: 30px;
@@ -228,9 +260,11 @@ export default {
     margin: 0;
     margin-right: auto;
   }
+
   .header__wrapper .cols__container .right__col nav {
     flex-direction: row;
   }
+
   .header__wrapper .cols__container .right__col nav button {
     margin-top: 0;
   }

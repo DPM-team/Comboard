@@ -14,7 +14,7 @@ export default {
   props: {
     userID: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   data() {
@@ -30,7 +30,7 @@ export default {
         this.isLoading = true;
 
         this.projects = await this.$store.dispatch("getUserProjects", {
-          userID: this.userID,
+          userID: this.userID || this.$store.getters.loggedUserID,
           organizationID: this.$store.getters.selectedOrganizationID,
         });
 
