@@ -68,6 +68,7 @@ export default {
     return {
       userObj: null,
       isLoading: false,
+      message: "",
     };
   },
   methods: {
