@@ -19,7 +19,6 @@
         :date="post.date"
       ></post-box>
     </div>
-    <div>No posts</div>
     <div class="side-section">
       <connection-suggestion-list></connection-suggestion-list>
       <news-list></news-list>
