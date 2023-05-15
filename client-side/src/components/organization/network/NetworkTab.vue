@@ -2,7 +2,9 @@
   <organization-page-tab layout="flex">
     <div class="main-section">
       <create-post-box :pictureLink="`/api/users/${this.$store.getters.loggedUserID}/profilephoto`" @create-post="loadCreatedPost"></create-post-box>
+      <base-spinner v-if="spinner && posts.length === 0"></base-spinner>
       <post-box
+        v-else-if="!spinner && posts.length > 0"
         v-for="post in posts"
         :key="post.id"
         :id="post.id"
@@ -17,6 +19,7 @@
         :date="post.date"
       ></post-box>
     </div>
+    <div>No posts</div>
     <div class="side-section">
       <connection-suggestion-list></connection-suggestion-list>
       <news-list></news-list>
@@ -42,6 +45,7 @@ export default {
       },
       posts: [],
       message: "",
+      spinner: false,
     };
   },
   methods: {
@@ -84,7 +88,9 @@ export default {
     },
   },
   async created() {
-    this.loadPosts();
+    this.spinner = true;
+    await this.loadPosts();
+    this.spinner = false;
   },
 };
 </script>
