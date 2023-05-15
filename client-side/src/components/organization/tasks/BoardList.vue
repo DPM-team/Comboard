@@ -104,27 +104,28 @@ export default {
 
 <style scoped>
 .list {
-  width: 200px;
-  margin-left: 20px;
+  width: 250px;
+  margin-left: 25px;
   box-shadow: 2px 4px #929292;
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 5px;
-  background: var(--tab-grey-background);
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 2px;
+  /* background: var(--tab-grey-background); */
+  background: rgb(229, 229, 229);
 }
 .list h3 {
   color: rgb(30, 30, 30);
-  font-size: 14px;
-  margin-bottom: 2px;
+  font-size: 17px;
+  margin-bottom: 4px;
   font-weight: 600;
   padding: 5px;
 }
 .task-input {
-  background-color: var(--tab-grey-background);
-  padding: 5px;
-  width: 190px;
-  border-radius: 5px;
-  margin-top: 5px;
+  background-color: rgb(244, 244, 244);
+  padding: 7px;
+  width: 240px;
+  border-radius: 2px;
+  margin-top: 8px;
   border: 0;
 }
 .task-input::placeholder {

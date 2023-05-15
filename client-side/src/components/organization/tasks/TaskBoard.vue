@@ -6,10 +6,11 @@
       <draggable v-if="taskBoard" class="draggable" :list="taskBoard.taskLists" group="entire-list" itemKey="_id" @change="moveList">
         <board-list v-for="listObj in taskBoard.taskLists" :key="listObj._id" :listID="listObj._id" :listTitle="listObj.name" :tasks="listObj?.taskItems"></board-list>
       </draggable>
-      <form @submit.prevent="createTaskList()">
-        <input id="tasklist--input" type="text" name="tasklist-name" placeholder="Task list name..." v-model="newTaskListName" />
-        <input id="tasklist-create--btn" type="submit" value="Create Task List" />
+      <form class="create-task-list-form" @submit.prevent="createTaskList()">
+        <input id="tasklist--input" type="text" name="tasklist-name" placeholder="Add another list..." v-model="newTaskListName" />
+        <input id="tasklist-create--btn" type="submit" value="Done" />
       </form>
+      <span style="padding-right: 25px"></span>
       <loading-spinner v-if="isLoading"></loading-spinner>
     </div>
   </div>
@@ -87,18 +88,50 @@ export default {
 </script>
 
 <style scoped>
+#tasklist-create--btn {
+  padding: 0.5rem 1.2rem;
+  font-family: inherit;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: white;
+  cursor: pointer;
+}
+.create-task-list-form {
+  width: 300px;
+  display: flex;
+  margin-left: 25px;
+  box-shadow: 1px 3px #929292;
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 2px;
+  /* background: var(--tab-grey-background); */
+  background: rgb(229, 229, 229);
+}
+#tasklist--input {
+  background-color: rgb(244, 244, 244);
+  padding: 8px;
+  width: 280px;
+  border-radius: 2px;
+  /* margin-top: px; */
+  border: 0;
+}
+#tasklist--input::placeholder {
+  color: black;
+  opacity: 0.8;
+  font-size: 14px;
+}
 .task-board-container {
-  background: rgb(110, 211, 255);
+  background: rgb(211, 238, 250);
   width: calc(100% - 200px);
   overflow-x: auto;
 }
 
 .task-board-container h1 {
   color: rgb(30, 30, 30);
-  font-size: 23px;
-  /* margin-bottom: 2px; */
+  font-size: 28px;
+  margin-bottom: 10px;
   font-weight: 600;
-  padding-top: 25px;
+  padding-top: 30px;
   padding-left: 25px;
   display: inline-block;
 }
@@ -112,7 +145,7 @@ export default {
 
 .draggable {
   display: flex;
-  height: 300px;
+  height: 320px;
 }
 
 .back-button {

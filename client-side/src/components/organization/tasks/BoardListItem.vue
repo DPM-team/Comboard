@@ -122,9 +122,9 @@ export default {
 <style scoped>
 .list-item {
   background: white;
-  padding: 6px;
+  padding: 10px;
   margin-bottom: 5px;
-  border-radius: 5px;
+  border-radius: 2px;
   color: blue;
   cursor: pointer;
 }
