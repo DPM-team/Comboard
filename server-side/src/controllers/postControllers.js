@@ -1,6 +1,7 @@
 const Post = require("../models/post.js");
 const Data = require("../models/data.js");
 const User = require("../models/user.js");
+const mongoose = require("mongoose");
 const moment = require("moment");
 const Organization = require("../models/organization.js");
 const userUtils = require("../utils/userUtils.js");
@@ -296,22 +297,42 @@ const createComment = async (req, res) => {
 
 const commentsOfPost = async (req, res) => {
   try {
+    const organizationID = req.query.orgID;
+    const postID = req.params.postID;
+
+    if (!organizationID) {
+      throw new Error("Orgaization ID is required");
+    }
+
+    if (!postID) {
+      throw new Error("Post ID is required");
+    }
+
     const userData = await Data.findOne({
       userID: req.user._id,
-      organizationID: req.query.orgID,
+      organizationID,
     });
 
     if (!userData) {
-      throw new Error();
+      throw new Error("User data must be existed");
     }
 
-    await userData.populate({ path: "organizationID", model: "organization", populate: { path: "posts", model: "post" } });
+    await userData.populate({ path: "organizationID", model: "organization" });
 
-    if (!userData.posts.includes(req.params.postID) && !userData.organizationID.posts.includes(req.params.postID)) {
-      throw new Error("Post id must to be included at least in organization or on connection's list. ");
+    const post = await Post.findById(postID);
+
+    const creatorUserData = await Data.findOne({
+      userID: post.userID,
+      organizationID,
+    });
+
+    if (
+      !userData.posts.includes(mongoose.Types.ObjectId(postID)) &&
+      !userData.organizationID.posts.includes(mongoose.Types.ObjectId(postID)) &&
+      !creatorUserData.posts.includes(mongoose.Types.ObjectId(postID))
+    ) {
+      throw new Error("Post id must to be included at least in organization or in connection's list.");
     }
-
-    const post = await Post.findOne({ _id: req.params.postID });
 
     const comments = post.comments;
 
