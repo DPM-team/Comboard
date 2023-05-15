@@ -167,6 +167,41 @@ const getUserProjects = async (req, res) => {
   }
 };
 
+const getUserConnections = async (req, res) => {
+  try {
+    const userID = req.query.userID;
+    const organizationID = req.query.organizationID;
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    // We get the user's data for a specific organization
+    const userOrgData = await Data.findOne({ userID, organizationID }).populate("connections");
+
+    if (!userOrgData) {
+      return res.status(404).json({ error: "User's data for this organization doesn't found!" });
+    }
+
+    const connections = userOrgData.connections.map((userObj) => {
+      return {
+        id: userObj._id,
+        name: userObj.name,
+        surname: userObj.surname,
+      };
+    });
+
+    res.status(200).json({ connections });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 // Controller to add a team to the user's teams list
 const addTeamToUser = async (req, res) => {
   try {
@@ -271,6 +306,7 @@ module.exports = {
   getUserOrganizations,
   getUserTeams,
   getUserProjects,
+  getUserConnections,
   addTeamToUser,
   addProjectToUser,
 };

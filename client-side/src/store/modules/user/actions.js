@@ -78,6 +78,32 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
+  async getUserConnections(context, payload) {
+    const userID = payload.userID;
+    const organizationID = payload.organizationID;
+
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+    };
+
+    try {
+      const response = await fetch(`/api/user/connections?userID=${userID}&organizationID=${organizationID}`, requestOptions);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data.connections;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
+    }
+  },
   async requestConnection(context, payload) {
     try {
       const requestOptions = {

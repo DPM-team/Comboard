@@ -18,6 +18,8 @@ router.get("/api/user/teams", userController.getUserTeams);
 // Router to get all the projects that a user is member
 router.get("/api/user/projects", userController.getUserProjects);
 
+router.get("/api/user/connections", authentication, userController.getUserConnections);
+
 // Router to add a new team to the user the belongs
 router.post("/api/user/team", userController.addTeamToUser);
 
