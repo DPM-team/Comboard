@@ -5,20 +5,20 @@
         <base-message v-if="updateTaskMessage" :message="updateTaskMessage" :mode="messageType"></base-message>
         <form @submit.prevent="updateTask()">
           <div class="input-control">
-            <label for="task-name">Edit task's name</label>
+            <label for="task-name" class="pop-up-text">Edit task's name</label>
             <input type="text" v-model="mutableTitle" name="task-name" required />
           </div>
           <div class="input-control">
-            <label for="task-description">Task's description</label>
+            <label for="task-description" class="pop-up-text">Task's description</label>
             <textarea v-model="mutableDescription" rows="5" id="task-description"></textarea>
           </div>
           <div class="dates-control">
             <div>
-              <label for="start">Start date:</label>
+              <label for="start" class="pop-up-text-2">Start date:</label>
               <input type="date" id="start" name="task-start" v-model="mutableDateStarts" />
             </div>
             <div>
-              <label for="end">End date:</label>
+              <label for="end" class="pop-up-text-2">End date:</label>
               <input type="date" id="end" name="task-end" v-model="mutableDateExpires" :min="mutableDateStarts" />
             </div>
           </div>
@@ -26,7 +26,7 @@
             <div>
               <input type="submit" value="Submit changes" />
             </div>
-            <button @click.prevent="closeDialog">Cancel</button>
+            <base-button :mode="'close-btn'" @click.prevent="closeDialog">Cancel</base-button>
           </div>
         </form>
       </template>
@@ -120,6 +120,28 @@ export default {
 </script>
 
 <style scoped>
+input[type="submit"] {
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: white;
+  cursor: pointer;
+}
+input[type="submit"]:hover,
+input[type="submit"]:active {
+  background-color: #000875;
+  border-color: #000875;
+}
+
+.pop-up-text {
+  font-size: 17px;
+  font-weight: 600;
+}
+.pop-up-text-2 {
+  font-size: 15px;
+  font-weight: 600;
+}
 .list-item {
   background: white;
   padding: 10px;

@@ -32,7 +32,7 @@ button:active {
 }
 
 .close-btn {
-  background-color: red;
+  background-color: rgb(189, 25, 25);
   color: white;
   border: none;
 }
