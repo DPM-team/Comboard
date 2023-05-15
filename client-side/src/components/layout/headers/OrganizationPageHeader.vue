@@ -43,7 +43,7 @@
       </nav>
     </header>
     <header-toggle-option v-if="userOptionsAreVisible" :position="'user-toggle'">
-      <li class="list-item" @click="viewMyProfile()">View profile</li>
+      <li class="list-item" @click="viewMyProfile()">My profile</li>
       <li class="list-item" @click="viewMyOrganization()">View organization</li>
       <li class="list-item" @click="goToProfileSettings()">Profile settings</li>
       <li class="list-item" @click="exitOrganization()">Exit organization</li>

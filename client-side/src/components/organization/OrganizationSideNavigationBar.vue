@@ -6,7 +6,9 @@
         <font-awesome-icon icon="fa-solid fa-square-caret-down" />
       </label>
       <ul>
-        <li><img class="organization-logo" src="../../assets/comboard-logo/logo-white.png" alt="Organization name" /></li>
+        <li>
+          <img class="organization-logo" src="../../assets/comboard-logo/logo-white.png" alt="Organization name" @click="viewMyOrganization()" />
+        </li>
         <li>
           <router-link to="/organization/network">
             <font-awesome-icon class="icon" icon="fa-solid fa-people-group" />
@@ -55,7 +57,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    viewMyOrganization() {
+      this.$router.push("/organization/my-organization");
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -65,6 +73,7 @@ export default {};
   text-decoration: none;
   box-sizing: border-box;
 }
+
 .organization-side-navbar {
   position: absolute;
   top: 0;
@@ -78,6 +87,7 @@ export default {};
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
   background: var(--color-primary);
 }
+
 .checkbtn {
   font-size: 22px;
   color: white;
@@ -87,6 +97,7 @@ export default {};
   cursor: pointer;
   display: none;
 }
+
 #check {
   display: none;
 }
@@ -96,7 +107,9 @@ export default {};
   width: 120px;
   display: block;
   margin: 0 auto;
+  cursor: pointer;
 }
+
 a {
   position: relative;
   color: #fff;
@@ -112,11 +125,13 @@ a {
   font-size: 24px;
   text-align: center;
 }
+
 .nav-item {
   position: relative;
   /* top: 12px; */
   margin-left: 10px;
 }
+
 a:hover {
   background: var(--color-secondary);
 }
@@ -136,6 +151,7 @@ a:hover {
   line-height: 20px;
   border-radius: 50%;
 }
+
 .sun:hover,
 .moon:hover {
   cursor: pointer;
@@ -158,11 +174,13 @@ a:hover {
   .organization-side-navbar {
     width: 180px;
   }
+
   .organization-logo {
     height: 100px;
     width: 100px;
     display: block;
   }
+
   a {
     /* font-size: 19px; */
     width: 280px;
@@ -184,9 +202,11 @@ a:hover {
   .nav-item {
     display: none;
   }
+
   .organization-side-navbar {
     width: 80px;
   }
+
   a {
     width: 80px;
     padding: 20px;
@@ -198,11 +218,13 @@ a:hover {
     height: 60px;
     width: 60px;
   }
+
   .sun,
   .moon {
     display: inline;
     margin-left: 5px;
   }
+
   .env-lighting-buttons {
     flex-wrap: wrap;
     justify-content: center;
@@ -213,19 +235,23 @@ a:hover {
   .organization-side-navbar {
     width: 55px;
   }
+
   a {
     width: 55px;
     padding: 18px;
     text-align: center;
   }
+
   .icon {
     font-size: 18px;
   }
+
   .organization-logo {
     margin-top: 9px;
     height: 55px;
     width: 55px;
   }
+
   .sun,
   .moon {
     margin-left: 10px;
@@ -238,17 +264,21 @@ a:hover {
   .organization-side-navbar {
     width: 45px;
   }
+
   a {
     width: 45px;
     padding: 14px;
   }
+
   .icon {
     font-size: 16px;
   }
+
   .organization-logo {
     height: 45px;
     width: 45px;
   }
+
   .sun,
   .moon {
     margin-left: 10px;
