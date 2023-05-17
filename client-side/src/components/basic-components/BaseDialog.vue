@@ -1,6 +1,6 @@
 <template>
   <teleport to="body">
-    <div @click="$emit('close')"></div>
+    <div @click="closeModal()"></div>
     <dialog open>
       <header>
         <button class="close-modal" @click="$emit('close')">&times;</button>
@@ -27,11 +27,21 @@ export default {
       type: String,
       required: false,
     },
+    overlay: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   methods: {
     handleKeyDown(event) {
       // For esc
       if (event.keyCode === 27) {
+        this.$emit("close");
+      }
+    },
+    closeModal() {
+      if (this.overlay) {
         this.$emit("close");
       }
     },

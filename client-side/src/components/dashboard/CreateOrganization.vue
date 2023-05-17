@@ -1,6 +1,6 @@
 <template>
   <base-section @keyup.esc="closeDialog">
-    <base-dialog v-if="dialogIsOpen" title="Share your organization's key!" @close="closeDialog">
+    <base-dialog v-if="dialogIsOpen" title="Share your organization's key!" :overlay="false" @close="closeDialog">
       <template #main>
         <h3>Here is your key to copy!</h3>
         <br />
