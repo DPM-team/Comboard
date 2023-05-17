@@ -4,8 +4,13 @@
       <template #main>
         <h3>Here is your key to copy!</h3>
         <br />
-        <h4>{{ orgKeyToJoin }}</h4>
-        <button @click="copyToClickBoard()">Copy</button>
+        <div class="key--container">
+          <h4>{{ orgKeyToJoin }}</h4>
+          <div class="copy--container">
+            <font-awesome-icon class="copy--icon" icon="fa-regular fa-clipboard" size="lg" title="Copy to clickboard!" @click="copyToClickBoard()" />
+            <div class="copy--message" v-if="isCopied">Key copied!</div>
+          </div>
+        </div>
       </template>
     </base-dialog>
     <base-card v-if="errorMessage" width="25%" bgColor="#f4725b">{{ errorMessage }}</base-card>
@@ -50,6 +55,7 @@ export default {
       orgKeyToJoin: "",
       errorMessage: "",
       dialogIsOpen: false,
+      isCopied: false,
     };
   },
   methods: {
@@ -70,9 +76,12 @@ export default {
     async copyToClickBoard() {
       try {
         await navigator.clipboard.writeText(this.orgKeyToJoin);
-        alert("Copied");
+        this.isCopied = true;
+        setTimeout(() => {
+          this.isCopied = false;
+        }, 2000); // Hide the message after 3 seconds
       } catch (error) {
-        alert("Cannot copy");
+        console.log(error);
       }
     },
     closeDialog() {
@@ -106,5 +115,32 @@ export default {
 <style scoped>
 .header-title {
   text-align: center;
+}
+
+.key--container {
+  display: flex;
+  column-gap: 15px;
+}
+
+.copy--icon {
+  cursor: pointer;
+}
+
+.copy--container {
+  position: relative;
+  display: inline-block;
+}
+
+.copy--message {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #555;
+  color: #fff;
+  width: 90px;
+  margin-bottom: 7px;
+  padding: 5px 15px 5px 15px;
+  box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.25);
 }
 </style>
