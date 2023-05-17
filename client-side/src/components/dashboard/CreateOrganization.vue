@@ -5,6 +5,7 @@
         <h3>Here is your key to copy!</h3>
         <br />
         <h4>{{ orgKeyToJoin }}</h4>
+        <button @click="copyToClickBoard()">Copy</button>
       </template>
     </base-dialog>
     <base-card v-if="errorMessage" width="25%" bgColor="#f4725b">{{ errorMessage }}</base-card>
@@ -64,6 +65,14 @@ export default {
       } catch (error) {
         this.errorMessage = error.message || "Failed to create organization.";
         this.orgKeyToJoin = "";
+      }
+    },
+    async copyToClickBoard() {
+      try {
+        await navigator.clipboard.writeText(this.orgKeyToJoin);
+        alert("Copied");
+      } catch (error) {
+        alert("Cannot copy");
       }
     },
     closeDialog() {
