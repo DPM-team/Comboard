@@ -122,6 +122,13 @@ library.add(
 
 const app = createApp(App);
 
+// Custom directives
+app.directive("focus", {
+  mounted(el) {
+    el.focus();
+  },
+});
+
 // Use routers module
 app.use(router);
 // Use store module

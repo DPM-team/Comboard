@@ -5,4 +5,7 @@ export default {
   setSelectedTaskBoard(state, payload) {
     state.selectedTaskBoard = payload.selectedTaskBoard;
   },
+  renameTaskBoard(state, payload) {
+    state.selectedTaskBoard.name = payload.taskBoardNewName;
+  },
 };

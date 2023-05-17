@@ -260,4 +260,34 @@ export default {
       throw new Error(error.message || "Failed to move Task.");
     }
   },
+  async renameTaskBoard(context, payload) {
+    const taskBoardID = payload.taskBoardID;
+    const newTaskBoardName = payload.newTaskBoardName;
+
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ taskBoardID, newTaskBoardName }),
+    };
+
+    try {
+      // Make a POST request to the API endpoint
+      const response = await fetch(`/api/taskboard/rename`, requestOptions);
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.error);
+      }
+
+      context.commit("renameTaskBoard", { taskBoardNewName: responseData?.taskBoardNewName });
+
+      return responseData;
+    } catch (error) {
+      throw new Error(error.message || "Failed to get Task Board's data!");
+    }
+  },
 };

@@ -1,7 +1,10 @@
 <template>
   <div class="task-board-container">
     <font-awesome-icon class="back-button" :icon="['fas', 'circle-chevron-left']" @click="goBack()" />
-    <h1 v-if="taskBoard">{{ taskBoard.name }}</h1>
+    <h1 v-if="taskBoard">
+      <span v-if="!editingName" @click="renameTaskBoard()">{{ newTaskBoardName || taskBoard.name }}</span>
+      <input class="rename--input" v-if="editingName" type="text" v-model="newTaskBoardName" v-focus @blur="finishTaskBoardRename()" @keydown.enter="finishTaskBoardRename()" />
+    </h1>
     <div class="all-lists">
       <draggable v-if="taskBoard" class="draggable" :list="taskBoard.taskLists" group="entire-list" itemKey="_id" @change="moveList">
         <board-list v-for="listObj in taskBoard.taskLists" :key="listObj._id" :listID="listObj._id" :listTitle="listObj.name" :tasks="listObj?.taskItems"></board-list>
@@ -30,8 +33,11 @@ export default {
   },
   data() {
     return {
+      boardName: "",
       isLoading: false,
       newTaskListName: "",
+      editingName: false,
+      newTaskBoardName: "",
     };
   },
   computed: {
@@ -76,6 +82,23 @@ export default {
         }
       }
     },
+    renameTaskBoard() {
+      this.editingName = true;
+      this.newTaskBoardName = this.newTaskBoardName || this.taskBoard.name;
+    },
+    async finishTaskBoardRename() {
+      this.editingName = false;
+      if (this.taskBoard.name !== this.newTaskBoardName && this.newTaskBoardName.trim() !== "") {
+        try {
+          await this.$store.dispatch("renameTaskBoard", {
+            taskBoardID: this.boardID,
+            newTaskBoardName: this.newTaskBoardName,
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
     goBack() {
       this.$router.push("/organization/tasks/boards/");
     },
@@ -96,6 +119,7 @@ export default {
   color: white;
   cursor: pointer;
 }
+
 .create-task-list-form {
   width: 300px;
   display: flex;
@@ -107,6 +131,7 @@ export default {
   /* background: var(--tab-grey-background); */
   background: rgb(229, 229, 229);
 }
+
 #tasklist--input {
   background-color: rgb(244, 244, 244);
   padding: 8px;
@@ -115,11 +140,13 @@ export default {
   /* margin-top: px; */
   border: 0;
 }
+
 #tasklist--input::placeholder {
   color: black;
   opacity: 0.8;
   font-size: 14px;
 }
+
 .task-board-container {
   background: rgb(211, 238, 250);
   width: calc(100% - 200px);
@@ -134,6 +161,14 @@ export default {
   padding-top: 30px;
   padding-left: 25px;
   display: inline-block;
+}
+
+.rename--input {
+  color: rgb(30, 30, 30);
+  font-size: 28px;
+  font-weight: 600;
+  display: inline-block;
+  border: 0ch;
 }
 
 .all-lists {

@@ -438,6 +438,37 @@ const moveTaskToOtherList = async (req, res) => {
   }
 };
 
+const renameTaskBoard = async (req, res) => {
+  try {
+    const taskBoardID = req.body.taskBoardID;
+    const newTaskBoardName = req.body.newTaskBoardName;
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    if (!newTaskBoardName) {
+      return res.status(400).json({ error: "newTaskBoardName is required!" });
+    }
+
+    const taskBoard = await TaskBoard.findById(taskBoardID);
+
+    if (!taskBoard) {
+      return res.status(404).json({ error: "Task board doesn't found!" });
+    }
+
+    if (taskBoard.name !== newTaskBoardName) {
+      const updatedTaskBoard = await TaskBoard.findByIdAndUpdate(taskBoardID, { name: newTaskBoardName }, { new: true });
+      res.status(200).json({ message: "Task Board name is updated!", taskBoardNewName: updatedTaskBoard.name });
+    } else {
+      res.status(200).json({ message: "Task Board name remains the same!", taskBoardNewName: taskBoard.name });
+    }
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   createTaskBoard,
   getTasksWithDate,
@@ -449,4 +480,5 @@ module.exports = {
   moveTaskList,
   moveTaskBetweenCurrList,
   moveTaskToOtherList,
+  renameTaskBoard,
 };
