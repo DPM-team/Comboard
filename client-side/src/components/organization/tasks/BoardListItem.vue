@@ -26,12 +26,12 @@
             <div>
               <input type="submit" value="Submit changes" />
             </div>
-            <base-button :mode="'close-btn'" @click.prevent="closeDialog">Cancel</base-button>
+            <base-button :mode="'close-btn'" @click.prevent="cancelChanges()">Cancel</base-button>
           </div>
         </form>
       </template>
     </base-dialog>
-    <div class="list-item" @click="openDialog">
+    <div class="list-item" @click="openDialog()">
       <p>{{ mutableTitle || title }}</p>
     </div>
   </div>
@@ -104,6 +104,13 @@ export default {
           this.messageType = "error";
         }
       }
+    },
+    cancelChanges() {
+      this.mutableTitle = this.title;
+      this.mutableDescription = this.description;
+      this.mutableDateStarts = this.dateStarts;
+      this.mutableDateExpires = this.dateExpires;
+      this.closeDialog();
     },
     closeDialog() {
       this.dialogIsOpen = false;
