@@ -47,6 +47,7 @@ router.post("/api/retrieve-account/step-1", async (req, res) => {
   try {
     const email = req.body.email;
     userAccount = await User.findOne({ email });
+
     if (!userAccount) {
       throw new Error("No user with this email");
     }
@@ -57,6 +58,7 @@ router.post("/api/retrieve-account/step-1", async (req, res) => {
       symbols: true,
       strict: true,
     });
+
     const html = Email.returnForgotPasswordTemplate(generatedPassword);
 
     const emailObj = new Email(email, "dpmcomboard@gmail.com", subject, html);
@@ -90,6 +92,9 @@ router.post("/api/retrieve-account/step-2", async (req, res) => {
 router.post("/api/retrieve-account/step-3", async (req, res) => {
   try {
     const newPassword = req.body.password;
+    if (!userAccount) {
+      return new Error("No user found.");
+    }
     userAccount.password = newPassword;
     await userAccount.save();
     res.send();
