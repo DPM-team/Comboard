@@ -84,7 +84,7 @@
       <div v-if="notifications.length > 0">
         <li class="notification-item" v-for="notification in notifications" :key="notification._id">
           <div v-if="notification.type === 'connection'">
-            <button @click="acceptConnection(notification.from, true)">Accept</button>
+            <button @click="acceptConnection(notification.from, notification._id, true)">Accept</button>
             <button>Delete</button>
           </div>
         </li>
@@ -198,17 +198,19 @@ export default {
         const notifications = await this.$store.dispatch("loadNotifications", {
           orgID: this.$store.getters.selectedOrganizationID,
         });
+        console.log(notifications);
         this.notifications = notifications.notifications;
       } catch (error) {
         console.log(error);
       }
     },
-    async acceptConnection(id, acceptConnection) {
+    async acceptConnection(userId, id, acceptConnection) {
       try {
         await this.$store.dispatch("acceptConnection", {
           accept: acceptConnection,
-          userConnectionID: id,
+          userConnectionID: userId,
           orgID: this.$store.getters.selectedOrganizationID,
+          notificationID: id,
         });
       } catch (error) {
         console.log(error);

@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Data = require("../models/data.js");
 const Notification = require("../models/notifications.js");
 const User = require("../models/user.js");
@@ -112,10 +113,16 @@ const recommentedConnections = async (req, res) => {
 
 const answerRequestConnection = async (req, res) => {
   try {
-    const userOrgData = await Data.findOne({ userID: req.user._id, orgID: req.query.orgID });
+    const notificationID = req.body.notificationID;
 
-    if (!userOrgData) {
-      throw new Error("No user");
+    if (!notificationID) {
+      new Error("Notification ID is required");
+    }
+
+    const orgID = req.query.orgID;
+
+    if (!orgID) {
+      return new Error();
     }
 
     const userNobody = await userExists(req.params.userRequestConnectionID);
@@ -124,24 +131,58 @@ const answerRequestConnection = async (req, res) => {
       throw new Error("No user for request");
     }
 
-    if (!req.body.acceptConnection) {
+    const acceptConnection = req.body.acceptConnection;
+
+    if (!acceptConnection) {
       throw new Error("Must be required");
     }
 
-    const userOrgDataRequestConnection = await Data.findOne({ userID: req.params.userRequestConnectionID, orgID: req.query.orgID });
+    const userOrgData = await Data.findOne({ userID: req.user._id, orgID });
+
+    if (!userOrgData) {
+      throw new Error("No user ");
+    }
+
+    const userOrgDataRequestConnection = await Data.findOne({ userID: req.params.userRequestConnectionID, orgID });
 
     if (!userOrgDataRequestConnection) {
       throw new Error("Error user data now");
     }
 
-    if (!userOrgData.pendingRequestsReceive.includes(req.params.userRequestConnectionID) || !userOrgDataRequestConnection.pendingRequestsSend.includes(req.user._id)) {
+    const pendingRequestIndex = userOrgData.pendingRequestsReceive.findIndex((userId) => {
+      return userId.toString() === req.params.userRequestConnectionID;
+    });
+
+    const sendingRequestIndex = userOrgDataRequestConnection.pendingRequestsSend.findIndex((userId) => {
+      return userId.toString() === req.user._id.toString();
+    });
+
+    if (pendingRequestIndex === -1 || sendingRequestIndex === -1) {
       throw new Error("Not exists");
     }
 
-    userOrgData.pendingRequestsReceive.remove(req.params.userRequestConnectionID);
-    userOrgDataRequestConnection.pendingRequestsSend.remove(req.user._id);
+    const notification = await Notification.findById(notificationID).select("from");
 
-    if (req.body.acceptConnection) {
+    if (notification.from.toString() !== userOrgDataRequestConnection.userID.toString() || notification.userID.toString() !== req.user._id.toString()) {
+      return;
+    }
+
+    const notificationIndex = userOrgData.notifications.findIndex((notificationID) => {
+      return notification._id.toString() === notificationID.toString();
+    });
+
+    if (notificationIndex === 1) {
+      return new Error();
+    }
+
+    userOrgData.notifications.splice(notificationIndex, 1);
+
+    await notification.delete();
+
+    userOrgData.pendingRequestsReceive.splice(pendingRequestIndex, 1);
+    userOrgDataRequestConnection.pendingRequestsSend.splice(req.user._id, 1);
+
+    if (acceptConnection) {
       userOrgData.connections.push(req.params.userRequestConnectionID);
       userOrgDataRequestConnection.connections.push(req.user._id);
     }
@@ -151,6 +192,7 @@ const answerRequestConnection = async (req, res) => {
 
     res.status(200).send();
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 };

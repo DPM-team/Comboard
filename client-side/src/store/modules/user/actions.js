@@ -142,6 +142,11 @@ export default {
     }
   },
   async acceptConnection(context, payload) {
+    const acceptConnection = payload.accept;
+    const notificationID = payload.notificationID;
+    const userConnectionID = payload.userConnectionID;
+    const orgID = payload.orgID;
+
     try {
       const requestsOptions = {
         method: "PUT",
@@ -149,10 +154,10 @@ export default {
           Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ acceptConnection: payload.accept }),
+        body: JSON.stringify({ acceptConnection, notificationID }),
       };
 
-      const response = await fetch(`/api/organization/user/${payload.userConnectionID}/connection?orgID=${payload.orgID}`, requestsOptions);
+      const response = await fetch(`/api/organization/user/${userConnectionID}/connection?orgID=${orgID}`, requestsOptions);
 
       if (!response.ok) {
         throw new Error();

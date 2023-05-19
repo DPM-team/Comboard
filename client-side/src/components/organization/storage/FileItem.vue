@@ -2,7 +2,7 @@
   <li class="file-item" @dblclick="openFile()">
     <base-spinner v-if="fileLoading" class="base-spinner"></base-spinner>
     <div class="file-item-content-iframe" :class="{ visibility: fileLoading }">
-      <iframe v-if="allowPreview()" class="frame" :src="`/api/storage/file/${this.id}`" @load="onFileLoaded()"></iframe>
+      <iframe v-if="allowPreview()" class="frame" :src="`/api/storage/file/${this.id}`" @load="onFileLoaded()" ref="frame"></iframe>
       <div :class="{ 'content-name': allowPreview() }">
         <span style="padding-left: 5px"></span><font-awesome-icon :icon="getIcon()" :class="{ icon: !allowPreview() }" />
         <p>{{ fileName }}</p>
