@@ -13,6 +13,10 @@ router.post("/api/register", async (req, res) => {
     const userObj = new User(req.body);
     await userObj.save();
     const generatedToken = await userObj.generateAuthenticationToken();
+    const subject = "We are glad to have you on board!";
+    const html = Email.returnRegisterEmailTemplate();
+    const emailObj = new Email(req.body.email, "dpmcomboard@gmail.com", subject, html);
+    sendEmail(emailObj);
     res.status(201).json({ userObj, generatedToken });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -36,6 +40,7 @@ router.post("/api/login", async (req, res) => {
   }
 });
 
+let timeout;
 let generatedPassword = "";
 let userAccount = null;
 
@@ -65,7 +70,7 @@ router.post("/api/retrieve-account/step-1", async (req, res) => {
 
     const emailObj = new Email(email, "dpmcomboard@gmail.com", subject, html);
     sendEmail(emailObj);
-    setTimeout(() => {
+    timeout = setTimeout(() => {
       generatedPassword = "";
       userAccount = null;
     }, 200000);
@@ -82,6 +87,7 @@ router.post("/api/retrieve-account/step-2", async (req, res) => {
     if (!userAccount) {
       generatedPassword = "";
       userAccount = null;
+      clearTimeout(timeout);
       throw new Error("You must have an account");
     }
 
@@ -103,6 +109,9 @@ router.post("/api/retrieve-account/step-2", async (req, res) => {
 router.post("/api/retrieve-account/step-3", async (req, res) => {
   try {
     const newPassword = req.body.password;
+    if (!userAccount) {
+      return new Error();
+    }
     userAccount.password = newPassword;
     await userAccount.save();
     res.send();
