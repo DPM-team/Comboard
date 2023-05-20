@@ -13,11 +13,10 @@
 </template>
 
 <script>
-import BaseCard from "../../basic-components/BaseCard.vue";
 import TaskBoardListItem from "./TaskBoardListItem.vue";
 
 export default {
-  components: { BaseCard, TaskBoardListItem },
+  components: { TaskBoardListItem },
   data() {
     return {
       taskBoards: new Array(),
