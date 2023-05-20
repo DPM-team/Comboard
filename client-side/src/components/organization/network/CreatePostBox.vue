@@ -11,17 +11,21 @@
       <div class="pfp-container">
         <img class="user-pfp" :src="pictureLink" />
       </div>
-      <input type="button" name="file" id="file" @click="openModal" />
-      <base-dialog v-if="modal">
+      <input v-model="postContent" class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
+      <!-- <input type="button" name="file" id="file" @click="openModal" /> -->
+      <font-awesome-icon class="post-image-btn" :icon="['far', 'image']" @click="openModal" />
+      <base-dialog v-if="modal" :title="'Add an image to your post!'">
         <template #main>
           <form>
-            <input type="file" ref="file" />
-            <input v-model="postContent" type="text" />
-            <input type="button" @click="createPost" />
+            <div class="button-container">
+              <label class="button" for="image">Add Image</label>
+              <input type="file" ref="file" />
+            </div>
+            <input v-model="postContent" type="text" class="post-input" />
+            <input type="submit" @click="createPost" class="post-button" value="Post" />
           </form>
         </template>
       </base-dialog>
-      <input v-model="postContent" class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
       <input class="post-button" value="Post" type="submit" />
     </div>
   </form>
@@ -82,6 +86,41 @@ export default {
 </script>
 
 <style scoped>
+input[type="file"] {
+  display: none;
+}
+
+.button-wrap {
+  position: relative;
+}
+
+.button {
+  display: inline-block;
+  background-color: var(--color-primary);
+  border-radius: 10px;
+  border: 4px double #cccccc;
+  color: #ffffff;
+  text-align: center;
+  font-size: 18px;
+  padding: 7px;
+  width: 100px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button:hover {
+  opacity: 0.9;
+}
+
+.button-container {
+  display: inline-block;
+}
+.post-image-btn {
+  color: var(--color-primary);
+  margin-left: 10px;
+  font-size: 18px;
+}
 .visibilty-options {
   display: block;
   width: 100%;
@@ -145,6 +184,7 @@ export default {
   height: 30px;
   width: 60px;
   margin-left: 35px;
+  display: inline-block;
 }
 .post-input {
   width: 350px;
@@ -217,6 +257,9 @@ export default {
   }
 }
 @media (max-width: 400px) {
+  .post-image-btn {
+    display: none;
+  }
   .post-input {
     width: 140px;
   }
@@ -229,6 +272,9 @@ export default {
   }
   .post-button {
     margin-left: 12px;
+  }
+  .post-image-btn {
+    margin-left: 2px;
   }
 }
 </style>

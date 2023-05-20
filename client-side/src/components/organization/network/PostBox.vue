@@ -163,6 +163,8 @@ export default {
   justify-content: center;
   align-items: center;
   margin: 20px auto;
+  padding-top: 10px;
+  padding-bottom: 15px;
 }
 .image-name-date-container {
   padding-top: 25px;
