@@ -280,15 +280,17 @@ const createComment = async (req, res) => {
 
     const post = await Post.findOne({ _id: req.params.postId });
 
-    post.comments.push({
+    const comment = {
       userID: userData.userID,
       content: req.body.content,
       commenter: userCreator.name + " " + userCreator.surname,
-    });
+    };
+
+    post.comments.push(comment);
 
     await post.save();
 
-    res.status(201).send();
+    res.status(201).send({ message: "Comment created with success", comment });
   } catch (e) {
     console.log(e);
     res.status(400).send(e);

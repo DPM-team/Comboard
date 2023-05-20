@@ -19,7 +19,7 @@
     </div>
     <div v-if="showCommentSection" class="comment-section">
       <div class="write-comment">
-        <form>
+        <form @submit.prevent="createComment">
           <input class="write-comment-input" type="text" name="write-comment" placeholder="Leave a comment.." ref="createComment" />
           <font-awesome-icon class="post-comment-button" type="submit" :icon="['fas', 'paper-plane']" @click="createComment" />
         </form>
@@ -136,10 +136,12 @@ export default {
       let comment = this.$refs.createComment.value;
 
       try {
-        await this.$store.dispatch("createComment", {
+        const successMessage = await this.$store.dispatch("createComment", {
           content: comment,
           postID: this.id,
         });
+
+        this.nextComments.unshift(successMessage.comment);
       } catch (error) {
         console.log(error);
       }

@@ -162,7 +162,9 @@ export default {
         redirect: "follow",
       };
 
-      await fetch(`/api/post/${payload.postID}/createComment`, requestOptions);
+      const response = await fetch(`/api/post/${payload.postID}/createComment`, requestOptions);
+
+      return response.json();
     } catch (e) {
       throw new Error(e);
     }
