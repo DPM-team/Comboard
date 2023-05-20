@@ -136,10 +136,12 @@ export default {
       let comment = this.$refs.createComment.value;
 
       try {
-        await this.$store.dispatch("createComment", {
+        const successMessage = await this.$store.dispatch("createComment", {
           content: comment,
           postID: this.id,
         });
+
+        this.nextComments.unshift(successMessage.comment);
       } catch (error) {
         console.log(error);
       }
