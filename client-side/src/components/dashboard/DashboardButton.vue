@@ -2,7 +2,7 @@
   <button v-if="!link" :class="mode">
     <slot></slot>
   </button>
-  <router-link v-else :to="to" :class="mode">
+  <router-link class="link-button" v-else :to="to" :class="mode">
     <slot></slot>
   </router-link>
 </template>
@@ -31,10 +31,13 @@ export default {
 
 <style scoped>
 button,
-a {
-  display: block;
+.link-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   text-align: center;
+  font-size: 15px;
   border-radius: 5px;
   transition-duration: 0.4s;
   /* font-weight: bold; */
@@ -44,7 +47,7 @@ a {
   margin-left: 5px;
 }
 
-a {
+.link-button {
   text-decoration: none;
 }
 
@@ -62,8 +65,8 @@ a {
 /* Responsiveness */
 @media (max-width: 800px) {
   button,
-  a {
-    display: inline-block;
+  .link-button {
+    /* display: inline-block; */
     height: 35px;
     width: 55px;
     margin-top: 20px;
@@ -72,8 +75,8 @@ a {
 }
 @media (max-width: 560px) {
   button,
-  a {
-    display: inline-block;
+  .link-button {
+    /* display: inline-block; */
     height: 35px;
     width: 55px;
     margin-top: 20px;

@@ -3,7 +3,7 @@
     <dashboard-searchbar></dashboard-searchbar>
     <div class="buttons-container">
       <dashboard-button mode="primary" @click="$emit('open-join-form')">Join</dashboard-button>
-      <dashboard-button link to="/create-organization" mode="secondary">Create</dashboard-button>
+      <dashboard-button :link="true" to="/create-organization" mode="secondary">Create</dashboard-button>
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@ export default {
 }
 @media (max-width: 430px) {
   .buttons-container {
-    margin-left: 15px;
+    margin-left: 5px;
   }
 }
 </style>
