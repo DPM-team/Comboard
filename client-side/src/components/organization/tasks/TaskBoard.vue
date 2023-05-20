@@ -3,7 +3,7 @@
     <font-awesome-icon class="back-button" :icon="['fas', 'circle-chevron-left']" @click="goBack()" />
     <h1 v-if="taskBoard">
       <span v-if="!editingName" @click="renameTaskBoard()">{{ newTaskBoardName || taskBoard.name }}</span>
-      <input class="rename--input" v-if="editingName" type="text" v-model="newTaskBoardName" v-focus @blur="finishTaskBoardRename()" @keydown.enter="finishTaskBoardRename()" />
+      <input class="rename--input" v-if="editingName" type="text" v-model="newTaskBoardName" v-focus @blur="handleTaskBoardRenameBlur()" @keydown.enter="handleTaskBoardRenameEnter()" />
     </h1>
     <div class="all-lists">
       <draggable v-if="taskBoard" class="draggable" :list="taskBoard.taskLists" group="entire-list" itemKey="_id" @change="moveList">
@@ -38,6 +38,7 @@ export default {
       newTaskListName: "",
       editingName: false,
       newTaskBoardName: "",
+      enterKeyPressed: false,
     };
   },
   computed: {
@@ -85,6 +86,17 @@ export default {
     renameTaskBoard() {
       this.editingName = true;
       this.newTaskBoardName = this.newTaskBoardName || this.taskBoard.name;
+    },
+    handleTaskBoardRenameBlur() {
+      if (!this.enterKeyPressed) {
+        this.finishTaskBoardRename();
+      }
+
+      this.enterKeyPressed = false; // Reset the flag
+    },
+    handleTaskBoardRenameEnter() {
+      this.enterKeyPressed = true; // Set a flag to indicate Enter key was pressed
+      this.finishTaskBoardRename();
     },
     async finishTaskBoardRename() {
       this.editingName = false;

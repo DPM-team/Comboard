@@ -2,7 +2,7 @@
   <div class="list">
     <h3>
       <span v-if="!editingName" @click="renameTaskList()">{{ updatedTaskListName || listTitle }}</span>
-      <input class="rename--input" v-if="editingName" type="text" v-model="updatedTaskListName" v-focus @blur="finishTaskListRename()" @keydown.enter="finishTaskListRename()" />
+      <input class="rename--input" v-if="editingName" type="text" v-model="updatedTaskListName" v-focus @blur="handleTaskListRenameBlur()" @keydown.enter="handleTaskListRenameEnter()" />
     </h3>
     <draggable class="scroll" :list="tasks" group="tasks" itemKey="_id" @change="log">
       <board-list-item
@@ -106,6 +106,17 @@ export default {
     renameTaskList() {
       this.editingName = true;
       this.updatedTaskListName = this.updatedTaskListName || this.listTitle;
+    },
+    handleTaskListRenameBlur() {
+      if (!this.enterKeyPressed) {
+        this.finishTaskListRename();
+      }
+
+      this.enterKeyPressed = false; // Reset the flag
+    },
+    handleTaskListRenameEnter() {
+      this.enterKeyPressed = true; // Set a flag to indicate Enter key was pressed
+      this.finishTaskListRename();
     },
     async finishTaskListRename() {
       this.editingName = false;
