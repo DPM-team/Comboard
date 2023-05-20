@@ -88,7 +88,7 @@ input {
     margin-left: 40px;
   }
 }
-@media (max-width: 430px) {
+@media (max-width: 500px) {
   input {
     width: 200px;
     padding: 7px 35px;
@@ -97,6 +97,11 @@ input {
     font-size: 13px;
     float: left;
     margin-left: 20px;
+  }
+}
+@media (max-width: 400px) {
+  input {
+    width: 160px;
   }
 }
 </style>
