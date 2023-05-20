@@ -133,7 +133,7 @@ const answerRequestConnection = async (req, res) => {
 
     const acceptConnection = req.body.acceptConnection;
 
-    if (!acceptConnection) {
+    if (acceptConnection === undefined) {
       throw new Error("Must be required");
     }
 
@@ -161,7 +161,11 @@ const answerRequestConnection = async (req, res) => {
       throw new Error("Not exists");
     }
 
-    const notification = await Notification.findById(notificationID).select("from");
+    const notification = await Notification.findById(notificationID).select("from userID");
+
+    if (!notification) {
+      return new Error();
+    }
 
     if (notification.from.toString() !== userOrgDataRequestConnection.userID.toString() || notification.userID.toString() !== req.user._id.toString()) {
       return;

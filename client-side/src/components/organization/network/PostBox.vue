@@ -19,7 +19,7 @@
     </div>
     <div v-if="showCommentSection" class="comment-section">
       <div class="write-comment">
-        <form>
+        <form @submit.prevent="createComment">
           <input class="write-comment-input" type="text" name="write-comment" placeholder="Leave a comment.." ref="createComment" />
           <font-awesome-icon class="post-comment-button" type="submit" :icon="['fas', 'paper-plane']" @click="createComment" />
         </form>

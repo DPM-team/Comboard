@@ -92,6 +92,7 @@ router.post("/api/retrieve-account/step-2", async (req, res) => {
     }
 
     if (!generatedPassword) {
+      clearTimeout(timeout);
       userAccount = null;
       throw new Error("Generated password has been expired");
     }
@@ -110,6 +111,7 @@ router.post("/api/retrieve-account/step-3", async (req, res) => {
   try {
     const newPassword = req.body.password;
     if (!userAccount) {
+      clearTimeout(timeout);
       return new Error();
     }
     userAccount.password = newPassword;

@@ -11,7 +11,7 @@
       <div class="pfp-container">
         <img class="user-pfp" :src="pictureLink" />
       </div>
-      <input v-model="postContent" class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
+      <input v-model="postContent" required class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
       <!-- <input type="button" name="file" id="file" @click="openModal" /> -->
       <font-awesome-icon class="post-image-btn" :icon="['far', 'image']" @click="openModal" />
       <base-dialog v-if="modal" :title="'Add an image to your post!'">
@@ -58,7 +58,6 @@ export default {
       const postMedia = this.postMedia;
 
       try {
-        console.log("");
         const successData = await this.$store.dispatch("createPost", {
           postObj,
           postMedia,
