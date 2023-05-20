@@ -48,6 +48,7 @@ export default {
       isLoading: false,
       editingName: false,
       updatedTaskListName: "",
+      enterKeyPressed: false,
     };
   },
   methods: {
