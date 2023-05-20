@@ -1,16 +1,14 @@
 <template>
   <div class="task-board-container">
-    <base-card :width="'80%'">
-      <div class="content">
-        <base-spinner v-if="isLoading"></base-spinner>
-        <h3 v-if="taskBoards.length === 0 && !isLoading">No Task boards</h3>
-        <task-board-list-item v-else v-for="taskBoard in taskBoards" :key="taskBoard._id" :boardID="taskBoard._id" :title="taskBoard.name"></task-board-list-item>
-        <form class="create-task-board-form" @submit.prevent="createTaskBoard()">
-          <input id="taskboard--input" type="text" name="taskboard-name" placeholder="Task board name..." v-model="newTaskBoardName" />
-          <input id="taskboard-create--btn" type="submit" value="Create Taskboard" />
-        </form>
-      </div>
-    </base-card>
+    <div class="content">
+      <base-spinner v-if="isLoading"></base-spinner>
+      <h3 v-if="taskBoards.length === 0 && !isLoading">No Task boards</h3>
+      <task-board-list-item v-else v-for="taskBoard in taskBoards" :key="taskBoard._id" :boardID="taskBoard._id" :title="taskBoard.name"></task-board-list-item>
+      <form class="create-task-board-form" @submit.prevent="createTaskBoard()">
+        <input id="taskboard--input" type="text" name="taskboard-name" placeholder="Task board name..." v-model="newTaskBoardName" />
+        <input id="taskboard-create--btn" type="submit" value="Create Taskboard" />
+      </form>
+    </div>
   </div>
 </template>
 
@@ -90,7 +88,7 @@ export default {
   /* background: rgb(110, 211, 255); */
   width: calc(100% - 200px);
   overflow-x: auto;
-  margin-top: 10%;
+  /* margin-top: 10%; */
 }
 .task-board-container h1 {
   color: rgb(30, 30, 30);
