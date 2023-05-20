@@ -1,6 +1,9 @@
 <template>
   <div class="list">
-    <h3>{{ listTitle }}</h3>
+    <h3>
+      <span v-if="!editingName" @click="renameTaskList()">{{ updatedTaskListName || listTitle }}</span>
+      <input class="rename--input" v-if="editingName" type="text" v-model="updatedTaskListName" v-focus @blur="finishTaskListRename()" @keydown.enter="finishTaskListRename()" />
+    </h3>
     <draggable class="scroll" :list="tasks" group="tasks" itemKey="_id" @change="log">
       <board-list-item
         v-for="task in tasks"
@@ -43,6 +46,8 @@ export default {
     return {
       newTask: "",
       isLoading: false,
+      editingName: false,
+      updatedTaskListName: "",
     };
   },
   methods: {
@@ -98,6 +103,24 @@ export default {
         }
       }
     },
+    renameTaskList() {
+      this.editingName = true;
+      this.updatedTaskListName = this.updatedTaskListName || this.listTitle;
+    },
+    async finishTaskListRename() {
+      this.editingName = false;
+      if (this.listTitle !== this.updatedTaskListName && this.updatedTaskListName.trim() !== "") {
+        try {
+          await this.$store.dispatch("renameTaskList", {
+            taskBoardID: this.$store.getters.getSelectedBoardID,
+            taskListID: this.listID,
+            updatedTaskListName: this.updatedTaskListName,
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
   },
 };
 </script>
@@ -113,6 +136,7 @@ export default {
   /* background: var(--tab-grey-background); */
   background: rgb(229, 229, 229);
 }
+
 .list h3 {
   color: rgb(30, 30, 30);
   font-size: 17px;
@@ -120,6 +144,15 @@ export default {
   font-weight: 600;
   padding: 5px;
 }
+
+.rename--input {
+  color: rgb(30, 30, 30);
+  font-size: 17px;
+  font-weight: 600;
+  display: inline-block;
+  border: 0ch;
+}
+
 .task-input {
   background-color: rgb(244, 244, 244);
   padding: 7px;
@@ -128,6 +161,7 @@ export default {
   margin-top: 8px;
   border: 0;
 }
+
 .task-input::placeholder {
   color: black;
   opacity: 0.8;

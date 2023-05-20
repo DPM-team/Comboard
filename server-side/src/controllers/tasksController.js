@@ -469,6 +469,49 @@ const renameTaskBoard = async (req, res) => {
   }
 };
 
+const renameTaskList = async (req, res) => {
+  try {
+    const taskBoardID = req.body.taskBoardID;
+    const taskListID = req.body.taskListID;
+    const newTaskListName = req.body.newTaskListName;
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    if (!taskListID) {
+      return res.status(400).json({ error: "taskListID is required!" });
+    }
+
+    if (!newTaskListName) {
+      return res.status(400).json({ error: "newTaskListName is required!" });
+    }
+
+    const taskBoard = await TaskBoard.findById(taskBoardID);
+
+    if (!taskBoard) {
+      return res.status(404).json({ error: "Task board doesn't found!" });
+    }
+
+    for (const taskListObj of taskBoard.taskLists) {
+      if (taskListObj._id.toString() === taskListID) {
+        if (taskListObj.name !== newTaskListName) {
+          taskListObj.name = newTaskListName;
+          await TaskBoard.findByIdAndUpdate(taskBoardID, taskBoard);
+          res.status(200).json({ message: "Task List name is updated!", newTaskListName: taskListObj.name });
+          break;
+        } else {
+          res.status(200).json({ message: "Task List name remains the same!", newTaskListName: taskListObj.name });
+          break;
+        }
+      }
+    }
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   createTaskBoard,
   getTasksWithDate,
@@ -481,4 +524,5 @@ module.exports = {
   moveTaskBetweenCurrList,
   moveTaskToOtherList,
   renameTaskBoard,
+  renameTaskList,
 };

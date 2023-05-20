@@ -290,4 +290,33 @@ export default {
       throw new Error(error.message || "Failed to get Task Board's data!");
     }
   },
+  async renameTaskList(context, payload) {
+    const taskBoardID = payload.taskBoardID;
+    const taskListID = payload.taskListID;
+    const newTaskListName = payload.updatedTaskListName;
+
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ taskBoardID, taskListID, newTaskListName }),
+    };
+
+    try {
+      // Make a POST request to the API endpoint
+      const response = await fetch(`/api/tasklist/rename`, requestOptions);
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.error);
+      }
+
+      return responseData;
+    } catch (error) {
+      throw new Error(error.message || "Failed to get Task List's data!");
+    }
+  },
 };
