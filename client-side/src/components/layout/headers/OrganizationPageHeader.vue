@@ -85,7 +85,7 @@
         <li class="notification-item" v-for="notification in notifications" :key="notification._id">
           <div v-if="notification.type === 'connection'">
             <button @click="acceptConnection(notification.from, notification._id, true)">Accept</button>
-            <button>Delete</button>
+            <button @click="acceptConnection(notification.from, notification._id, false)">Delete</button>
           </div>
         </li>
       </div>
