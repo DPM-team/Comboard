@@ -87,7 +87,7 @@ a {
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 670px) {
   .task-container {
     flex: 100%;
     max-width: 100%;
