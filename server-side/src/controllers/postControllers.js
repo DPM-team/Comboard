@@ -345,6 +345,46 @@ const commentsOfPost = async (req, res) => {
   }
 };
 
+const editPost = async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+    const postID = req.query.postID;
+    const editContent = req.body.content;
+
+    if (!organizationID || !postID) {
+      throw new Error("Fields are required");
+    }
+
+    if (!editContent) {
+      throw new Error();
+    }
+
+    const userOrgData = await Data.findOne({ userID: req.user._id, organizationID }).populate({ path: "organizationID", model: "organization" }).select("organizationID posts");
+
+    if (!userOrgData) {
+      throw new Error();
+    }
+
+    // if (!userOrgData.posts.includes() || !userOrgData.organizationID.posts.includes()) {
+    //   throw new Error();
+    // }
+
+    const post = await Post.findById(postID);
+
+    if (!post) {
+      throw new Error();
+    }
+
+    post.contentString = editContent;
+
+    await post.save();
+
+    res.status(200).send();
+  } catch (e) {
+    res.status(400).send(e);
+  }
+};
+
 module.exports = {
   createPost,
   getPostsICreateForAnOrganization,
@@ -353,4 +393,5 @@ module.exports = {
   isLiked,
   createComment,
   commentsOfPost,
+  editPost,
 };
