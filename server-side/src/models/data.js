@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { phone } = require("phone");
 
 // In this schema we store every data of a user for a specific organization
 const dataSchema = mongoose.Schema({
@@ -27,6 +28,11 @@ const dataSchema = mongoose.Schema({
   telephone: {
     type: String,
     required: false,
+    validate: function (value) {
+      if (!phone(value, { validateMobilePrefix: false }).isValid) {
+        throw new Error("Wrong telephone format!");
+      }
+    },
   },
   profilePhoto: {
     type: Buffer,

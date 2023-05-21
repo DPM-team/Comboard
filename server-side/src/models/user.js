@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
+const { phone } = require("phone");
 const passwordValidator = require("password-validator");
 const bcrypt = require("bcryptjs");
 
@@ -66,6 +67,11 @@ const userSchema = mongoose.Schema(
     telephone: {
       type: String,
       required: false,
+      validate: function (value) {
+        if (!phone(value, { validateMobilePrefix: false }).isValid) {
+          throw new Error("Wrong telephone format!");
+        }
+      },
     },
     address: {
       type: String,
