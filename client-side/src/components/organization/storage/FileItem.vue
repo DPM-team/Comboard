@@ -60,6 +60,11 @@ export default {
       }
     },
     onFileLoaded() {
+      console.log(this.$refs.frame.contentDocument);
+      this.$refs.frame.addEventListener("click", (e) => {
+        console.log(e);
+      });
+
       this.fileLoading = false;
     },
     openFile() {
