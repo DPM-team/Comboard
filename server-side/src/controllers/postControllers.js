@@ -365,9 +365,9 @@ const editPost = async (req, res) => {
       throw new Error();
     }
 
-    // if (!userOrgData.posts.includes() || !userOrgData.organizationID.posts.includes()) {
-    //   throw new Error();
-    // }
+    if (!userOrgData.posts.includes(new mongoose.Types.ObjectId(postID)) && !userOrgData.organizationID.posts.includes(new mongoose.Types.ObjectId(postID))) {
+      throw new Error();
+    }
 
     const post = await Post.findById(postID);
 
@@ -385,6 +385,44 @@ const editPost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+    const postID = req.query.postID;
+
+    if (!organizationID || !postID) {
+      throw new Error();
+    }
+
+    const userOrgData = await Data.findOne({
+      userID: req.user._id,
+      organizationID,
+    })
+      .populate({ path: "organizationID", model: "organization" })
+      .select("organizationID posts");
+
+    if (!userOrgData) {
+      throw new Error("The user data mut be existed.");
+    }
+
+    const connectionPost = userOrgData.posts.includes(new mongoose.Types.ObjectId(postID));
+    const organizationPost = userOrgData.organizationID.posts.includes(new mongoose.Types.ObjectId(postID));
+
+    if (!connectionPost && !organizationPost) {
+      throw new Error();
+    }
+
+    const post = await Post.findById(postID);
+
+    await post.delete();
+
+    res.status(201).send();
+  } catch (e) {
+    console.log(e);
+    res.status(400).send(e);
+  }
+};
+
 module.exports = {
   createPost,
   getPostsICreateForAnOrganization,
@@ -394,4 +432,5 @@ module.exports = {
   createComment,
   commentsOfPost,
   editPost,
+  deletePost,
 };
