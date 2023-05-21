@@ -2,10 +2,10 @@
   <li class="file-item" @dblclick="openFile()">
     <base-spinner v-if="fileLoading" class="base-spinner"></base-spinner>
     <div class="file-item-content-iframe" :class="{ visibility: fileLoading }">
-      <iframe v-if="allowPreview()" class="frame" :src="`/api/storage/file/${this.id}`" @load="onFileLoaded()" ref="frame"></iframe>
+      <iframe v-if="allowPreview()" class="frame" :src="`/api/storage/file/${this.id}`" @load="onFileLoaded()" ref="frame"> </iframe>
       <div :class="{ 'content-name': allowPreview() }">
         <span style="padding-left: 5px"></span><font-awesome-icon :icon="getIcon()" :class="{ icon: !allowPreview() }" />
-        <p>{{ fileName }}</p>
+        <p :title="name">{{ fileName }}</p>
       </div>
     </div>
   </li>
@@ -60,11 +60,6 @@ export default {
       }
     },
     onFileLoaded() {
-      console.log(this.$refs.frame.contentDocument);
-      this.$refs.frame.addEventListener("click", (e) => {
-        console.log(e);
-      });
-
       this.fileLoading = false;
     },
     openFile() {
@@ -83,7 +78,6 @@ export default {
   border-radius: 4px;
   margin: 30px;
   margin-bottom: 60px;
-
   background: white;
 }
 
@@ -114,6 +108,7 @@ export default {
 
 .frame {
   width: 100%;
+  /* pointer-events: none; */
 }
 
 .icon {
@@ -129,6 +124,7 @@ export default {
 .content-name {
   display: flex;
 }
+
 .content-name p {
   margin-left: 7px;
 }
@@ -136,7 +132,6 @@ export default {
 .file-item-content p {
   width: 100%;
   display: flex;
-
   justify-content: center;
   font-size: 12px;
   font-weight: bold;
