@@ -26,4 +26,6 @@ router.put("/api/task/update", authentication, tasksController.updateTask);
 
 router.put("/api/taskboard/rename", authentication, tasksController.renameTaskBoard);
 
+router.put("/api/tasklist/rename", authentication, tasksController.renameTaskList);
+
 module.exports = router;
