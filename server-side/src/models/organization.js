@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const { phone } = require("phone");
 
 const organizationSchema = mongoose.Schema(
   {
@@ -26,6 +27,11 @@ const organizationSchema = mongoose.Schema(
     telephone: {
       type: String,
       required: [true, "Organization's telephone is required!"],
+      validate: function (value) {
+        if (!phone(value, { validateMobilePrefix: false }).isValid) {
+          throw new Error("Wrong telephone format!");
+        }
+      },
     },
     vatNumber: {
       type: String,

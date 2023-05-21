@@ -21,6 +21,7 @@
     "mongoose": "^6.6.2",
     "multer": "^1.4.5-lts.1",
     "password-validator": "^5.3.0",
+    "phone": "^3.1.37",
     "randomstring": "^1.2.3",
     "sharp": "^0.31.3",
     "validator": "^13.7.0"
