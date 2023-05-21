@@ -9,7 +9,8 @@
         <span>Organization</span>
       </div>
       <div class="pfp-container">
-        <img class="user-pfp" :src="pictureLink" />
+        <img v-if="profilePhoto !== ''" class="user-pfp" :src="pictureLink" />
+        <font-awesome-icon v-else class="user-icon" :icon="['fas', 'user']"></font-awesome-icon>
       </div>
       <input v-model="postContent" required class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
       <!-- <input type="button" name="file" id="file" @click="openModal" /> -->
@@ -44,6 +45,7 @@ export default {
       showVisibilityOptions: false,
       postContent: "",
       postFile: null,
+      profilePhoto: "",
       submitMessage: "",
       modal: false,
       warning: false,
@@ -79,6 +81,13 @@ export default {
 
       console.log(this.submitMessage);
     },
+    async setprofilePhoto() {
+      const response = await fetch(this.pictureLink);
+      const succesMessage = await response.json();
+      if (succesMessage?.profilePhoto) {
+        this.profilePhoto = succesMessage.profilePhoto;
+      }
+    },
     setWarning(boolean) {
       this.warning = boolean;
     },
@@ -91,6 +100,9 @@ export default {
     toggleVisibilityOptions() {
       this.showVisibilityOptions = !this.showVisibilityOptions;
     },
+  },
+  created() {
+    this.setprofilePhoto();
   },
 };
 </script>
