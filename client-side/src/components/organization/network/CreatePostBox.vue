@@ -16,12 +16,13 @@
       <font-awesome-icon class="post-image-btn" :icon="['far', 'image']" @click="openModal" />
       <base-dialog v-if="modal" :title="'Add an image to your post!'">
         <template #main>
-          <form>
+          <form @submit.prevent="createdPost">
+            <base-card v-if="warning" :width="100" :bgColor="'#D9AC0C'">You must have at least text or media</base-card>
             <div class="button-container">
               <label class="button" for="image">Add Image</label>
               <input type="file" ref="file" />
             </div>
-            <input v-model="postContent" type="text" class="post-input" />
+            <input v-model="postContent" type="text" class="post-input" @input="setWarning(false)" />
             <input type="submit" @click="createPost" class="post-button" value="Post" />
           </form>
         </template>
@@ -32,9 +33,10 @@
 </template>
 
 <script>
+import BaseCard from "../../basic-components/BaseCard.vue";
 import BaseDialog from "../../basic-components/BaseDialog.vue";
 export default {
-  components: { BaseDialog },
+  components: { BaseDialog, BaseCard },
   props: ["firstname", "pictureLink"],
   data() {
     return {
@@ -44,11 +46,17 @@ export default {
       postFile: null,
       submitMessage: "",
       modal: false,
+      warning: false,
     };
   },
   methods: {
     async createPost() {
       this.postMedia = this.$refs.file?.files[0] || null;
+
+      if (!this.postContent && !this.postMedia) {
+        this.setWarning(true);
+        return;
+      }
 
       const postObj = {
         creatorID: this.$store.getters.loggedUserID,
@@ -70,6 +78,9 @@ export default {
       }
 
       console.log(this.submitMessage);
+    },
+    setWarning(boolean) {
+      this.warning = boolean;
     },
     openModal() {
       this.modal = !this.modal;

@@ -1,7 +1,10 @@
 <template>
   <div class="post-box" @dblclick="toogleLike">
     <div class="image-name-date-container">
-      <div class="pfp-container"><img class="user-pfp" :src="pictureLink" /></div>
+      <div class="pfp-container">
+        <img v-if="profilePhoto !== ''" class="user-pfp" :src="pictureLink" />
+        <font-awesome-icon v-else class="user-icon" :icon="['fas', 'user']"></font-awesome-icon>
+      </div>
       <h2>{{ firstname }} {{ lastname }}</h2>
       <h4>{{ date }}</h4>
     </div>
@@ -79,6 +82,7 @@ export default {
       likesNum: this.likes?.length || 0,
       commentsNum: this.comments?.length || 0,
       showCommentSection: false,
+      profilePhoto: "",
       nextComments: [],
       p: null,
     };
@@ -110,6 +114,13 @@ export default {
         console.log(successData.succesMessage);
       } catch (error) {
         console.log(error.message || "Something went wrong!");
+      }
+    },
+    async setPhoto() {
+      const response = await fetch(this.pictureLink);
+      const succesMessage = await response.json();
+      if (succesMessage?.profilePhoto) {
+        this.profilePhoto = succesMessage.profilePhoto;
       }
     },
     async isLiked() {
@@ -149,6 +160,7 @@ export default {
   },
   created() {
     this.isLiked();
+    this.setPhoto();
   },
 };
 </script>
