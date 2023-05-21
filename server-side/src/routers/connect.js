@@ -86,18 +86,17 @@ router.post("/api/retrieve-account/step-2", async (req, res) => {
 
     if (!userAccount) {
       generatedPassword = "";
-      userAccount = null;
       clearTimeout(timeout);
       throw new Error("You must have an account");
     }
 
     if (!generatedPassword) {
       clearTimeout(timeout);
-      userAccount = null;
       throw new Error("Generated password has been expired");
     }
 
     if (inputedPassword !== generatedPassword) {
+      clearTimeout(timeout);
       throw new Error("Check your email again.");
     }
 

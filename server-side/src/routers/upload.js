@@ -71,8 +71,13 @@ router.get("/api/users/:id/profilephoto", async (req, res) => {
       throw new Error("No user");
     }
 
+    let message = "User has a photo";
+    if (user.profilePhoto === undefined) {
+      message = "User has no upload a photo";
+    }
+
     res.set("Content-Type", "image/png");
-    res.send(user?.profilePhoto);
+    res.send({ profilePhoto: user.profilePhoto, message });
   } catch (error) {
     console.log(error);
     res.status(400).send(error);

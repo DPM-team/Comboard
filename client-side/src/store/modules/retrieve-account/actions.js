@@ -1,6 +1,5 @@
 export default {
   async callAPI(context, payload) {
-    console.log(this);
     try {
       await fetch(`/api/retrieve-account/step-${context.state.activeStep}`, {
         method: "POST",
@@ -9,6 +8,7 @@ export default {
         },
         body: payload,
       }).then((response) => {
+        console.log();
         if (!response.ok) {
           throw new Error("Something went wrong ");
         }
