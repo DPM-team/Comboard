@@ -135,12 +135,14 @@ export default {
     },
     async writeComment() {
       this.showCommentSection = !this.showCommentSection;
-      try {
-        this.nextComments = await this.$store.dispatch("loadCommentsOfPost", {
-          postID: this.id,
-        });
-      } catch (e) {
-        console.log(e);
+      if (this.showCommentSection) {
+        try {
+          this.nextComments = await this.$store.dispatch("loadCommentsOfPost", {
+            postID: this.id,
+          });
+        } catch (e) {
+          console.log(e);
+        }
       }
     },
     async createComment() {
