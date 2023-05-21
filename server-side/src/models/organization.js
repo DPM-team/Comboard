@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const { phone } = require("phone");
+const validUrl = require("valid-url");
 
 const organizationSchema = mongoose.Schema(
   {
@@ -44,6 +45,11 @@ const organizationSchema = mongoose.Schema(
     websiteURL: {
       type: String,
       required: false,
+      validate: function (value) {
+        if (value.trim() && !validUrl.isUri(value)) {
+          throw new Error("Wrong website format!");
+        }
+      },
     },
     publicKey: {
       type: String,

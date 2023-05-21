@@ -24,6 +24,7 @@
     "phone": "^3.1.37",
     "randomstring": "^1.2.3",
     "sharp": "^0.31.3",
+    "valid-url": "^1.0.9",
     "validator": "^13.7.0"
   },
   "devDependencies": {

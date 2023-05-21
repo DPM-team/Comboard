@@ -23,7 +23,7 @@
       <auth-form-input @data="getOrgPhone" id="organization-phone" type="tel" name="organization-phone" placeholder="Organization's phone" phdIcon="phone" required />
       <auth-form-input @data="getOrgVatNumber" id="organization-vat" type="text" name="organization-vat" placeholder="Organization's VAT number" phdIcon="file-signature" />
       <auth-form-input @data="getOrgLocation" id="organization-location" type="text" name="organization-location" placeholder="Organization's location" phdIcon="location-dot" required />
-      <auth-form-input @data="getOrgWebsite" id="organization-website" type="text" name="organization-website" placeholder="Organization's website" phdIcon="globe" />
+      <auth-form-input @data="getOrgWebsite" id="organization-website" type="url" name="organization-website" placeholder="Organization's website" phdIcon="globe" />
       <auth-form-input id="submit-btn" type="submit" name="submit-btn" value="Create Organization" />
     </auth-form>
   </base-section>
