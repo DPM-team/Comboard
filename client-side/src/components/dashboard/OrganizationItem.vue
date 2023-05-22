@@ -1,6 +1,6 @@
 <template>
   <div class="organization-container">
-    <router-link @click="setOrganization" to="organization" class="organization">
+    <router-link @click="setOrganization" to="organization" class="organization" @contextmenu.prevent="openOptions($event)">
       <img :src="formatImagePath" />
       <h1 class="organization-name">{{ name }}</h1>
     </router-link>
@@ -24,14 +24,17 @@ export default {
       default: "pamak.png",
     },
   },
+  computed: {
+    formatImagePath() {
+      return require("../../assets/images/dashboard/organizations/" + this.organizationFileName);
+    },
+  },
   methods: {
     setOrganization() {
       this.$store.dispatch("selectOrganization", { organizationID: this.id });
     },
-  },
-  computed: {
-    formatImagePath() {
-      return require("../../assets/images/dashboard/organizations/" + this.organizationFileName);
+    openOptions(evt) {
+      this.$emit("open-options", evt.pageX, evt.pageY, this.id);
     },
   },
 };
@@ -45,6 +48,7 @@ export default {
   box-sizing: border-box;
   padding: 15px;
 }
+
 .organization {
   background: var(--tab-grey-background);
   border-radius: 15px;
@@ -54,11 +58,13 @@ export default {
   justify-content: center;
   text-align: center;
 }
+
 .organization:hover {
   cursor: pointer;
   scale: 1.05;
   transition: 0.2s;
 }
+
 .organization img {
   width: 125px;
   height: 125px;
@@ -66,6 +72,7 @@ export default {
   margin: 0 auto;
   border: 3px solid var(--color-primary);
 }
+
 .organization-name {
   padding-top: 15px;
   font-size: 20px;
@@ -86,12 +93,14 @@ a {
   .organization {
     padding: 17px 35px;
   }
+
   .organization img {
     width: 90px;
     height: 90px;
     border-radius: 50%;
     margin: 0 auto;
   }
+
   .organization-name {
     padding-top: 5px;
     font-size: 14px;
