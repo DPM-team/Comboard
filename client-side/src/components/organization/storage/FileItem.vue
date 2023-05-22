@@ -110,6 +110,12 @@ export default {
 .frame {
   width: 100%;
   pointer-events: none;
+  /* Make the iframe content can't be selected */
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
 }
 
 .icon {

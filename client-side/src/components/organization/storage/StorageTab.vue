@@ -15,10 +15,11 @@
     </div>
     <base-context-menu v-if="activeFileID !== null" :position="menuPosition">
       <template #options>
-        <li @click="viewOrganization()">Open</li>
-        <li @click="viewOrganization()">Copy</li>
-        <li @click="viewOrganization()">Rename</li>
-        <li class="warning" @click="leaveOrganization()">Delete</li>
+        <li @click="openFile()">Open</li>
+        <li @click="saveFile()">Save</li>
+        <li @click="copyFile()">Copy</li>
+        <li @click="renameFile()">Rename</li>
+        <li class="warning" @click="deleteFile()">Delete</li>
       </template>
     </base-context-menu>
   </organization-page-tab>
@@ -121,14 +122,20 @@ export default {
     closeContextMenu() {
       this.activeFileID = null;
     },
-    removeEventListeners() {
-      document.removeEventListener("click", this.closeContextMenu);
+    openFile() {
+      window.open(`/api/storage/file/${this.activeFileID}`, "_blank");
     },
-    viewOrganization() {
-      console.log("fds");
+    saveFile() {
+      console.log("Save");
     },
-    leaveOrganization() {
-      console.log("Leave");
+    copyFile() {
+      console.log("Copy");
+    },
+    renameFile() {
+      console.log("Rename");
+    },
+    deleteFile() {
+      console.log("Delete");
     },
   },
   async created() {
