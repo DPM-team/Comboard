@@ -1,6 +1,6 @@
 <template>
   <div class="organization-side-navbar-container">
-    <nav class="organization-side-navbar">
+    <nav id="organization-left-navbar" class="organization-side-navbar">
       <input type="checkbox" id="check" />
       <label for="check" class="checkbtn">
         <font-awesome-icon icon="fa-solid fa-square-caret-down" />

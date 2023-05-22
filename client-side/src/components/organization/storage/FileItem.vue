@@ -1,7 +1,7 @@
 <template>
   <li class="file-item" @dblclick="openFile()">
     <base-spinner v-if="fileLoading" class="base-spinner"></base-spinner>
-    <div class="file-item-content-iframe" :class="{ visibility: fileLoading }">
+    <div class="file-item-content-iframe" :class="{ visibility: fileLoading }" @contextmenu.prevent="openOptions($event)">
       <iframe v-if="allowPreview()" class="frame" :src="`/api/storage/file/${this.id}`" @load="onFileLoaded()" ref="frame"> </iframe>
       <div :class="{ 'content-name': allowPreview() }">
         <span style="padding-left: 5px"></span><font-awesome-icon :icon="getIcon()" :class="{ icon: !allowPreview() }" />
@@ -65,6 +65,11 @@ export default {
     openFile() {
       window.open(`/api/storage/file/${this.id}`, "_blank");
     },
+    openOptions(evt) {
+      console.log(evt);
+      const leftNavBarWidth = document.querySelector("#organization-left-navbar").getBoundingClientRect()?.width || 150;
+      this.$emit("open-options", evt.pageX - leftNavBarWidth, evt.pageY - 60, this.id);
+    },
   },
 };
 </script>
@@ -108,7 +113,7 @@ export default {
 
 .frame {
   width: 100%;
-  /* pointer-events: none; */
+  pointer-events: none;
 }
 
 .icon {

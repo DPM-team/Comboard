@@ -9,10 +9,18 @@
       <base-spinner v-if="loadingFiles"></base-spinner>
       <p v-else-if="files.length === 0 && !loadingFiles" class="empty-message">No Files</p>
       <ul class="file-ul" v-else>
-        <file-item v-for="file in files" :key="file._id" :id="file._id" :name="file.name" :type="file.type"></file-item>
+        <file-item v-for="file in files" :key="file._id" :id="file._id" :name="file.name" :type="file.type" @openOptions="showContextMenu"></file-item>
       </ul>
       <base-spinner v-if="loadingMoreFiles"></base-spinner>
     </div>
+    <base-context-menu v-if="activeFileID !== null" :position="menuPosition">
+      <template #options>
+        <li @click="viewOrganization()">Open</li>
+        <li @click="viewOrganization()">Copy</li>
+        <li @click="viewOrganization()">Rename</li>
+        <li class="warning" @click="leaveOrganization()">Delete</li>
+      </template>
+    </base-context-menu>
   </organization-page-tab>
 </template>
 
@@ -21,9 +29,10 @@ import BaseSpinner from "../../basic-components/BaseSpinner.vue";
 import OrganizationPageTab from "../../layout/pages/organization/OrganizationPageTab.vue";
 import FileItem from "./FileItem.vue";
 import UploadFileButton from "./UploadFileButton.vue";
+import BaseContextMenu from "../../basic-components/BaseContextMenu.vue";
 
 export default {
-  components: { FileItem, OrganizationPageTab, UploadFileButton, BaseSpinner },
+  components: { FileItem, OrganizationPageTab, UploadFileButton, BaseSpinner, BaseContextMenu },
   data() {
     return {
       selectedFile: null,
@@ -34,6 +43,12 @@ export default {
       loadingFiles: false,
       loadingMoreFiles: false,
       moreFilesExists: false,
+      /* For context menu */
+      activeFileID: null,
+      menuPosition: {
+        x: 0,
+        y: 0,
+      },
     };
   },
   methods: {
@@ -94,11 +109,34 @@ export default {
         }
       }
     },
+    showContextMenu(positionX, positionY, fileID) {
+      this.activeFileID = fileID;
+      this.menuPosition = {
+        x: positionX,
+        y: positionY,
+      };
+    },
+    closeContextMenu() {
+      this.activeFileID = null;
+    },
+    removeEventListeners() {
+      document.removeEventListener("click", this.closeContextMenu);
+    },
+    viewOrganization() {
+      console.log("fds");
+    },
+    leaveOrganization() {
+      console.log("Leave");
+    },
   },
   async created() {
     this.loadingFiles = true;
     await this.loadFiles();
     this.loadingFiles = false;
+    document.addEventListener("click", this.closeContextMenu);
+  },
+  beforeUnmount() {
+    this.removeEventListeners();
   },
 };
 </script>
@@ -131,6 +169,20 @@ export default {
   text-align: center;
 }
 
+.context-menu ul li {
+  cursor: pointer;
+  padding: 8px 15px 8px 15px;
+  width: 80px;
+}
+
+.context-menu ul li:hover {
+  background-color: #eee;
+}
+
+.warning {
+  color: red;
+}
+
 /* Responsiveness */
 
 @media (max-width: 1250px) {
@@ -138,6 +190,7 @@ export default {
     width: calc(100% - 180px);
   }
 }
+
 @media (max-width: 1150px) {
   .files-container {
     width: calc(100% - 80px);
@@ -149,6 +202,7 @@ export default {
     width: calc(100% - 55px);
   }
 }
+
 @media (max-width: 450px) {
   .files-container {
     width: calc(100% - 45px);
