@@ -10,16 +10,21 @@
         <h4>Join your organization using its license key or create one with a few steps!</h4>
       </div>
     </div>
-    <organization-context-menu v-if="activeOrganizationID !== null" :position="menuPosition" :organizationID="activeOrganizationID"></organization-context-menu>
+    <base-context-menu v-if="activeOrganizationID !== null" :position="menuPosition" :organizationID="activeOrganizationID">
+      <template #options>
+        <li @click="viewOrganization()">View</li>
+        <li class="warning" @click="leaveOrganization()">Leave</li>
+      </template>
+    </base-context-menu>
   </div>
 </template>
 
 <script>
 import OrganizationItem from "../dashboard/OrganizationItem.vue";
-import OrganizationContextMenu from "./OrganizationContextMenu.vue";
+import BaseContextMenu from "../basic-components/BaseContextMenu.vue";
 
 export default {
-  components: { OrganizationItem, OrganizationContextMenu },
+  components: { OrganizationItem, BaseContextMenu },
   data() {
     return {
       isLoading: false,
@@ -60,6 +65,13 @@ export default {
     removeEventListeners() {
       document.removeEventListener("click", this.closeContextMenu);
     },
+    viewOrganization() {
+      this.$store.dispatch("selectOrganization", { organizationID: this.activeOrganizationID });
+      this.$router.push("/organization");
+    },
+    leaveOrganization() {
+      console.log("Leave");
+    },
   },
   created() {
     this.loadOrganizations();
@@ -81,8 +93,23 @@ export default {
   padding-bottom: 70px;
   box-sizing: border-box;
 }
+
 .no-org-message {
   height: 180px;
   width: 100%;
+}
+
+.context-menu ul li {
+  cursor: pointer;
+  padding: 8px 15px 8px 15px;
+  width: 80px;
+}
+
+.context-menu ul li:hover {
+  background-color: #eee;
+}
+
+.warning {
+  color: red;
 }
 </style>
