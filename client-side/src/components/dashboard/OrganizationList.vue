@@ -58,12 +58,12 @@ export default {
       this.activeOrganizationID = null;
     },
     removeEventListeners() {
-      document.removeEventListener("mousedown", this.closeContextMenu);
+      document.removeEventListener("click", this.closeContextMenu);
     },
   },
   created() {
     this.loadOrganizations();
-    document.addEventListener("mousedown", this.closeContextMenu);
+    document.addEventListener("click", this.closeContextMenu);
   },
   beforeUnmount() {
     this.removeEventListeners();

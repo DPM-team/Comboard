@@ -1,6 +1,6 @@
 <template>
   <div class="organization-container">
-    <router-link @click="setOrganization" to="organization" class="organization" @contextmenu.prevent="openOptions($event)">
+    <router-link @click="setOrganization()" to="organization" class="organization" @contextmenu.prevent="openOptions($event)">
       <img :src="formatImagePath" />
       <h1 class="organization-name">{{ name }}</h1>
     </router-link>
