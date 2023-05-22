@@ -101,7 +101,6 @@ export default {
         const container = this.$refs.filesTab.$el; // get the container element
         const scrollPosition = container.scrollHeight - container.scrollTop - container.clientHeight;
         // calculate the scroll position relative to the bottom of the container
-
         if (scrollPosition === 0) {
           this.loadingMoreFiles = true;
           await this.loadFiles();
@@ -110,10 +109,13 @@ export default {
       }
     },
     showContextMenu(positionX, positionY, fileID) {
+      const container = this.$refs.filesTab.$el;
+
       this.activeFileID = fileID;
       this.menuPosition = {
         x: positionX,
-        y: positionY,
+        /* We need to do here the addition, because of the scroll that we maybe done */
+        y: positionY + (container?.scrollTop || 0),
       };
     },
     closeContextMenu() {
