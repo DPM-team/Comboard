@@ -5,8 +5,8 @@
       <font-awesome-icon v-else class="user-icon" :icon="['fas', 'user']"></font-awesome-icon>
     </div>
     <li>{{ firstname }} {{ lastname }}</li>
-    <font-awesome-icon v-if="!added" @click="sendRequest()" class="icon" icon="fa-solid fa-user-plus" />
-    <font-awesome-icon v-if="added === true" @click="sendRequest()" class="icon" :icon="['fas', 'user-check']" />
+    <font-awesome-icon v-if="!added" @click="sendRequest" class="icon" icon="fa-solid fa-user-plus" />
+    <font-awesome-icon v-if="added === true" @click="sendRequest" class="icon" :icon="['fas', 'user-check']" />
   </div>
 </template>
 
@@ -27,7 +27,7 @@ export default {
         this.profilePhoto = succesMessage.profilePhoto;
       }
     },
-    async sendRequsest() {
+    async sendRequest() {
       try {
         this.added = !this.added;
         await this.$store.dispatch("requestConnection", {
