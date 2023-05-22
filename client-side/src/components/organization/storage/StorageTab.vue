@@ -122,6 +122,9 @@ export default {
     closeContextMenu() {
       this.activeFileID = null;
     },
+    removeEventListeners() {
+      document.removeEventListener("click", this.closeContextMenu);
+    },
     openFile() {
       window.open(`/api/storage/file/${this.activeFileID}`, "_blank");
     },

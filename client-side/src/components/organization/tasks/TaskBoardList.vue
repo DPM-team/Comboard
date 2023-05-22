@@ -3,25 +3,37 @@
     <div class="content">
       <base-spinner v-if="isLoading"></base-spinner>
       <h3 v-if="taskBoards.length === 0 && !isLoading">No Task boards</h3>
-      <task-board-list-item v-else v-for="taskBoard in taskBoards" :key="taskBoard._id" :boardID="taskBoard._id" :title="taskBoard.name"></task-board-list-item>
+      <task-board-list-item v-else v-for="taskBoard in taskBoards" :key="taskBoard._id" :boardID="taskBoard._id" :title="taskBoard.name" @openOptions="showContextMenu"></task-board-list-item>
       <form class="create-task-board-form" @submit.prevent="createTaskBoard()">
         <input id="taskboard--input" type="text" name="taskboard-name" placeholder="Task board name..." v-model="newTaskBoardName" />
         <input id="taskboard-create--btn" type="submit" value="Create Taskboard" />
       </form>
     </div>
+    <base-context-menu v-if="activeTaskBoardID !== null" :position="menuPosition">
+      <template #options>
+        <li @click="viewTaskBoard()">View</li>
+        <li class="warning" @click="deleteTaskBoard()">Delete</li>
+      </template>
+    </base-context-menu>
   </div>
 </template>
 
 <script>
 import TaskBoardListItem from "./TaskBoardListItem.vue";
+import BaseContextMenu from "../../basic-components/BaseContextMenu.vue";
 
 export default {
-  components: { TaskBoardListItem },
+  components: { TaskBoardListItem, BaseContextMenu },
   data() {
     return {
       taskBoards: new Array(),
       isLoading: false,
       newTaskBoardName: "",
+      activeTaskBoardID: null,
+      menuPosition: {
+        x: 0,
+        y: 0,
+      },
     };
   },
   methods: {
@@ -56,9 +68,32 @@ export default {
         }
       }
     },
+    showContextMenu(positionX, positionY, taskBoardID) {
+      this.activeTaskBoardID = taskBoardID;
+      this.menuPosition = {
+        x: positionX,
+        y: positionY,
+      };
+    },
+    closeContextMenu() {
+      this.activeTaskBoardID = null;
+    },
+    removeEventListeners() {
+      document.removeEventListener("click", this.closeContextMenu);
+    },
+    viewTaskBoard() {
+      this.$router.push(`/organization/tasks/boards/${this.activeTaskBoardID}`);
+    },
+    deleteTaskBoard() {
+      console.log("Delete");
+    },
   },
   created() {
     this.loadTaskBoards();
+    document.addEventListener("click", this.closeContextMenu);
+  },
+  beforeUnmount() {
+    this.removeEventListeners();
   },
 };
 </script>
@@ -120,8 +155,21 @@ export default {
   border: 0;
 }
 
-/* Responsiveness */
+.context-menu ul li {
+  cursor: pointer;
+  padding: 8px 15px 8px 15px;
+  width: 80px;
+}
 
+.context-menu ul li:hover {
+  background-color: #eee;
+}
+
+.warning {
+  color: red;
+}
+
+/* Responsiveness */
 @media (max-width: 1250px) {
   .task-board-container {
     width: calc(100% - 180px);

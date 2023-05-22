@@ -10,7 +10,7 @@
         <h4>Join your organization using its license key or create one with a few steps!</h4>
       </div>
     </div>
-    <base-context-menu v-if="activeOrganizationID !== null" :position="menuPosition" :organizationID="activeOrganizationID">
+    <base-context-menu v-if="activeOrganizationID !== null" :position="menuPosition">
       <template #options>
         <li @click="viewOrganization()">View</li>
         <li class="warning" @click="leaveOrganization()">Leave</li>

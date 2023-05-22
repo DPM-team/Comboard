@@ -1,6 +1,6 @@
 <template>
   <div class="task-container">
-    <div class="task" @click="moveToBoard()" :title="title">
+    <div class="task" @click="moveToBoard()" :title="title" @contextmenu.prevent="openOptions($event)">
       <h1 class="task-title">{{ newTitle }}</h1>
     </div>
   </div>
@@ -31,6 +31,10 @@ export default {
     moveToBoard() {
       this.$router.push(`/organization/tasks/boards/${this.boardID}`);
     },
+    openOptions(evt) {
+      const leftNavBarWidth = document.querySelector("#organization-left-navbar").getBoundingClientRect()?.width || 150;
+      this.$emit("open-options", evt.pageX - leftNavBarWidth, evt.pageY - 60, this.boardID);
+    },
   },
 };
 </script>
@@ -55,6 +59,7 @@ export default {
   align-items: center;
   text-align: center;
 }
+
 .task:hover {
   cursor: pointer;
   scale: 1.05;
