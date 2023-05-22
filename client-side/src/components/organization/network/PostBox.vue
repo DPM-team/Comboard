@@ -7,6 +7,7 @@
       </div>
       <h2>{{ firstname }} {{ lastname }}</h2>
       <h4>{{ date }}</h4>
+      <font-awesome-icon :icon="['fas', 'ellipsis']" class="ellipsis-info" />
     </div>
     <div class="paragraph-container">
       <p>{{ content }}</p>
@@ -45,6 +46,10 @@ export default {
     content: {
       type: String,
       required: true,
+    },
+
+    creatorID: {
+      type: String,
     },
 
     contentMedia: {
@@ -132,6 +137,9 @@ export default {
       } catch (error) {
         console.log(error.message || "Something went wrong!");
       }
+    },
+    infoButton() {
+      return this.creatorID === this.$store.getters.loggedUserID;
     },
     async writeComment() {
       this.showCommentSection = !this.showCommentSection;
@@ -221,6 +229,10 @@ export default {
 .like-comment-container > p {
   width: 70%;
   font-size: 14px;
+}
+
+.ellipsis-info {
+  margin-left: 2px;
 }
 
 .post-icon {

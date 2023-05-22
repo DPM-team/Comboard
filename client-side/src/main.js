@@ -62,6 +62,7 @@ import {
   faFileSignature,
   faLocationDot,
   faGlobe,
+  faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faComment, faFilePdf, faFileWord, faFileExcel, faImage, faFileImage, faFile, faClipboard } from "@fortawesome/free-regular-svg-icons";
@@ -118,7 +119,8 @@ library.add(
   faFileSignature,
   faLocationDot,
   faGlobe,
-  faClipboard
+  faClipboard,
+  faEllipsis
 );
 
 const app = createApp(App);
