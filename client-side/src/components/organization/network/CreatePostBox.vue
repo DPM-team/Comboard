@@ -14,8 +14,9 @@
       </div>
       <input v-model="postContent" required class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
       <!-- <input type="button" name="file" id="file" @click="openModal" /> -->
-      <font-awesome-icon class="post-image-btn" :icon="['far', 'image']" @click="openModal" />
-      <base-dialog v-if="modal" :title="'Add an image to your post!'">
+      <font-awesome-icon class="post-image-btn" :icon="['far', 'image']" @click="toggleModal" />
+
+      <base-dialog v-if="modal" :title="'Add an image to your post!'" :overly="false" @close="toggleModal">
         <template #main>
           <form @submit.prevent="createdPost">
             <base-card v-if="warning" :width="100" :bgColor="'#D9AC0C'">You must have at least text or media</base-card>
@@ -28,6 +29,7 @@
           </form>
         </template>
       </base-dialog>
+
       <input class="post-button" value="Post" type="submit" />
     </div>
   </form>
@@ -91,7 +93,7 @@ export default {
     setWarning(boolean) {
       this.warning = boolean;
     },
-    openModal() {
+    toggleModal() {
       this.modal = !this.modal;
     },
     toogleVisibility(e) {

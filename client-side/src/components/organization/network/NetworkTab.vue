@@ -14,6 +14,7 @@
         :lastname="post.surname"
         :image="post.contentMedia"
         :pictureLink="post.pictureLink"
+        :creatorID="post.creatorID"
         :likes="post.likes"
         :comments="post.comments"
         :date="post.date"
@@ -54,6 +55,7 @@ export default {
         content: post.contentString,
         name: "",
         surname: "",
+        creatorID: post.creatorID,
         contentMedia: post.contentMedia,
         pictureLink: `/api/users/${post.creatorID}/profilePhoto`,
         likes: post.likes,
@@ -78,6 +80,7 @@ export default {
           contentMedia: post.postObj.contentMedia,
           name: post.creatorObj.name,
           surname: post.creatorObj.surname,
+          creatorID: post.postObj.creatorID,
           pictureLink: `/api/users/${post.postObj.creatorID}/profilePhoto`,
           likes: post.postObj?.likes,
           comments: post.postObj?.comments,

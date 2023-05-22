@@ -116,45 +116,62 @@ const getCurrentPosts = async (req, res) => {
     const organizationID = req.query.organizationID;
 
     if (!userID) {
-      return res.status(400).json({ error: "UserID is required!" });
+      throw new Error("UserID is required!");
     }
 
     if (!organizationID) {
-      return res.status(400).json({ error: "OrganizationID is required!" });
+      throw new Error("OrganizationID is required!");
     }
 
     // We get the user's data for a specific organization
-    const userOrgData = await Data.findOne({ userID, organizationID }).populate({ path: "organizationID", model: "organization", populate: { path: "posts", model: "post" } });
+    const userOrgData = await Data.findOne({ userID, organizationID })
+      .select("organizationID, connections")
+      .populate({
+        path: "organizationID",
+        model: "organization",
+        select: "posts",
+        populate: {
+          path: "posts",
+          model: "post",
+          match: {
+            createdAt: {
+              $gte: moment().subtract(7, "days").toDate(),
+            },
+          },
+          options: {
+            sort: {
+              createdAt: -1,
+            },
+          },
+        },
+      });
 
     if (!userOrgData) {
-      return res.status(404).json({ error: "User's data for this organization doesn't found!" });
+      throw new Error();
     }
 
-    let posts = new Array();
+    const posts = new Array();
 
-    for (const post of userOrgData.organizationID.posts) {
-      let date = moment(post.createdAt).isoWeek();
+    posts.push(...userOrgData.organizationID.posts);
 
-      if (date === moment().isoWeek()) {
-        posts.push(post);
-      }
-    }
-
-    const conectionData = [];
     for (const connection of userOrgData.connections) {
-      let data = await Data.findOne({ userID: connection, orgID: req.query.organizationID });
-      conectionData.push(data);
-    }
-
-    for (const data of conectionData) {
-      await data.populate({ path: "posts", model: "post" });
-      for (const post of data.posts) {
-        let date = moment(post.createdAt).isoWeek();
-
-        if (date === moment().isoWeek()) {
-          posts.push(post);
-        }
-      }
+      let connectionOrgaData = await Data.findOne({ userID: connection, orgID: req.query.organizationID })
+        .select("posts")
+        .populate({
+          path: "posts",
+          model: "post",
+          match: {
+            createdAt: {
+              $gte: moment().subtract(7, "days").toDate(),
+            },
+          },
+          options: {
+            sort: {
+              createdAt: -1,
+            },
+          },
+        });
+      posts.push(...connectionOrgaData.posts);
     }
 
     const allPosts = [];
@@ -171,10 +188,14 @@ const getCurrentPosts = async (req, res) => {
     }
 
     allPosts.sort((post1, post2) => {
-      return "";
+      if (post1.postObj.createdAt < post2.postObj.createdAt) {
+        return 1;
+      } else if (post1.postObj.createdAt > post2.postObj.createdAt) {
+        return -1;
+      } else {
+        return 0;
+      }
     });
-
-    console.log("");
 
     res.status(200).json({ succesMessage: "Posts loaded with success!", allPosts });
   } catch (error) {
