@@ -36,6 +36,8 @@ router.get("/api/post/isliked", authentication, postControllers.isLiked);
 
 router.put("/api/post/edit", authentication, postControllers.editPost);
 
+router.get("/api/post/like/users", authentication, postControllers.getUsersLikePost);
+
 router.put("/api/post/:postId/createComment", authentication, authenticationOrg, postControllers.createComment);
 
 router.get("/api/post/:postID/comments", authentication, postControllers.commentsOfPost);
