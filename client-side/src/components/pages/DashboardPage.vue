@@ -40,6 +40,9 @@ export default {
       messageType: "",
     };
   },
+  created() {
+    document.body.classList.remove("no-scrolling");
+  },
   methods: {
     async submitFormToJoin() {
       try {

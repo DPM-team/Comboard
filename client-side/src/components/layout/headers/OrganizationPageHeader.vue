@@ -132,15 +132,15 @@ export default {
       this.$store.dispatch("removeSelectedOrganization");
       this.$router.push("/dashboard");
     },
-    noScrolling() {
-      document.getElementById("check").addEventListener("change", function () {
-        if (this.checked) {
-          document.body.classList.add("no-scrolling");
-        } else {
-          document.body.classList.remove("no-scrolling");
-        }
-      });
-    },
+    // noScrolling() {
+    //   document.getElementById("check").addEventListener("change", function () {
+    //     if (this.checked) {
+    //       document.body.classList.add("no-scrolling");
+    //     } else {
+    //       document.body.classList.remove("no-scrolling");
+    //     }
+    //   });
+    // },
     toggleUserOptions() {
       if (this.videoOptionsAreVisible === true) {
         this.videoOptionsAreVisible = !this.videoOptionsAreVisible;
