@@ -7,7 +7,12 @@
       </div>
       <h2>{{ firstname }} {{ lastname }}</h2>
       <h4>{{ date }}</h4>
-      <font-awesome-icon :icon="['fas', 'ellipsis']" class="ellipsis-info" />
+      <font-awesome-icon :icon="['fas', 'ellipsis']" class="ellipsis-info" @contextmenu.prevent="openOptions($event)" />
+      <base-context-menu v-if="showOptions" :position="menuPosition">
+        <template #options>
+          <li class="warning">Delete</li>
+        </template>
+      </base-context-menu>
     </div>
     <div class="paragraph-container">
       <p>{{ content }}</p>
@@ -35,9 +40,10 @@
 
 <script>
 import CommentItem from "./CommentItem.vue";
+import BaseContextMenu from "../../basic-components/BaseContextMenu.vue";
 
 export default {
-  components: { CommentItem },
+  components: { CommentItem, BaseContextMenu },
   props: {
     id: {
       type: String,
@@ -87,6 +93,11 @@ export default {
       likesNum: this.likes?.length || 0,
       commentsNum: this.comments?.length || 0,
       showCommentSection: false,
+      menuPosition: {
+        x: 0,
+        y: 0,
+      },
+      showOptions: false,
       profilePhoto: "",
       nextComments: [],
       p: null,
@@ -151,6 +162,15 @@ export default {
         } catch (e) {
           console.log(e);
         }
+      }
+    },
+    openOptions(e) {
+      this.showOptions = !this.showOptions;
+      if (this.showOptions) {
+        this.menuPosition = {
+          x: e.pageX,
+          y: e.pageY,
+        };
       }
     },
     async createComment() {
@@ -353,6 +373,10 @@ export default {
   .like-comment-container p {
     width: 60%;
     font-size: 12px;
+  }
+
+  .warning {
+    color: red;
   }
 }
 </style>

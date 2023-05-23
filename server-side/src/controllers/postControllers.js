@@ -345,7 +345,7 @@ const commentsOfPost = async (req, res) => {
     const post = await Post.findById(postID);
 
     const creatorUserData = await Data.findOne({
-      userID: post.userID,
+      userID: post.creatorID,
       organizationID,
     });
 
@@ -360,6 +360,63 @@ const commentsOfPost = async (req, res) => {
     const comments = post.comments;
 
     res.status(200).send(comments);
+  } catch (e) {
+    console.log(e);
+    res.status(400).send(e);
+  }
+};
+
+const getUsersLikePost = async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+    const postID = req.query.postID;
+
+    if (!organizationID) {
+      throw new Error("Orgaization ID is required");
+    }
+
+    if (!postID) {
+      throw new Error("Post ID is required");
+    }
+
+    const userData = await Data.findOne({
+      userID: req.user._id,
+      organizationID,
+    });
+
+    if (!userData) {
+      throw new Error("User data must be existed");
+    }
+
+    await userData.populate({ path: "organizationID", model: "organization" });
+
+    const post = await Post.findById(postID).select("likes creatorID");
+
+    const creatorUserData = await Data.findOne({
+      userID: post.creatorID,
+      organizationID,
+    });
+
+    if (
+      !userData.posts.includes(mongoose.Types.ObjectId(postID)) &&
+      !userData.organizationID.posts.includes(mongoose.Types.ObjectId(postID)) &&
+      !creatorUserData.posts.includes(mongoose.Types.ObjectId(postID))
+    ) {
+      throw new Error("Post id must to be included at least in organization or in connection's list.");
+    }
+
+    const usersLikePost = await post.populate({
+      path: "likes",
+      model: "user",
+      select: "name surname",
+      options: {
+        sort: {
+          createdAt: 1,
+        },
+      },
+    });
+
+    res.status(200).send(usersLikePost.likes);
   } catch (e) {
     console.log(e);
     res.status(400).send(e);
@@ -452,6 +509,7 @@ module.exports = {
   isLiked,
   createComment,
   commentsOfPost,
+  getUsersLikePost,
   editPost,
   deletePost,
 };
