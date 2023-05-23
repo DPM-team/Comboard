@@ -17,7 +17,6 @@ export default {
     };
 
     try {
-      // Make a POST request to the API endpoint
       const response = await fetch("/api/taskboard", requestOptions);
 
       const responseData = await response.json();
@@ -45,7 +44,6 @@ export default {
     };
 
     try {
-      // Make a POST request to the API endpoint
       const response = await fetch("/api/tasklist", requestOptions);
 
       const responseData = await response.json();
@@ -74,7 +72,6 @@ export default {
     };
 
     try {
-      // Make a POST request to the API endpoint
       const response = await fetch(`/api/taskboards?userID=${userID}&organizationID=${organizationID}`, requestOptions);
 
       const responseData = await response.json();
@@ -100,7 +97,6 @@ export default {
     };
 
     try {
-      // Make a POST request to the API endpoint
       const response = await fetch(`/api/taskboard?taskBoardID=${taskBoardID}`, requestOptions);
 
       const responseData = await response.json();
@@ -274,7 +270,6 @@ export default {
     };
 
     try {
-      // Make a POST request to the API endpoint
       const response = await fetch(`/api/taskboard/rename`, requestOptions);
 
       const responseData = await response.json();
@@ -305,8 +300,35 @@ export default {
     };
 
     try {
-      // Make a POST request to the API endpoint
       const response = await fetch(`/api/tasklist/rename`, requestOptions);
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.error);
+      }
+
+      return responseData;
+    } catch (error) {
+      throw new Error(error.message || "Failed to get Task List's data!");
+    }
+  },
+  async deleteTaskBoard(context, payload) {
+    const userID = payload.userID;
+    const organizationID = payload.organizationID;
+    const taskBoardID = payload.taskBoardID;
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ userID, organizationID, taskBoardID }),
+    };
+
+    try {
+      const response = await fetch(`/api/taskboard/delete`, requestOptions);
 
       const responseData = await response.json();
 

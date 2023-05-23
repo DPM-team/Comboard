@@ -512,6 +512,61 @@ const renameTaskList = async (req, res) => {
   }
 };
 
+const deleteTaskBoard = async (req, res) => {
+  try {
+    const userID = req.body.userID;
+    const organizationID = req.body.organizationID;
+    const taskBoardID = req.body.taskBoardID;
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    const deletedTask = await TaskBoard.findByIdAndDelete(taskBoardID);
+
+    if (!deletedTask) {
+      return res.status(404).json({ error: "Taskboard doesn't found!" });
+    }
+
+    // We get the user's data for a specific organization
+    const userOrgData = await Data.findOne({ userID, organizationID });
+
+    if (!userOrgData) {
+      return res.status(404).json({ error: "User's data for this organization doesn't found!" });
+    }
+
+    let removed = false;
+
+    if (userOrgData.taskBoards.includes(taskBoardID)) {
+      const index = userOrgData.taskBoards.indexOf(taskBoardID);
+      // only splice array when item is found
+      if (index > -1) {
+        userOrgData.taskBoards.splice(index, 1); // 2nd parameter means remove one item only
+        removed = true;
+      }
+    }
+
+    let updatedUserOrgData = null;
+
+    if (removed) {
+      updatedUserOrgData = await Data.findOneAndUpdate({ userID, organizationID }, { taskBoards: userOrgData.taskBoards }, { new: true }).populate("taskBoards");
+    }
+
+    res.status(200).json({ message: "Taskboard deleted with success!", updatesDone: removed, updatedTaskBoards: updatedUserOrgData?.taskBoards });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   createTaskBoard,
   getTasksWithDate,
@@ -525,4 +580,5 @@ module.exports = {
   moveTaskToOtherList,
   renameTaskBoard,
   renameTaskList,
+  deleteTaskBoard,
 };

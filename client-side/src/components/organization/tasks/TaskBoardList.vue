@@ -84,8 +84,20 @@ export default {
     viewTaskBoard() {
       this.$router.push(`/organization/tasks/boards/${this.activeTaskBoardID}`);
     },
-    deleteTaskBoard() {
-      console.log("Delete");
+    async deleteTaskBoard() {
+      try {
+        const successData = await this.$store.dispatch("deleteTaskBoard", {
+          userID: this.$store.getters.loggedUserID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+          taskBoardID: this.activeTaskBoardID,
+        });
+
+        if (successData?.updatesDone) {
+          this.taskBoards = successData?.updatedTaskBoards || this.taskBoards;
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   created() {
