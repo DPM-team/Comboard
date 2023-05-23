@@ -1,8 +1,8 @@
 <template>
-  <div class="organization-container">
+  <div class="organization-container" :title="name">
     <router-link @click="setOrganization()" to="organization" class="organization" @contextmenu.prevent="openOptions($event)">
       <img :src="formatImagePath" />
-      <h1 class="organization-name">{{ name }}</h1>
+      <h1 class="organization-name">{{ newTitle }}</h1>
     </router-link>
   </div>
 </template>
@@ -28,6 +28,13 @@ export default {
     formatImagePath() {
       return require("../../assets/images/dashboard/organizations/" + this.organizationFileName);
     },
+    newTitle() {
+      if (this.name.length > 14) {
+        return this.name.substring(0, 14) + "...";
+      } else {
+        return this.name;
+      }
+    },
   },
   methods: {
     setOrganization() {
@@ -51,7 +58,7 @@ export default {
 
 .organization {
   background: var(--tab-grey-background);
-  border-radius: 15px;
+  border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.445);
   padding: 25px 50px;
   display: inline-block;
@@ -70,7 +77,7 @@ export default {
   height: 125px;
   border-radius: 50%;
   margin: 0 auto;
-  border: 3px solid var(--color-primary);
+  /* border: 3px solid var(--color-primary); */
 }
 
 .organization-name {
