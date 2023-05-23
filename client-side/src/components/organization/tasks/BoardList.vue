@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <h3>
-      <span v-if="!editingName" @click="renameTaskList()">{{ updatedTaskListName || listTitle }}</span>
+      <span v-if="!editingName" @click="renameTaskList()" :title="updatedTaskListName || listTitle">{{ formattedTitle }}</span>
       <input class="rename--input" v-if="editingName" type="text" v-model="updatedTaskListName" v-focus @blur="handleTaskListRenameBlur()" @keydown.enter="handleTaskListRenameEnter()" />
     </h3>
     <draggable class="scroll" :list="tasks" group="tasks" itemKey="_id" @change="log">
@@ -50,6 +50,17 @@ export default {
       updatedTaskListName: "",
       enterKeyPressed: false,
     };
+  },
+  computed: {
+    formattedTitle() {
+      const currTitle = this.updatedTaskListName || this.listTitle;
+
+      if (currTitle.length > 20) {
+        return currTitle.substring(0, 20) + "...";
+      } else {
+        return currTitle;
+      }
+    },
   },
   methods: {
     async addTask() {
