@@ -5,7 +5,7 @@
         <span v-if="!editingName" @click="renameTaskList()" :title="updatedTaskListName || listTitle">{{ formattedTitle }}</span>
         <input class="rename--input" v-if="editingName" type="text" v-model="updatedTaskListName" v-focus @blur="handleTaskListRenameBlur()" @keydown.enter="handleTaskListRenameEnter()" />
       </h3>
-      <font-awesome-icon class="list-menu" icon="fa-solid fa-ellipsis-vertical" style="color: #000000" size="lg" />
+      <font-awesome-icon class="list-menu" icon="fa-solid fa-ellipsis-vertical" style="color: #000000" size="lg" @click="openOptions($event)" />
     </div>
     <draggable class="scroll" :list="tasks" group="tasks" itemKey="_id" @change="log">
       <board-list-item
@@ -146,6 +146,11 @@ export default {
           console.log(error);
         }
       }
+    },
+    openOptions(evt) {
+      const rect = evt.target.getBoundingClientRect();
+      const leftNavBarWidth = document.querySelector("#organization-left-navbar").getBoundingClientRect()?.width || 150;
+      this.$emit("open-tasklist-options", rect.left - leftNavBarWidth + 10, rect.top - 60, this.listID);
     },
   },
 };

@@ -7,7 +7,14 @@
     </h1>
     <div class="all-lists">
       <draggable v-if="taskBoard" class="draggable" :list="taskBoard.taskLists" group="entire-list" itemKey="_id" @change="moveList">
-        <board-list v-for="listObj in taskBoard.taskLists" :key="listObj._id" :listID="listObj._id" :listTitle="listObj.name" :tasks="listObj?.taskItems"></board-list>
+        <board-list
+          v-for="listObj in taskBoard.taskLists"
+          :key="listObj._id"
+          :listID="listObj._id"
+          :listTitle="listObj.name"
+          :tasks="listObj?.taskItems"
+          @openTasklistOptions="showContextMenu"
+        ></board-list>
       </draggable>
       <form class="create-task-list-form" @submit.prevent="createTaskList()">
         <input id="tasklist--input" type="text" name="tasklist-name" placeholder="Add another list..." v-model="newTaskListName" />
@@ -16,15 +23,22 @@
       <span style="padding-right: 25px"></span>
       <loading-spinner v-if="isLoading"></loading-spinner>
     </div>
+    <base-context-menu v-if="activeTaskListID !== null" :position="menuPosition">
+      <template #options>
+        <li @click="closeContextMenu()">Cancel</li>
+        <li class="warning" @click="deleteTasklist()">Delete</li>
+      </template>
+    </base-context-menu>
   </div>
 </template>
 
 <script>
 import { VueDraggableNext } from "vue-draggable-next";
 import BoardList from "./BoardList.vue";
+import BaseContextMenu from "../../basic-components/BaseContextMenu.vue";
 
 export default {
-  components: { draggable: VueDraggableNext, BoardList },
+  components: { draggable: VueDraggableNext, BoardList, BaseContextMenu },
   props: {
     boardID: {
       required: true,
@@ -39,6 +53,11 @@ export default {
       editingName: false,
       newTaskBoardName: "",
       enterKeyPressed: false,
+      activeTaskListID: null,
+      menuPosition: {
+        x: 0,
+        y: 0,
+      },
     };
   },
   computed: {
@@ -113,6 +132,19 @@ export default {
     },
     goBack() {
       this.$router.push("/organization/tasks/boards/");
+    },
+    deleteTasklist() {
+      console.log(this.activeTaskListID);
+    },
+    showContextMenu(positionX, positionY, taskListID) {
+      this.activeTaskListID = taskListID;
+      this.menuPosition = {
+        x: positionX,
+        y: positionY,
+      };
+    },
+    closeContextMenu() {
+      this.activeTaskListID = null;
     },
   },
   created() {
@@ -204,6 +236,20 @@ export default {
 
 #tasklist-create--btn {
   display: block;
+}
+
+.context-menu ul li {
+  cursor: pointer;
+  padding: 8px 15px 8px 15px;
+  width: 80px;
+}
+
+.context-menu ul li:hover {
+  background-color: #eee;
+}
+
+.warning {
+  color: red;
 }
 
 /* Responsiveness */
