@@ -1,9 +1,12 @@
 <template>
   <div class="list">
-    <h3>
-      <span v-if="!editingName" @click="renameTaskList()" :title="updatedTaskListName || listTitle">{{ formattedTitle }}</span>
-      <input class="rename--input" v-if="editingName" type="text" v-model="updatedTaskListName" v-focus @blur="handleTaskListRenameBlur()" @keydown.enter="handleTaskListRenameEnter()" />
-    </h3>
+    <div class="list--header">
+      <h3 class="list-title--h3">
+        <span v-if="!editingName" @click="renameTaskList()" :title="updatedTaskListName || listTitle">{{ formattedTitle }}</span>
+        <input class="rename--input" v-if="editingName" type="text" v-model="updatedTaskListName" v-focus @blur="handleTaskListRenameBlur()" @keydown.enter="handleTaskListRenameEnter()" />
+      </h3>
+      <font-awesome-icon class="list-menu" icon="fa-solid fa-ellipsis-vertical" style="color: #000000" size="lg" />
+    </div>
     <draggable class="scroll" :list="tasks" group="tasks" itemKey="_id" @change="log">
       <board-list-item
         v-for="task in tasks"
@@ -193,5 +196,18 @@ export default {
 .scroll {
   overflow-y: auto;
   height: 200px;
+}
+
+.list--header {
+  display: flex;
+}
+
+.list-title--h3 {
+  width: 95%;
+}
+
+.list-menu {
+  cursor: pointer;
+  margin-top: 7px;
 }
 </style>
