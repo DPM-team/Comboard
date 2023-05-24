@@ -133,8 +133,17 @@ export default {
     goBack() {
       this.$router.push("/organization/tasks/boards/");
     },
-    deleteTasklist() {
-      console.log(this.activeTaskListID);
+    async deleteTasklist() {
+      try {
+        await this.$store.dispatch("deleteTasklist", {
+          taskBoardID: this.$store.getters.getSelectedTaskBoard,
+          taskListID: this.activeTaskListID,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+      this.closeContextMenu();
     },
     showContextMenu(positionX, positionY, taskListID) {
       this.activeTaskListID = taskListID;

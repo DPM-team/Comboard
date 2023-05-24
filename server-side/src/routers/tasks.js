@@ -30,4 +30,6 @@ router.put("/api/tasklist/rename", authentication, tasksController.renameTaskLis
 
 router.delete("/api/taskboard/delete", authentication, tasksController.deleteTaskBoard);
 
+router.delete("/api/tasklist/delete", authentication, tasksController.deleteTaskList);
+
 module.exports = router;

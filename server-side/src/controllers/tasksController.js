@@ -567,6 +567,49 @@ const deleteTaskBoard = async (req, res) => {
   }
 };
 
+const deleteTaskList = async (req, res) => {
+  try {
+    const taskBoardID = req.body.taskBoardID;
+    const taskListID = req.body.taskListID;
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    if (!taskListID) {
+      return res.status(400).json({ error: "taskListID is required!" });
+    }
+
+    const taskBoard = await TaskBoard.findById(taskBoardID);
+
+    if (!taskBoard) {
+      return res.status(404).json({ error: "Task board doesn't found!" });
+    }
+
+    let removed = false;
+
+    for (const [index, taskListObj] of taskBoard.taskLists.entries()) {
+      if (taskListObj._id.toString() === taskListID) {
+        // only splice array when item is found
+        taskBoard.taskLists.splice(index, 1); // 2nd parameter means remove one item only
+        removed = true;
+        break;
+      }
+    }
+
+    let updatedTaskBoard = null;
+
+    if (removed) {
+      updatedTaskBoard = await TaskBoard.findByIdAndUpdate(taskBoardID, { taskLists: taskBoard.taskLists }, { new: true });
+    }
+
+    res.status(200).json({ message: "Tasklist deleted with success!", updatesDone: removed, updatedTaskBoard });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   createTaskBoard,
   getTasksWithDate,
@@ -581,4 +624,5 @@ module.exports = {
   renameTaskBoard,
   renameTaskList,
   deleteTaskBoard,
+  deleteTaskList,
 };

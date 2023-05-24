@@ -338,7 +338,36 @@ export default {
 
       return responseData;
     } catch (error) {
-      throw new Error(error.message || "Failed to get Task List's data!");
+      throw new Error(error.message || "Failed to delete taskboard!");
+    }
+  },
+  async deleteTasklist(context, payload) {
+    const taskBoardID = payload.taskBoardID;
+    const taskListID = payload.taskListID;
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ taskBoardID, taskListID }),
+    };
+
+    try {
+      const response = await fetch(`/api/tasklist/delete`, requestOptions);
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.error);
+      }
+
+      if (responseData.updatesDone && responseData?.updatedTaskBoard) {
+        context.commit("setSelectedTaskBoard", { selectedTaskBoard: responseData?.updatedTaskBoard });
+      }
+    } catch (error) {
+      throw new Error(error.message || "Failed to delete tasklist!");
     }
   },
 };
