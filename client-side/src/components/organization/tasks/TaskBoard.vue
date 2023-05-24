@@ -97,6 +97,8 @@ export default {
             taskBoardID: this.boardID,
             taskListName: this.newTaskListName,
           });
+
+          this.newTaskListName = "";
         } catch (error) {
           console.log(error);
         }
