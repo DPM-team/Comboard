@@ -108,8 +108,18 @@ export default {
         }
       }
     },
-    deleteTask() {
-      console.log("Delete task");
+    async deleteTask() {
+      try {
+        await this.$store.dispatch("deleteTask", {
+          taskBoardID: this.$store.getters.getSelectedBoardID,
+          taskListID: this.taskListID,
+          taskID: this.taskID,
+        });
+
+        this.closeDialog();
+      } catch (error) {
+        console.log(error);
+      }
     },
     cancelChanges() {
       this.mutableTitle = this.title;

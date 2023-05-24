@@ -32,4 +32,6 @@ router.delete("/api/taskboard/delete", authentication, tasksController.deleteTas
 
 router.delete("/api/tasklist/delete", authentication, tasksController.deleteTaskList);
 
+router.delete("/api/task/delete", authentication, tasksController.deleteTask);
+
 module.exports = router;

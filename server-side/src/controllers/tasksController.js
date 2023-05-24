@@ -610,6 +610,59 @@ const deleteTaskList = async (req, res) => {
   }
 };
 
+const deleteTask = async (req, res) => {
+  try {
+    const taskBoardID = req.body.taskBoardID;
+    const taskListID = req.body.taskListID;
+    const taskID = req.body.taskID;
+
+    if (!taskBoardID) {
+      return res.status(400).json({ error: "taskBoardID is required!" });
+    }
+
+    if (!taskListID) {
+      return res.status(400).json({ error: "taskListID is required!" });
+    }
+
+    if (!taskID) {
+      return res.status(400).json({ error: "taskID is required!" });
+    }
+
+    const taskBoard = await TaskBoard.findById(taskBoardID);
+
+    if (!taskBoard) {
+      return res.status(404).json({ error: "Task board doesn't found!" });
+    }
+
+    let removed = false;
+
+    for (const taskListObj of taskBoard.taskLists) {
+      if (taskListObj._id.toString() === taskListID) {
+        for (const [index, task] of taskListObj.taskItems.entries()) {
+          if (task._id.toString() === taskID) {
+            if (index !== -1) {
+              taskListObj.taskItems.splice(index, 1);
+              removed = true;
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    let updatedTaskBoard = null;
+
+    if (removed) {
+      updatedTaskBoard = await TaskBoard.findByIdAndUpdate(taskBoardID, { taskLists: taskBoard.taskLists }, { new: true });
+    }
+
+    res.status(200).json({ message: "Tasklist deleted with success!", updatesDone: removed, updatedTaskBoard });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   createTaskBoard,
   getTasksWithDate,
@@ -625,4 +678,5 @@ module.exports = {
   renameTaskList,
   deleteTaskBoard,
   deleteTaskList,
+  deleteTask,
 };

@@ -370,4 +370,34 @@ export default {
       throw new Error(error.message || "Failed to delete tasklist!");
     }
   },
+  async deleteTask(context, payload) {
+    const taskBoardID = payload.taskBoardID;
+    const taskListID = payload.taskListID;
+    const taskID = payload.taskID;
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ taskBoardID, taskListID, taskID }),
+    };
+
+    try {
+      const response = await fetch("/api/task/delete", requestOptions);
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.error);
+      }
+
+      if (responseData.updatesDone && responseData?.updatedTaskBoard) {
+        context.commit("setSelectedTaskBoard", { selectedTaskBoard: responseData?.updatedTaskBoard });
+      }
+    } catch (error) {
+      throw new Error(error.message || "Failed to add Task.");
+    }
+  },
 };
