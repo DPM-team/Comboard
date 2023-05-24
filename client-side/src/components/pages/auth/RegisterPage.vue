@@ -24,9 +24,7 @@
         required
       />
       <auth-form-input id="login-btn" name="loginButton" type="submit" value="Agree & Join" />
-      <p id="agreement">
-        By clicking Agree & Join, you agree to the comboard <a href="/user-agreement">User Agreement</a>, <a href="/privacy-policy">Privacy Policy</a> and <a href="#">Cookie Policy</a>
-      </p>
+      <p id="agreement">By clicking Agree & Join, you agree to the comboard <a href="/user-agreement">User Agreement</a> and <a href="/privacy-policy">Privacy Policy.</a></p>
     </auth-form>
     <p id="login-account">
       Already on Comboard?
