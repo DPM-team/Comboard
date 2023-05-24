@@ -26,7 +26,7 @@
             <div>
               <input type="submit" value="Submit changes" />
             </div>
-            <base-button :mode="'close-btn'" @click.prevent="cancelChanges()">Cancel</base-button>
+            <base-button :mode="'close-btn'" @click.prevent="cancelChanges()" :isDisabled="updatesSubmitted">Cancel</base-button>
             <font-awesome-icon class="delete-task--icon" icon="fa-solid fa-trash-can" size="xl" style="color: #c70000" @click="deleteTask()" />
           </div>
         </form>
@@ -80,6 +80,7 @@ export default {
       mutableDateExpires: this.dateExpires,
       updateTaskMessage: "",
       messageType: "",
+      updatesSubmitted: false,
     };
   },
   methods: {
@@ -100,6 +101,7 @@ export default {
 
           this.updateTaskMessage = successData?.successMessage;
           this.messageType = "success";
+          this.updatesSubmitted = true;
         } catch (error) {
           this.updateTaskMessage = error?.message || "Can't update task!";
           this.messageType = "error";
@@ -119,6 +121,7 @@ export default {
     closeDialog() {
       this.dialogIsOpen = false;
       this.updateTaskMessage = "";
+      this.updatesSubmitted = false;
     },
     openDialog() {
       this.dialogIsOpen = true;

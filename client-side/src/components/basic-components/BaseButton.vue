@@ -1,5 +1,5 @@
 <template>
-  <button :class="mode">
+  <button :class="[mode, { 'disabled--btn': isDisabled }]" :disabled="isDisabled">
     <slot></slot>
   </button>
 </template>
@@ -10,6 +10,11 @@ export default {
     mode: {
       type: String,
       required: false,
+    },
+    isDisabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 };
@@ -40,5 +45,10 @@ button:active {
 .close-btn:hover,
 .close-btn:active {
   background-color: rgb(148, 0, 0);
+}
+
+.disabled--btn {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 </style>

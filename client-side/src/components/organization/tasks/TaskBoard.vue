@@ -7,14 +7,14 @@
     </h1>
     <div class="all-lists">
       <draggable v-if="taskBoard" class="draggable" :list="taskBoard.taskLists" group="entire-list" itemKey="_id" @change="moveList">
-        <board-list
+        <task-list
           v-for="listObj in taskBoard.taskLists"
           :key="listObj._id"
           :listID="listObj._id"
           :listTitle="listObj.name"
           :tasks="listObj?.taskItems"
           @openTasklistOptions="showContextMenu"
-        ></board-list>
+        ></task-list>
       </draggable>
       <form class="create-task-list-form" @submit.prevent="createTaskList()">
         <input id="tasklist--input" type="text" name="tasklist-name" placeholder="Add another list..." v-model="newTaskListName" />
@@ -34,11 +34,11 @@
 
 <script>
 import { VueDraggableNext } from "vue-draggable-next";
-import BoardList from "./BoardList.vue";
+import TaskList from "./TaskList.vue";
 import BaseContextMenu from "../../basic-components/BaseContextMenu.vue";
 
 export default {
-  components: { draggable: VueDraggableNext, BoardList, BaseContextMenu },
+  components: { draggable: VueDraggableNext, TaskList, BaseContextMenu },
   props: {
     boardID: {
       required: true,

@@ -8,7 +8,7 @@
       <font-awesome-icon class="list-menu" icon="fa-solid fa-ellipsis-vertical" style="color: #000000" size="lg" @click="openOptions($event)" />
     </div>
     <draggable class="scroll" :list="tasks" group="tasks" itemKey="_id" @change="log">
-      <board-list-item
+      <task-item
         v-for="task in tasks"
         :key="task._id"
         :taskListID="listID"
@@ -17,7 +17,7 @@
         :description="task.description"
         :dateStarts="task.fromDate"
         :dateExpires="task.toDate"
-      ></board-list-item>
+      ></task-item>
     </draggable>
     <input class="task-input" type="text" name="task-input" placeholder=" + Add list item.." v-model="newTask" @keyup.enter="addTask()" />
     <loading-spinner v-if="isLoading"></loading-spinner>
@@ -26,10 +26,10 @@
 
 <script>
 import { VueDraggableNext } from "vue-draggable-next";
-import BoardListItem from "./BoardListItem.vue";
+import TaskItem from "./TaskItem.vue";
 
 export default {
-  components: { draggable: VueDraggableNext, BoardListItem },
+  components: { draggable: VueDraggableNext, TaskItem },
   props: {
     listID: {
       type: String,
