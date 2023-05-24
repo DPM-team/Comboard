@@ -63,6 +63,7 @@ import {
   faLocationDot,
   faGlobe,
   faEllipsis,
+  faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faComment, faFilePdf, faFileWord, faFileExcel, faImage, faFileImage, faFile, faClipboard } from "@fortawesome/free-regular-svg-icons";
@@ -120,7 +121,8 @@ library.add(
   faLocationDot,
   faGlobe,
   faClipboard,
-  faEllipsis
+  faEllipsis,
+  faTrashCan
 );
 
 const app = createApp(App);

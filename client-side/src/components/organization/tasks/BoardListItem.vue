@@ -27,6 +27,7 @@
               <input type="submit" value="Submit changes" />
             </div>
             <base-button :mode="'close-btn'" @click.prevent="cancelChanges()">Cancel</base-button>
+            <font-awesome-icon class="delete-task--icon" icon="fa-solid fa-trash-can" size="xl" style="color: #c70000" @click="deleteTask()" />
           </div>
         </form>
       </template>
@@ -105,6 +106,9 @@ export default {
         }
       }
     },
+    deleteTask() {
+      console.log("Delete task");
+    },
     cancelChanges() {
       this.mutableTitle = this.title;
       this.mutableDescription = this.description;
@@ -135,6 +139,7 @@ input[type="submit"] {
   color: white;
   cursor: pointer;
 }
+
 input[type="submit"]:hover,
 input[type="submit"]:active {
   background-color: #000875;
@@ -145,10 +150,12 @@ input[type="submit"]:active {
   font-size: 17px;
   font-weight: 600;
 }
+
 .pop-up-text-2 {
   font-size: 15px;
   font-weight: 600;
 }
+
 .list-item {
   background: white;
   padding: 10px;
@@ -198,5 +205,10 @@ textarea:focus {
   display: flex;
   column-gap: 20px;
   flex-direction: row-reverse;
+}
+
+.delete-task--icon {
+  cursor: pointer;
+  margin-top: 8px;
 }
 </style>
