@@ -1,25 +1,25 @@
 <template>
   <div>
-    <base-dialog v-if="dialogIsOpen" :title="title" @close="closeDialog">
+    <base-dialog v-if="dialogIsOpen" :title="newTitle || currentTitle" @close="closeDialog">
       <template #main>
         <base-message v-if="updateTaskMessage" :message="updateTaskMessage" :mode="messageType"></base-message>
         <form @submit.prevent="updateTask()">
           <div class="input-control">
-            <label for="task-name" class="pop-up-text">Edit task's name</label>
-            <input type="text" v-model="mutableTitle" name="task-name" required />
+            <label for="task-name" class="pop-up-text">Edit task's name <span class="required--input">*</span></label>
+            <input type="text" v-model="newTitle" name="task-name" required />
           </div>
           <div class="input-control">
             <label for="task-description" class="pop-up-text">Task's description</label>
-            <textarea v-model="mutableDescription" rows="5" id="task-description"></textarea>
+            <textarea v-model="newDescription" rows="5" id="task-description"></textarea>
           </div>
           <div class="dates-control">
             <div>
               <label for="start" class="pop-up-text-2">Start date:</label>
-              <input type="date" id="start" name="task-start" v-model="mutableDateStarts" />
+              <input type="date" id="start" name="task-start" v-model="newDateStarts" />
             </div>
             <div>
               <label for="end" class="pop-up-text-2">End date:</label>
-              <input type="date" id="end" name="task-end" v-model="mutableDateExpires" :min="mutableDateStarts" />
+              <input type="date" id="end" name="task-end" v-model="newDateExpires" :min="newDateStarts" />
             </div>
           </div>
           <div class="actions">
@@ -33,7 +33,7 @@
       </template>
     </base-dialog>
     <div class="list-item" @click="openDialog()">
-      <p>{{ mutableTitle || title }}</p>
+      <p>{{ newTitle || currentTitle }}</p>
     </div>
   </div>
 </template>
@@ -74,10 +74,17 @@ export default {
   data() {
     return {
       dialogIsOpen: false,
-      mutableTitle: this.title,
-      mutableDescription: this.description,
-      mutableDateStarts: this.dateStarts,
-      mutableDateExpires: this.dateExpires,
+      /* For submitted changes */
+      currentTitle: this.title,
+      currentDescription: this.description,
+      currentDateStarts: this.dateStarts,
+      currentDateExpires: this.dateExpires,
+      /* For new changes that haven't saved yet */
+      newTitle: "",
+      newDescription: "",
+      newDateStarts: "",
+      newDateExpires: "",
+      /* Helpers */
       updateTaskMessage: "",
       messageType: "",
       updatesSubmitted: false,
@@ -86,16 +93,21 @@ export default {
   methods: {
     async updateTask() {
       if (this.changesHappened()) {
+        this.currentTitle = this.newTitle;
+        this.currentDescription = this.newDescription;
+        this.currentDateStarts = this.newDateStarts;
+        this.currentDateExpires = this.newDateExpires;
+
         try {
           const successData = await this.$store.dispatch("updateTask", {
             taskListID: this.taskListID,
             taskBoardID: this.$store.getters.getSelectedBoardID,
             updatedTaskObj: {
               _id: this.taskID,
-              title: this.mutableTitle,
-              description: this.mutableDescription,
-              fromDate: this.mutableDateStarts,
-              toDate: this.mutableDateExpires,
+              title: this.currentTitle,
+              description: this.currentDescription,
+              fromDate: this.currentDateStarts,
+              toDate: this.currentDateExpires,
             },
           });
 
@@ -122,10 +134,11 @@ export default {
       }
     },
     cancelChanges() {
-      this.mutableTitle = this.title;
-      this.mutableDescription = this.description;
-      this.mutableDateStarts = this.dateStarts;
-      this.mutableDateExpires = this.dateExpires;
+      this.newTitle = "";
+      this.newDescription = "";
+      this.newDateStarts = "";
+      this.newDateExpires = "";
+
       this.closeDialog();
     },
     closeDialog() {
@@ -135,9 +148,14 @@ export default {
     },
     openDialog() {
       this.dialogIsOpen = true;
+
+      this.newTitle = this.newTitle || this.currentTitle;
+      this.newDescription = this.newDescription || this.currentDescription;
+      this.newDateStarts = this.newDateStarts || this.currentDateStarts;
+      this.newDateExpires = this.newDateExpires || this.currentDateExpires;
     },
     changesHappened() {
-      return this.title !== this.mutableTitle || this.description !== this.mutableDescription || this.dateStarts !== this.mutableDateStarts || this.dateExpires !== this.mutableDateExpires;
+      return this.currentTitle !== this.newTitle || this.currentDescription !== this.newDescription || this.currentDateStarts !== this.newDateStarts || this.currentDateExpires !== this.newDateExpires;
     },
   },
 };

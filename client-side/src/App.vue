@@ -39,4 +39,8 @@ export default {
 .no-scrolling {
   overflow: hidden;
 }
+
+.required--input {
+  color: red;
+}
 </style>
