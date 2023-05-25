@@ -10,9 +10,9 @@
       <li class="footer__item">
         <a class="footer__link footer_menu" href="#testimonials-section">Testimonials</a>
       </li>
-      <li class="footer__item">
+      <!-- <li class="footer__item">
         <a class="footer__link footer_menu" href="">FAQs</a>
-      </li>
+      </li> -->
     </ul>
     <a href=""><img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard Logo" class="footer__logo" /></a>
     <p class="footer__copyright">

@@ -67,6 +67,7 @@ export default {
   },
   created() {
     this.loadUserPublicData();
+    document.body.classList.remove("no-scrolling");
   },
 };
 </script>
