@@ -18,16 +18,25 @@
         :likes="post.likes"
         :comments="post.comments"
         :date="post.date"
+        @openPostOptions="showContextMenu"
       ></post-box>
     </div>
     <div class="side-section">
       <connection-suggestion-list></connection-suggestion-list>
       <news-list></news-list>
     </div>
+    <base-context-menu v-if="activePostID !== null" :position="menuPosition">
+      <template #options>
+        <li @click="closeContextMenu()">Cancel</li>
+        <li>Option1</li>
+        <li>Option2</li>
+      </template>
+    </base-context-menu>
   </organization-page-tab>
 </template>
 
 <script>
+import BaseContextMenu from "../../basic-components/BaseContextMenu.vue";
 import OrganizationPageTab from "../../layout/pages/organization/OrganizationPageTab.vue";
 import ConnectionSuggestionList from "./ConnectionSuggestionList.vue";
 import CreatePostBox from "./CreatePostBox.vue";
@@ -35,7 +44,7 @@ import NewsList from "./NewsList.vue";
 import PostBox from "./PostBox.vue";
 
 export default {
-  components: { CreatePostBox, PostBox, ConnectionSuggestionList, NewsList, OrganizationPageTab },
+  components: { CreatePostBox, PostBox, ConnectionSuggestionList, NewsList, OrganizationPageTab, BaseContextMenu },
   data() {
     return {
       myUser: {
@@ -46,6 +55,12 @@ export default {
       posts: [],
       message: "",
       spinner: false,
+      /* For post context menu */
+      activePostID: null,
+      menuPosition: {
+        x: 0,
+        y: 0,
+      },
     };
   },
   methods: {
@@ -88,11 +103,27 @@ export default {
         };
       });
     },
+    showContextMenu(positionX, positionY, postID) {
+      this.activePostID = postID;
+      this.menuPosition = {
+        x: positionX,
+        y: positionY,
+      };
+    },
+    closeContextMenu() {
+      this.activePostID = null;
+    },
+    removeEventListeners() {
+      document.removeEventListener("click", this.closeContextMenu);
+    },
   },
   async created() {
     this.spinner = true;
     await this.loadPosts();
     this.spinner = false;
+  },
+  beforeUnmount() {
+    this.removeEventListeners();
   },
 };
 </script>
@@ -102,6 +133,7 @@ export default {
   width: calc(70% - 100px);
   overflow-y: auto;
 }
+
 ::-webkit-scrollbar {
   width: 0; /* Remove scrollbar space */
   background: transparent; /* Optional: just make scrollbar invisible */
@@ -111,12 +143,27 @@ export default {
   width: calc(30% - 100px);
 }
 
+.context-menu ul li {
+  cursor: pointer;
+  padding: 8px 15px 8px 15px;
+  width: 80px;
+}
+
+.context-menu ul li:hover {
+  background-color: #eee;
+}
+
+.warning {
+  color: red;
+}
+
 /* Responsiveness */
 @media (max-width: 1250px) {
   .side-section {
     width: calc(30% - 80px);
   }
 }
+
 @media (max-width: 1150px) {
   .main-section {
     width: calc(70% - 50px);
@@ -125,6 +172,7 @@ export default {
     width: calc(30% - 30px);
   }
 }
+
 @media (max-width: 1050px) {
   .main-section {
     width: calc(100% - 80px);
@@ -139,6 +187,7 @@ export default {
     width: calc(100% - 55px);
   }
 }
+
 @media (max-width: 450px) {
   .main-section {
     width: calc(100% - 45px);

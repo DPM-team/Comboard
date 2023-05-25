@@ -7,12 +7,7 @@
       </div>
       <h2>{{ firstname }} {{ lastname }}</h2>
       <h4>{{ dateFormat }}</h4>
-      <font-awesome-icon :icon="['fas', 'ellipsis']" class="ellipsis-info" ref="ellipsis" />
-      <base-context-menu v-if="showOptions" :position="menuPosition">
-        <template #options>
-          <li class="warning">Delete</li>
-        </template>
-      </base-context-menu>
+      <font-awesome-icon :icon="['fas', 'ellipsis']" class="ellipsis-info" ref="ellipsis" @click.prevent="openOptions($event)" />
     </div>
     <div class="paragraph-container">
       <p>{{ content }}</p>
@@ -22,7 +17,6 @@
       <p>
         <b>{{ likesNum }}</b> likes <b>{{ commentsNum }}</b> comments
       </p>
-
       <font-awesome-icon @click="toogleLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
       <font-awesome-icon @click="writeComment" class="post-icon" icon="fa-regular fa-comment" />
     </div>
@@ -40,11 +34,10 @@
 
 <script>
 import CommentItem from "./CommentItem.vue";
-import BaseContextMenu from "../../basic-components/BaseContextMenu.vue";
 import moment from "moment";
 
 export default {
-  components: { CommentItem, BaseContextMenu },
+  components: { CommentItem },
   props: {
     id: {
       type: String,
@@ -54,11 +47,9 @@ export default {
       type: String,
       required: true,
     },
-
     creatorID: {
       type: String,
     },
-
     contentMedia: {
       type: Object,
       required: false,
@@ -94,11 +85,6 @@ export default {
       likesNum: this.likes?.length || 0,
       commentsNum: this.comments?.length || 0,
       showCommentSection: false,
-      menuPosition: {
-        x: 0,
-        y: 0,
-      },
-      showOptions: false,
       profilePhoto: "",
       nextComments: [],
       dateFormat: "",
@@ -188,15 +174,6 @@ export default {
         this.dateFormat = `Before ${days} ${days !== 1 ? "days" : "day"} `;
       }
     },
-    // openOptions(e) {
-    //   this.showOptions = !this.showOptions;
-    //   if (this.showOptions) {
-    //     this.menuPosition = {
-    //       x: e.pageX,
-    //       y: e.pageY,
-    //     };
-    //   }
-    // },
     async createComment() {
       let comment = this.$refs.createComment.value;
 
@@ -210,6 +187,11 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    openOptions(evt) {
+      const rect = evt.target.getBoundingClientRect();
+      const leftNavBarWidth = document.querySelector("#organization-left-navbar").getBoundingClientRect()?.width || 150;
+      this.$emit("open-post-options", rect.left - leftNavBarWidth + 15, rect.top - 60, this.listID);
     },
   },
   created() {
@@ -333,6 +315,7 @@ export default {
     width: 380px;
   }
 }
+
 @media (max-width: 600px) {
   .post-box {
     width: 400px;
@@ -344,6 +327,7 @@ export default {
     width: 280px;
   }
 }
+
 @media (max-width: 500px) {
   .post-box {
     width: 350px;
@@ -355,6 +339,7 @@ export default {
     width: 220px;
   }
 }
+
 @media (max-width: 430px) {
   .post-input {
     width: 160px;
@@ -372,6 +357,7 @@ export default {
     width: 190px;
   }
 }
+
 @media (max-width: 400px) {
   .write-comment-input {
     width: 170px;
@@ -398,10 +384,6 @@ export default {
   .like-comment-container p {
     width: 60%;
     font-size: 12px;
-  }
-
-  .warning {
-    color: red;
   }
 }
 </style>
