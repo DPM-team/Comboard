@@ -7,10 +7,10 @@
           <a class="header-a"><font-awesome-icon class="image-menu" :icon="['fas', 'bell']" /></a>
         </li>
         <li class="header-li">
-          <a class="header-a"><font-awesome-icon class="image-menu" :icon="['fas', 'user']" /></a>
+          <a class="header-a" href="/dashboard/my-profile"><font-awesome-icon class="image-menu" :icon="['fas', 'user']" /></a>
         </li>
         <li class="header-li">
-          <a class="header-a"><font-awesome-icon class="image-menu" :icon="['fas', 'circle-question']" /></a>
+          <a class="header-a" href="/dashboard/help"><font-awesome-icon class="image-menu" :icon="['fas', 'circle-question']" /></a>
         </li>
         <li class="header-li">
           <a class="header-a" @click.prevent="logout"><font-awesome-icon class="image-menu" :icon="['fas', 'right-from-bracket']" /></a>
