@@ -6,8 +6,8 @@
         <font-awesome-icon v-else class="user-icon" :icon="['fas', 'user']"></font-awesome-icon>
       </div>
       <h2>{{ firstname }} {{ lastname }}</h2>
-      <h4>{{ date }}</h4>
-      <font-awesome-icon :icon="['fas', 'ellipsis']" class="ellipsis-info" @contextmenu.prevent="openOptions($event)" />
+      <h4>{{ dateFormat }}</h4>
+      <font-awesome-icon :icon="['fas', 'ellipsis']" class="ellipsis-info" ref="ellipsis" />
       <base-context-menu v-if="showOptions" :position="menuPosition">
         <template #options>
           <li class="warning">Delete</li>
@@ -41,6 +41,7 @@
 <script>
 import CommentItem from "./CommentItem.vue";
 import BaseContextMenu from "../../basic-components/BaseContextMenu.vue";
+import moment from "moment";
 
 export default {
   components: { CommentItem, BaseContextMenu },
@@ -83,7 +84,7 @@ export default {
       required: true,
     },
     date: {
-      type: String,
+      type: Date,
       required: true,
     },
   },
@@ -100,6 +101,7 @@ export default {
       showOptions: false,
       profilePhoto: "",
       nextComments: [],
+      dateFormat: "",
       p: null,
     };
   },
@@ -164,15 +166,37 @@ export default {
         }
       }
     },
-    openOptions(e) {
-      this.showOptions = !this.showOptions;
-      if (this.showOptions) {
-        this.menuPosition = {
-          x: e.pageX,
-          y: e.pageY,
-        };
+    setDate() {
+      const toDay = new Date();
+      const dateOfPost = this.date;
+      if (dateOfPost.getFullYear() === toDay.getFullYear() && dateOfPost.getMonth() === toDay.getMonth() && dateOfPost.getDate() === toDay.getDate()) {
+        this.dateFormat = "To day";
+      } else {
+        const day1 = moment(toDay);
+        const day2 = moment(dateOfPost);
+        const days = day1.diff(day2, "days");
+        if (days <= 7) {
+          this.dateFormat = `Before ${days} ${days !== 1 ? "days" : "day"} `;
+        } else if (days > 7 && days <= 10) {
+          this.dateFormat = "1 week";
+        } else if (days <= 14) {
+          this.dateFormat = "2 Weeks";
+        } else {
+          this.dateFormat = dateOfPost.toLocaleDateString();
+        }
+
+        this.dateFormat = `Before ${days} ${days !== 1 ? "days" : "day"} `;
       }
     },
+    // openOptions(e) {
+    //   this.showOptions = !this.showOptions;
+    //   if (this.showOptions) {
+    //     this.menuPosition = {
+    //       x: e.pageX,
+    //       y: e.pageY,
+    //     };
+    //   }
+    // },
     async createComment() {
       let comment = this.$refs.createComment.value;
 
@@ -191,6 +215,7 @@ export default {
   created() {
     this.isLiked();
     this.setPhoto();
+    this.setDate();
   },
 };
 </script>
