@@ -16,7 +16,7 @@
       <!-- <input type="button" name="file" id="file" @click="openModal" /> -->
       <font-awesome-icon class="post-image-btn" :icon="['far', 'image']" @click="toggleModal" />
 
-      <base-dialog v-if="modal" :title="'Add an image to your post!'" :overly="false" @close="toggleModal">
+      <base-dialog v-if="modal" :title="'Add an image to your post!'" :overlay="false" @close="toggleModal">
         <template #main>
           <form @submit.prevent="createdPost">
             <base-card v-if="warning" :width="100" :bgColor="'#D9AC0C'">You must have at least text or media</base-card>

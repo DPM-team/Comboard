@@ -15,9 +15,12 @@
     </div>
     <div class="like-comment-container">
       <p>
-        <b>{{ likesNum }}</b> likes <b>{{ commentsNum }}</b> comments
+        <b @click="toggleModal">{{ likesNum }}</b> <span @click="toggleModal">likes</span> <b>{{ commentsNum }}</b> comments
       </p>
       <font-awesome-icon @click="toogleLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
+      <base-dialog v-if="modal" :title="firstname + '\'s post'" :overlay="true" @close="toggleModal">
+        <template #main> <pfp-fullname-area :firstname="'Test'" :lastname="'test'" :pictureLink="'google.com'" :profilePhoto="''"></pfp-fullname-area> </template>
+      </base-dialog>
       <font-awesome-icon @click="writeComment" class="post-icon" icon="fa-regular fa-comment" />
     </div>
     <div v-if="showCommentSection" class="comment-section">
@@ -35,9 +38,10 @@
 <script>
 import CommentItem from "./CommentItem.vue";
 import moment from "moment";
+import PfpFullnameArea from "./PfpFullnameArea.vue";
 
 export default {
-  components: { CommentItem },
+  components: { CommentItem, PfpFullnameArea },
   props: {
     id: {
       type: String,
@@ -89,6 +93,7 @@ export default {
       nextComments: [],
       dateFormat: "",
       p: null,
+      modal: false,
     };
   },
   methods: {
@@ -119,6 +124,9 @@ export default {
       } catch (error) {
         console.log(error.message || "Something went wrong!");
       }
+    },
+    toggleModal() {
+      this.modal = !this.modal;
     },
     async setPhoto() {
       const response = await fetch(this.pictureLink);

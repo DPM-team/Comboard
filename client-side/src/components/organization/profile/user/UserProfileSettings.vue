@@ -17,11 +17,11 @@
         <span id="fixed">Location</span>
       </div>
       <div class="inputBox">
-        <input class="disabled" type="text" name="gender" :value="userObj.gender || '-'" disabled title="Can changed on dashboard profile settings" />
+        <input class="disabled" type="text" name="gender" :value="userObj.gender || '-'" disabled title="Can be changed on dashboard profile settings" />
         <span id="fixed">Gender</span>
       </div>
       <div class="inputBox">
-        <input class="disabled" type="text" name="birthday" :value="userObj.birthday || '-'" disabled title="Can changed on dashboard profile settings" />
+        <input class="disabled" type="text" name="birthday" :value="userObj.birthday || '-'" disabled title="Can be changed on dashboard profile settings" />
         <span id="fixed">Birthday</span>
       </div>
       <div class="inputBox">
