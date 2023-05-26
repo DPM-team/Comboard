@@ -8,7 +8,6 @@ export default {
         },
         body: payload,
       }).then((response) => {
-        console.log();
         if (!response.ok) {
           throw new Error("Something went wrong ");
         }

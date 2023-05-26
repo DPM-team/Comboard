@@ -54,8 +54,6 @@ router.post("/api/retrieve-account/step-1", async (req, res) => {
     userAccount = await User.findOne({ email });
 
     if (!userAccount) {
-      generatedPassword = "";
-      userAccount = null;
       throw new Error("No user with this email");
     }
     const subject = "Retrieve Account";
@@ -85,24 +83,20 @@ router.post("/api/retrieve-account/step-2", async (req, res) => {
     const inputedPassword = req.body.password;
 
     if (!userAccount) {
-      generatedPassword = "";
-      clearTimeout(timeout);
       throw new Error("You must have an account");
     }
 
     if (!generatedPassword) {
-      clearTimeout(timeout);
       throw new Error("Generated password has been expired");
     }
 
     if (inputedPassword !== generatedPassword) {
-      clearTimeout(timeout);
       throw new Error("Check your email again.");
     }
 
     res.send();
   } catch (e) {
-    res.status(400).send(e.message);
+    res.status(400).send({ message: e.message });
   }
 });
 
@@ -110,7 +104,6 @@ router.post("/api/retrieve-account/step-3", async (req, res) => {
   try {
     const newPassword = req.body.password;
     if (!userAccount) {
-      clearTimeout(timeout);
       return new Error();
     }
     userAccount.password = newPassword;

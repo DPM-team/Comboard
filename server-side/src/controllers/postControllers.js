@@ -114,6 +114,7 @@ const getCurrentPosts = async (req, res) => {
   try {
     const userID = req.query.userID;
     const organizationID = req.query.organizationID;
+    const skip = req.query.skip;
 
     if (!userID) {
       throw new Error("UserID is required!");
@@ -142,6 +143,8 @@ const getCurrentPosts = async (req, res) => {
             sort: {
               createdAt: -1,
             },
+            limit: 5,
+            skip,
           },
         },
       });
@@ -169,6 +172,8 @@ const getCurrentPosts = async (req, res) => {
             sort: {
               createdAt: -1,
             },
+            limit: 5,
+            skip,
           },
         });
       posts.push(...connectionOrgaData.posts);
@@ -416,7 +421,7 @@ const getUsersLikePost = async (req, res) => {
       },
     });
 
-    res.status(200).send(usersLikePost.likes);
+    res.status(200).send({ message: "Users loaded correctly", users: usersLikePost.likes });
   } catch (e) {
     console.log(e);
     res.status(400).send(e);

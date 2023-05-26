@@ -1,6 +1,6 @@
 <template>
   <organization-page-tab layout="flex">
-    <div class="main-section">
+    <div class="main-section" @scroll="loadNextPosts">
       <create-post-box :pictureLink="`/api/users/${this.$store.getters.loggedUserID}/profilephoto`" @create-post="loadCreatedPost"></create-post-box>
       <base-spinner v-if="spinner && posts.length === 0"></base-spinner>
       <post-box
@@ -55,6 +55,9 @@ export default {
       posts: [],
       message: "",
       spinner: false,
+
+      loadingPosts: false,
+      skip: 0,
       /* For post context menu */
       activePostID: null,
       menuPosition: {
@@ -80,28 +83,46 @@ export default {
     },
     async loadPosts() {
       try {
-        await this.$store.dispatch("loadPosts", {
+        let posts = await this.$store.dispatch("loadPosts", {
           userID: this.$store.getters.loggedUserID,
           organizationID: this.$store.getters.selectedOrganizationID,
+          skip: this.skip,
         });
+
+        const nextPosts = posts.allPosts.map((post) => {
+          return {
+            id: post.postObj._id,
+            content: post.postObj.contentString,
+            contentMedia: post.postObj.contentMedia,
+            name: post.creatorObj.name,
+            surname: post.creatorObj.surname,
+            creatorID: post.postObj.creatorID,
+            pictureLink: `/api/users/${post.postObj.creatorID}/profilePhoto`,
+            likes: post.postObj?.likes,
+            comments: post.postObj?.comments,
+            date: new Date(post.postObj.createdAt),
+          };
+        });
+
+        if (nextPosts.length > 0) {
+          this.posts.push(...nextPosts);
+
+          this.skip = this.skip + nextPosts.length;
+        }
       } catch (error) {
         this.message = error.message || "Something went wrong!";
       }
-
-      this.posts = this.$store.getters.posts.map((post) => {
-        return {
-          id: post.postObj._id,
-          content: post.postObj.contentString,
-          contentMedia: post.postObj.contentMedia,
-          name: post.creatorObj.name,
-          surname: post.creatorObj.surname,
-          creatorID: post.postObj.creatorID,
-          pictureLink: `/api/users/${post.postObj.creatorID}/profilePhoto`,
-          likes: post.postObj?.likes,
-          comments: post.postObj?.comments,
-          date: new Date(post.postObj.createdAt),
-        };
-      });
+    },
+    async loadNextPosts() {
+      try {
+        if (!this.loadingPosts) {
+          this.loadingPosts = true;
+          await this.loadPosts();
+          this.loadingPosts = false;
+        }
+      } catch (e) {
+        console.log(e);
+      }
     },
     showContextMenu(positionX, positionY, postID) {
       this.activePostID = postID;

@@ -28,6 +28,7 @@ export default {
   async loadPosts(context, payload) {
     const userID = payload.userID;
     const organizationID = payload.organizationID;
+    const skip = payload.skip;
 
     const requestOptions = {
       method: "GET",
@@ -38,7 +39,7 @@ export default {
     };
 
     try {
-      const response = await fetch(`/api/network/posts?userID=${userID}&organizationID=${organizationID}`, requestOptions);
+      const response = await fetch(`/api/network/posts?userID=${userID}&organizationID=${organizationID}&skip=${skip}`, requestOptions);
 
       const data = await response.json();
 
@@ -47,7 +48,7 @@ export default {
           posts: data?.allPosts,
         });
 
-        return data?.succesMessage;
+        return data;
       } else {
         throw new Error(data.error); // Throw error to be caught in the component
       }
@@ -183,6 +184,27 @@ export default {
       const comments = await response.json();
 
       return comments;
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
+
+  async loadUsersLikePost(context, payload) {
+    const organizationID = payload.organizationID;
+    const postID = payload.postID;
+    try {
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+      };
+
+      const response = await fetch(`/api/post/like/users?organizationID=${organizationID}&postID=${postID}`, requestOptions);
+
+      const users = response.json();
+
+      return users;
     } catch (e) {
       throw new Error(e);
     }
