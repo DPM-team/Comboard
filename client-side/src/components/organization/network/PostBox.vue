@@ -18,7 +18,7 @@
         <b @click="toggleModal">{{ likesNum }}</b> <span @click="toggleModal">likes</span> <b>{{ commentsNum }}</b> comments
       </p>
       <font-awesome-icon @click="toogleLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
-      <base-dialog v-if="modal" :title="firstname + '\'s post'" :overlay="true" @close="toggleModal">
+      <base-dialog v-if="modal" :title="likePopUpTitle" :overlay="true" @close="toggleModal">
         <template #main> <pfp-fullname-area :firstname="'Test'" :lastname="'test'" :pictureLink="'google.com'" :profilePhoto="''"></pfp-fullname-area> </template>
       </base-dialog>
       <font-awesome-icon @click="writeComment" class="post-icon" icon="fa-regular fa-comment" />
@@ -96,6 +96,12 @@ export default {
       p: null,
       modal: false,
     };
+  },
+  computed: {
+    likePopUpTitle() {
+      if (this.firstname.charAt(this.firstname.length - 1) === "s") return this.firstname + "' post";
+      else return this.firstname + "'s post";
+    },
   },
   methods: {
     async toogleLike() {
