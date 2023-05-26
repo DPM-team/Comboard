@@ -100,6 +100,7 @@ export default {
       },
       showOptions: false,
       profilePhoto: "",
+      usersLikePost: [],
       nextComments: [],
       dateFormat: "",
       p: null,
@@ -139,6 +140,18 @@ export default {
       const succesMessage = await response.json();
       if (succesMessage?.profilePhoto) {
         this.profilePhoto = succesMessage.profilePhoto;
+      }
+    },
+    async usersLiked() {
+      try {
+        const successMessage = await this.$store.dispatch("loadUsersLikePost", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+          postID: this.id,
+        });
+
+        this.usersLikePost.push(...successMessage.users);
+      } catch (e) {
+        console.log(e);
       }
     },
     async isLiked() {
@@ -216,6 +229,7 @@ export default {
     this.isLiked();
     this.setPhoto();
     this.setDate();
+    this.usersLiked();
   },
 };
 </script>
