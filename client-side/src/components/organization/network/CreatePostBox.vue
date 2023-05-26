@@ -16,17 +16,18 @@
       <!-- <input type="button" name="file" id="file" @click="openModal" /> -->
       <font-awesome-icon class="post-image-btn" :icon="['far', 'image']" @click="toggleModal" />
 
-      <base-dialog v-if="modal" :title="'Add an image to your post!'" :overlay="false" @close="toggleModal">
+      <base-dialog v-if="modal" :title="'Add an image to your post!'" :overlay="true" @close="toggleModal">
         <template #main>
           <form @submit.prevent="createdPost">
-            <base-card v-if="warning" :width="100" :bgColor="'#D9AC0C'">You must have at least text or media</base-card>
+            <base-card v-if="warning" :width="100" :bgColor="'#D9AC0C'">You must at least add text or media</base-card>
             <div class="button-container">
               <label class="button" for="image">Add Image</label>
-              <input type="file" ref="file" />
+              <input id="image" type="file" ref="file" />
             </div>
             <input v-model="postContent" type="text" class="post-input" @input="setWarning(false)" />
             <input type="submit" @click="createPost" class="post-button" value="Post" />
           </form>
+          <div style="display: flex"><img class="post-img" src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Selected Image" /></div>
         </template>
       </base-dialog>
 
@@ -110,6 +111,13 @@ export default {
 </script>
 
 <style scoped>
+.post-img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+  margin: 0 auto;
+}
 input[type="file"] {
   display: none;
 }
