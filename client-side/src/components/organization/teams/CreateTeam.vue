@@ -3,7 +3,7 @@
     <template #main>
       <base-message v-if="submitMessage" :message="submitMessage" :mode="messageType"></base-message>
       <form id="create-team--form" @submit.prevent="submitFormToCreate">
-        <auth-form-input @data="getTeamName" id="team-name" class="create-team--input" type="text" name="team-name" placeholder="Team's name" required></auth-form-input>
+        <input v-model="teamName" id="team-name" class="create-team--input" type="text" name="team-name" placeholder="Team's name" required />
         <div class="textarea-control">
           <label for="team-description">Team's description</label>
           <textarea v-model="teamDescription" rows="5" id="team-description" required></textarea>
@@ -32,14 +32,13 @@
 </template>
 
 <script>
-import AuthFormInput from "../../auth/AuthFormInput.vue";
 import MemberItem from "./MemberItem.vue";
 import BaseSpinner from "../../basic-components/BaseSpinner.vue";
 import BaseMessage from "../../basic-components/BaseMessage.vue";
 import { VueDraggableNext } from "vue-draggable-next";
 
 export default {
-  components: { AuthFormInput, BaseMessage, MemberItem, BaseSpinner, draggable: VueDraggableNext },
+  components: { BaseMessage, MemberItem, BaseSpinner, draggable: VueDraggableNext },
   data() {
     return {
       teamName: "",
@@ -87,9 +86,6 @@ export default {
     },
     closeDialog() {
       this.$router.back();
-    },
-    getTeamName(inputValue) {
-      this.teamName = inputValue;
     },
   },
   created() {
