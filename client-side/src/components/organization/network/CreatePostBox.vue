@@ -22,12 +22,13 @@
             <base-card v-if="warning" :width="100" :bgColor="'#D9AC0C'">You must at least add text or media</base-card>
             <div class="button-container">
               <label class="button" for="image">Add Image</label>
-              <input id="image" type="file" ref="file" />
+              <input id="image" type="file" ref="file" @input="getFile" />
+              <button v-if="this.postMedia" @click="removeMedia">Remove</button>
             </div>
             <input v-model="postContent" type="text" class="post-input" @input="setWarning(false)" />
             <input type="submit" @click="createPost" class="post-button" value="Post" />
           </form>
-          <div style="display: flex"><img class="post-img" src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Selected Image" /></div>
+          <div style="display: flex"><img v-if="postMedia" class="post-img" alt="Selected Image" ref="preview" /></div>
         </template>
       </base-dialog>
 
@@ -47,7 +48,7 @@ export default {
       visibilityPost: "Organization",
       showVisibilityOptions: false,
       postContent: "",
-      postFile: null,
+      postMedia: null,
       profilePhoto: "",
       submitMessage: "",
       modal: false,
@@ -56,8 +57,6 @@ export default {
   },
   methods: {
     async createPost() {
-      this.postMedia = this.$refs.file?.files[0] || null;
-
       if (!this.postContent && !this.postMedia) {
         this.setWarning(true);
         return;
@@ -84,6 +83,23 @@ export default {
 
       console.log(this.submitMessage);
     },
+    getFile() {
+      console.log(this.postMedia);
+      this.postMedia = this.$refs.file?.files[0] || null;
+      this.preview();
+    },
+    preview() {
+      if (this.postMedia) {
+        const fileReader = new FileReader();
+
+        fileReader.onload = (event) => {
+          const imageData = event.target.result;
+          this.$refs.preview.src = imageData;
+        };
+
+        fileReader.readAsDataURL(this.postMedia);
+      }
+    },
     async setprofilePhoto() {
       const response = await fetch(this.pictureLink);
       const succesMessage = await response.json();
@@ -96,6 +112,12 @@ export default {
     },
     toggleModal() {
       this.modal = !this.modal;
+      if (this.modal) {
+        this.preview();
+      }
+    },
+    removeMedia() {
+      this.postMedia = null;
     },
     toogleVisibility(e) {
       this.visibilityPost = e.srcElement.value;

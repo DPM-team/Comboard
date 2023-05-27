@@ -15,11 +15,13 @@
     </div>
     <div class="like-comment-container">
       <p>
-        <b @click="toggleModal">{{ likesNum }}</b> <span @click="toggleModal">likes</span> <b>{{ commentsNum }}</b> comments
+        <b @click="toggleModal">{{ likesNum }}</b> <span>likes</span> <b>{{ commentsNum }}</b> comments
       </p>
       <font-awesome-icon @click="toogleLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
       <base-dialog v-if="modal" :title="likePopUpTitle" :overlay="true" @close="toggleModal">
-        <template #main> <pfp-fullname-area :firstname="'Test'" :lastname="'test'" :pictureLink="'google.com'" :profilePhoto="''"></pfp-fullname-area> </template>
+        <template #main>
+          <pfp-fullname-area v-for="user of usersLikePost" :key="user._id" :firstname="user.name" :lastname="user.surname" :pictureLink="'google.com'" :profilePhoto="''"></pfp-fullname-area>
+        </template>
       </base-dialog>
       <font-awesome-icon @click="writeComment" class="post-icon" icon="fa-regular fa-comment" />
     </div>
@@ -95,6 +97,7 @@ export default {
       dateFormat: "",
       p: null,
       modal: false,
+      numOpenModal: 0,
     };
   },
   computed: {
@@ -134,6 +137,12 @@ export default {
     },
     toggleModal() {
       this.modal = !this.modal;
+      console.log(this.modal);
+      if (this.modal && this.numOpenModal === 0) {
+        this.usersLiked();
+      }
+
+      this.numOpenModal++;
     },
     async setPhoto() {
       const response = await fetch(this.pictureLink);
@@ -150,6 +159,7 @@ export default {
         });
 
         this.usersLikePost.push(...successMessage.users);
+        console.log(this.usersLikePost);
       } catch (e) {
         console.log(e);
       }
@@ -225,7 +235,6 @@ export default {
     this.isLiked();
     this.setPhoto();
     this.setDate();
-    this.usersLiked();
   },
 };
 </script>
