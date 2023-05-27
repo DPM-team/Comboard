@@ -11,7 +11,7 @@
     </div>
     <div class="paragraph-container">
       <p>{{ content }}</p>
-      <img v-if="contentMedia" :src="p" />
+      <img class="post-img" v-if="contentMedia" :src="p" />
     </div>
     <div class="like-comment-container">
       <p>
@@ -240,6 +240,14 @@ export default {
 </script>
 
 <style scoped>
+.post-img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+  margin: 0 auto;
+}
+
 .post-box {
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);

@@ -8,31 +8,31 @@
       </auth-header>
       <div class="progressbar">
         <div class="progress" id="progress"></div>
-        <div id="step-1" class="progress-step" :class="[completedStep1, { progressStepActive: this.checkActiveStep(1) }]" data-title="Account">1</div>
-        <div id="step-2" class="progress-step" :class="[completedStep2, { progressStepActive: this.checkActiveStep(2) }]" data-title="Confirm">2</div>
-        <div id="step-3" class="progress-step" :class="[completedStep3, { progressStepActive: this.checkActiveStep(3) }]" data-title="New Password">3</div>
-        <div id="step-4" class="progress-step" :class="[completedStep3, { progressStepActive: this.checkActiveStep(4) }]" data-title="Completed!">4</div>
+        <div id="step-1" class="progress-step" :class="[completedStep1, { progressStepActive: checkActiveStep(1) }]" data-title="Account">1</div>
+        <div id="step-2" class="progress-step" :class="[completedStep2, { progressStepActive: checkActiveStep(2) }]" data-title="Confirm">2</div>
+        <div id="step-3" class="progress-step" :class="[completedStep3, { progressStepActive: checkActiveStep(3) }]" data-title="New Password">3</div>
+        <div id="step-4" class="progress-step" :class="[completedStep3, { progressStepActive: checkActiveStep(4) }]" data-title="Completed!">4</div>
       </div>
       <base-card>
-        <div v-if="this.checkActiveStep(1)">
+        <div v-if="checkActiveStep(1)">
           <h5 class="form-title">Account Information</h5>
-          <auth-form-input @data="getDataInput" id="email" type="email" name="email" placeholder="Email" phdIcon="envelope" required></auth-form-input>
+          <input v-model="insertedEmail" id="email" type="email" name="email" placeholder="Email" phdIcon="envelope" required />
         </div>
-        <div v-else-if="this.checkActiveStep(2)">
+        <div v-else-if="checkActiveStep(2)">
           <h5 class="form-title">Verify the code you received via email</h5>
-          <auth-form-input @data="getDataInput" id="code" type="text" name="code" placeholder="Code" phdIcon="key" required></auth-form-input>
+          <input v-model="insertedVerificationCode" id="code" type="text" name="code" placeholder="Code" phdIcon="key" required />
         </div>
-        <div v-else-if="this.checkActiveStep(3)">
+        <div v-else-if="checkActiveStep(3)">
           <h5 class="form-title">Create new Password!</h5>
-          <auth-form-input @data="getDataInput" id="newPassword" type="password" name="code" placeholder="Password" phdIcon="lock" required></auth-form-input>
+          <input v-model="insertedNewPassword" id="newPassword" type="password" name="code" placeholder="Password" phdIcon="lock" required />
         </div>
         <div v-else>
           <a href="/login" class="btn btn-final width-50 mc-auto">Go to Login</a>
         </div>
       </base-card>
       <div class="btns-group">
-        <auth-form-input v-if="this.showButton(1)" type="button" value="Back" v-on:click="this.back"></auth-form-input>
-        <auth-form-input v-if="this.showButton(4)" type="submit" value="Next"></auth-form-input>
+        <input v-if="showButton(1)" type="button" value="Back" @click="back()" />
+        <input v-if="showButton(4)" type="submit" value="Next" />
       </div>
     </auth-form>
   </base-section>
@@ -43,16 +43,22 @@ import BaseCard from "../../basic-components/BaseCard.vue";
 import AuthForm from "../../auth/AuthForm.vue";
 import BaseSection from "../../basic-components/BaseSection.vue";
 import AuthHeader from "../../auth/AuthHeader.vue";
-import AuthFormInput from "../../auth/AuthFormInput.vue";
+
 export default {
   components: {
     BaseCard,
     AuthForm,
     AuthHeader,
-    AuthFormInput,
     BaseSection,
   },
-  emits: ["data"],
+  data() {
+    return {
+      insertedEmail: null,
+      insertedVerificationCode: null,
+      insertedNewPassword: null,
+      errorMessage: "",
+    };
+  },
   computed: {
     completedStep1() {
       return {
@@ -79,13 +85,6 @@ export default {
       }
     },
   },
-  data() {
-    return {
-      inputData: null,
-      errorMessage: "",
-    };
-  },
-
   methods: {
     submitForm() {
       if (this.$store.getters.getActiveStep < 4) {
@@ -112,10 +111,6 @@ export default {
       }
       this.redirect();
     },
-
-    getDataInput(i) {
-      this.inputData = i;
-    },
     showButton(numStep) {
       return this.$store.getters.getActiveStep !== numStep ? true : false;
     },
@@ -126,34 +121,40 @@ export default {
       try {
         if (this.$store.getters.getActiveStep === 1) {
           const email = JSON.stringify({
-            email: this.inputData,
+            email: this.insertedEmail,
           });
+
           await this.$store.dispatch("callAPI", email).then((res) => {
             if (res instanceof Error) {
               throw res;
             }
+
             this.errorMessage = "";
             this.redirect();
           });
         } else if (this.$store.getters.getActiveStep === 2) {
           const password = JSON.stringify({
-            password: this.inputData,
+            password: this.insertedVerificationCode,
           });
+
           await this.$store.dispatch("callAPI", password).then((res) => {
             if (res instanceof Error) {
               throw res;
             }
+
             this.errorMessage = "";
             this.redirect();
           });
         } else if (this.$store.getters.getActiveStep === 3) {
           const password = JSON.stringify({
-            password: this.inputData,
+            password: this.insertedNewPassword,
           });
+
           await this.$store.dispatch("callAPI", password).then((res) => {
             if (res instanceof Error) {
               throw res;
             }
+            
             this.errorMessage = "";
             this.redirect();
           });

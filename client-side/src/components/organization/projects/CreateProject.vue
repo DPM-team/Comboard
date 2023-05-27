@@ -3,8 +3,8 @@
     <template #main>
       <base-message v-if="submitMessage" :message="submitMessage" :mode="messageType"></base-message>
       <form id="create-project--form" @submit.prevent="submitFormToCreate">
-        <auth-form-input @data="getProjectName" id="project-name" class="create-project--input" type="text" name="project-name" placeholder="Project's name" required></auth-form-input>
-        <auth-form-input @data="getIntention" id="intention" class="create-project--input" type="text" name="intention" placeholder="Intended for..." required></auth-form-input>
+        <input v-model="projectName" id="project-name" class="create-project--input" type="text" name="project-name" placeholder="Project's name" required />
+        <input v-model="intention" id="intention" class="create-project--input" type="text" name="intention" placeholder="Intended for..." required />
         <div class="textarea-control">
           <label for="project-description">Project's description</label>
           <textarea v-model="projectDescription" rows="5" id="project-description" required></textarea>
@@ -33,14 +33,13 @@
 </template>
 
 <script>
-import AuthFormInput from "../../auth/AuthFormInput.vue";
 import MemberItem from "../teams/MemberItem.vue";
 import BaseSpinner from "../../basic-components/BaseSpinner.vue";
 import BaseMessage from "../../basic-components/BaseMessage.vue";
 import { VueDraggableNext } from "vue-draggable-next";
 
 export default {
-  components: { AuthFormInput, BaseMessage, MemberItem, BaseSpinner, draggable: VueDraggableNext },
+  components: { BaseMessage, MemberItem, BaseSpinner, draggable: VueDraggableNext },
   data() {
     return {
       projectName: "",
@@ -91,12 +90,6 @@ export default {
     },
     closeDialog() {
       this.$router.back();
-    },
-    getProjectName(inputValue) {
-      this.projectName = inputValue;
-    },
-    getIntention(inputValue) {
-      this.intention = inputValue;
     },
   },
   created() {

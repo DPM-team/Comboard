@@ -259,8 +259,7 @@ body {font-family: 'Chivo', sans-serif;}
     <tbody>
       <tr>
         <td style="padding:18px 40px 10px 0px; line-height:18px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: inherit"><span style="color: #00634a">If you did not request a password change, please contact us</span></div>
-<div style="font-family: inherit; text-align: inherit"><span style="color: #00634a">IMMEDIATELY so</span></div>
-<div style="font-family: inherit; text-align: inherit"><span style="color: #00634a">&nbsp;we can keep your account secure.</span></div>
+<div style="font-family: inherit; text-align: inherit"><span style="color: #00634a">IMMEDIATELY so we can keep your account secure.</span></div>
 <div style="font-family: inherit; text-align: inherit"><span style="color: #00634a"><br>
 </span></div>
 <div style="font-family: inherit; text-align: inherit"><br></div>
