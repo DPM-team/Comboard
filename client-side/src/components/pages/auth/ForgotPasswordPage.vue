@@ -16,15 +16,15 @@
       <base-card>
         <div v-if="checkActiveStep(1)">
           <h5 class="form-title">Account Information</h5>
-          <input v-model="insertedEmail" id="email" type="email" name="email" placeholder="Email" phdIcon="envelope" required />
+          <input v-model="insertedEmail" id="email" type="email" name="email" placeholder="Email" class="input" required />
         </div>
         <div v-else-if="checkActiveStep(2)">
           <h5 class="form-title">Verify the code you received via email</h5>
-          <input v-model="insertedVerificationCode" id="code" type="text" name="code" placeholder="Code" phdIcon="key" required />
+          <input v-model="insertedVerificationCode" id="code" type="text" name="code" placeholder="Code" class="input" required />
         </div>
         <div v-else-if="checkActiveStep(3)">
           <h5 class="form-title">Create new Password!</h5>
-          <input v-model="insertedNewPassword" id="newPassword" type="password" name="code" placeholder="Password" phdIcon="lock" required />
+          <input v-model="insertedNewPassword" id="newPassword" type="password" name="code" placeholder="Password" class="input" required />
         </div>
         <div v-else>
           <a href="/login" class="btn btn-final width-50 mc-auto">Go to Login</a>
@@ -154,7 +154,7 @@ export default {
             if (res instanceof Error) {
               throw res;
             }
-            
+
             this.errorMessage = "";
             this.redirect();
           });
@@ -168,6 +168,28 @@ export default {
 </script>
 
 <style scoped>
+input[type="button"],
+input[type="submit"],
+.btn-final {
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+.input {
+  display: block;
+  width: 75%;
+  padding: 0.75rem;
+  border: 1.5px solid #ccc;
+  border-color: #1e306084;
+  /* border-radius: 0.25rem; */
+  background: no-repeat left;
+  padding-left: 15px;
+  /* margin: 1rem auto; */
+}
 h4 {
   color: #a0a6b0;
 }
@@ -209,7 +231,7 @@ div {
 }
 
 .progress {
-  background-color: #1a75ff;
+  background-color: var(--color-primary);
   width: 0%;
   transition: 0.5s;
 }
@@ -246,6 +268,6 @@ div {
 }
 
 .progressStepActive {
-  background-color: #1a75ff;
+  background-color: var(--color-primary);
 }
 </style>
