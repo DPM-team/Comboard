@@ -6,9 +6,9 @@
         <base-message v-if="submitMessage" :message="submitMessage" :mode="messageType"></base-message>
         <h3>Insert your organization's key to join!</h3>
         <form id="join-org--form" @submit.prevent="submitFormToJoin">
-          <auth-form-input @data="getOrgsKey" id="join-org--input" type="text" name="join-org" placeholder="Organization's key..." required></auth-form-input>
+          <input class="input" v-model="organizationKeyInput" id="join-org--input" type="text" name="join-org" placeholder="Organization's key..." required />
           <base-button>Join</base-button>
-          <h4 id="support-message--h4">Having any problems? <a>Contact us</a></h4>
+          <h4 id="support-message--h4">Having any problems? <a href="mailto:dpmcomboard@gmail.com">Contact us</a></h4>
         </form>
       </template>
     </base-dialog>
@@ -28,10 +28,9 @@ import DashboardHeader from "../layout/headers/DashboardHeader.vue";
 import BaseCard from "../basic-components/BaseCard.vue";
 import OrganizationList from "../dashboard/OrganizationList.vue";
 import DashboardSearchbarContainer from "../dashboard/DashboardSearchbarContainer.vue";
-import AuthFormInput from "../auth/AuthFormInput.vue";
 
 export default {
-  components: { DashboardHeader, DashboardFooter, BaseCard, OrganizationList, DashboardSearchbarContainer, AuthFormInput },
+  components: { DashboardHeader, DashboardFooter, BaseCard, OrganizationList, DashboardSearchbarContainer },
   data() {
     return {
       organizationKeyInput: "",
@@ -66,14 +65,22 @@ export default {
     openDialog() {
       this.dialogIsOpen = true;
     },
-    getOrgsKey(inputValue) {
-      this.organizationKeyInput = inputValue;
-    },
   },
 };
 </script>
 
 <style scoped>
+.input {
+  /* display: block; */
+  width: 70%;
+  padding: 0.75rem;
+  border: 1.5px solid #ccc;
+  border-color: #1e306084;
+  /* border-radius: 0.25rem; */
+  background: no-repeat left;
+  padding-left: 15px;
+  /* margin: 1rem auto; */
+}
 .main {
   min-height: 80vh;
   background: linear-gradient(#ffffff, var(--color-primary));
