@@ -94,6 +94,7 @@ export default {
 
         fileReader.onload = (event) => {
           const imageData = event.target.result;
+          console.log(imageData);
           this.$refs.preview.src = imageData;
         };
 

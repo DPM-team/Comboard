@@ -11,7 +11,7 @@
     </div>
     <div class="paragraph-container">
       <p>{{ content }}</p>
-      <img class="post-img" v-if="contentMedia" :src="p" />
+      <img class="post-img" v-if="contentMedia" />
     </div>
     <div class="like-comment-container">
       <p>
@@ -109,12 +109,14 @@ export default {
   methods: {
     async toogleLike() {
       const reader = new FileReader();
+      const file = new File([new Blob(this.contentMedia?.data)], "io", { type: "image/png" });
 
       reader.onload = async () => {
-        console.log(reader.result);
+        this.p = reader.result;
+        console.log(this.p);
       };
 
-      reader.readAsDataURL(new Blob(this.contentMedia?.data));
+      reader.readAsDataURL(file);
 
       this.haveLike = !this.haveLike;
 
@@ -197,18 +199,16 @@ export default {
       } else {
         const day1 = moment(toDay);
         const day2 = moment(dateOfPost);
-        const days = day1.diff(day2, "days");
+        let days = day1.diff(day2, "days");
         if (days <= 7) {
-          this.dateFormat = `Before ${days} ${days !== 1 ? "days" : "day"} `;
+          this.dateFormat = `${days === 0 ? days++ : days}  ${days !== 1 ? "days" : "day"} Ago`;
         } else if (days > 7 && days <= 10) {
-          this.dateFormat = "1 week";
+          this.dateFormat = "1 week Ago";
         } else if (days <= 14) {
-          this.dateFormat = "2 Weeks";
+          this.dateFormat = "2 Weeks Ago";
         } else {
           this.dateFormat = dateOfPost.toLocaleDateString();
         }
-
-        this.dateFormat = `Before ${days} ${days !== 1 ? "days" : "day"} `;
       }
     },
     async createComment() {

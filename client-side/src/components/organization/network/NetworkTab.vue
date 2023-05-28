@@ -28,8 +28,8 @@
     <base-context-menu v-if="activePostID !== null" :position="menuPosition">
       <template #options>
         <li @click="closeContextMenu()">Cancel</li>
-        <li>Option1</li>
-        <li>Option2</li>
+        <li>Edit</li>
+        <li>Delete</li>
       </template>
     </base-context-menu>
   </organization-page-tab>
