@@ -31,12 +31,12 @@ button {
   cursor: pointer;
 }
 .remove-btn {
-  margin-left: 3px;
+  margin-right: 3px;
   margin-top: 3px;
   padding: 0.3rem 0.75rem;
   font-family: inherit;
-  background-color: var(--color-primary);
-  border: 1px solid var(--color-primary);
+  background-color: rgb(167, 9, 9);
+  /* border: 1px solid var(--color-primary); */
   color: white;
   cursor: pointer;
 }
