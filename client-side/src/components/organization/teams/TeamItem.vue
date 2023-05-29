@@ -63,6 +63,7 @@ p {
 a {
   text-decoration: none;
   color: var(--color-primary);
+  margin-left: 5px;
 }
 
 a:hover,
