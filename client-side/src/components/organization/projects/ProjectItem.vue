@@ -70,4 +70,9 @@ a:hover,
 a:active {
   color: var(--color-third);
 }
+@media (max-width: 480px) {
+  a {
+    font-size: 12px;
+  }
+}
 </style>

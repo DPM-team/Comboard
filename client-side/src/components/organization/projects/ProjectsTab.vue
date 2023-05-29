@@ -77,4 +77,21 @@ a:active {
     width: calc(100% - 45px);
   }
 }
+@media (max-width: 400px) {
+  .links-container {
+    text-align: center;
+    padding: 15px;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    border: solid 1px white;
+    padding-top: 5px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 5px;
+  }
+}
 </style>

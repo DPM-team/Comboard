@@ -32,9 +32,8 @@
           </form>
         </div>
         <div class="right-col">
-          <h4 class="search-area-demo">Search area</h4>
           <div class="members-list">
-            <h2>Team members</h2>
+            <h2 class="my-h2">Team members</h2>
             <ul>
               <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="true"></button-options-item-list>
             </ul>
@@ -96,10 +95,14 @@ export default {
 };
 </script>
 <style scoped>
+.my-h2 {
+  color: var(--color-primary);
+}
 .members-list {
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  width: 250px;
+  width: 70%;
+  margin-top: 40px;
 }
 ul {
   list-style-type: none;
@@ -222,12 +225,14 @@ ul {
   background-color: #000875;
   border-color: #000875;
 }
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .left-col {
     width: 100%;
+    padding-left: 0;
   }
   .right-col {
     width: 100%;
+    padding-left: 0;
   }
 }
 </style>
