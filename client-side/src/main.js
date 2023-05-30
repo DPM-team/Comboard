@@ -81,12 +81,14 @@ import {
   faFileZipper,
   faFileAudio,
   faFileVideo,
+  faSquarePlus,
 } from "@fortawesome/free-regular-svg-icons";
 
 import { faGoogle, faApple, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 /* add icons to the library */
 library.add(
+  faSquarePlus,
   faFileVideo,
   faFileAudio,
   faFileZipper,
