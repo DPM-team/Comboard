@@ -66,11 +66,32 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { faComment, faFilePdf, faFileWord, faFileExcel, faImage, faFileImage, faFile, faClipboard } from "@fortawesome/free-regular-svg-icons";
+import {
+  faComment,
+  faFilePdf,
+  faFileWord,
+  faFileExcel,
+  faImage,
+  faFileImage,
+  faFile,
+  faClipboard,
+  faFilePowerpoint,
+  faFileLines,
+  faFileCode,
+  faFileZipper,
+  faFileAudio,
+  faFileVideo,
+} from "@fortawesome/free-regular-svg-icons";
+
 import { faGoogle, faApple, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 /* add icons to the library */
 library.add(
+  faFileVideo,
+  faFileAudio,
+  faFileZipper,
+  faFileCode,
+  faFileLines,
   faPeopleGroup,
   faCalendarDays,
   faListCheck,
@@ -122,7 +143,8 @@ library.add(
   faGlobe,
   faClipboard,
   faEllipsis,
-  faTrashCan
+  faTrashCan,
+  faFilePowerpoint
 );
 
 const app = createApp(App);

@@ -31,25 +31,57 @@ export default {
     return {
       fileName: this.name?.length > 30 ? this.name.slice(0, 27) + "..." : this.name,
       fileLoading: true,
+      iconMap: {
+        doc: "fa-regular fa-file-word",
+        docx: "fa-regular fa-file-word",
+        xls: "fa-regular fa-file-excel",
+        xlsx: "fa-regular fa-file-excel",
+        ppt: "fa-regular fa-file-powerpoint",
+        pptx: "fa-regular fa-file-powerpoint",
+        pdf: "fa-regular fa-file-pdf",
+        txt: "fa-regular fa-file-lines",
+        csv: "fa-regular fa-file-lines",
+        rtf: "fa-regular fa-file-lines",
+        html: "fa-regular fa-file-code",
+        htm: "fa-regular fa-file-code",
+        xml: "fa-regular fa-file-code",
+        json: "fa-regular fa-file-code",
+        js: "fa-regular fa-file-code",
+        css: "fa-regular fa-file-code",
+        java: "fa-regular fa-file-code",
+        py: "fa-regular fa-file-code",
+        vue: "fa-regular fa-file-code",
+        c: "fa-regular fa-file-code",
+        zip: "fa-regular fa-file-zipper",
+        rar: "fa-regular fa-file-zipper",
+        "7z": "fa-regular fa-file-zipper",
+        tar: "fa-regular fa-file-zipper",
+        gz: "fa-regular fa-file-zipper",
+        gzip: "fa-regular fa-file-zipper",
+        bmp: "fa-regular fa-file-image",
+        jpg: "fa-regular fa-file-image",
+        jpeg: "fa-regular fa-file-image",
+        png: "fa-regular fa-file-image",
+        gif: "fa-regular fa-file-image",
+        tiff: "fa-regular fa-file-image",
+        tif: "fa-regular fa-file-image",
+        mp3: "fa-regular fa-file-audio",
+        mp4: "fa-regular fa-file-video",
+        svg: "fa-regular fa-file-video",
+        wav: "fa-regular fa-file-video",
+        aac: "fa-regular fa-file-video",
+        ogg: "fa-regular fa-file-video",
+        mov: "fa-regular fa-file-video",
+        avi: "fa-regular fa-file-video",
+        wmv: "fa-regular fa-file-video",
+        flv: "fa-regular fa-file-video",
+      },
     };
   },
   methods: {
     getIcon() {
-      switch (this.type) {
-        case "application/pdf":
-          return "fa-regular fa-file-pdf";
-        case "application/msword":
-          return "fa-regular fa-file-word";
-        case "xls":
-        case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-          return "fa-regular fa-file-excel";
-        case "image/png":
-        case "image/jpeg":
-        case "image/jpg":
-          return "fa-regular fa-file-image";
-        default:
-          return "fa-regular fa-file";
-      }
+      const extension = this.name.split(".").pop().toLowerCase();
+      return this.iconMap[extension] || "fa-regular fa-file";
     },
     allowPreview() {
       if (this.type === "application/pdf" || this.type === "image/png" || this.type === "image/jpeg") {
