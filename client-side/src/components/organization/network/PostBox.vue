@@ -15,8 +15,8 @@
         <textarea v-model="contentString" class="edit-post"></textarea>
         <input type="submit" value="Edit" />
       </form>
-
-      <img class="post-img" v-if="contentMedia" :src="media" />
+      <img class="post-img" v-if="contentMedia && media" :src="media" />
+      <base-spinner v-else-if="contentMedia && !media" class="post-img media"></base-spinner>
     </div>
     <div class="like-comment-container">
       <p>
@@ -241,6 +241,10 @@ export default {
   padding: 5px;
   width: 150px;
   margin: 0 auto;
+}
+
+.media {
+  background-color: #ebeef2;
 }
 
 .post-box {
