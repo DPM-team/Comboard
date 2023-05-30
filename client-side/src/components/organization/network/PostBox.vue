@@ -32,7 +32,9 @@
           <font-awesome-icon class="post-comment-button" type="submit" :icon="['fas', 'paper-plane']" @click="createComment" />
         </form>
       </div>
-      <comment-item v-for="comment in nextComments" :key="comment._id" :comment="comment.content" :commenter="comment.commenter" :pictureLink="comment.pictureLink"></comment-item>
+      <div class="comments-done">
+        <comment-item v-for="comment in nextComments" :key="comment._id" :comment="comment.content" :commenter="comment.commenter" :pictureLink="comment.pictureLink"></comment-item>
+      </div>
     </div>
   </div>
 </template>
@@ -346,6 +348,11 @@ export default {
   margin-left: 10px;
   color: var(--color-primary);
   cursor: pointer;
+}
+
+.comments-done {
+  overflow-y: auto;
+  max-height: 240px;
 }
 
 @media (max-width: 770px) {
