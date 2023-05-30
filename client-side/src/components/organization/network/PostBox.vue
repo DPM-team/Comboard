@@ -15,8 +15,8 @@
         <textarea v-model="contentString" class="edit-post"></textarea>
         <input type="submit" value="Edit" />
       </form>
-      <img class="post-img" v-if="contentMedia && media" :src="media" />
-      <base-spinner v-else-if="contentMedia && !media" class="post-img media"></base-spinner>
+      <img class="post-img" v-if="media" :src="media" />
+      <base-spinner v-else-if="!this.contentMedia && !media" class="post-img media"></base-spinner>
     </div>
     <div class="like-comment-container">
       <p>
@@ -51,7 +51,7 @@ import PfpFullnameArea from "./PfpFullnameArea.vue";
 
 export default {
   components: { CommentItem, PfpFullnameArea },
-  props: ["id", "content", "creatorID", "contentMedia", "firstname", "lastname", "pictureLink", "likes", "comments", "date"],
+  props: ["id", "content", "creatorID", "firstname", "lastname", "pictureLink", "likes", "comments", "date"],
   data() {
     return {
       haveLike: false,
@@ -64,7 +64,7 @@ export default {
       contentString: "",
       nextComments: [],
       dateFormat: "",
-      p: null,
+      contentMedia: null,
       media: "",
       modal: false,
       numOpenModal: 0,
@@ -98,19 +98,21 @@ export default {
       }
     },
     async setMedia() {
-      const p = await this.$store.dispatch("getPostMedia", {
+      this.contentMedia = await this.$store.dispatch("getPostMedia", {
         organizationID: this.$store.getters.selectedOrganizationID,
         postID: this.id,
       });
 
-      const q = new File([p], "name");
-      const reader = new FileReader();
+      if (this.contentMedia.size !== 0) {
+        const file = new File([this.contentMedia], "name");
+        const reader = new FileReader();
 
-      reader.onload = () => {
-        this.media = reader.result;
-      };
+        reader.onload = () => {
+          this.media = reader.result;
+        };
 
-      reader.readAsDataURL(q);
+        reader.readAsDataURL(file);
+      }
     },
     setEditTextArea(b) {
       this.editPostArea = b;
@@ -227,9 +229,7 @@ export default {
     this.contentString = this.content;
     this.setPhoto();
     this.setDate();
-    if (this.contentMedia) {
-      this.setMedia();
-    }
+    this.setMedia();
   },
 };
 </script>

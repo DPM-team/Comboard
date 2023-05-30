@@ -106,10 +106,7 @@ export default {
     },
     async setprofilePhoto() {
       const response = await fetch(this.pictureLink);
-      const succesMessage = await response.json();
-      if (succesMessage?.profilePhoto) {
-        this.profilePhoto = succesMessage.profilePhoto;
-      }
+      this.profilePhoto = await response.text();
     },
     setWarning(boolean) {
       this.warning = boolean;

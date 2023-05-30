@@ -26,7 +26,6 @@ export default {
     }
   },
   async loadPosts(context, payload) {
-    const userID = payload.userID;
     const organizationID = payload.organizationID;
     const skip = payload.skip;
 
@@ -39,7 +38,7 @@ export default {
     };
 
     try {
-      const response = await fetch(`/api/network/posts?userID=${userID}&organizationID=${organizationID}&skip=${skip}`, requestOptions);
+      const response = await fetch(`/api/network/posts?organizationID=${organizationID}&skip=${skip}`, requestOptions);
 
       const data = await response.json();
 

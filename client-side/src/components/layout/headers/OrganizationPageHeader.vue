@@ -114,10 +114,7 @@ export default {
   methods: {
     async setPhoto() {
       const response = await fetch(`/api/users/${this.$store.getters.loggedUserID}/profilephoto`);
-      const succesMessage = await response.json();
-      if (succesMessage?.profilePhoto) {
-        this.profilePhoto = succesMessage.profilePhoto;
-      }
+      this.profilePhoto = await response.text();
     },
     viewMyProfile() {
       this.$router.push("/organization/my-profile");

@@ -2,14 +2,13 @@
   <organization-page-tab layout="flex">
     <div class="main-section" @scroll="loadNextPosts">
       <create-post-box :pictureLink="`/api/users/${this.$store.getters.loggedUserID}/profilephoto`" @create-post="loadCreatedPost"></create-post-box>
-      <base-spinner v-if="spinner && posts.length === 0"></base-spinner>
+      <base-spinner v-if="loadingPosts && posts.length === 0"></base-spinner>
       <post-box
-        v-else-if="!spinner && posts.length > 0"
+        v-else-if="posts.length > 0"
         v-for="post in posts"
         :key="post.id"
         :id="post.id"
         :content="post.content"
-        :contentMedia="post.contentMedia"
         :firstname="post.name"
         :lastname="post.surname"
         :image="post.contentMedia"
@@ -56,8 +55,6 @@ export default {
       },
       posts: [],
       message: "",
-      spinner: false,
-
       loadingPosts: false,
       skip: 0,
       /* For post context menu */
@@ -66,7 +63,7 @@ export default {
         x: 0,
         y: 0,
       },
-      edit: false,
+      editText: false,
     };
   },
   methods: {
@@ -77,7 +74,6 @@ export default {
         name: "",
         surname: "",
         creatorID: post.creatorID,
-        contentMedia: post.contentMedia,
         pictureLink: `/api/users/${post.creatorID}/profilePhoto`,
         likes: post.likes,
         comments: post.comments,
@@ -85,8 +81,8 @@ export default {
       });
     },
     editPost() {
-      this.edit = !this.edit;
-      this.$refs[this.activePostID][0].setEditTextArea(this.edit);
+      this.editText = !this.editText;
+      this.$refs[this.activePostID][0].setEditTextArea(this.editText);
     },
     async deletePost() {
       try {
@@ -112,24 +108,12 @@ export default {
     async loadPosts() {
       try {
         let posts = await this.$store.dispatch("loadPosts", {
-          userID: this.$store.getters.loggedUserID,
           organizationID: this.$store.getters.selectedOrganizationID,
           skip: this.skip,
         });
 
         const nextPosts = posts.allPosts.map((post) => {
-          return {
-            id: post.postObj._id,
-            content: post.postObj.contentString,
-            contentMedia: post.postObj.contentMedia,
-            name: post.creatorObj.name,
-            surname: post.creatorObj.surname,
-            creatorID: post.postObj.creatorID,
-            pictureLink: `/api/users/${post.postObj.creatorID}/profilePhoto`,
-            likes: post.postObj?.likes,
-            comments: post.postObj?.comments,
-            date: new Date(post.postObj.createdAt),
-          };
+          return this.structurePost(post);
         });
 
         if (nextPosts.length > 0) {
@@ -140,6 +124,19 @@ export default {
       } catch (error) {
         this.message = error.message || "Something went wrong!";
       }
+    },
+    structurePost(post) {
+      return {
+        id: post.postObj._id,
+        content: post.postObj.contentString,
+        name: post.creatorObj.name,
+        surname: post.creatorObj.surname,
+        creatorID: post.postObj.creatorID,
+        pictureLink: `/api/users/${post.postObj.creatorID}/profilePhoto`,
+        likes: post.postObj?.likes,
+        comments: post.postObj?.comments,
+        date: new Date(post.postObj.createdAt),
+      };
     },
     async loadNextPosts() {
       try {
@@ -160,7 +157,7 @@ export default {
       };
     },
     closeContextMenu() {
-      if (this.edit) {
+      if (this.editText) {
         this.editPost();
       }
 
@@ -171,9 +168,9 @@ export default {
     },
   },
   async created() {
-    this.spinner = true;
+    this.loadingPosts = true;
     await this.loadPosts();
-    this.spinner = false;
+    this.loadingPosts = false;
   },
   beforeUnmount() {
     this.removeEventListeners();

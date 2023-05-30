@@ -112,7 +112,7 @@ const getPostsICreateForAnOrganization = async (req, res) => {
 
 const getCurrentPosts = async (req, res) => {
   try {
-    const userID = req.query.userID;
+    const userID = req.user._id;
     const organizationID = req.query.organizationID;
     const skip = req.query.skip;
 
@@ -134,6 +134,7 @@ const getCurrentPosts = async (req, res) => {
         populate: {
           path: "posts",
           model: "post",
+          select: "-contentMedia",
           match: {
             createdAt: {
               $gte: moment().subtract(7, "days").toDate(),

@@ -22,10 +22,7 @@ export default {
   methods: {
     async setProfilePhoto() {
       const response = await fetch(this.pictureLink);
-      const succesMessage = await response.json();
-      if (succesMessage?.profilePhoto) {
-        this.profilePhoto = succesMessage.profilePhoto;
-      }
+      this.profilePhoto = await response.text();
     },
     async sendRequest() {
       try {
