@@ -17,8 +17,10 @@
         :creatorID="post.creatorID"
         :likes="post.likes"
         :comments="post.comments"
+        :ref="post.id"
         :date="post.date"
         @openPostOptions="showContextMenu"
+        @finishEdit="editPost"
       ></post-box>
     </div>
     <div class="side-section">
@@ -28,8 +30,8 @@
     <base-context-menu v-if="activePostID !== null" :position="menuPosition">
       <template #options>
         <li @click="closeContextMenu()">Cancel</li>
-        <li>Edit</li>
-        <li>Delete</li>
+        <li @click="editPost"><font-awesome-icon :icon="['fas', 'pen']"></font-awesome-icon>&nbsp;Edit</li>
+        <li @click="deletePost"><font-awesome-icon :icon="['fas', 'trash-can']" /> Delete</li>
       </template>
     </base-context-menu>
   </organization-page-tab>
@@ -64,6 +66,7 @@ export default {
         x: 0,
         y: 0,
       },
+      edit: false,
     };
   },
   methods: {
@@ -81,6 +84,31 @@ export default {
         date: new Date(post.createdAt),
       });
     },
+    editPost() {
+      this.edit = !this.edit;
+      this.$refs[this.activePostID][0].setEditTextArea(this.edit);
+    },
+    async deletePost() {
+      try {
+        const successMessage = await this.$store.dispatch("deletePost", {
+          postID: this.activePostID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+        console.log(successMessage.message);
+
+        const index = this.posts.findIndex((post) => {
+          return post.id === this.activePostID;
+        });
+
+        if (index > -1) {
+          this.posts.splice(index, 1);
+        }
+        this.closeContextMenu();
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
     async loadPosts() {
       try {
         let posts = await this.$store.dispatch("loadPosts", {
@@ -132,6 +160,10 @@ export default {
       };
     },
     closeContextMenu() {
+      if (this.edit) {
+        this.editPost();
+      }
+
       this.activePostID = null;
     },
     removeEventListeners() {

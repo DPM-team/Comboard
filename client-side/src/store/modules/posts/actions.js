@@ -209,4 +209,66 @@ export default {
       throw new Error(e);
     }
   },
+
+  async editPost(context, payload) {
+    try {
+      const postID = payload.postID;
+      const organizationID = payload.organizationID;
+      const editContent = payload.editText;
+
+      const requestOptions = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+        body: JSON.stringify({ content: editContent }),
+      };
+
+      const response = await fetch(`/api/post/edit?postID=${postID}&organizationID=${organizationID}`, requestOptions);
+
+      return await response.json();
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
+  async deletePost(context, payload) {
+    try {
+      const postID = payload.postID;
+      const organizationID = payload.organizationID;
+
+      const requestOptions = {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+      };
+
+      const response = await fetch(`/api/post/delete?postID=${postID}&organizationID=${organizationID}`, requestOptions);
+
+      return await response.json();
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
+
+  async getPostMedia(context, payload) {
+    try {
+      const organizationID = payload.organizationID;
+      const postID = payload.postID;
+
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+      };
+
+      const response = await fetch(`/api/post/media?organizationID=${organizationID}&postID=${postID}`, requestOptions);
+
+      return await response.blob();
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
 };

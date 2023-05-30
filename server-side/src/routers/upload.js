@@ -77,7 +77,7 @@ router.get("/api/users/:id/profilephoto", async (req, res) => {
     }
 
     res.set("Content-Type", "image/png");
-    res.send({ profilePhoto: user.profilePhoto, message });
+    res.send(user.profilePhoto);
   } catch (error) {
     console.log(error);
     res.status(400).send(error);

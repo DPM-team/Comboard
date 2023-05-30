@@ -371,6 +371,55 @@ const commentsOfPost = async (req, res) => {
   }
 };
 
+const getPostMedia = async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+    const postID = req.query.postID;
+
+    if (!organizationID) {
+      throw new Error("Orgaization ID is required");
+    }
+
+    if (!postID) {
+      throw new Error("Post ID is required");
+    }
+
+    const userData = await Data.findOne({
+      userID: req.user._id,
+      organizationID,
+    }).select("organizationID posts");
+
+    if (!userData) {
+      throw new Error("User data must be existed");
+    }
+
+    await userData.populate({ path: "organizationID", model: "organization" });
+
+    const post = await Post.findById(postID);
+
+    const creatorUserData = await Data.findOne({
+      userID: post.creatorID,
+      organizationID,
+    });
+
+    if (
+      !userData.posts.includes(mongoose.Types.ObjectId(postID)) &&
+      !userData.organizationID.posts.includes(mongoose.Types.ObjectId(postID)) &&
+      !creatorUserData.posts.includes(mongoose.Types.ObjectId(postID))
+    ) {
+      throw new Error("Post id must to be included at least in organization or in connection's list.");
+    }
+
+    const media = post.contentMedia;
+
+    res.set("Content-Type", "image/png");
+
+    res.status(200).send(media);
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
 const getUsersLikePost = async (req, res) => {
   try {
     const organizationID = req.query.organizationID;
@@ -439,7 +488,7 @@ const editPost = async (req, res) => {
     }
 
     if (!editContent) {
-      throw new Error();
+      throw new Error("");
     }
 
     const userOrgData = await Data.findOne({ userID: req.user._id, organizationID }).populate({ path: "organizationID", model: "organization" }).select("organizationID posts");
@@ -462,8 +511,9 @@ const editPost = async (req, res) => {
 
     await post.save();
 
-    res.status(200).send();
+    res.status(200).send({ succesMessage: "Edit has completed", content: post.contentString });
   } catch (e) {
+    console.log(e);
     res.status(400).send(e);
   }
 };
@@ -499,7 +549,7 @@ const deletePost = async (req, res) => {
 
     await post.delete();
 
-    res.status(201).send();
+    res.status(201).send({ message: "Post deleted correctly" });
   } catch (e) {
     console.log(e);
     res.status(400).send(e);
@@ -517,4 +567,5 @@ module.exports = {
   getUsersLikePost,
   editPost,
   deletePost,
+  getPostMedia,
 };

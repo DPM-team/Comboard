@@ -23,7 +23,10 @@
             <div class="button-container">
               <label class="button" for="image">Add Image</label>
               <input id="image" type="file" ref="file" @input="getFile" />
-              <button v-if="this.postMedia" @click="removeMedia">Remove</button>
+              <div v-if="this.postMedia" @click="removeMedia">
+                <label>Remove</label>
+                <font-awesome-icon :icon="['fas', 'trash-can']" />
+              </div>
             </div>
             <input v-model="postContent" type="text" class="post-input" @input="setWarning(false)" />
             <input type="submit" @click="createPost" class="post-button" value="Post" />

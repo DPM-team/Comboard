@@ -34,7 +34,11 @@ router.put("/api/post/like", authentication, postControllers.toogleUserLike);
 // Router to check if a user likes a post or not
 router.get("/api/post/isliked", authentication, postControllers.isLiked);
 
+router.get("/api/post/media", authentication, postControllers.getPostMedia);
+
 router.put("/api/post/edit", authentication, postControllers.editPost);
+
+router.delete("/api/post/delete", authentication, postControllers.deletePost);
 
 router.get("/api/post/like/users", authentication, postControllers.getUsersLikePost);
 

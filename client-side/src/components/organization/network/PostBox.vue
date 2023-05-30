@@ -7,11 +7,16 @@
       </div>
       <h2>{{ firstname }} {{ lastname }}</h2>
       <h4>{{ dateFormat }}</h4>
-      <font-awesome-icon :icon="['fas', 'ellipsis']" class="ellipsis-info" ref="ellipsis" @click.prevent="openOptions($event)" />
+      <font-awesome-icon v-if="this.creatorID === this.$store.getters.loggedUserID" :icon="['fas', 'ellipsis']" class="ellipsis-info" ref="ellipsis" @click.prevent="openOptions($event)" />
     </div>
     <div class="paragraph-container">
-      <p>{{ content }}</p>
-      <img class="post-img" v-if="contentMedia" />
+      <p v-if="!editPostArea">{{ contentString }}</p>
+      <form v-else @submit.prevent="editPost">
+        <textarea v-model="contentString" class="edit-post"></textarea>
+        <input type="submit" value="Edit" />
+      </form>
+
+      <img class="post-img" v-if="contentMedia" :src="media" />
     </div>
     <div class="like-comment-container">
       <p>
@@ -44,47 +49,7 @@ import PfpFullnameArea from "./PfpFullnameArea.vue";
 
 export default {
   components: { CommentItem, PfpFullnameArea },
-  props: {
-    id: {
-      type: String,
-      required: true,
-    },
-    content: {
-      type: String,
-      required: true,
-    },
-    creatorID: {
-      type: String,
-    },
-    contentMedia: {
-      type: Object,
-      required: false,
-    },
-    firstname: {
-      type: String,
-      required: true,
-    },
-    lastname: {
-      type: String,
-      required: true,
-    },
-    pictureLink: {
-      type: String,
-      required: true,
-    },
-    likes: {
-      type: Array,
-      required: true,
-    },
-    comments: {
-      type: Array,
-      required: true,
-    },
-    date: {
-      type: Date,
-      required: true,
-    },
-  },
+  props: ["id", "content", "creatorID", "contentMedia", "firstname", "lastname", "pictureLink", "likes", "comments", "date"],
   data() {
     return {
       haveLike: false,
@@ -93,9 +58,12 @@ export default {
       showCommentSection: false,
       profilePhoto: "",
       usersLikePost: [],
+      editPostArea: false,
+      contentString: "",
       nextComments: [],
       dateFormat: "",
       p: null,
+      media: "",
       modal: false,
       numOpenModal: 0,
     };
@@ -108,16 +76,6 @@ export default {
   },
   methods: {
     async toogleLike() {
-      const reader = new FileReader();
-      const file = new File([new Blob(this.contentMedia?.data)], "io", { type: "image/png" });
-
-      reader.onload = async () => {
-        this.p = reader.result;
-        console.log(this.p);
-      };
-
-      reader.readAsDataURL(file);
-
       this.haveLike = !this.haveLike;
 
       if (this.haveLike) {
@@ -137,9 +95,27 @@ export default {
         console.log(error.message || "Something went wrong!");
       }
     },
+    async setMedia() {
+      const p = await this.$store.dispatch("getPostMedia", {
+        organizationID: this.$store.getters.selectedOrganizationID,
+        postID: this.id,
+      });
+
+      const q = new File([p], "name");
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.media = reader.result;
+      };
+
+      reader.readAsDataURL(q);
+    },
+    setEditTextArea(b) {
+      this.editPostArea = b;
+    },
+
     toggleModal() {
       this.modal = !this.modal;
-      console.log(this.modal);
       if (this.modal && this.numOpenModal === 0) {
         this.usersLiked();
       }
@@ -148,11 +124,24 @@ export default {
     },
     async setPhoto() {
       const response = await fetch(this.pictureLink);
-      const succesMessage = await response.json();
-      if (succesMessage?.profilePhoto) {
-        this.profilePhoto = succesMessage.profilePhoto;
+      const photo = await response.text();
+      this.profilePhoto = photo;
+    },
+    async editPost() {
+      try {
+        const successMessage = await this.$store.dispatch("editPost", {
+          postID: this.id,
+          organizationID: this.$store.getters.selectedOrganizationID,
+          editText: this.contentString,
+        });
+
+        this.contentString = successMessage.content;
+        this.$emit("finish-edit");
+      } catch (e) {
+        console.log(e);
       }
     },
+
     async usersLiked() {
       try {
         const successMessage = await this.$store.dispatch("loadUsersLikePost", {
@@ -228,13 +217,17 @@ export default {
     openOptions(evt) {
       const rect = evt.target.getBoundingClientRect();
       const leftNavBarWidth = document.querySelector("#organization-left-navbar").getBoundingClientRect()?.width || 150;
-      this.$emit("open-post-options", rect.left - leftNavBarWidth + 15, rect.top - 60, this.listID);
+      this.$emit("open-post-options", rect.left - leftNavBarWidth + 15, rect.top - 60, this.id);
     },
   },
   created() {
     this.isLiked();
+    this.contentString = this.content;
     this.setPhoto();
     this.setDate();
+    if (this.contentMedia) {
+      this.setMedia();
+    }
   },
 };
 </script>
@@ -301,6 +294,11 @@ export default {
 .like-comment-container > p {
   width: 70%;
   font-size: 14px;
+}
+
+.edit-post {
+  width: 100%;
+  height: 80px;
 }
 
 .ellipsis-info {
