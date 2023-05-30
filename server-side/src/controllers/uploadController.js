@@ -29,7 +29,7 @@ const storageFileUpload = async (req, res) => {
 
     await userOrgData.save();
 
-    return res.status(200).json({ successMessage: "File stored with success!" });
+    return res.status(200).json({ successMessage: "File stored with success!", storedFile: fileObj });
   } catch (error) {
     console.error(error); // Log the error for debugging purposes
     res.status(500).json({ error: "Server error." });

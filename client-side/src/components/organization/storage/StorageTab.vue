@@ -65,7 +65,7 @@ export default {
               file: files[file],
             });
 
-            console.log(successData);
+            this.files.push(successData.storedFile);
           } catch (error) {
             console.log(error.message || "Something went wrong!");
           }
