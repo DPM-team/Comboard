@@ -3,7 +3,7 @@
     <upload-file-button @fileData="getData"></upload-file-button>
     <div class="load-file">
       <base-spinner v-if="loadingUploadedFile"></base-spinner>
-      <p v-else class="chosen-file">{{ selectedFile?.name || "No file chosen" }}</p>
+      <p v-else class="chosen-file">No file chosen</p>
     </div>
     <div class="files-container">
       <base-spinner v-if="loadingFiles"></base-spinner>
@@ -36,7 +36,6 @@ export default {
   components: { FileItem, OrganizationPageTab, UploadFileButton, BaseSpinner, BaseContextMenu },
   data() {
     return {
-      selectedFile: null,
       files: [],
       limit: 12,
       page: 1,
@@ -54,26 +53,26 @@ export default {
   },
   methods: {
     //Insert into selected file the object of file.
-    async getData(value) {
+    async getData(files) {
       this.loadingUploadedFile = true;
-      this.selectedFile = value;
 
-      try {
-        const successData = await this.$store.dispatch("storageFileUpload", {
-          userID: this.$store.getters.loggedUserID,
-          organizationID: this.$store.getters.selectedOrganizationID,
-          file: this.selectedFile,
-        });
+      for (const file in files) {
+        if (files[file] instanceof File) {
+          try {
+            const successData = await this.$store.dispatch("storageFileUpload", {
+              userID: this.$store.getters.loggedUserID,
+              organizationID: this.$store.getters.selectedOrganizationID,
+              file: files[file],
+            });
 
-        console.log(successData);
-      } catch (error) {
-        console.log(error.message || "Something went wrong!");
+            console.log(successData);
+          } catch (error) {
+            console.log(error.message || "Something went wrong!");
+          }
+        }
       }
 
       this.loadingUploadedFile = false;
-      setTimeout(() => {
-        this.selectedFile = null;
-      }, 3000);
     },
     async loadFiles() {
       try {
