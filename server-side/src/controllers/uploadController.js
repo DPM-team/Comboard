@@ -21,7 +21,7 @@ const storageFileUpload = async (req, res) => {
       return res.status(404).json({ error: "User's data for this organization doesn't found!" });
     }
 
-    const fileObj = new File({ name: req.file.originalname, type: req.file.mimetype, binary: req.file.buffer });
+    const fileObj = new File({ name: Buffer.from(req.file.originalname, "latin1").toString("utf8"), type: req.file.mimetype, binary: req.file.buffer });
 
     await fileObj.save();
 
