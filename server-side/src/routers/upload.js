@@ -13,7 +13,11 @@ const storageUpload = multer({
     fileSize: 10 * 1024 * 1024, // 10MB limit,
   },
   fileFilter(req, file, callback) {
-    if (!file.originalname.match(/\.(doc|docx|png|pdf|jpeg|jpg|xls|xlsx)$/)) {
+    if (
+      !file.originalname.match(
+        /\.(doc|docx|xls|xlsx|ppt|pptx|pdf|txt|csv|rtf|html|htm|xml|json|js|css|java|py|vue|c|zip|rar|7z|tar|gz|gzip|bmp|jpg|jpeg|png|gif|tiff|tif|svg|mp3|wav|aac|ogg|mp4|mov|avi|wmv|flv)$/
+      )
+    ) {
       return callback(new Error("The type of file is not correct."));
     }
 

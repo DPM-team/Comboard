@@ -1,6 +1,6 @@
 <template>
   <organization-page-tab :layout="'block'" class="scroll">
-    <base-button @click="createTeamLink()">Create Team</base-button>
+    <div class="button-container"><base-button @click="createTeamLink()">Create Team</base-button></div>
     <div class="teams-page-container">
       <div class="links-container">
         <router-link to="/organization/teams/participate">My Teams</router-link>
@@ -36,6 +36,10 @@ export default {
 </script>
 
 <style scoped>
+.button-container {
+  margin-top: 10px;
+  margin-left: 10px;
+}
 .scroll {
   overflow-y: auto;
 }

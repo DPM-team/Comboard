@@ -1,7 +1,7 @@
 <template>
   <div class="button-container">
     <label class="button" for="upload">Upload File</label>
-    <input id="upload" type="file" @change="input()" ref="fileInput" />
+    <input id="upload" type="file" @change="input()" multiple ref="fileInput" />
   </div>
 </template>
 
@@ -12,7 +12,7 @@ export default {
   },
   methods: {
     input() {
-      this.$emit("fileData", this.$refs.fileInput.files[0]);
+      this.$emit("fileData", this.$refs.fileInput.files);
     },
   },
 };

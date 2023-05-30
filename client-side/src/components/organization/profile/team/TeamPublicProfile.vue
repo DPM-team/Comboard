@@ -5,24 +5,24 @@
       <router-view name="dialog"></router-view>
       <div class="team-page-container">
         <div class="left-col">
+          <div class="image-container"><img class="team-picture" src="../../../../assets/images/common-images/team-photo.jpg" alt="Team photo" /></div>
           <h1 class="team-name">
             <span class="highlight">{{ teamObj?.name }}</span>
           </h1>
           <p>{{ teamObj?.description }}</p>
-          <h2 v-if="supervisorObj">Supervisor: {{ supervisorObj?.fullname }}</h2>
+          <h2 class="supervisor" v-if="supervisorObj">Supervisor: {{ supervisorObj?.fullname }}</h2>
         </div>
         <div class="right-col">
           <div class="projects-list">
-            <h2>Projects of {{ teamObj?.name }}</h2>
-            <p v-if="projects.length === 0 && loaded">No projects found</p>
+            <h2 class="my-h2">Projects of {{ teamObj?.name }}</h2>
+            <p class="my-p" v-if="projects.length === 0 && loaded">No projects found</p>
             <ul v-else>
               <button-options-item-list v-for="project in projects" :key="project.id" :text="project.name" :isPrivateProfile="false"></button-options-item-list>
             </ul>
           </div>
-          <h4 class="search-area-demo">Search area</h4>
           <div class="members-list">
-            <h2>Team members</h2>
-            <p v-if="members.length === 0 && loaded">No members found</p>
+            <h2 class="my-h2">Team members</h2>
+            <p class="my-p" v-if="members.length === 0 && loaded">No members found</p>
             <ul v-else>
               <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false"></button-options-item-list>
             </ul>
@@ -103,6 +103,24 @@ export default {
 };
 </script>
 <style scoped>
+.supervisor {
+  font-size: 30px;
+  text-align: center;
+}
+.my-h2 {
+  color: var(--color-primary);
+}
+.my-p {
+  padding-top: 10px;
+}
+.image-container {
+  display: flex;
+  justify-content: center;
+}
+.team-picture {
+  width: 70%;
+}
+
 .left-col p {
   text-align: center;
   font-size: 18px;
@@ -116,7 +134,8 @@ export default {
 .projects-list {
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  width: 250px;
+  width: 70%;
+  margin: 20px auto;
 }
 ul {
   list-style-type: none;
@@ -164,17 +183,36 @@ ul {
 }
 .right-col {
   width: 40%;
-  padding-left: 40px;
+  /* padding-left: 40px; */
   box-sizing: border-box;
+  display: block;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .left-col {
     width: 100%;
     padding-bottom: 40px;
+    padding-left: 0;
   }
   .right-col {
     width: 100%;
+  }
+}
+@media (max-width: 500px) {
+  .team-name {
+    font-size: 45px;
+    padding-top: 40px;
+    line-height: 1.35;
+    margin-top: 40px;
+    text-align: center;
+  }
+  .supervisor {
+    font-size: 25px;
+  }
+}
+@media (max-width: 400px) {
+  .supervisor {
+    font-size: 22px;
   }
 }
 </style>

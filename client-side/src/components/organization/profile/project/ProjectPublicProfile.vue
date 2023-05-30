@@ -5,17 +5,18 @@
       <router-view name="dialog"></router-view>
       <div class="project-page-container">
         <div class="left-col">
+          <div class="image-container"><img class="project-picture" src="../../../../assets/images/common-images/project-photo.jpg" alt="Team photo" /></div>
           <h1 class="project-name">
             <span class="highlight">{{ projectObj?.name }}</span>
           </h1>
           <p>{{ projectObj?.description }}</p>
-          <h2 v-if="supervisorObj">Supervisor: {{ supervisorObj?.fullname }}</h2>
+          <p>{{ projectObj?.belongsTo }}</p>
+          <h2 class="supervisor" v-if="supervisorObj">Supervisor: {{ supervisorObj?.fullname }}</h2>
         </div>
         <div class="right-col">
-          <h4 class="search-area-demo">Search area</h4>
           <div class="members-list">
-            <h2>Project members</h2>
-            <p v-if="members.length === 0 && loaded">No members found</p>
+            <h2 class="my-h2">Project members</h2>
+            <p class="my-p" v-if="members.length === 0 && loaded">No members found</p>
             <ul v-else>
               <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false"></button-options-item-list>
             </ul>
@@ -88,10 +89,27 @@ export default {
 };
 </script>
 <style scoped>
+.supervisor {
+  font-size: 30px;
+  text-align: center;
+}
+.my-h2 {
+  color: var(--color-primary);
+}
+.my-p {
+  padding-top: 10px;
+}
+.image-container {
+  display: flex;
+  justify-content: center;
+}
+.project-picture {
+  width: 70%;
+}
 .left-col p {
   text-align: center;
   font-size: 18px;
-  padding: 40px;
+  padding: 10px;
   margin-top: 10px;
 }
 
@@ -103,7 +121,8 @@ export default {
 .projects-list {
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  width: 250px;
+  width: 70%;
+  margin: 20px auto;
 }
 
 ul {
@@ -159,14 +178,33 @@ ul {
   box-sizing: border-box;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .left-col {
     width: 100%;
     padding-bottom: 40px;
+    padding-left: 0;
   }
 
   .right-col {
     width: 100%;
+    padding-left: 0;
+  }
+}
+@media (max-width: 500px) {
+  .project-name {
+    font-size: 45px;
+    padding-top: 40px;
+    line-height: 1.35;
+    margin-top: 40px;
+    text-align: center;
+  }
+  .supervisor {
+    font-size: 25px;
+  }
+}
+@media (max-width: 400px) {
+  .supervisor {
+    font-size: 22px;
   }
 }
 </style>

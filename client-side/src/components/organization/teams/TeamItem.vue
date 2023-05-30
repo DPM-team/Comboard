@@ -1,6 +1,6 @@
 <template>
   <li>
-    <base-card width="90%" bgColor="white">
+    <div class="team-item">
       <header>
         <h3>{{ teamName }}</h3>
         <nav>
@@ -9,7 +9,7 @@
         </nav>
       </header>
       <p>{{ teamDescription }}</p>
-    </base-card>
+    </div>
   </li>
 </template>
 
@@ -33,6 +33,12 @@ export default {
 </script>
 
 <style scoped>
+.team-item {
+  width: 90%;
+  background: white;
+  padding: 15px;
+  margin-top: 5px;
+}
 li {
   list-style-type: none;
   margin: auto;
@@ -57,6 +63,7 @@ p {
 a {
   text-decoration: none;
   color: var(--color-primary);
+  margin-left: 5px;
 }
 
 a:hover,
