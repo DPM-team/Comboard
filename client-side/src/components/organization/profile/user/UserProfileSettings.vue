@@ -2,7 +2,7 @@
   <div class="profile-settings">
     <base-spinner v-if="isLoading"></base-spinner>
     <h4 v-else-if="!isLoading && message">{{ message }}</h4>
-    <form v-else enctype="multipart/form-data" class="personal-information" method="post">
+    <form v-else enctype="multipart/form-data" class="personal-information" @submit.prevent="updateProfile">
       <h2>Update your profile</h2>
       <div class="inputBox">
         <input class="disabled" type="text" name="firstname" :value="userObj.firstname || '-'" disabled title="Can changed on dashboard profile settings" />
@@ -48,7 +48,7 @@
         <span>Bio</span>
       </div>
       <div class="inputBox">
-        <input type="file" name="profile-picture" value="" />
+        <input type="file" name="profile-picture" ref="file" />
         <span id="fixed">Profile picture</span>
       </div>
       <div class="inputBox">
@@ -69,8 +69,10 @@ export default {
       userObj: null,
       isLoading: false,
       message: "",
+      profilePicture: "",
     };
   },
+
   methods: {
     async loadUserPublicData() {
       try {
@@ -89,6 +91,31 @@ export default {
       } catch (error) {
         console.log(error.message || "Something went wrong!");
         this.$router.push("/not-found");
+      }
+    },
+    async updateProfile() {
+      try {
+        const file = this.$refs.file?.files[0];
+
+        const blob = await this.$store.dispatch("updateProfilePhoto", {
+          file,
+        });
+
+        if (blob.size !== 0) {
+          const fileSend = new File([blob], `${file.name}`);
+          const fileReader = new FileReader();
+
+          fileReader.onload = () => {
+            this.profilePicture = fileReader.result;
+            this.$store.commit("setProfilePhoto", {
+              profilePhoto: this.profilePicture,
+            });
+          };
+
+          fileReader.readAsDataURL(fileSend);
+        }
+      } catch (e) {
+        console.log(e);
       }
     },
   },

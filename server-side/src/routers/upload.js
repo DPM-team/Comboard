@@ -60,7 +60,8 @@ router.post(
       .toBuffer();
     req.user.profilePhoto = buffer;
     await req.user.save();
-    res.send();
+    res.set("Content-Type", "image/png");
+    res.send(req.user.profilePhoto);
   },
   (error, req, res, next) => {
     res.status(400).send({ error: error.message });

@@ -25,7 +25,11 @@
       <font-awesome-icon @click="toogleLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
       <base-dialog v-if="modal" :title="likePopUpTitle" :overlay="true" @close="toggleModal">
         <template #main>
-          <pfp-fullname-area v-for="user of usersLikePost" :key="user._id" :firstname="user.name" :lastname="user.surname" :pictureLink="'google.com'" :profilePhoto="''"></pfp-fullname-area>
+          <div v-if="usersLikePost.length > 0">
+            <pfp-fullname-area v-for="user of usersLikePost" :key="user._id" :id="user._id" :firstname="user.name" :lastname="user.surname"></pfp-fullname-area>
+          </div>
+
+          <p v-else>No users write now</p>
         </template>
       </base-dialog>
       <font-awesome-icon @click="writeComment" class="post-icon" icon="fa-regular fa-comment" />
@@ -152,9 +156,7 @@ export default {
           organizationID: this.$store.getters.selectedOrganizationID,
           postID: this.id,
         });
-
         this.usersLikePost.push(...successMessage.users);
-        console.log(this.usersLikePost);
       } catch (e) {
         console.log(e);
       }

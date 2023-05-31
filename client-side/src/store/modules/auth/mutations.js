@@ -4,13 +4,4 @@ export default {
     state.loggedUserID = payload.userID;
     state.loggedUserToken = payload.token;
   },
-
-  setUserInfo(state, payload) {
-    state.name = payload.name;
-    state.surname = payload.surname;
-  },
-
-  setProfilePhoto(state, payload) {
-    state.userImage = payload.photo;
-  },
 };

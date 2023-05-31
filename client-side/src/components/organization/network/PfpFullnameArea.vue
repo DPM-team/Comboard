@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="pfp-container">
-      <img v-if="profilePhoto !== ''" class="user-pfp" :src="pictureLink" />
+      <img v-if="profileUrl" class="user-pfp" :src="profileUrl" />
       <font-awesome-icon v-else class="user-icon" :icon="['fas', 'user']"></font-awesome-icon>
     </div>
     <h2>{{ firstname }} {{ lastname }}</h2>
@@ -10,7 +10,37 @@
 
 <script>
 export default {
-  props: ["profilePhoto", "pictureLink", "firstname", "lastname"],
+  props: ["id", "firstname", "lastname"],
+  data() {
+    return {
+      profileUrl: "",
+    };
+  },
+  methods: {
+    async pictureProfile() {
+      try {
+        const blob = await this.$store.dispatch("getUserProfile", {
+          userID: this.id,
+        });
+
+        if (blob.size !== 0) {
+          const file = new File([blob], "g");
+          const fileReader = new FileReader();
+
+          fileReader.onload = () => {
+            this.profileUrl = fileReader.result;
+          };
+
+          fileReader.readAsDataURL(file);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  },
+  created() {
+    this.pictureProfile();
+  },
 };
 </script>
 
