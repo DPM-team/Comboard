@@ -64,6 +64,8 @@ import {
   faGlobe,
   faEllipsis,
   faTrashCan,
+  faArrowUpAZ,
+  faArrowDownAZ,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -88,6 +90,8 @@ import { faGoogle, faApple, faLinkedin } from "@fortawesome/free-brands-svg-icon
 
 /* add icons to the library */
 library.add(
+  faArrowUpAZ,
+  faArrowDownAZ,
   faSquarePlus,
   faFileVideo,
   faFileAudio,
