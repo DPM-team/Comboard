@@ -2,6 +2,7 @@
   <div class="item">
     <h3>{{ itemTitle }}</h3>
     <p>{{ itemDescription }}</p>
+    <slot></slot>
   </div>
 </template>
 

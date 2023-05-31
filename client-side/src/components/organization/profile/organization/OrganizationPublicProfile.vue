@@ -14,6 +14,7 @@
           <h3 v-if="organizationObj.email">{{ organizationObj.email }}</h3>
           <h3 v-if="organizationObj.location">{{ organizationObj.location }}</h3>
           <p v-if="organizationObj.description">{{ organizationObj.description }}</p>
+          <base-button v-if="isModerator">Edit organization</base-button>
         </div>
         <div class="right__col">
           <div class="menu-ul">
@@ -32,12 +33,13 @@
 </template>
 
 <script>
+import BaseButton from "../../../basic-components/BaseButton.vue";
 import BackHeaderButton from "../../../layout/headers/BackHeaderButton.vue";
 import OrganizationPageHeader from "../../../layout/headers/OrganizationPageHeader.vue";
 import NewsList from "../../network/NewsList.vue";
 
 export default {
-  components: { OrganizationPageHeader, NewsList, BackHeaderButton },
+  components: { OrganizationPageHeader, NewsList, BackHeaderButton, BaseButton },
   data() {
     return {
       organizationName: "Comboard",
@@ -52,6 +54,7 @@ export default {
       projects: [],
       posts: [],
       isLoading: false,
+      isModerator: false,
     };
   },
   methods: {
@@ -86,6 +89,7 @@ export default {
   margin-top: 10px;
   height: 30vh;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 .organization-data h2 {
   font-size: 48px;

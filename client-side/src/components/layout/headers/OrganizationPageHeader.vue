@@ -89,7 +89,7 @@
           </div>
         </li>
       </div>
-      <p class="notification-item" v-else>No Notifications Now</p>
+      <p class="notification-item" v-else>No Notifications</p>
     </header-toggle-option>
   </div>
 </template>
@@ -317,6 +317,7 @@ export default {
   padding: 13px 10px 13px 10px;
   display: flex;
   cursor: pointer;
+  border: solid 1px var(--color-primary);
 }
 
 .message p {
