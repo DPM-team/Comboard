@@ -5,8 +5,11 @@
     </div>
     <div class="content">
       <organization-item v-for="organization in organizations" :key="organization.id" :id="organization.id" :name="organization.name" @openOptions="showContextMenu"></organization-item>
-      <div class="no-org-message" v-if="organizations.length === 0 && !isLoading">
-        <h2>No organizations..</h2>
+      <div v-if="organizations.length === 0 && this.$store.getters.isSearchMade">
+        <h2>No results found based on your search!</h2>
+      </div>
+      <div class="no-org-message" v-if="organizations.length === 0 && !isLoading && !this.$store.getters.isSearchMade">
+        <h2>No organizations...</h2>
         <h4>Join your organization using its license key or create one with a few steps!</h4>
       </div>
     </div>

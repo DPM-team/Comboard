@@ -9,6 +9,9 @@ export default {
 
     return state.organizations;
   },
+  isSearchMade(state) {
+    return state.searchIsMade;
+  },
   isOrganizationSelected(state) {
     return !!state.selectedOrganizationID;
   },
