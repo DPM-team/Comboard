@@ -7,6 +7,8 @@ const organizationModule = {
     return {
       selectedOrganizationID: null,
       organizations: new Array(),
+      searchedOrganizations: new Array(),
+      searchIsMade: false,
     };
   },
   mutations,

@@ -66,6 +66,9 @@ export default {
       this.dialogIsOpen = true;
     },
   },
+  beforeRouteLeave() {
+    this.$store.commit("toogleSearchIsMade", false);
+  },
 };
 </script>
 

@@ -1,8 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="searchOrganization()">
-      <input type="text" v-model="input" placeholder="Search organizations..." />
-    </form>
+    <input type="text" v-model="insertedChars" placeholder="Search organizations..." @keyup="searchOrganization()" />
   </div>
 </template>
 
@@ -10,12 +8,16 @@
 export default {
   data() {
     return {
-      input: "",
+      insertedChars: "",
     };
   },
   methods: {
-    searchOrganization() {
-      console.log("Search");
+    async searchOrganization() {
+      if (this.insertedChars.trim()) {
+        await this.$store.dispatch("searchOrganizations", { startsWith: this.insertedChars });
+      } else {
+        this.$store.commit("toogleSearchIsMade", false);
+      }
     },
   },
 };

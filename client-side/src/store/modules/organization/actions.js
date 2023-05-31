@@ -116,6 +116,18 @@ export default {
       throw new Error(error.message || "Error get user's organization!");
     }
   },
+  async searchOrganizations(context, payload) {
+    const startsWith = payload.startsWith.toLowerCase();
+
+    const results = context.state.organizations.filter((organizationObj) => {
+      return organizationObj.name.toLowerCase().startsWith(startsWith);
+    });
+
+    context.commit("setSearchedOrganizations", results);
+    context.commit("toogleSearchIsMade", true);
+
+    return results;
+  },
   async getOrganizationPublicData(context, payload) {
     const organizationID = payload.organizationID;
 
