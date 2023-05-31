@@ -11,13 +11,12 @@
         :content="post.content"
         :firstname="post.name"
         :lastname="post.surname"
-        :image="post.contentMedia"
         :pictureLink="post.pictureLink"
         :creatorID="post.creatorID"
         :likes="post.likes"
         :comments="post.comments"
-        :ref="post.id"
         :date="post.date"
+        :ref="post.id"
         @openPostOptions="showContextMenu"
         @finishEdit="editPost"
       ></post-box>
@@ -30,7 +29,7 @@
       <template #options>
         <li @click="closeContextMenu()">Cancel</li>
         <li @click="editPost"><font-awesome-icon :icon="['fas', 'pen']"></font-awesome-icon>&nbsp;Edit</li>
-        <li @click="deletePost"><font-awesome-icon :icon="['fas', 'trash-can']" /> Delete</li>
+        <li @click="deletePost"><font-awesome-icon :icon="['fas', 'trash-can']" />Delete</li>
       </template>
     </base-context-menu>
   </organization-page-tab>
@@ -48,11 +47,6 @@ export default {
   components: { CreatePostBox, PostBox, ConnectionSuggestionList, NewsList, OrganizationPageTab, BaseContextMenu },
   data() {
     return {
-      myUser: {
-        firstname: "Dio",
-        lastname: "Lou",
-        pictureLink: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhC1BfJUBAGyB8eSCKJT1VJIx7kfshsuRqztK1q3g&s",
-      },
       posts: [],
       message: "",
       loadingPosts: false,
@@ -104,7 +98,6 @@ export default {
         console.log(e);
       }
     },
-
     async loadPosts() {
       try {
         let posts = await this.$store.dispatch("loadPosts", {
@@ -118,7 +111,6 @@ export default {
 
         if (nextPosts.length > 0) {
           this.posts.push(...nextPosts);
-
           this.skip = this.skip + nextPosts.length;
         }
       } catch (error) {
@@ -160,7 +152,6 @@ export default {
       if (this.editText) {
         this.editPost();
       }
-
       this.activePostID = null;
     },
     removeEventListeners() {

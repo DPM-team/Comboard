@@ -166,4 +166,44 @@ export default {
       return new Error();
     }
   },
+  async getUserProfile(context, payload) {
+    try {
+      const userID = payload.userID;
+
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+      };
+
+      const response = await fetch(`/api/users/${userID}/profilephoto`, requestOptions);
+
+      return await response.blob();
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
+
+  async updateProfilePhoto(context, payload) {
+    try {
+      const file = payload.file;
+      const formdata = new FormData();
+      formdata.append("upload", file, file.name);
+
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+        body: formdata,
+      };
+
+      const response = await fetch("/api/user/upload/profilephoto", requestOptions);
+
+      return response.blob();
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
 };

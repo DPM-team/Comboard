@@ -41,14 +41,25 @@ export default {
         surname: successData.surname,
       });
 
-      const profilePhoto = await fetch(`/api/users/${successData.userObj._id}/profilePhoto`);
-
-      const photo = await profilePhoto.arrayBuffer();
-      localStorage.setItem("profilePhoto", photo);
-
-      context.commit("setProfilePhoto", {
-        photo,
+      const blob = await context.dispatch("getUserProfile", {
+        userID: successData.userObj._id,
       });
+
+      if (blob.size !== 0) {
+        const file = new File([blob], "", {
+          type: "image/png",
+        });
+        const fileReader = new FileReader();
+
+        fileReader.onload = () => {
+          const profilePhoto = fileReader.result;
+          context.commit("setProfilePhoto", {
+            profilePhoto,
+          });
+        };
+
+        fileReader.readAsDataURL(file);
+      }
     } catch (error) {
       throw new Error(error.message || "Internal Server Error: Failed to authenticate.");
     }
@@ -91,7 +102,7 @@ export default {
       throw new Error(error.message || "Internal Server Error: Failed to register.");
     }
   },
-  tryAutoLogin(context) {
+  async tryAutoLogin(context) {
     const userID = localStorage.getItem("userID");
     const token = localStorage.getItem("token");
     const name = localStorage.getItem("name");
@@ -109,6 +120,26 @@ export default {
         name,
         surname,
       });
+    }
+
+    const blob = await context.dispatch("getUserProfile", {
+      userID,
+    });
+
+    if (blob.size !== 0) {
+      const file = new File([blob], "", {
+        type: "image/png",
+      });
+      const fileReader = new FileReader();
+
+      fileReader.onload = () => {
+        const profilePhoto = fileReader.result;
+        context.commit("setProfilePhoto", {
+          profilePhoto,
+        });
+      };
+
+      fileReader.readAsDataURL(file);
     }
   },
   async logout(context) {

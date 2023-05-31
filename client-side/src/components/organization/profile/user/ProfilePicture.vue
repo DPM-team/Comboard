@@ -1,12 +1,30 @@
 <template>
   <div class="img__container">
-    <img :src="pfp" alt="User Profile Pic" />
+    <img :src="profilePhoto" alt="User Profile Pic" />
     <slot></slot>
   </div>
 </template>
+
 <script>
 export default {
   props: ["pfp"],
+  data() {
+    return {
+      profilePhoto: "",
+    };
+  },
+
+  created() {
+    this.$store.watch(
+      () => this.$store.getters.profilePhoto,
+
+      (photo) => {
+        this.profilePhoto = photo;
+
+        console.log(photo);
+      }
+    );
+  },
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <organization-page-header><back-header-button></back-header-button></organization-page-header>
     <div v-if="userObj" class="header__wrapper">
       <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
