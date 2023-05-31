@@ -2,15 +2,15 @@
   <div class="teams-container">
     <base-spinner v-if="isLoading"></base-spinner>
     <h4 v-else-if="!isLoading && message">{{ message }}</h4>
-    <team-item v-for="team in teams" :key="team.id" :teamID="team.id" :teamName="team.name" :teamDescription="team.description"></team-item>
+    <organization-profile-list-item v-else v-for="team in teams" :key="team.id" :itemTitle="team.name" :itemDescription="team.description"></organization-profile-list-item>
   </div>
 </template>
 
 <script>
-import TeamItem from "../../teams/TeamItem.vue";
+import OrganizationProfileListItem from "./OrganizationProfileListItem.vue";
 
 export default {
-  components: { TeamItem },
+  components: { OrganizationProfileListItem },
   data() {
     return {
       teams: new Array(),

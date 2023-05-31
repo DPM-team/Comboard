@@ -1,10 +1,10 @@
 <template>
   <organization-page-tab :layout="'block'" class="scroll">
-    <div class="button-container"><base-button @click="createTeamLink()">Create Team</base-button></div>
     <div class="teams-page-container">
       <div class="links-container">
         <router-link to="/organization/teams/participate">My Teams</router-link>
         <router-link to="/organization/teams/all">All Teams</router-link>
+        <font-awesome-icon class="create-team--icon" icon="fa-regular fa-square-plus" size="2xl" style="color: #0a3c5f" @click="createTeamLink()" title="Create team" />
       </div>
       <router-view></router-view>
     </div>
@@ -36,17 +36,20 @@ export default {
 </script>
 
 <style scoped>
-.button-container {
-  margin-top: 10px;
-  margin-left: 10px;
-}
 .scroll {
   overflow-y: auto;
 }
+
+.create-team--icon {
+  cursor: pointer;
+  margin-left: 5px;
+}
+
 .teams-page-container {
   margin-top: 20px;
   width: calc(100% - 200px);
 }
+
 .links-container {
   text-align: center;
   padding: 20px;
@@ -82,6 +85,7 @@ a:active {
     width: calc(100% - 180px);
   }
 }
+
 @media (max-width: 1150px) {
   .teams-page-container {
     width: calc(100% - 80px);
@@ -93,6 +97,7 @@ a:active {
     width: calc(100% - 55px);
   }
 }
+
 @media (max-width: 450px) {
   .teams-page-container {
     width: calc(100% - 45px);

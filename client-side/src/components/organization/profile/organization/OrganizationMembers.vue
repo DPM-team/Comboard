@@ -2,11 +2,13 @@
   <div class="members-container">
     <base-spinner v-if="isLoading"></base-spinner>
     <h4 v-else-if="!isLoading && message">{{ message }}</h4>
-    <h4 v-else v-for="member in members" :key="member.id">{{ member.fullname }}</h4>
+    <organization-profile-list-item v-else v-for="member in members" :key="member.id" :itemTitle="member.fullname" :itemDescription="member.specialization"></organization-profile-list-item>
   </div>
 </template>
 
 <script>
+import OrganizationProfileListItem from "./OrganizationProfileListItem.vue";
+
 export default {
   data() {
     return {
@@ -15,6 +17,7 @@ export default {
       message: "",
     };
   },
+  components: { OrganizationProfileListItem },
   methods: {
     async loadOrganizationMembers() {
       try {

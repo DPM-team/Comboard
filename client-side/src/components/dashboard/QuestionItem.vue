@@ -1,20 +1,31 @@
 <template>
-  <div class="accordion-item" :id="id" @click="showAnswer()">
+  <div class="accordion-item" :id="id">
     <a class="accordion-link" :href="questionLink">
       {{ title }}
       <!-- <font-awesome-icon :icon="['fas', 'angle-down']" /> -->
     </a>
     <div class="answer">
-      <p>
-        {{ answer }}
-      </p>
+      <p>{{ answer }}</p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["id", "title", "answer"],
+  props: {
+    id: {
+      type: Number,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    answer: {
+      type: String,
+      required: true,
+    },
+  },
   computed: {
     questionLink() {
       return `#question${this.id}`;

@@ -26,20 +26,18 @@ export default {
       updateNeeded: false,
       isLoading: false,
       selectedColor: "blue",
-      attributes: [
-        {
-          key: "today",
-          highlight: {
-            color: "red",
-            fillMode: "light",
-          },
-          dates: new Date(),
-          popover: {
-            label: "Today",
-            visibility: "click",
-          },
+      todayObj: {
+        key: "today",
+        highlight: {
+          color: "red",
+          fillMode: "light",
         },
-      ],
+        dates: new Date(),
+        popover: {
+          label: "Today",
+          visibility: "click",
+        },
+      },
     };
   },
   methods: {
@@ -52,22 +50,21 @@ export default {
           organizationID: this.$store.getters.selectedOrganizationID,
         });
 
-        this.attributes = [
-          ...this.attributes,
-          ...successData.taskDates.map((todoObj) => {
-            return {
-              key: todoObj._id,
-              highlight: {
-                color: "blue",
-              },
-              dates: todoObj.dates,
-              popover: {
-                label: todoObj.title,
-                visibility: "click",
-              },
-            };
-          }),
-        ];
+        this.attributes = successData.taskDates.map((todoObj) => {
+          return {
+            key: todoObj._id,
+            highlight: {
+              color: "blue",
+            },
+            dates: todoObj.dates,
+            popover: {
+              label: todoObj.title,
+              visibility: "click",
+            },
+          };
+        });
+
+        this.attributes.push(this.todayObj);
 
         this.isLoading = false;
         this.updateNeeded = true;

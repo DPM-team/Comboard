@@ -108,8 +108,8 @@ export default {
 </script>
 <style scoped>
 .lists-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: block;
+  padding-left: 50px;
 }
 .members-list,
 .projects-list {
@@ -443,6 +443,15 @@ ul {
   .menu-ul {
     display: flex;
     justify-content: center;
+  }
+}
+@media (max-width: 800px) {
+  .settings {
+    width: 100%;
+  }
+  .lists-container {
+    width: 100%;
+    padding-left: 0;
   }
 }
 </style>

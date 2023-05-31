@@ -2,7 +2,7 @@
   <base-dialog title="Create Team" @close="closeDialog">
     <template #main>
       <base-message v-if="submitMessage" :message="submitMessage" :mode="messageType"></base-message>
-      <form id="create-team--form" @submit.prevent="submitFormToCreate">
+      <form id="create-team--form" @submit.prevent="submitFormToCreate()">
         <input v-model="teamName" id="team-name" class="create-team--input" type="text" name="team-name" placeholder="Team's name" required />
         <div class="textarea-control">
           <label for="team-description">Team's description</label>

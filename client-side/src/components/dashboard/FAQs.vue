@@ -11,6 +11,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import QuestionItem from "./QuestionItem.vue";
 
@@ -59,7 +60,6 @@ export default {
 .help-page-container {
   width: 100%;
   padding: 2rem 0;
-
   background-position: center;
   background-size: cover;
   display: flex;
