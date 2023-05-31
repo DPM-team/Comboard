@@ -82,8 +82,10 @@ export default {
 
 <style scoped>
 .dynamic-area {
-  width: 95%;
+  width: 100%;
   margin-top: 10px;
+  height: 30vh;
+  overflow-y: auto;
 }
 .organization-data h2 {
   font-size: 48px;
