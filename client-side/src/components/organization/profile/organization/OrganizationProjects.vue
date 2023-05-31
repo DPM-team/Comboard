@@ -2,15 +2,15 @@
   <div class="projects-container">
     <base-spinner v-if="isLoading"></base-spinner>
     <h4 v-else-if="!isLoading && message">{{ message }}</h4>
-    <project-item v-else v-for="project in projects" :key="project.id" :projectID="project.id" :projectName="project.name" :projectDescription="project.description"></project-item>
+    <organization-profile-list-item v-else v-for="project in projects" :key="project.id" :itemTitle="project.name" :itemDescription="project.description"></organization-profile-list-item>
   </div>
 </template>
 
 <script>
-import ProjectItem from "../../projects/ProjectItem.vue";
+import OrganizationProfileListItem from "./OrganizationProfileListItem.vue";
 
 export default {
-  components: { ProjectItem },
+  components: { OrganizationProfileListItem },
   data() {
     return {
       projects: new Array(),

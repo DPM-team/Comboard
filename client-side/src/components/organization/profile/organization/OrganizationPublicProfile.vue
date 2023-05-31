@@ -6,7 +6,7 @@
         <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
       </div>
       <div class="img__container">
-        <img :src="organizationPfp" alt="User Profile Pic" />
+        <img :src="organizationPfp" alt="Organization Profile Pic" />
       </div>
       <div class="main-area">
         <div class="organization-data">
@@ -17,10 +17,10 @@
         </div>
         <div class="right__col">
           <div class="menu-ul">
-            <router-link class="link" to="/organization/my-organization/posts">Posts</router-link>
-            <router-link class="link" to="/organization/my-organization/members">Members</router-link>
-            <router-link class="link" to="/organization/my-organization/teams">Teams</router-link>
-            <router-link class="link" to="/organization/my-organization/projects">Projects</router-link>
+            <router-link class="menu-link" to="/organization/my-organization/posts">Posts</router-link>
+            <router-link class="menu-link" to="/organization/my-organization/members">Members</router-link>
+            <router-link class="menu-link" to="/organization/my-organization/teams">Teams</router-link>
+            <router-link class="menu-link" to="/organization/my-organization/projects">Projects</router-link>
           </div>
           <router-view class="dynamic-area"></router-view>
         </div>
@@ -44,7 +44,7 @@ export default {
       location: "Thessaloniki",
       email: "example@gmail.com",
       bio: "Comboard is an organization that blah blah blah blah blah blah blah blah blah blah blah blah",
-      organizationPfp: "https://www.uom.gr/site/images/logos/UOMLOGOGR.jpg",
+      organizationPfp: "",
       backgroundImage: "https://parallaximag.gr/wp-content/uploads/pamak-1280x720.jpg",
       organizationObj: null,
       members: [],
@@ -81,6 +81,10 @@ export default {
 </script>
 
 <style scoped>
+.dynamic-area {
+  width: 95%;
+  margin-top: 10px;
+}
 .organization-data h2 {
   font-size: 48px;
   padding-top: 10px;
@@ -147,15 +151,8 @@ export default {
   padding: 0;
 }
 
-.menu-ul .link {
-  margin-left: 25px;
-  font-size: 18px;
-  text-decoration: none;
-  color: black;
-}
-
-.menu-ul .link {
-  margin-left: 25px;
+.menu-link {
+  margin-left: 20px;
   font-size: 18px;
   text-decoration: none;
   color: black;
