@@ -8,7 +8,7 @@
     </div>
     <h4 v-if="message">{{ message }}</h4>
     <h4 v-if="teams?.length === 0">You aren't member of any team!</h4>
-    <ul v-else>
+    <ul class="ul" v-else>
       <team-item v-for="team in teams" :key="team.id" :teamID="team.id" :teamName="team.name" :teamDescription="team.description"></team-item>
     </ul>
   </div>
@@ -54,6 +54,10 @@ export default {
 </script>
 
 <style scoped>
+.ul {
+  height: 70vh;
+  overflow-y: auto;
+}
 h1,
 h4 {
   text-align: center;

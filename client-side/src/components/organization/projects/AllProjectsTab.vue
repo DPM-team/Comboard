@@ -5,7 +5,7 @@
       <base-spinner></base-spinner>
     </div>
     <h4 v-if="message">{{ message }}</h4>
-    <ul v-else>
+    <ul class="ul" v-else>
       <project-item v-for="project in projects" :key="project.id" :projectID="project.id" :projectName="project.name" :projectDescription="project.description"></project-item>
     </ul>
   </div>
@@ -50,6 +50,10 @@ export default {
 </script>
 
 <style scoped>
+.ul {
+  height: 70vh;
+  overflow-y: auto;
+}
 h1,
 h4 {
   text-align: center;
