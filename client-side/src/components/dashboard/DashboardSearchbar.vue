@@ -1,12 +1,8 @@
 <template>
   <div>
-    <input type="text" v-model="input" placeholder="Search organizations..." />
-    <!-- <div class="item organization" v-for="organization in filteredList()" :key="organization">
-      <p>{{ organization }}</p>
-    </div> -->
-    <div class="item error" v-if="input && !filteredList().length">
-      <p>No results found!</p>
-    </div>
+    <form @submit.prevent="searchOrganization()">
+      <input type="text" v-model="input" placeholder="Search organizations..." />
+    </form>
   </div>
 </template>
 
@@ -15,30 +11,11 @@ export default {
   data() {
     return {
       input: "",
-      organizations: [
-        {
-          id: 1,
-          title: "Organization1",
-          imageLink: "",
-        },
-        {
-          id: 2,
-          title: "Organization2",
-          imageLink: "",
-        },
-        {
-          id: 3,
-          title: "Organization3",
-          imageLink: "",
-        },
-      ],
     };
   },
   methods: {
-    filteredList() {
-      return this.organizations.filter((organization) => {
-        organization.title.toLowerCase().includes(this.input.value.toLowerCase());
-      });
+    searchOrganization() {
+      console.log("Search");
     },
   },
 };
@@ -88,6 +65,7 @@ input {
     margin-left: 40px;
   }
 }
+
 @media (max-width: 500px) {
   input {
     width: 200px;
@@ -99,6 +77,7 @@ input {
     margin-left: 20px;
   }
 }
+
 @media (max-width: 400px) {
   input {
     width: 160px;

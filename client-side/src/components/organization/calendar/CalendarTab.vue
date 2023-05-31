@@ -101,6 +101,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
+  padding-top: 10px;
 }
 
 .btn--container {

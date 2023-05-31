@@ -38,6 +38,10 @@ const dataSchema = mongoose.Schema({
     type: Buffer,
     required: false,
   },
+  bannerPhoto: {
+    type: Buffer,
+    required: false,
+  },
   teams: new Array({
     type: mongoose.Schema.Types.ObjectId,
     ref: "team",

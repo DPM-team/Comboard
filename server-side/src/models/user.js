@@ -89,10 +89,6 @@ const userSchema = mongoose.Schema(
       type: String,
       required: false,
     },
-    profilePhoto: {
-      type: Buffer,
-      required: false,
-    },
     tokens: new Array({
       token: {
         type: String,
