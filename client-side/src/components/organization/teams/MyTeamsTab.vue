@@ -3,10 +3,11 @@
     <!-- For the pop up dialog for the team creation -->
     <router-view name="dialog"></router-view>
     <h1>My Teams</h1>
-    <div v-if="isLoading && teams.length === 0 && !message">
+    <div v-if="isLoading && teams?.length === 0 && !message">
       <base-spinner></base-spinner>
     </div>
     <h4 v-if="message">{{ message }}</h4>
+    <h4 v-if="teams?.length === 0">You aren't member of any team!</h4>
     <ul v-else>
       <team-item v-for="team in teams" :key="team.id" :teamID="team.id" :teamName="team.name" :teamDescription="team.description"></team-item>
     </ul>
@@ -21,25 +22,26 @@ export default {
   components: { TeamItem, BaseSpinner },
   data() {
     return {
-      teams: [],
       isLoading: false,
       message: "",
     };
+  },
+  computed: {
+    teams() {
+      return this.$store.getters.getMyTeams;
+    },
   },
   methods: {
     async loadUserTeams() {
       try {
         this.isLoading = true;
 
-        this.teams = await this.$store.dispatch("getUserTeams", { userID: this.$store.getters.loggedUserID, organizationID: this.$store.getters.selectedOrganizationID });
+        await this.$store.dispatch("getUserTeams", {
+          userID: this.$store.getters.loggedUserID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
 
         this.isLoading = false;
-
-        if (this.teams.length === 0) {
-          this.message = "You aren't member of any team!";
-        } else {
-          this.message = "";
-        }
       } catch (error) {
         this.message = error.message || "Something went wrong!";
       }

@@ -42,7 +42,7 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
-  async getUserTeams(_, payload) {
+  async getUserTeams(context, payload) {
     const userID = payload.userID;
     const organizationID = payload.organizationID;
 
@@ -52,6 +52,7 @@ export default {
       const data = await response.json();
 
       if (response.ok) {
+        context.commit("setMyTeamsArray", { myTeams: data?.teams });
         return data?.teams;
       } else {
         throw new Error(data.error); // Throw error to be caught in the component

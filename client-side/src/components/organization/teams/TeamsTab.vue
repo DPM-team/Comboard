@@ -42,6 +42,7 @@ export default {
 
 .create-team--icon {
   cursor: pointer;
+  margin-left: 5px;
 }
 
 .teams-page-container {

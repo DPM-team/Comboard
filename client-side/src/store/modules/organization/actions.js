@@ -183,7 +183,7 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
-  async getOrganizationTeams(_, payload) {
+  async getOrganizationTeams(context, payload) {
     const organizationID = payload.organizationID;
 
     try {
@@ -192,6 +192,7 @@ export default {
       const data = await response.json();
 
       if (response.ok) {
+        context.commit("setAllTeamsArray", { allTeams: data?.teams });
         return data?.teams;
       } else {
         throw new Error(data.error); // Throw error to be caught in the component
