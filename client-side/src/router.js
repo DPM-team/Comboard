@@ -45,6 +45,8 @@ import OrganizationPosts from "./components/organization/profile/organization/Or
 import OrganizationTeams from "./components/organization/profile/organization/OrganizationTeams.vue";
 import OrganizationProjects from "./components/organization/profile/organization/OrganizationProjects.vue";
 import OrganizationMembers from "./components/organization/profile/organization/OrganizationMembers.vue";
+import PrivacyPolicyPage from "./components/pages/PrivacyPolicyPage.vue";
+import UserAgreementPage from "./components/pages/UserAgreementPage.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -59,6 +61,16 @@ const router = createRouter({
       meta: {
         requiresNonAuthenticated: true,
       },
+      children: [
+        {
+          path: "privacy-policy",
+          component: PrivacyPolicyPage,
+        },
+        {
+          path: "user-agreement",
+          component: UserAgreementPage,
+        },
+      ],
     },
     {
       path: "/login",

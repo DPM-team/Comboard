@@ -1,7 +1,7 @@
 <template>
   <div class="posts-container">
     <base-spinner v-if="isLoading"></base-spinner>
-    <h4 v-else-if="!isLoading && message">{{ message }}</h4>
+    <h4 style="padding: 30px" v-else-if="!isLoading && message">{{ message }}</h4>
     <post-box
       v-else
       v-for="post in posts"

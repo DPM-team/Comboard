@@ -7,7 +7,7 @@
       <base-spinner></base-spinner>
     </div>
     <h4 v-if="message">{{ message }}</h4>
-    <h4 v-if="teams?.length === 0">You aren't member of any team!</h4>
+    <h4 v-else-if="teams?.length === 0 && !isLoading">You aren't member of any team!</h4>
     <ul class="ul" v-else>
       <team-item v-for="team in teams" :key="team.id" :teamID="team.id" :teamName="team.name" :teamDescription="team.description"></team-item>
     </ul>

@@ -113,33 +113,33 @@ export default {
         userID,
         token,
       });
-    }
 
-    if (name && surname) {
-      context.commit("setUserInfo", {
-        name,
-        surname,
-      });
-    }
-
-    const blob = await context.dispatch("getUserProfile", {
-      userID,
-    });
-
-    if (blob.size !== 0) {
-      const file = new File([blob], "", {
-        type: "image/png",
-      });
-      const fileReader = new FileReader();
-
-      fileReader.onload = () => {
-        const profilePhoto = fileReader.result;
-        context.commit("setProfilePhoto", {
-          profilePhoto,
+      if (name && surname) {
+        context.commit("setUserInfo", {
+          name,
+          surname,
         });
-      };
+      }
 
-      fileReader.readAsDataURL(file);
+      const blob = await context.dispatch("getUserProfile", {
+        userID,
+      });
+
+      if (blob.size !== 0) {
+        const file = new File([blob], "", {
+          type: "image/png",
+        });
+        const fileReader = new FileReader();
+
+        fileReader.onload = () => {
+          const profilePhoto = fileReader.result;
+          context.commit("setProfilePhoto", {
+            profilePhoto,
+          });
+        };
+
+        fileReader.readAsDataURL(file);
+      }
     }
   },
   async logout(context) {

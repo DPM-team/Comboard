@@ -116,6 +116,18 @@ export default {
       throw new Error(error.message || "Error get user's organization!");
     }
   },
+  async searchOrganizations(context, payload) {
+    const startsWith = payload.startsWith.toLowerCase();
+
+    const results = context.state.organizations.filter((organizationObj) => {
+      return organizationObj.name.toLowerCase().startsWith(startsWith);
+    });
+
+    context.commit("setSearchedOrganizations", results);
+    context.commit("toogleSearchIsMade", true);
+
+    return results;
+  },
   async getOrganizationPublicData(context, payload) {
     const organizationID = payload.organizationID;
 
@@ -201,7 +213,7 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
-  async getOrganizationProjects(_, payload) {
+  async getOrganizationProjects(context, payload) {
     const organizationID = payload.organizationID;
 
     try {
@@ -210,6 +222,7 @@ export default {
       const data = await response.json();
 
       if (response.ok) {
+        context.commit("setAllProjectsArray", { allProjects: data?.projects });
         return data?.projects;
       } else {
         throw new Error(data.error); // Throw error to be caught in the component

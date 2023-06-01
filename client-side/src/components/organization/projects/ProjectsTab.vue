@@ -2,6 +2,8 @@
   <organization-page-tab :layout="'block'">
     <div class="projects-page-container">
       <div class="links-container">
+        <font-awesome-icon class="sort-project--icon" icon="fa-solid fa-arrow-down-a-z" size="xl" style="color: #0a3c5f" title="Sort Projects in ascending order" @click="ascendingProjectsSort()" />
+        <font-awesome-icon class="sort-project--icon" icon="fa-solid fa-arrow-up-a-z" size="xl" style="color: #0a3c5f" title="Sort Projects in descending order" @click="descendingProjectsSort()" />
         <router-link to="/organization/projects/participate">My Projects</router-link>
         <router-link to="/organization/projects/all">All Projects</router-link>
       </div>
@@ -18,6 +20,30 @@ export default {
   data() {
     return {};
   },
+  methods: {
+    ascendingProjectsSort() {
+      if (this.$route.path === "/organization/projects/participate") {
+        this.$store.getters.getMyProjects.sort((projectA, projectB) => {
+          return projectA.name.localeCompare(projectB.name);
+        });
+      } else if (this.$route.path === "/organization/projects/all") {
+        this.$store.getters.getAllProjects.sort((projectA, projectB) => {
+          return projectA.name.localeCompare(projectB.name);
+        });
+      }
+    },
+    descendingProjectsSort() {
+      if (this.$route.path === "/organization/projects/participate") {
+        this.$store.getters.getMyProjects.sort((projectA, projectB) => {
+          return projectB.name.localeCompare(projectA.name);
+        });
+      } else if (this.$route.path === "/organization/projects/all") {
+        this.$store.getters.getAllProjects.sort((projectA, projectB) => {
+          return projectB.name.localeCompare(projectA.name);
+        });
+      }
+    },
+  },
 };
 </script>
 
@@ -26,6 +52,7 @@ export default {
   margin-top: 20px;
   width: calc(100% - 200px);
 }
+
 .links-container {
   text-align: center;
   padding: 20px;
@@ -54,13 +81,18 @@ a:active {
   color: white;
 }
 
-/* Responsiveness */
+.sort-project--icon {
+  cursor: pointer;
+  margin-right: 5px;
+}
 
+/* Responsiveness */
 @media (max-width: 1250px) {
   .projects-page-container {
     width: calc(100% - 180px);
   }
 }
+
 @media (max-width: 1150px) {
   .projects-page-container {
     width: calc(100% - 80px);
@@ -72,11 +104,13 @@ a:active {
     width: calc(100% - 55px);
   }
 }
+
 @media (max-width: 450px) {
   .projects-page-container {
     width: calc(100% - 45px);
   }
 }
+
 @media (max-width: 400px) {
   .links-container {
     text-align: center;
