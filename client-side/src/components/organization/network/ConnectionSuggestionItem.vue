@@ -24,9 +24,11 @@ export default {
       try {
         console.log(this.$store);
         const blob = await this.$store.dispatch("getUserProfile", {
-          userID: this.creatorID,
+          userID: this.id,
           organizationID: this.$store.getters.selectedOrganizationID,
         });
+
+        console.log(blob);
 
         if (blob.size !== 0) {
           const file = new File([blob], "");

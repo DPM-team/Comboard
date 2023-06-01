@@ -1,11 +1,11 @@
 <template>
-  <div >
+  <div>
     <organization-page-header><back-header-button></back-header-button></organization-page-header>
     <div v-if="userObj" class="header__wrapper">
       <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
       <div class="cols__container">
         <div class="left__col">
-          <profile-picture :pfp="pfp"></profile-picture>
+          <profile-picture :userID="this.$store.getters.loggedUserID"></profile-picture>
           <h2 class="name">{{ userObj.firstname }} {{ userObj.lastname }}</h2>
           <h4 v-if="userObj.specialization" class="specialization">{{ userObj.specialization }}</h4>
           <h4 v-if="userObj.address" class="location">{{ userObj.address }}</h4>
@@ -41,14 +41,13 @@ export default {
       userObj: null,
       isLoading: false,
       pfp: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
-      backgroundImage: "https://img.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg?w=2000",
+      backgroundImage: "",
     };
   },
   methods: {
     async loadUserPublicData() {
       try {
         this.isLoading = true;
-
         this.userObj = await this.$store.dispatch("getUserDataForAnOrganization", {
           userID: this.$store.getters.loggedUserID,
           organizationID: this.$store.getters.selectedOrganizationID,

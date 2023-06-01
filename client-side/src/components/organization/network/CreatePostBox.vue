@@ -20,6 +20,7 @@
         <template #main>
           <form @submit.prevent="createdPost">
             <base-card v-if="warning" :width="100" :bgColor="'#D9AC0C'">You must at least add text or media</base-card>
+            <base-message v-if="postMessage" mode="success" :message="postMessage"></base-message>
             <div class="button-container">
               <label class="button" for="image">Add Image</label>
               <input id="image" type="file" ref="file" @input="getFile" />
@@ -53,7 +54,7 @@ export default {
       postContent: "",
       postMedia: null,
       profilePhoto: "",
-      submitMessage: "",
+      postMessage: "",
       modal: false,
       warning: false,
     };
@@ -78,13 +79,15 @@ export default {
           postMedia,
           organizationID: this.$store.getters.selectedOrganizationID,
         });
-        this.submitMessage = successData.successMessage;
+        this.postMessage = successData.successMessage;
         this.$emit("createPost", successData.createdPost);
+        setTimeout(() => {
+          this.modal ? this.toggleModal() : "";
+          this.postMessage = "";
+        }, 2000);
       } catch (error) {
         this.submitMessage = error.message || "Something went wrong!";
       }
-
-      console.log(this.submitMessage);
     },
     getFile() {
       console.log(this.postMedia);

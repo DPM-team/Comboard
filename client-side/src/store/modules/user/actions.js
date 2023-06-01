@@ -210,4 +210,26 @@ export default {
       throw new Error(e);
     }
   },
+  async updateBanner(context, payload) {
+    try {
+      const file = payload.file;
+      const organizationID = payload.organizationID;
+      const formdata = new FormData();
+      formdata.append("upload", file, file.name);
+
+      const requestOptions = {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+        body: formdata,
+      };
+
+      const response = await fetch(`/api/user/upload/bannerphoto?organizationID=${organizationID}`, requestOptions);
+
+      return response.blob();
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
 };

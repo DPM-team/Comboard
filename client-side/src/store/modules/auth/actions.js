@@ -132,6 +132,8 @@ export default {
       // Remove the logged User from the local storage
       localStorage.removeItem("userID");
       localStorage.removeItem("token");
+      localStorage.removeItem("name");
+      localStorage.removeItem("surname");
 
       context.commit("setUser", {
         userID: null,

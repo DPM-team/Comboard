@@ -34,7 +34,7 @@ router.get("/api/storage/files", authentication, uploadController.getStorageFile
 
 router.get("/api/storage/file/:fileID", uploadController.getStorageUploadedFile);
 
-const uploadProfile = multer({
+const uploadUserProfile = multer({
   limits: {
     fileSize: 1000000,
   },
@@ -50,7 +50,7 @@ const uploadProfile = multer({
 router.put(
   "/api/user/upload/profilephoto",
   authentication,
-  uploadProfile.single("upload"),
+  uploadUserProfile.single("upload"),
   async (req, res) => {
     const organizationID = req.query.organizationID;
     if (!organizationID) {
@@ -78,6 +78,53 @@ router.put(
 );
 
 router.get("/api/user/profilephoto", async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+    const userID = req.query.userID;
+
+    if (!organizationID || !userID) {
+      throw new Error();
+    }
+
+    const userOrgData = await Data.findOne({ userID, organizationID });
+
+    if (!userOrgData) {
+      throw new Error("No user");
+    }
+
+    res.set("Content-Type", "image/png");
+    res.send(userOrgData.profilePhoto);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+});
+
+router.put(
+  "/api/user/upload/bannerphoto",
+  authentication,
+  uploadUserProfile.single("upload"),
+  async (req, res) => {
+    const organizationID = req.query.organizationID;
+    if (!organizationID) {
+      throw new Error("Organization ID is required");
+    }
+    const userOrgData = await Data.findOne({ userID: req.user._id, organizationID }).select("bannerPhoto");
+    if (!userOrgData) {
+      throw new Error();
+    }
+    const buffer = await sharp(req.file.buffer).toBuffer();
+    userOrgData.bannerPhoto = buffer;
+    await userOrgData.save();
+    res.set("Content-Type", "image/png");
+    res.send(userOrgData.bannerPhoto);
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
+
+router.get("/api/user/bannerphoto", async (req, res) => {
   try {
     const organizationID = req.query.organizationID;
     const userID = req.query.userID;

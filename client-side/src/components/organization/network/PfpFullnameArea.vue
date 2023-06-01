@@ -21,6 +21,7 @@ export default {
       try {
         const blob = await this.$store.dispatch("getUserProfile", {
           userID: this.id,
+          organizationID: this.$store.getters.selectedOrganizationID,
         });
 
         if (blob.size !== 0) {

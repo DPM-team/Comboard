@@ -7,7 +7,7 @@
       <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
       <div class="cols__container">
         <div class="left__col">
-          <profile-picture :pfp="pfp"></profile-picture>
+          <profile-picture :userID="userID"></profile-picture>
           <h2 class="name">{{ userObj.firstname }} {{ userObj.lastname }}</h2>
           <h4 v-if="userObj.specialization" class="specialization">{{ userObj.specialization }}</h4>
           <h4 v-if="userObj.address" class="location">{{ userObj.address }}</h4>

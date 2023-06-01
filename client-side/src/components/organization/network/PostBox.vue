@@ -128,13 +128,11 @@ export default {
     setEditTextArea(b) {
       this.editPostArea = b;
     },
-
     toggleModal() {
       this.modal = !this.modal;
       if (this.modal && this.numOpenModal === 0) {
         this.usersLiked();
       }
-
       this.numOpenModal++;
     },
     async setPhoto() {
@@ -175,7 +173,6 @@ export default {
         console.log(e);
       }
     },
-
     async usersLiked() {
       try {
         const successMessage = await this.$store.dispatch("loadUsersLikePost", {

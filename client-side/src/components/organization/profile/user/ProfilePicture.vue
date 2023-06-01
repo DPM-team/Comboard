@@ -1,6 +1,7 @@
 <template>
   <div class="img__container">
-    <img :src="profilePhoto" alt="User Profile Pic" />
+    <img v-if="profilePhoto" :src="profilePhoto" alt="User Profile Pic" />
+    <img v-else src="../../../../assets/images/common-images/user-profile.png" />
 
     <slot></slot>
   </div>
@@ -8,25 +9,45 @@
 
 <script>
 export default {
-  props: ["pfp"],
+  props: ["userID"],
   data() {
     return {
       profilePhoto: "",
     };
   },
 
-  created() {
-    this.profilePhoto = this.$store.getters.profilePhoto;
+  async created() {
+    if (this.userID !== this.$store.getters.loggedUserID) {
+      try {
+        const blob = await this.$store.dispatch("getUserProfile", {
+          userID: this.userID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
 
-    this.$store.watch(
-      () => this.$store.getters.profilePhoto,
-
-      (photo) => {
-        this.profilePhoto = photo;
-
-        console.log(photo);
+        if (blob.size !== 0) {
+          const file = new File([blob], "");
+          const fileReader = new FileReader();
+          fileReader.onload = () => {
+            this.profilePhoto = fileReader.result;
+          };
+          fileReader.readAsDataURL(file);
+        }
+      } catch (e) {
+        console.log(e);
       }
-    );
+    } else {
+      this.profilePhoto = this.$store.getters.profilePhoto;
+
+      this.$store.watch(
+        () => this.$store.getters.profilePhoto,
+
+        (photo) => {
+          this.profilePhoto = photo;
+
+          console.log(photo);
+        }
+      );
+    }
   },
 };
 </script>
