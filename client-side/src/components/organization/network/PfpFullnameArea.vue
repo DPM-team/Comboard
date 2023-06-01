@@ -2,7 +2,7 @@
   <div class="container">
     <div class="pfp-container">
       <img v-if="profileUrl" class="user-pfp" :src="profileUrl" />
-      <font-awesome-icon v-else class="user-icon" :icon="['fas', 'user']"></font-awesome-icon>
+      <img v-else class="user-pfp" src="../../../assets/images/common-images/user-profile.png" />
     </div>
     <h2>{{ firstname }} {{ lastname }}</h2>
   </div>

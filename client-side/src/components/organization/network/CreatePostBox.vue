@@ -10,7 +10,7 @@
       </div>
       <div class="pfp-container">
         <img v-if="profilePhoto !== ''" class="user-pfp" :src="pictureLink" />
-        <font-awesome-icon v-else class="user-icon" :icon="['fas', 'user']"></font-awesome-icon>
+        <img v-else class="user-pfp" src="../../../assets/images/common-images/user-profile.png" />
       </div>
       <input v-model="postContent" required class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
       <!-- <input type="button" name="file" id="file" @click="openModal" /> -->

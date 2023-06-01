@@ -2,7 +2,7 @@
   <div class="sug-item-container">
     <div>
       <img v-if="profilePhoto !== ''" class="user-pfp" :src="pictureLink" />
-      <font-awesome-icon v-else class="user-icon" :icon="['fas', 'user']"></font-awesome-icon>
+      <img v-else class="user-pfp" src="../../../assets/images/common-images/user-profile.png" />
     </div>
     <li>{{ firstname }} {{ lastname }}</li>
     <font-awesome-icon v-if="!added" @click="sendRequest" class="icon" icon="fa-solid fa-user-plus" />

@@ -3,7 +3,7 @@
     <div class="image-name-date-container">
       <div class="pfp-container">
         <img v-if="profilePhoto !== ''" class="user-pfp" :src="pictureLink" />
-        <font-awesome-icon v-else class="user-icon" :icon="['fas', 'user']"></font-awesome-icon>
+        <img v-else class="user-pfp" src="../../../assets/images/common-images/user-profile.png" />
       </div>
       <h2>{{ firstname }} {{ lastname }}</h2>
       <h4>{{ dateFormat }}</h4>
@@ -195,8 +195,9 @@ export default {
         const day1 = moment(toDay);
         const day2 = moment(dateOfPost);
         let days = day1.diff(day2, "days");
+
         if (days <= 7) {
-          this.dateFormat = `${days === 0 ? days++ : days}  ${days !== 1 ? "days" : "day"} Ago`;
+          this.dateFormat = `${days === 0 ? ++days : days}  ${days !== 1 ? "days" : "day"} Ago`;
         } else if (days > 7 && days <= 10) {
           this.dateFormat = "1 week Ago";
         } else if (days <= 14) {

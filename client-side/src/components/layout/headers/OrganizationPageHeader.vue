@@ -30,7 +30,7 @@
             <a class="header-a">
               <div class="img-container">
                 <img v-if="profilePhoto !== ''" class="user-icon" :src="`/api/users/${this.$store.getters.loggedUserID}/profilephoto`" />
-                <font-awesome-icon v-else class="user-icon" :icon="['fas', 'user']"></font-awesome-icon>
+                <img v-else class="user-icon" src="../../../assets/images/common-images/user-profile.png" />
               </div>
             </a>
           </li>
