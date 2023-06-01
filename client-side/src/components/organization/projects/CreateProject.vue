@@ -81,8 +81,17 @@ export default {
 
         const successData = await this.$store.dispatch("createProject", { projectObj, teamID: this.teamID });
 
+        this.projectName = "";
+        this.intention = "";
+        this.projectDescription = "";
+
         this.submitMessage = successData.successMessage;
         this.messageType = "success";
+
+        setTimeout(() => {
+          this.submitMessage = "";
+          this.messageType = "";
+        }, 2000);
       } catch (error) {
         this.submitMessage = error.message || "Something went wrong!";
         this.messageType = "error";
