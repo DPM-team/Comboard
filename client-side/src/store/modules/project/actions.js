@@ -26,6 +26,9 @@ export default {
       // Extract the created project data from the response
       const successData = await response.json();
 
+      successData.createdProject.id = successData?.createdProject._id;
+      context.commit("addProjectThatICreate", { newProjectObj: successData?.createdProject });
+
       //Add the created project to the team's projects
       await context.dispatch("addProjectToTeam", { teamID, projectID: successData.createdProject._id });
 

@@ -5,6 +5,7 @@
       <base-spinner></base-spinner>
     </div>
     <h4 v-if="message">{{ message }}</h4>
+    <h4 v-else-if="projects?.length === 0">You aren't member of any project!!</h4>
     <ul class="ul" v-else>
       <project-item v-for="project in projects" :key="project.id" :projectID="project.id" :projectName="project.name" :projectDescription="project.description"></project-item>
     </ul>
@@ -19,25 +20,23 @@ export default {
   components: { ProjectItem, BaseSpinner },
   data() {
     return {
-      projects: [],
       isLoading: false,
       message: "",
     };
+  },
+  computed: {
+    projects() {
+      return this.$store.getters.getMyProjects;
+    },
   },
   methods: {
     async loadUserProjects() {
       try {
         this.isLoading = true;
 
-        this.projects = await this.$store.dispatch("getUserProjects", { userID: this.$store.getters.loggedUserID, organizationID: this.$store.getters.selectedOrganizationID });
+        await this.$store.dispatch("getUserProjects", { userID: this.$store.getters.loggedUserID, organizationID: this.$store.getters.selectedOrganizationID });
 
         this.isLoading = false;
-
-        if (this.projects.length === 0) {
-          this.message = "You aren't member of any project!";
-        } else {
-          this.message = "";
-        }
       } catch (error) {
         this.message = error.message || "Something went wrong!";
       }

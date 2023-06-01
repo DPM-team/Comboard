@@ -61,7 +61,7 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
-  async getUserProjects(_, payload) {
+  async getUserProjects(context, payload) {
     const userID = payload.userID;
     const organizationID = payload.organizationID;
 
@@ -71,6 +71,7 @@ export default {
       const data = await response.json();
 
       if (response.ok) {
+        context.commit("setMyProjectsArray", { myProjects: data?.projects });
         return data?.projects;
       } else {
         throw new Error(data.error); // Throw error to be caught in the component
