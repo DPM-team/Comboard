@@ -5,7 +5,7 @@
       <base-spinner></base-spinner>
     </div>
     <h4 v-if="message">{{ message }}</h4>
-    <h4 v-else-if="projects?.length === 0">No projects exists!</h4>
+    <h4 v-else-if="projects?.length === 0 && !isLoading">No projects exists!</h4>
     <ul class="ul" v-else>
       <project-item v-for="project in projects" :key="project.id" :projectID="project.id" :projectName="project.name" :projectDescription="project.description"></project-item>
     </ul>
