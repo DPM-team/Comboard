@@ -2,7 +2,7 @@
   <div class="post-box" @dblclick="toogleLike">
     <div class="image-name-date-container">
       <div class="pfp-container">
-        <img v-if="profilePhoto !== ''" class="user-pfp" :src="pictureLink" />
+        <img v-if="profilePhoto !== ''" class="user-pfp" :src="profilePhoto" />
         <img v-else class="user-pfp" src="../../../assets/images/common-images/user-profile.png" />
       </div>
       <h2>{{ firstname }} {{ lastname }}</h2>
@@ -42,7 +42,14 @@
         </form>
       </div>
       <div class="comments-done">
-        <comment-item v-for="comment in nextComments" :key="comment._id" :comment="comment.content" :commenter="comment.commenter" :pictureLink="comment.pictureLink"></comment-item>
+        <comment-item
+          v-for="comment in nextComments"
+          :key="comment._id"
+          :commenterID="comment.userID"
+          :comment="comment.content"
+          :commenter="comment.commenter"
+          :pictureLink="comment.pictureLink"
+        ></comment-item>
       </div>
     </div>
   </div>
@@ -131,9 +138,28 @@ export default {
       this.numOpenModal++;
     },
     async setPhoto() {
-      const response = await fetch(this.pictureLink);
-      const photo = await response.text();
-      this.profilePhoto = photo;
+      try {
+        console.log(this.$store);
+        const blob = await this.$store.dispatch("getUserProfile", {
+          userID: this.creatorID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        console.log(blob);
+
+        if (blob.size !== 0) {
+          const file = new File([blob], "");
+          const fileReader = new FileReader();
+
+          fileReader.onload = () => {
+            this.profilePhoto = fileReader.result;
+          };
+
+          fileReader.readAsDataURL(file);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     },
     async editPost() {
       try {

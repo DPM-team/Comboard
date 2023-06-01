@@ -49,7 +49,7 @@ export default {
             pictureLink: `/api/users/${post.postObj.creatorID}/profilePhoto`,
             likes: post.postObj?.likes,
             comments: post.postObj?.comments,
-            date: new Date(post.postObj.createdAt).toLocaleDateString(),
+            date: new Date(post.postObj.createdAt),
           };
         });
 

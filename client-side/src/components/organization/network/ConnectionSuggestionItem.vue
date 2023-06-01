@@ -1,7 +1,7 @@
 <template>
   <div class="sug-item-container">
     <div>
-      <img v-if="profilePhoto !== ''" class="user-pfp" :src="pictureLink" />
+      <img v-if="profilePhoto !== ''" class="user-pfp" :src="profilePhoto" />
       <img v-else class="user-pfp" src="../../../assets/images/common-images/user-profile.png" />
     </div>
     <li>{{ firstname }} {{ lastname }}</li>
@@ -20,9 +20,27 @@ export default {
   },
   props: ["id", "firstname", "lastname", "pictureLink"],
   methods: {
-    async setProfilePhoto() {
-      const response = await fetch(this.pictureLink);
-      this.profilePhoto = await response.text();
+    async setPhoto() {
+      try {
+        console.log(this.$store);
+        const blob = await this.$store.dispatch("getUserProfile", {
+          userID: this.creatorID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        if (blob.size !== 0) {
+          const file = new File([blob], "");
+          const fileReader = new FileReader();
+
+          fileReader.onload = () => {
+            this.profilePhoto = fileReader.result;
+          };
+
+          fileReader.readAsDataURL(file);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     },
     async sendRequest() {
       try {
@@ -37,7 +55,7 @@ export default {
     },
   },
   created() {
-    this.setProfilePhoto();
+    this.setPhoto();
   },
 };
 </script>

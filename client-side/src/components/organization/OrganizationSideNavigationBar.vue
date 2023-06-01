@@ -63,6 +63,30 @@ export default {
       this.$router.push("/organization/my-organization");
     },
   },
+  async created() {
+    const blob = await this.$store.dispatch("getUserProfile", {
+      userID: this.$store.getters.loggedUserID,
+      organizationID: this.$store.getters.selectedOrganizationID,
+    });
+    console.log(blob);
+
+    if (blob.size !== 0) {
+      const file = new File([blob], "", {
+        type: "image/png",
+      });
+      const fileReader = new FileReader();
+
+      fileReader.onload = () => {
+        const profilePhoto = fileReader.result;
+        localStorage.setItem("profilephoto", profilePhoto);
+        this.$store.commit("setProfilePhoto", {
+          profilePhoto,
+        });
+      };
+
+      fileReader.readAsDataURL(file);
+    }
+  },
 };
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <div class="img__container">
     <img :src="profilePhoto" alt="User Profile Pic" />
+
     <slot></slot>
   </div>
 </template>
@@ -15,6 +16,8 @@ export default {
   },
 
   created() {
+    this.profilePhoto = this.$store.getters.profilePhoto;
+
     this.$store.watch(
       () => this.$store.getters.profilePhoto,
 

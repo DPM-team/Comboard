@@ -171,6 +171,7 @@ export default {
   async getUserProfile(context, payload) {
     try {
       const userID = payload.userID;
+      const organizationID = payload.organizationID;
 
       const requestOptions = {
         method: "GET",
@@ -179,7 +180,7 @@ export default {
         },
       };
 
-      const response = await fetch(`/api/users/${userID}/profilephoto`, requestOptions);
+      const response = await fetch(`/api/user/profilephoto?userID=${userID}&organizationID=${organizationID}`, requestOptions);
 
       return await response.blob();
     } catch (e) {
@@ -190,18 +191,19 @@ export default {
   async updateProfilePhoto(context, payload) {
     try {
       const file = payload.file;
+      const organizationID = payload.organizationID;
       const formdata = new FormData();
       formdata.append("upload", file, file.name);
 
       const requestOptions = {
-        method: "POST",
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
         },
         body: formdata,
       };
 
-      const response = await fetch("/api/user/upload/profilephoto", requestOptions);
+      const response = await fetch(`/api/user/upload/profilephoto?organizationID=${organizationID}`, requestOptions);
 
       return response.blob();
     } catch (e) {

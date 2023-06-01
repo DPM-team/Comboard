@@ -29,7 +29,7 @@
           <li @click="toggleUserOptions" class="header-li">
             <a class="header-a">
               <div class="img-container">
-                <img v-if="profilePhoto !== ''" class="user-icon" :src="`/api/users/${this.$store.getters.loggedUserID}/profilephoto`" />
+                <img v-if="profilePhoto !== ''" class="user-icon" :src="profilePhoto" />
                 <img v-else class="user-icon" src="../../../assets/images/common-images/user-profile.png" />
               </div>
             </a>
@@ -113,8 +113,7 @@ export default {
   },
   methods: {
     async setPhoto() {
-      const response = await fetch(`/api/users/${this.$store.getters.loggedUserID}/profilephoto`);
-      this.profilePhoto = await response.text();
+      this.profilePhoto = this.$store.getters.profilePhoto;
     },
     viewMyProfile() {
       this.$router.push("/organization/my-profile");

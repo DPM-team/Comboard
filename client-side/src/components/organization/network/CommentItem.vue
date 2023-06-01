@@ -1,7 +1,7 @@
 <template>
   <div class="comment-box">
     <div class="image-name-container">
-      <div class="pfp-container"><img class="user-pfp" :src="pictureLink" /></div>
+      <div class="pfp-container"><img v-if="profilePhoto" class="user-pfp" :src="profilePhoto" /> <img v-else class="user-pfp" src="../../../assets/images/common-images/user-profile.png" /></div>
       <h2>{{ commenter }}</h2>
     </div>
     <p>{{ comment }}</p>
@@ -10,7 +10,36 @@
 
 <script>
 export default {
-  props: ["comment", "commenter", "pictureLink"],
+  props: ["comment", "commenterID", "commenter", "pictureLink"],
+  data() {
+    return {
+      profilePhoto: "",
+    };
+  },
+  methods: {
+    async setProfilePhoto() {
+      try {
+        const blob = await this.$store.dispatch("getUserProfile", {
+          userID: this.commenterID,
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        if (blob.size !== 0) {
+          const file = new File([blob], "");
+          const fileReader = new FileReader();
+          fileReader.onload = () => {
+            this.profilePhoto = fileReader.result;
+          };
+          fileReader.readAsDataURL(file);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  },
+  created() {
+    this.setProfilePhoto();
+  },
 };
 </script>
 

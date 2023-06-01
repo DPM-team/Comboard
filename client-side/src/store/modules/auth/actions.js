@@ -40,26 +40,6 @@ export default {
         name: successData.userObj.name,
         surname: successData.surname,
       });
-
-      const blob = await context.dispatch("getUserProfile", {
-        userID: successData.userObj._id,
-      });
-
-      if (blob.size !== 0) {
-        const file = new File([blob], "", {
-          type: "image/png",
-        });
-        const fileReader = new FileReader();
-
-        fileReader.onload = () => {
-          const profilePhoto = fileReader.result;
-          context.commit("setProfilePhoto", {
-            profilePhoto,
-          });
-        };
-
-        fileReader.readAsDataURL(file);
-      }
     } catch (error) {
       throw new Error(error.message || "Internal Server Error: Failed to authenticate.");
     }
@@ -107,7 +87,7 @@ export default {
     const token = localStorage.getItem("token");
     const name = localStorage.getItem("name");
     const surname = localStorage.getItem("surname");
-
+    const profilePhoto = localStorage.getItem("profilephoto");
     if (userID && token) {
       context.commit("setUser", {
         userID,
@@ -121,24 +101,10 @@ export default {
         });
       }
 
-      const blob = await context.dispatch("getUserProfile", {
-        userID,
-      });
-
-      if (blob.size !== 0) {
-        const file = new File([blob], "", {
-          type: "image/png",
+      if (profilePhoto) {
+        context.commit("setProfilePhoto", {
+          profilePhoto,
         });
-        const fileReader = new FileReader();
-
-        fileReader.onload = () => {
-          const profilePhoto = fileReader.result;
-          context.commit("setProfilePhoto", {
-            profilePhoto,
-          });
-        };
-
-        fileReader.readAsDataURL(file);
       }
     }
   },

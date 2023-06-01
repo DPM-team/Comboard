@@ -3,6 +3,7 @@ const multer = require("multer");
 const sharp = require("sharp");
 const File = require("../models/file");
 const User = require("../models/user");
+const Data = require("../models/data");
 const authentication = require("../middleware/authentication");
 const uploadController = require("../controllers/uploadController.js");
 
@@ -46,11 +47,19 @@ const uploadProfile = multer({
   },
 });
 
-router.post(
+router.put(
   "/api/user/upload/profilephoto",
   authentication,
   uploadProfile.single("upload"),
   async (req, res) => {
+    const organizationID = req.query.organizationID;
+    if (!organizationID) {
+      throw new Error("Organization ID is required");
+    }
+    const userOrgData = await Data.findOne({ userID: req.user._id, organizationID }).select("profilephoto");
+    if (!userOrgData) {
+      throw new Error();
+    }
     const buffer = await sharp(req.file.buffer)
       .resize({
         width: 250,
@@ -58,31 +67,33 @@ router.post(
       })
       .png()
       .toBuffer();
-    req.user.profilePhoto = buffer;
-    await req.user.save();
+    userOrgData.profilePhoto = buffer;
+    await userOrgData.save();
     res.set("Content-Type", "image/png");
-    res.send(req.user.profilePhoto);
+    res.send(userOrgData.profilePhoto);
   },
   (error, req, res, next) => {
     res.status(400).send({ error: error.message });
   }
 );
 
-router.get("/api/users/:id/profilephoto", async (req, res) => {
+router.get("/api/user/profilephoto", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const organizationID = req.query.organizationID;
+    const userID = req.query.userID;
 
-    if (!user) {
+    if (!organizationID || !userID) {
+      throw new Error();
+    }
+
+    const userOrgData = await Data.findOne({ userID, organizationID });
+
+    if (!userOrgData) {
       throw new Error("No user");
     }
 
-    let message = "User has a photo";
-    if (user.profilePhoto === undefined) {
-      message = "User has no upload a photo";
-    }
-
     res.set("Content-Type", "image/png");
-    res.send(user.profilePhoto);
+    res.send(userOrgData.profilePhoto);
   } catch (error) {
     console.log(error);
     res.status(400).send(error);

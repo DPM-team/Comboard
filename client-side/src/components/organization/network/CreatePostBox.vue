@@ -9,7 +9,7 @@
         <span>Organization</span>
       </div>
       <div class="pfp-container">
-        <img v-if="profilePhoto !== ''" class="user-pfp" :src="pictureLink" />
+        <img v-if="profilePhoto !== ''" class="user-pfp" :src="profilePhoto" />
         <img v-else class="user-pfp" src="../../../assets/images/common-images/user-profile.png" />
       </div>
       <input v-model="postContent" required class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
@@ -104,9 +104,8 @@ export default {
         fileReader.readAsDataURL(this.postMedia);
       }
     },
-    async setprofilePhoto() {
-      const response = await fetch(this.pictureLink);
-      this.profilePhoto = await response.text();
+    setprofilePhoto() {
+      this.profilePhoto = this.$store.getters.profilePhoto;
     },
     setWarning(boolean) {
       this.warning = boolean;

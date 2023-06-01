@@ -95,18 +95,21 @@ export default {
     },
     async updateProfile() {
       try {
+        //Get file from input
         const file = this.$refs.file?.files[0];
-
         const blob = await this.$store.dispatch("updateProfilePhoto", {
           file,
+          organizationID: this.$store.getters.selectedOrganizationID,
         });
 
+        //It means that user has uploaded a photo
         if (blob.size !== 0) {
           const fileSend = new File([blob], `${file.name}`);
           const fileReader = new FileReader();
 
           fileReader.onload = () => {
             this.profilePicture = fileReader.result;
+            localStorage.setItem("profilephoto", this.profilePicture);
             this.$store.commit("setProfilePhoto", {
               profilePhoto: this.profilePicture,
             });

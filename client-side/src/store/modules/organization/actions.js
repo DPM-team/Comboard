@@ -9,6 +9,7 @@ export default {
   },
   removeSelectedOrganization(context) {
     localStorage.removeItem("organizationID");
+    localStorage.removeItem("profilephoto");
 
     context.commit("setSelectedOrganization", { organizationID: null });
   },
