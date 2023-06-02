@@ -9,7 +9,7 @@
             <!-- Blue highlight effect -->
             <span class="highlight">{{ teamObj.name }}</span>
           </h1>
-          <form enctype="multipart/form-data" class="team-information" action="" method="post">
+          <form enctype="multipart/form-data" class="team-information" method="post" @submit.prevent="updateTeam">
             <h2>Update your teams profile</h2>
             <h3>Param: {{ teamID }}</h3>
             <div class="inputBox">
@@ -21,6 +21,10 @@
             <div class="inputBox">
               <span class="input-title">Description</span>
               <textarea type="text" name="description" value="" :placeholder="teamObj.description" />
+            </div>
+            <div class="inputBox">
+              <input type="file" name="profile-banner" ref="file" />
+              <span id="fixed">Profile banner</span>
             </div>
             <div class="inputBox">
               <input type="submit" name="submit-non-sensitive" value="Save" />
@@ -60,6 +64,7 @@ export default {
     return {
       teamObj: null,
       errorMessage: "",
+      photo: "",
       members: [
         { id: 1, fullname: "Dionisis Lougaris" },
         { id: 2, fullname: "Panos Machairas" },
@@ -77,11 +82,39 @@ export default {
         this.errorMessage = error.message || "Something went wrong!";
       }
     },
+    updateTeam() {
+      this.updateTeamPhoto();
+    },
     createProjectLink() {
       return {
         name: "create-project",
         params: { teamID: this.teamID },
       };
+    },
+    async updateTeamPhoto() {
+      try {
+        const file = this.$refs.file?.files[0] || null;
+        if (!file) {
+          return;
+        }
+        const blob = await this.$store.dispatch("updateTeamPhoto", {
+          file,
+          teamID: this.teamID,
+        });
+        console.log(blob);
+        if (blob.size !== 0) {
+          const file = new File([blob]);
+          const fileReader = new FileReader();
+
+          fileReader.onload = () => {
+            this.photo = fileReader.result;
+          };
+
+          fileReader.readAsDataURL(file);
+        }
+      } catch (e) {
+        this.errorMessage = e;
+      }
     },
   },
   created() {

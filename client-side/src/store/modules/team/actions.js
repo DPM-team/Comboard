@@ -201,4 +201,26 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
+  async updateTeamPhoto(context, payload) {
+    try {
+      const file = payload.file;
+      const teamID = payload.teamID;
+      const formdata = new FormData();
+      formdata.append("upload", file, file.name);
+
+      const requestOptions = {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+        body: formdata,
+      };
+
+      const response = await fetch(`/api/team/upload/photo?teamID=${teamID}`, requestOptions);
+
+      return response.blob();
+    } catch (e) {
+      throw new Error();
+    }
+  },
 };
