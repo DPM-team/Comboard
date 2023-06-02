@@ -300,6 +300,40 @@ const addProjectToUser = async (req, res) => {
   }
 };
 
+// Controller to add a project to the user's projects list
+const updateProfileData = async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+    const formData = req.body;
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    if (!formData) {
+      return res.status(400).json({ error: "ProjectID is required!" });
+    }
+
+    // We get the user's data for a specific organization
+    const userOrgData = await Data.findOne({ userID: req.user._id, organizationID });
+
+    if (!userOrgData) {
+      return res.status(404).json({ error: "User's data for this organization doesn't found!" });
+    }
+
+    userOrgData.$set(formData);
+
+    console.log(userOrgData);
+
+    await userOrgData.save();
+
+    res.status(200).json({ successMessage: "The data has updated succesfully" });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   getUser,
   getUserOrganizationData,
@@ -309,4 +343,5 @@ module.exports = {
   getUserConnections,
   addTeamToUser,
   addProjectToUser,
+  updateProfileData,
 };

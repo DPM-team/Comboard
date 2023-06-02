@@ -2,7 +2,7 @@
   <div class="profile-settings">
     <base-spinner v-if="isLoading"></base-spinner>
     <h4 v-else-if="!isLoading && message">{{ message }}</h4>
-    <form v-else enctype="multipart/form-data" class="personal-information" @submit.prevent="updateData">
+    <form v-else enctype="multipart/form-data" class="personal-information" @submit.prevent="updateData" ref="form">
       <h2>Update your profile</h2>
       <div class="inputBox">
         <input class="disabled" type="text" name="firstname" :value="userObj.firstname || '-'" disabled title="Can changed on dashboard profile settings" />
@@ -34,12 +34,12 @@
         <span v-else id="fixed">Specialization</span>
       </div>
       <div class="inputBox">
-        <input type="email" name="organization-email" :value="userObj.email" />
+        <input type="email" name="email" :value="userObj.email" />
         <span v-if="!userObj.email">Organization email</span>
         <span v-else>Organization email</span>
       </div>
       <div class="inputBox">
-        <input type="email" name="organization-phone" :value="userObj.telephone" />
+        <input type="tel" name="telephone" :value="userObj.telephone" />
         <span v-if="!userObj.telephone">Organization phone</span>
         <span v-else>Organization phone</span>
       </div>
@@ -71,11 +71,16 @@ export default {
       message: "",
       profilePicture: "",
       banner: "",
+      formData: null,
     };
   },
 
   methods: {
     updateData() {
+      this.formData = new FormData(this.$refs.form);
+
+      this.updateProfileData();
+
       this.updateBanner();
     },
     async loadUserPublicData() {
@@ -93,8 +98,20 @@ export default {
           this.$router.push("/not-found");
         }
       } catch (error) {
-        console.log(error.message || "Something went wrong!");
+        this.message = error.message || "Something went wrong!";
         this.$router.push("/not-found");
+      }
+    },
+    async updateProfileData() {
+      try {
+        const successMessage = await this.$store.dispatch("updateProfileData", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+          formData: this.formData,
+        });
+
+        this.message = successMessage;
+      } catch (e) {
+        this.message = e.message || "Something went wrong!";
       }
     },
     async updateProfile() {
@@ -196,6 +213,7 @@ export default {
 .personal-information .inputBox input[type="text"],
 .personal-information .inputBox input[type="email"],
 .personal-information .inputBox input[type="password"],
+.personal-information .inputBox input[type="tel"],
 .personal-information .inputBox textarea {
   width: 100%;
   padding: 5px 0;

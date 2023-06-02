@@ -232,4 +232,35 @@ export default {
       throw new Error(e);
     }
   },
+  async updateProfileData(context, payload) {
+    try {
+      const organizationID = payload.organizationID;
+      const formData = payload.formData;
+
+      const object = Object.fromEntries(formData.entries());
+      let filterData = {};
+
+      for (const entity in object) {
+        if (object[entity]) {
+          filterData[entity] = object[entity];
+        }
+      }
+
+      const requestOptions = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+        body: JSON.stringify(filterData),
+      };
+
+      const response = await fetch(`/api/user/edit/profiledata?organizationID=${organizationID}`, requestOptions);
+
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+      throw new Error();
+    }
+  },
 };

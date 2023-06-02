@@ -26,4 +26,6 @@ router.post("/api/user/team", userController.addTeamToUser);
 // Router to add a new project to the user the belongs
 router.post("/api/user/project", userController.addProjectToUser);
 
+router.put("/api/user/edit/profiledata", authentication, userController.updateProfileData);
+
 module.exports = router;
