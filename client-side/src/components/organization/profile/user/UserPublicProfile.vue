@@ -76,7 +76,7 @@ export default {
       try {
         const blob = await this.$store.dispatch("getBanner", {
           organizationID: this.$store.getters.selectedOrganizationID,
-          userID: this.takeBanner(),
+          userID: this.userID,
         });
 
         if (blob.size !== 0) {
