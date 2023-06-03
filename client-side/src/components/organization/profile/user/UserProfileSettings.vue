@@ -48,11 +48,11 @@
         <span>Bio</span>
       </div>
       <div class="inputBox">
-        <input type="file" name="profile-picture" ref="file" />
+        <input type="file" ref="file" />
         <span id="fixed">Profile picture</span>
       </div>
       <div class="inputBox">
-        <input type="file" name="profile-banner" ref="banner" />
+        <input type="file" ref="banner" />
         <span id="fixed">Profile banner</span>
       </div>
       <div class="inputBox">
@@ -79,6 +79,7 @@ export default {
       this.formData = new FormData(this.$refs.form);
 
       this.updateProfileData();
+      this.updateProfile();
 
       this.updateBanner();
     },
