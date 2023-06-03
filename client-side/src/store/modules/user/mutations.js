@@ -3,6 +3,10 @@ export default {
     state.profilePhoto = payload.profilePhoto;
   },
 
+  setBanner(state, payload) {
+    state.banner = payload.banner;
+  },
+
   setUserInfo(state, payload) {
     state.name = payload.name;
     state.surname = payload.surname;

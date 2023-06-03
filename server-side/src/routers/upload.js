@@ -133,14 +133,14 @@ router.get("/api/user/bannerphoto", async (req, res) => {
       throw new Error();
     }
 
-    const userOrgData = await Data.findOne({ userID, organizationID });
+    const userOrgData = await Data.findOne({ userID, organizationID }).select("bannerPhoto");
 
     if (!userOrgData) {
       throw new Error("No user");
     }
 
     res.set("Content-Type", "image/png");
-    res.send(userOrgData.profilePhoto);
+    res.send(userOrgData.bannerPhoto);
   } catch (error) {
     console.log(error);
     res.status(400).send(error);

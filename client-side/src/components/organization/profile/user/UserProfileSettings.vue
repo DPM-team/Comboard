@@ -70,7 +70,6 @@ export default {
       isLoading: false,
       message: "",
       profilePicture: "",
-      banner: "",
       formData: null,
     };
   },
@@ -163,7 +162,10 @@ export default {
           const fileReader = new FileReader();
 
           fileReader.onload = () => {
-            this.banner = fileReader.result;
+            const banner = fileReader.result;
+            this.$store.commit("setBanner", {
+              banner,
+            });
           };
 
           fileReader.readAsDataURL(fileSend);

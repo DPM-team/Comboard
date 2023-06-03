@@ -232,6 +232,25 @@ export default {
       throw new Error(e);
     }
   },
+  async getBanner(context, payload) {
+    try {
+      const userID = payload.userID;
+      const organizationID = payload.organizationID;
+
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+      };
+
+      const response = await fetch(`/api/user/bannerphoto?userID=${userID}&organizationID=${organizationID}`, requestOptions);
+
+      return await response.blob();
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
   async updateProfileData(context, payload) {
     try {
       const organizationID = payload.organizationID;

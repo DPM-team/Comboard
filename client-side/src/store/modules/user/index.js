@@ -6,6 +6,7 @@ const userModule = {
   state() {
     return {
       profilePhoto: "",
+      banner: "",
       name: "",
       surname: "",
     };

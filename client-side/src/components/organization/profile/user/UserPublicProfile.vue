@@ -72,9 +72,31 @@ export default {
         this.$router.push("/not-found");
       }
     },
+    async takeBanner() {
+      try {
+        const blob = await this.$store.dispatch("getBanner", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+          userID: this.takeBanner(),
+        });
+
+        if (blob.size !== 0) {
+          const file = new File([blob], "");
+          const fileReader = new FileReader();
+
+          fileReader.onload = () => {
+            this.banner = fileReader.result;
+          };
+
+          fileReader.readAsDataURL(file);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
   created() {
     this.loadUserPublicData();
+    this.takeBanner();
   },
 };
 </script>

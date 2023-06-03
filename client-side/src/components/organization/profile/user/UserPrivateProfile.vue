@@ -2,7 +2,7 @@
   <div>
     <organization-page-header><back-header-button></back-header-button></organization-page-header>
     <div v-if="userObj" class="header__wrapper">
-      <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
+      <div class="profile-header"><img class="backgroundImage" :src="banner" alt="User Background Image" /></div>
       <div class="cols__container">
         <div class="left__col">
           <profile-picture :userID="this.$store.getters.loggedUserID"></profile-picture>
@@ -41,7 +41,7 @@ export default {
       userObj: null,
       isLoading: false,
       pfp: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQWy2SSj5JE7pG87OSTvNp402SDCNd2O_5hsKAg-BUQ&s",
-      backgroundImage: "",
+      banner: "https://img.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg?w=2000",
     };
   },
   methods: {
@@ -63,10 +63,39 @@ export default {
         this.$router.push("/not-found");
       }
     },
+    async takeBanner() {
+      try {
+        const blob = await this.$store.dispatch("getBanner", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+          userID: this.$store.getters.loggedUserID,
+        });
+
+        if (blob.size !== 0) {
+          const file = new File([blob], "");
+          const fileReader = new FileReader();
+
+          fileReader.onload = () => {
+            this.banner = fileReader.result;
+          };
+
+          fileReader.readAsDataURL(file);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
   created() {
     this.loadUserPublicData();
+    this.takeBanner();
     document.body.classList.remove("no-scrolling");
+    this.$store.watch(
+      () => this.$store.getters.banner,
+
+      (photo) => {
+        this.banner = photo;
+      }
+    );
   },
 };
 </script>
