@@ -1,55 +1,58 @@
 <template>
-  <div class="post-box" @dblclick="toogleLike">
-    <div class="image-name-date-container">
-      <div class="pfp-container">
-        <img v-if="profilePhoto !== ''" class="user-pfp" :src="profilePhoto" />
-        <img v-else class="user-pfp" src="../../../assets/images/common-images/user-profile.png" />
+  <div class="post-box load" @dblclick="toogleLike">
+    <base-spinner v-if="loading"></base-spinner>
+    <div v-else>
+      <div class="image-name-date-container">
+        <div class="pfp-container">
+          <img v-if="profilePhoto !== ''" class="user-pfp" :src="profilePhoto" />
+          <img v-else class="user-pfp" src="../../../assets/images/common-images/user-profile.png" />
+        </div>
+        <h2>{{ firstname }} {{ lastname }}</h2>
+        <h4>{{ dateFormat }}</h4>
+        <font-awesome-icon v-if="this.creatorID === this.$store.getters.loggedUserID" :icon="['fas', 'ellipsis']" class="ellipsis-info" ref="ellipsis" @click.prevent="openOptions($event)" />
       </div>
-      <h2>{{ firstname }} {{ lastname }}</h2>
-      <h4>{{ dateFormat }}</h4>
-      <font-awesome-icon v-if="this.creatorID === this.$store.getters.loggedUserID" :icon="['fas', 'ellipsis']" class="ellipsis-info" ref="ellipsis" @click.prevent="openOptions($event)" />
-    </div>
-    <div class="paragraph-container">
-      <p v-if="!editPostArea">{{ contentString }}</p>
-      <form v-else @submit.prevent="editPost">
-        <textarea v-model="contentString" class="edit-post"></textarea>
-        <input type="submit" value="Edit" />
-      </form>
-      <img class="post-img" v-if="media" :src="media" />
-      <base-spinner v-else-if="!this.contentMedia && !media" class="post-img media"></base-spinner>
-    </div>
-    <div class="like-comment-container">
-      <p>
-        <b @click="toggleModal">{{ likesNum }}</b> <span>likes</span> <b>{{ commentsNum }}</b> comments
-      </p>
-      <font-awesome-icon @click="toogleLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
-      <base-dialog v-if="modal" :title="likePopUpTitle" :overlay="true" @close="toggleModal">
-        <template #main>
-          <div v-if="usersLikePost.length > 0">
-            <pfp-fullname-area v-for="user of usersLikePost" :key="user._id" :id="user._id" :firstname="user.name" :lastname="user.surname"></pfp-fullname-area>
-          </div>
-
-          <p v-else>No users write now</p>
-        </template>
-      </base-dialog>
-      <font-awesome-icon @click="writeComment" class="post-icon" icon="fa-regular fa-comment" />
-    </div>
-    <div v-if="showCommentSection" class="comment-section">
-      <div class="write-comment">
-        <form @submit.prevent="createComment">
-          <input class="write-comment-input" type="text" name="write-comment" placeholder="Leave a comment.." ref="createComment" />
-          <font-awesome-icon class="post-comment-button" type="submit" :icon="['fas', 'paper-plane']" @click="createComment" />
+      <div class="paragraph-container">
+        <p v-if="!editPostArea">{{ contentString }}</p>
+        <form v-else @submit.prevent="editPost">
+          <textarea v-model="contentString" class="edit-post"></textarea>
+          <input type="submit" value="Edit" />
         </form>
+        <img class="post-img" v-if="media" :src="media" />
+        <base-spinner v-else-if="!this.contentMedia && !media"></base-spinner>
       </div>
-      <div class="comments-done">
-        <comment-item
-          v-for="comment in nextComments"
-          :key="comment._id"
-          :commenterID="comment.userID"
-          :comment="comment.content"
-          :commenter="comment.commenter"
-          :pictureLink="comment.pictureLink"
-        ></comment-item>
+      <div class="like-comment-container">
+        <p>
+          <b @click="toggleModal">{{ likesNum }}</b> <span>likes</span> <b>{{ commentsNum }}</b> comments
+        </p>
+        <font-awesome-icon @click="toogleLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
+        <base-dialog v-if="modal" :title="likePopUpTitle" :overlay="true" @close="toggleModal">
+          <template #main>
+            <div v-if="usersLikePost.length > 0">
+              <pfp-fullname-area v-for="user of usersLikePost" :key="user._id" :id="user._id" :firstname="user.name" :lastname="user.surname"></pfp-fullname-area>
+            </div>
+
+            <p v-else>No users write now</p>
+          </template>
+        </base-dialog>
+        <font-awesome-icon @click="writeComment" class="post-icon" icon="fa-regular fa-comment" />
+      </div>
+      <div v-if="showCommentSection" class="comment-section">
+        <div class="write-comment">
+          <form @submit.prevent="createComment">
+            <input class="write-comment-input" type="text" name="write-comment" placeholder="Leave a comment.." ref="createComment" />
+            <font-awesome-icon class="post-comment-button" type="submit" :icon="['fas', 'paper-plane']" @click="createComment" />
+          </form>
+        </div>
+        <div class="comments-done">
+          <comment-item
+            v-for="comment in nextComments"
+            :key="comment._id"
+            :commenterID="comment.userID"
+            :comment="comment.content"
+            :commenter="comment.commenter"
+            :pictureLink="comment.pictureLink"
+          ></comment-item>
+        </div>
       </div>
     </div>
   </div>
@@ -79,6 +82,7 @@ export default {
       media: "",
       modal: false,
       numOpenModal: 0,
+      loading: true,
     };
   },
   computed: {
@@ -253,8 +257,9 @@ export default {
   created() {
     this.isLiked();
     this.contentString = this.content;
-    this.setPhoto();
+    this.loading = false;
     this.setDate();
+    this.setPhoto();
     this.setMedia();
   },
 };
@@ -265,8 +270,12 @@ export default {
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px;
-  width: 150px;
+  width: 200px;
   margin: 0 auto;
+}
+
+.load {
+  background-color: grey;
 }
 
 .media {

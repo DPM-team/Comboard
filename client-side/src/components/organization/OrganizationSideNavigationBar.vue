@@ -7,7 +7,7 @@
       </label>
       <ul>
         <li>
-          <img class="organization-logo" src="../../assets/comboard-logo/logo-white.png" alt="Organization name" @click="viewMyOrganization()" />
+          <img class="organization-logo" :src="organizationImage" alt="Organization name" @click="viewMyOrganization()" />
         </li>
         <li>
           <router-link to="/organization/network">
@@ -58,12 +58,42 @@
 
 <script>
 export default {
+  data() {
+    return {
+      organizationImage: "../../assets/comboard-logo/logo-white.png",
+    };
+  },
   methods: {
     viewMyOrganization() {
       this.$router.push("/organization/my-organization");
     },
+    async takeOrganizationImage() {
+      try {
+        const blob = await this.$store.dispatch("takeOrganizationImage", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        if (blob.size !== 0) {
+          this.changeBlobToImage(blob);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    changeBlobToImage(blob) {
+      const fileSend = new File([blob], "");
+      const fileReader = new FileReader();
+
+      fileReader.onload = () => {
+        this.organizationImage = fileReader.result;
+      };
+
+      fileReader.readAsDataURL(fileSend);
+    },
   },
   async created() {
+    this.takeOrganizationImage();
     const blob = await this.$store.dispatch("getUserProfile", {
       userID: this.$store.getters.loggedUserID,
       organizationID: this.$store.getters.selectedOrganizationID,

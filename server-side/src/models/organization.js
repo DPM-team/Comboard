@@ -25,6 +25,14 @@ const organizationSchema = mongoose.Schema(
         }
       },
     },
+    image: {
+      type: Buffer,
+      required: false,
+    },
+    banner: {
+      type: Buffer,
+      required: false,
+    },
     telephone: {
       type: String,
       required: [true, "Organization's telephone is required!"],

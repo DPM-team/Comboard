@@ -239,4 +239,84 @@ export default {
       context.commit("setSelectedOrganization", { organizationID });
     }
   },
+  async updateOrganizationPhoto(context, payload) {
+    try {
+      const file = payload.file;
+      const organizationID = payload.organizationID;
+      const formdata = new FormData();
+      formdata.append("upload", file, file.name);
+
+      const requestOptions = {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+        body: formdata,
+      };
+
+      const response = await fetch(`/api/organization/upload/photo?organizationID=${organizationID}`, requestOptions);
+
+      return response.blob();
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
+  async updateBannerImage(context, payload) {
+    try {
+      const file = payload.file;
+      const organizationID = payload.organizationID;
+      const formdata = new FormData();
+      formdata.append("upload", file, file.name);
+
+      const requestOptions = {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+        body: formdata,
+      };
+
+      const response = await fetch(`/api/organization/upload/banner?organizationID=${organizationID}`, requestOptions);
+
+      return response.blob();
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
+  async takeOrganizationImage(context, payload) {
+    try {
+      const organizationID = payload.organizationID;
+
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+      };
+
+      const response = await fetch(`/api/organization/image?organizationID=${organizationID}`, requestOptions);
+
+      return response.blob();
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
+  async takeOrganizationBanner(context, payload) {
+    try {
+      const organizationID = payload.organizationID;
+
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+        },
+      };
+
+      const response = await fetch(`/api/organization/banner?organizationID=${organizationID}`, requestOptions);
+
+      return response.blob();
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
 };

@@ -1,6 +1,9 @@
 const express = require("express");
 const authentication = require("../middleware/authentication.js");
 const organizationController = require("../controllers/organizationController"); // Import the organization controller
+const multer = require("multer");
+const Organization = require("../models/organization.js");
+const sharp = require("sharp");
 
 const router = express.Router();
 
@@ -19,6 +22,129 @@ router.get("/api/organization/members", organizationController.getOrganizationMe
 
 // Router for /api/organization/teams
 router.get("/api/organization/teams", organizationController.getOrganizationTeams);
+
+const uploadOrganizationPhoto = multer({
+  limits: {
+    fileSize: 1000000,
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(png|jpeg|svg)$/)) {
+      return cb(new Error("The type of file is not correct."));
+    }
+
+    cb(undefined, true);
+  },
+});
+
+router.put(
+  "/api/organization/upload/photo",
+  authentication,
+  uploadOrganizationPhoto.single("upload"),
+  async (req, res) => {
+    const organizationID = req.query.organizationID;
+    if (!organizationID) {
+      throw new Error("Organization ID is required");
+    }
+
+    const organization = await Organization.findById(organizationID).select("creator image");
+    if (!organization) {
+      throw new Error();
+    }
+
+    if (organization.creator.toString() !== req.user._id.toString()) {
+      throw new Error();
+    }
+
+    const buffer = await sharp(req.file.buffer)
+      .resize({
+        width: 250,
+        height: 250,
+      })
+      .png()
+      .toBuffer();
+    organization.image = buffer;
+    await organization.save();
+    res.set("Content-Type", "image/png");
+    res.send(organization.image);
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
+
+router.put(
+  "/api/organization/upload/banner",
+  authentication,
+  uploadOrganizationPhoto.single("upload"),
+  async (req, res) => {
+    const organizationID = req.query.organizationID;
+    if (!organizationID) {
+      throw new Error("Organization ID is required");
+    }
+
+    const organization = await Organization.findById(organizationID).select("creator banner");
+    if (!organization) {
+      throw new Error();
+    }
+
+    if (organization.creator.toString() !== req.user._id.toString()) {
+      throw new Error();
+    }
+
+    const buffer = await sharp(req.file.buffer).png().toBuffer();
+    organization.banner = buffer;
+    await organization.save();
+    res.set("Content-Type", "image/png");
+    res.send(organization.banner);
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
+
+router.get(
+  "/api/organization/banner",
+  authentication,
+  async (req, res) => {
+    const organizationID = req.query.organizationID;
+    if (!organizationID) {
+      throw new Error("Organization ID is required");
+    }
+
+    const organization = await Organization.findById(organizationID).select("banner");
+    if (!organization) {
+      throw new Error();
+    }
+
+    res.set("Content-Type", "image/png");
+    res.send(organization.banner);
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
+
+router.get(
+  "/api/organization/image",
+  authentication,
+  async (req, res) => {
+    const organizationID = req.query.organizationID;
+    if (!organizationID) {
+      throw new Error("Organization ID is required");
+    }
+
+    const organization = await Organization.findById(organizationID).select("creator image");
+    if (!organization) {
+      throw new Error();
+    }
+
+    res.set("Content-Type", "image/png");
+    res.send(organization.image);
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
 
 // Router to get all the projects of an organization
 router.get("/api/organization/projects", organizationController.getOrganizationProjects);
