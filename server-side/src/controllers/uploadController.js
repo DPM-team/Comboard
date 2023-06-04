@@ -1,6 +1,7 @@
+const mongoose = require("mongoose");
+const sharp = require("sharp");
 const Data = require("../models/data.js");
 const File = require("../models/file.js");
-const mongoose = require("mongoose");
 
 const storageFileUpload = async (req, res) => {
   try {
@@ -119,7 +120,19 @@ const getStorageUploadedFile = async (req, res) => {
 
     res.set("Content-Type", fileObj.type);
 
-    res.status(200).send(fileObj.binary);
+    if (fileObj.name.match(".pdf")) {
+      return res.status(200).send(fileObj.binary);
+    }
+
+    const buffer = await sharp(fileObj.binary)
+      .resize({
+        width: 300,
+        height: 200,
+      })
+      .png()
+      .toBuffer();
+
+    res.status(200).send(buffer);
   } catch (error) {
     console.error(error); // Log the error for debugging purposes
     res.status(500).send("Server error.");

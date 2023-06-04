@@ -84,7 +84,7 @@ export default {
       return this.iconMap[extension] || "fa-regular fa-file";
     },
     allowPreview() {
-      if (this.type === "application/pdf" || this.type === "image/png" || this.type === "image/jpeg") {
+      if (this.name.match(".pdf") || this.name.match(".png") || this.name.match(".jpg") || this.name.match(".jpeg")) {
         return true;
       } else {
         this.fileLoading = false;
