@@ -11,7 +11,7 @@ const uploadMedia = multer({
     fileSize: 10 * 1024 * 1024,
   },
   fileFilter(req, file, callback) {
-    if (!file.originalname.match(/\.(png)$/)) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
       return callback(new Error());
     }
 

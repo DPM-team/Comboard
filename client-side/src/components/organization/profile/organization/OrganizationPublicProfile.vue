@@ -3,10 +3,20 @@
     <organization-page-header><back-header-button></back-header-button></organization-page-header>
     <div v-if="organizationObj && !isLoading">
       <div class="header__wrapper">
-        <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
+        <div v-if="banner" class="profile-header">
+          <img class="backgroundImage" :src="banner" alt="User Background Image" />
+        </div>
+        <div v-else class="profile-header">
+          <img
+            class="backgroundImage"
+            src="https://img.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg?w=2000"
+            alt="User Background Image"
+          />
+        </div>
       </div>
       <div class="img__container">
-        <img :src="organizationPfp" alt="Organization Profile Pic" />
+        <img v-if="organizationImage" :src="organizationImage" alt="Organization Profile Pic" />
+        <img v-else src="../../../../assets/images/common-images/default-organization-photo.png" alt="Organization Profile Pic" />
       </div>
       <div class="main-area">
         <div class="organization-data">
@@ -42,12 +52,6 @@ export default {
   components: { OrganizationPageHeader, NewsList, BackHeaderButton, BaseButton },
   data() {
     return {
-      organizationName: "Comboard",
-      location: "Thessaloniki",
-      email: "example@gmail.com",
-      bio: "Comboard is an organization that blah blah blah blah blah blah blah blah blah blah blah blah",
-      organizationPfp: "",
-      backgroundImage: "https://parallaximag.gr/wp-content/uploads/pamak-1280x720.jpg",
       organizationObj: null,
       members: [],
       team: [],
@@ -55,6 +59,8 @@ export default {
       posts: [],
       isLoading: false,
       isModerator: false,
+      banner: "",
+      organizationImage: "",
     };
   },
   methods: {
@@ -76,9 +82,57 @@ export default {
         this.$router.push("/not-found");
       }
     },
+    async takeOrganizationImage() {
+      try {
+        const blob = await this.$store.dispatch("takeOrganizationImage", {
+          organizationID: this.this.$store.getters.selectedOrganizationID,
+        });
+
+        if (blob.size !== 0) {
+          this.changeBlobToImage(blob);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async takeOrganizationBanner() {
+      try {
+        const blob = await this.$store.dispatch("takeOrganizationBanner", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        if (blob.size !== 0) {
+          this.changeBlobToBanner(blob);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    changeBlobToImage(blob) {
+      const fileSend = new File([blob], "");
+      const fileReader = new FileReader();
+
+      fileReader.onload = () => {
+        this.organizationImage = fileReader.result;
+      };
+
+      fileReader.readAsDataURL(fileSend);
+    },
+    changeBlobToBanner(blob) {
+      const fileSend = new File([blob], "");
+      const fileReader = new FileReader();
+
+      fileReader.onload = () => {
+        this.banner = fileReader.result;
+      };
+
+      fileReader.readAsDataURL(fileSend);
+    },
   },
   created() {
     this.loadOrganizationPublicData();
+    this.takeOrganizationImage();
+    this.takeOrganizationBanner();
   },
 };
 </script>

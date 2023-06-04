@@ -19,7 +19,7 @@
       <base-dialog v-if="modal" :title="'Add an image to your post!'" :overlay="true" @close="toggleModal">
         <template #main>
           <form @submit.prevent="createdPost">
-            <base-card v-if="warning" :width="100" :bgColor="'#D9AC0C'">You must at least add text or media</base-card>
+            <base-card v-if="warning" :width="'300px'" :bgColor="'#D9AC0C'">You must at least add text or media</base-card>
             <base-message v-if="postMessage" mode="success" :message="postMessage"></base-message>
             <textarea v-model="postContent" type="text" placeholder="Share your thoughts..." class="post-input" @input="setWarning(false)"></textarea>
             <div style="display: flex"><img v-if="postMedia" class="post-img" alt="Selected Image" ref="preview" /></div>
@@ -71,6 +71,7 @@ export default {
         contentString: this.postContent,
         visibilityPost: this.visibilityPost,
       };
+
       const postMedia = this.postMedia;
 
       try {
@@ -79,8 +80,13 @@ export default {
           postMedia,
           organizationID: this.$store.getters.selectedOrganizationID,
         });
+
+        this.postContent = "";
+        this.postMedia = null;
+
         this.postMessage = successData.successMessage;
         this.$emit("createPost", successData.createdPost);
+
         setTimeout(() => {
           this.modal ? this.toggleModal() : "";
           this.postMessage = "";
@@ -115,8 +121,11 @@ export default {
     },
     toggleModal() {
       this.modal = !this.modal;
+
       if (this.modal) {
         this.preview();
+      } else {
+        this.warning = "";
       }
     },
     removeMedia() {

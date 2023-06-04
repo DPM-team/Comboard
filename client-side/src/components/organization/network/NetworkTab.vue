@@ -28,8 +28,14 @@
     <base-context-menu v-if="activePostID !== null" :position="menuPosition">
       <template #options>
         <li @click="closeContextMenu()">Cancel</li>
-        <li @click="editPost"><font-awesome-icon :icon="['fas', 'pen']"></font-awesome-icon>&nbsp;Edit</li>
-        <li @click="deletePost"><font-awesome-icon :icon="['fas', 'trash-can']" />Delete</li>
+        <li @click="editPost">
+          <font-awesome-icon :icon="['fas', 'pen']" />
+          Edit
+        </li>
+        <li class="warning" @click="deletePost">
+          <font-awesome-icon :icon="['fas', 'trash-can']" />
+          Delete
+        </li>
       </template>
     </base-context-menu>
   </organization-page-tab>

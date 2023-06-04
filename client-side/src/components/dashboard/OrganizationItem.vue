@@ -1,7 +1,8 @@
 <template>
   <div class="organization-container" :title="name">
     <router-link @click="setOrganization()" to="organization" class="organization" @contextmenu.prevent="openOptions($event)">
-      <img :src="organizationImage" />
+      <img v-if="organizationImage" :src="organizationImage" />
+      <img v-else src="../../assets/images/common-images/default-organization-photo.png" />
       <h1 class="organization-name">{{ newTitle }}</h1>
     </router-link>
   </div>
@@ -52,7 +53,6 @@ export default {
         console.log(e);
       }
     },
-
     changeBlobToImage(blob) {
       const fileSend = new File([blob], "");
       const fileReader = new FileReader();

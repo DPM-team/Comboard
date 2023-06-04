@@ -132,11 +132,11 @@ const deleteStorageFile = async (req, res) => {
     const fileID = req.query.fileID;
 
     if (!organizationID) {
-      throw new Error();
+      return res.status(400).json({ error: "OrganizationID is required!" });
     }
 
     if (!fileID) {
-      console.log();
+      return res.status(400).json({ error: "fileID is required!" });
     }
 
     // We get the user's data for a specific organization
@@ -147,18 +147,25 @@ const deleteStorageFile = async (req, res) => {
     }
 
     if (!userOrgData.files.includes(mongoose.Types.ObjectId(fileID))) {
-      throw new Error();
+      return res.status(404).json({ error: "File doesn't exists in user data!" });
     }
 
     const file = await File.findById(fileID);
+
     await file.delete();
 
-    const fileIndex = userOrgData.files.forEach((file) => {
-      return fileID === file.toString();
-    });
+    let fileIndex = -1;
+
+    for (const [index, fileObj] of userOrgData.files.entries()) {
+      if (fileObj._id.toString() === fileID) {
+        fileIndex = index;
+        break;
+      }
+    }
 
     if (fileIndex > -1) {
       userOrgData.files.splice(fileIndex, 1);
+      await userOrgData.save();
     }
 
     return res.status(200).json({ successMessage: "File has deleted successfully" });

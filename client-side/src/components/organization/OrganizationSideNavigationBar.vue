@@ -6,8 +6,9 @@
         <font-awesome-icon icon="fa-solid fa-square-caret-down" />
       </label>
       <ul>
-        <li>
-          <img class="organization-logo" :src="organizationImage" alt="Organization name" @click="viewMyOrganization()" />
+        <li class="organization-logo--item">
+          <img v-if="organizationImage" class="organization-logo" :src="organizationImage" alt="Organization name" @click="viewMyOrganization()" />
+          <img v-else class="organization-logo" src="../../assets/images/common-images/default-organization-photo.png" alt="Organization name" @click="viewMyOrganization()" />
         </li>
         <li>
           <router-link to="/organization/network">
@@ -60,7 +61,7 @@
 export default {
   data() {
     return {
-      organizationImage: "../../assets/comboard-logo/logo-white.png",
+      organizationImage: "",
     };
   },
   methods: {
@@ -80,7 +81,6 @@ export default {
         console.log(e);
       }
     },
-
     changeBlobToImage(blob) {
       const fileSend = new File([blob], "");
       const fileReader = new FileReader();
@@ -126,6 +126,10 @@ export default {
   border: none;
   text-decoration: none;
   box-sizing: border-box;
+}
+
+.organization-logo--item {
+  margin-top: 20px;
 }
 
 .organization-side-navbar {

@@ -63,7 +63,6 @@ export default {
       /* For files searching */
       filteredFiles: [],
       searchingFiles: false,
-      m: "",
       previousSearch: "",
     };
   },
@@ -154,13 +153,6 @@ export default {
     },
     async deleteFile() {
       try {
-        const successMessage = this.$store.dispatch("deleteStorageFile", {
-          organizationID: this.$store.getters.selectedOrganizationID,
-          fileID: this.activeFileID,
-        });
-
-        this.m = successMessage.message;
-
         const fileIndex = this.files.findIndex((file) => {
           return file._id === this.activeFileID;
         });
@@ -168,8 +160,13 @@ export default {
         if (fileIndex > -1) {
           this.files.splice(fileIndex, 1);
         }
-      } catch (e) {
-        console.log(e);
+
+        this.$store.dispatch("deleteStorageFile", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+          fileID: this.activeFileID,
+        });
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
       }
     },
     async searchFile(insertedChars) {

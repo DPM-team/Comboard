@@ -113,10 +113,14 @@ export default {
 
       // Check if the response is successful
       if (!response.ok) {
-        throw new Error();
+        // Handle error response
+        const errorObj = await response.json();
+        throw new Error(errorObj.error);
       }
 
-      return await response.json();
+      const successData = await response.json();
+      
+      return successData;
     } catch (error) {
       throw new Error(error.message);
     }

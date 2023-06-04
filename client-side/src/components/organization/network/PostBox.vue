@@ -22,7 +22,7 @@
       </div>
       <div class="like-comment-container">
         <p>
-          <b @click="toggleModal">{{ likesNum }}</b> <span>likes</span> <b>{{ commentsNum }}</b> comments
+          <b @click="toggleModal">{{ likesNum }}</b> <span @click="toggleModal">likes</span> <b>{{ commentsNum }}</b> comments
         </p>
         <font-awesome-icon @click="toogleLike" :class="{ liked: this.haveLike }" class="post-icon" id="heart" :icon="['fas', 'heart']" />
         <base-dialog v-if="modal" :title="likePopUpTitle" :overlay="true" @close="toggleModal">

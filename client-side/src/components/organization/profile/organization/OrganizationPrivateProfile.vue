@@ -116,7 +116,6 @@ export default {
         console.log(e);
       }
     },
-
     async takeOrganizationBanner() {
       try {
         const blob = await this.$store.dispatch("takeOrganizationBanner", {
@@ -140,7 +139,6 @@ export default {
 
       fileReader.readAsDataURL(fileSend);
     },
-
     changeBlobToBanner(blob) {
       const fileSend = new File([blob], "");
       const fileReader = new FileReader();
@@ -151,7 +149,6 @@ export default {
 
       fileReader.readAsDataURL(fileSend);
     },
-
     async updateOrganizationPhoto() {
       try {
         const file = this.$refs.file?.files[0] || null;
