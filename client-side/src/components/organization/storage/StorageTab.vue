@@ -1,17 +1,27 @@
 <template>
   <organization-page-tab :layout="'block'" @scroll="handleScroll()" ref="filesTab">
-    <upload-file-button @fileData="getData"></upload-file-button>
-    <div class="load-file">
-      <base-spinner v-if="loadingUploadedFile"></base-spinner>
-      <p v-else class="chosen-file">No file chosen</p>
+    <div class="storage--header">
+      <upload-file-button @fileData="getData"></upload-file-button>
+      <div class="load-file">
+        <base-spinner v-if="loadingUploadedFile"></base-spinner>
+        <p v-else class="chosen-file">No file chosen</p>
+      </div>
+      <file-search-bar @searchFile="searchFile"></file-search-bar>
     </div>
-    <div class="files-container">
+    <div class="files-container" v-if="!searchingFiles">
       <base-spinner v-if="loadingFiles"></base-spinner>
       <p v-else-if="files.length === 0 && !loadingFiles" class="empty-message">No Files</p>
       <ul class="file-ul" v-else>
         <file-item v-for="file in files" :key="file._id" :id="file._id" :name="file.name" :type="file.type" @openOptions="showContextMenu"></file-item>
       </ul>
       <base-spinner v-if="loadingMoreFiles"></base-spinner>
+    </div>
+    <div class="files-container" v-else>
+      <base-spinner v-if="loadingFiles"></base-spinner>
+      <p v-else-if="filteredFiles.length === 0 && !loadingFiles" class="empty-message">No files found for your search!</p>
+      <ul class="file-ul" v-else>
+        <file-item v-for="file in filteredFiles" :key="file._id" :id="file._id" :name="file.name" :type="file.type" @openOptions="showContextMenu"></file-item>
+      </ul>
     </div>
     <base-context-menu v-if="activeFileID !== null" :position="menuPosition">
       <template #options>
@@ -31,9 +41,10 @@ import OrganizationPageTab from "../../layout/pages/organization/OrganizationPag
 import FileItem from "./FileItem.vue";
 import UploadFileButton from "./UploadFileButton.vue";
 import BaseContextMenu from "../../basic-components/BaseContextMenu.vue";
+import FileSearchBar from "./FileSearchBar.vue";
 
 export default {
-  components: { FileItem, OrganizationPageTab, UploadFileButton, BaseSpinner, BaseContextMenu },
+  components: { FileItem, OrganizationPageTab, UploadFileButton, BaseSpinner, BaseContextMenu, FileSearchBar },
   data() {
     return {
       files: [],
@@ -49,6 +60,10 @@ export default {
         x: 0,
         y: 0,
       },
+      /* For files searching */
+      filteredFiles: [],
+      searchingFiles: false,
+      previousSearch: "",
     };
   },
   methods: {
@@ -139,6 +154,31 @@ export default {
     deleteFile() {
       console.log("Delete");
     },
+    async searchFile(insertedChars) {
+      if (this.previousSearch !== insertedChars) {
+        if (insertedChars.trim()) {
+          try {
+            this.searchingFiles = true;
+            this.loadingFiles = true;
+
+            const successData = await this.$store.dispatch("searchFiles", {
+              userID: this.$store.getters.loggedUserID,
+              organizationID: this.$store.getters.selectedOrganizationID,
+              startsWith: insertedChars,
+            });
+
+            this.filteredFiles = successData.filteredFiles;
+            this.loadingFiles = false;
+          } catch (error) {
+            console.log(error.message || "Something went wrong!");
+          }
+        } else {
+          this.searchingFiles = false;
+        }
+      }
+
+      this.previousSearch = insertedChars;
+    },
   },
   async created() {
     this.loadingFiles = true;
@@ -161,6 +201,7 @@ export default {
 .chosen-file {
   color: grey;
   display: inline-block;
+  margin-top: 20px;
 }
 
 .load-file {
@@ -192,6 +233,10 @@ export default {
 
 .warning {
   color: red;
+}
+
+.storage--header {
+  display: flex;
 }
 
 /* Responsiveness */

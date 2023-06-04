@@ -75,6 +75,39 @@ const getStorageFiles = async (req, res) => {
   }
 };
 
+const searchStorageFiles = async (req, res) => {
+  try {
+    const userID = req.query.userID;
+    const organizationID = req.query.organizationID;
+    const startsWith = req.query.startsWith.toLowerCase();
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    if (!organizationID) {
+      return res.status(400).json({ error: "OrganizationID is required!" });
+    }
+
+    if (!startsWith) {
+      return res.status(400).json({ error: "startsWith is required!" });
+    }
+
+    const userOrgData = await Data.findOne({ userID, organizationID }).populate("files");
+
+    if (!userOrgData) {
+      return res.status(404).json({ error: "User's data for this organization not found!" });
+    }
+
+    const filteredFiles = userOrgData.files.filter((file) => file.name.toLowerCase().startsWith(startsWith));
+
+    return res.status(200).json({ filteredFiles });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 const getStorageUploadedFile = async (req, res) => {
   try {
     const fileObj = await File.findById(req.params.fileID);
@@ -95,5 +128,6 @@ const getStorageUploadedFile = async (req, res) => {
 module.exports = {
   storageFileUpload,
   getStorageFiles,
+  searchStorageFiles,
   getStorageUploadedFile,
 };
