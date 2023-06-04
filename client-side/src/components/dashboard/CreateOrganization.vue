@@ -11,6 +11,14 @@
             <div class="copy--message" v-if="isCopied">Key copied!</div>
           </div>
         </div>
+        <form class="send-key--form" @submit.prevent="sendKey()">
+          <input class="send-key--input" type="email" name="receiver-email" placeholder="Send to..." v-model="receiverEmail" required />
+          <font-awesome-icon class="send-key--icon" icon="user-plus" size="lg" title="Send the key" @click.prevent="sendKey()" />
+        </form>
+        <base-message v-if="wrongEmailFormatMessage" mode="error" message="Wrong email format!"></base-message>
+      </template>
+      <template #actions>
+        <base-button @click="goToDashboard()">Completed</base-button>
       </template>
     </base-dialog>
     <base-card v-if="errorMessage" width="25%" bgColor="#f4725b">{{ errorMessage }}</base-card>
@@ -35,7 +43,10 @@ import AuthFormInput from "../auth/AuthFormInput.vue";
 import AuthHeader from "../auth/AuthHeader.vue";
 import BaseSection from "../basic-components/BaseSection.vue";
 
+import emailValidationMixin from "../../mixins/email-validation.js";
+
 export default {
+  mixins: [emailValidationMixin],
   components: {
     AuthForm,
     AuthFormInput,
@@ -56,6 +67,8 @@ export default {
       errorMessage: "",
       dialogIsOpen: false,
       isCopied: false,
+      receiverEmail: "",
+      wrongEmailFormatMessage: "",
     };
   },
   methods: {
@@ -84,8 +97,31 @@ export default {
         console.log(error);
       }
     },
+    async sendKey() {
+      if (this.receiverEmail.trim() && this.validateEmail(this.receiverEmail)) {
+        this.wrongEmailFormatMessage = false;
+
+        try {
+          await this.$store.dispatch("sendJoinInvitation", {
+            organizationName: this.organizationObj.name,
+            organizationPublicKey: this.orgKeyToJoin,
+            receiverEmail: this.receiverEmail,
+          });
+
+          this.receiverEmail = "";
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        this.wrongEmailFormatMessage = true;
+      }
+    },
+    goToDashboard() {
+      this.$router.push("/dashboard");
+    },
     closeDialog() {
       this.dialogIsOpen = false;
+      this.wrongEmailFormatMessage = false;
     },
     openDialog() {
       this.dialogIsOpen = true;
@@ -142,5 +178,20 @@ export default {
   margin-bottom: 7px;
   padding: 5px 15px 5px 15px;
   box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.25);
+}
+
+.send-key--form {
+  margin-top: 20px;
+}
+
+.send-key--icon {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.send-key--input {
+  width: 200px;
+  padding: 0.5rem;
+  border: 1.5px solid var(--color-primary);
 }
 </style>

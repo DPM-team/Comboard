@@ -4,6 +4,8 @@ const Team = require("../models/team.js");
 const Project = require("../models/project.js");
 const User = require("../models/user.js");
 const Data = require("../models/data.js");
+const Email = require("../APIs/emails/email");
+const sendEmail = require("../APIs/emails/send-email.js");
 
 // We can get all the stored organization on the db
 const getAllStoredOrganizations = async (req, res) => {
@@ -330,6 +332,23 @@ const addTeamToOrganization = async (req, res) => {
   }
 };
 
+const sendJoinInvitation = async (req, res) => {
+  try {
+    const organizationName = req.body.organizationName;
+    const organizationPublicKey = req.body.organizationPublicKey;
+    const receiverEmail = req.body.receiverEmail;
+
+    const subject = "You got an invitation to join an organization!";
+    const html = Email.returnShareOrgKeyTemplate(organizationName, organizationPublicKey);
+    const emailObj = new Email(receiverEmail, "dpmcomboard@gmail.com", subject, html);
+    sendEmail(emailObj);
+    res.status(200).json({ successMessage: "Email send with success!" });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   getAllStoredOrganizations,
   getOrganizationByID,
@@ -341,4 +360,5 @@ module.exports = {
   getOrganizationTeams,
   getOrganizationProjects,
   addTeamToOrganization,
+  sendJoinInvitation,
 };

@@ -66,6 +66,7 @@ export default {
 .input-container {
   position: relative;
 }
+
 .input-item-icon {
   position: absolute;
 
@@ -100,6 +101,7 @@ input[type="button"] {
   cursor: pointer;
   font-size: 15px;
 }
+
 input[type="file"] {
   background-color: var(--color-primary);
   color: white;
@@ -120,46 +122,55 @@ input[type="button"]:hover,
 input[type="submit"]:hover {
   filter: brightness(0.8);
 }
+
 @media (min-width: 1700px) {
   .input-item-icon {
     left: 45px;
   }
 }
+
 @media (max-width: 1700px) {
   .input-item-icon {
     left: 32px;
   }
 }
+
 @media (max-width: 1500px) {
   .input-item-icon {
     left: 28px;
   }
 }
+
 @media (max-width: 1350px) {
   .input-item-icon {
     left: 26px;
   }
 }
+
 @media (max-width: 650px) {
   .input-item-icon {
     left: 38px;
   }
 }
+
 @media (max-width: 600px) {
   .input-item-icon {
     left: 30px;
   }
 }
+
 @media (max-width: 480px) {
   .input-item-icon {
     left: 26px;
   }
 }
+
 @media (max-width: 430px) {
   .input-item-icon {
     left: 22px;
   }
 }
+
 @media (max-width: 400px) {
   .input-item-icon {
     left: 18px;

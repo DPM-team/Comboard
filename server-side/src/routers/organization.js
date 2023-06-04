@@ -32,4 +32,6 @@ router.post("/api/organization/team", organizationController.addTeamToOrganizati
 // Router to get a specific organization based of its ID
 router.get("/api/organization/:identifier", organizationController.getOrganizationByID);
 
+router.post("/api/organization/invite", authentication, organizationController.sendJoinInvitation);
+
 module.exports = router;
