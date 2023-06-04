@@ -2,7 +2,7 @@
   <organization-page-tab :layout="'block'">
     <div class="calendar-tab-container">
       <base-spinner v-if="isLoading"></base-spinner>
-      <VCalendar v-else class="calendar" expanded :attributes="attributes" :color="selectedColor" ref="calendar">
+      <VCalendar v-else class="calendar" expanded :attributes="attributes" ref="calendar">
         <template #header-title="title">
           <h2>{{ title.title }}</h2>
         </template>
@@ -25,7 +25,7 @@ export default {
     return {
       updateNeeded: false,
       isLoading: false,
-      selectedColor: "blue",
+      colors: ["red", "blue", "green", "orange", "yellow", "purple"],
       todayObj: {
         key: "today",
         highlight: {
@@ -51,10 +51,12 @@ export default {
         });
 
         this.attributes = successData.taskDates.map((todoObj) => {
+          const color = this.colors[Math.floor(Math.random() * this.colors.length)];
           return {
+            bar: color,
             key: todoObj._id,
             highlight: {
-              color: "blue",
+              color,
             },
             dates: todoObj.dates,
             popover: {
