@@ -239,6 +239,7 @@ export default {
       context.commit("setSelectedOrganization", { organizationID });
     }
   },
+
   async updateOrganizationPhoto(context, payload) {
     try {
       const file = payload.file;
@@ -317,6 +318,38 @@ export default {
       return response.blob();
     } catch (e) {
       throw new Error(e);
+    }
+  },
+  async sendJoinInvitation(context, payload) {
+    const organizationName = payload.organizationName;
+    const organizationPublicKey = payload.organizationPublicKey;
+    const receiverEmail = payload.receiverEmail;
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ organizationName, organizationPublicKey, receiverEmail }),
+    };
+
+    try {
+      // Make a POST request to the API endpoint
+      const response = await fetch(`/api/organization/invite`, requestOptions);
+
+      // Check if the response is successful
+      if (!response.ok) {
+        // Handle error response
+        const errorObj = await response.json();
+        throw new Error(errorObj.error);
+      }
+
+      const successData = await response.json();
+
+      console.log(successData);
+    } catch (error) {
+      throw new Error(error.message || "Failed send invitation.");
     }
   },
 };

@@ -32,6 +32,8 @@ router.post("/api/storage/upload", authentication, storageUpload.single("upload"
 
 router.get("/api/storage/files", authentication, uploadController.getStorageFiles);
 
+router.get("/api/storage/search/files", authentication, uploadController.searchStorageFiles);
+
 router.get("/api/storage/file/:fileID", uploadController.getStorageUploadedFile);
 
 const uploadUserProfile = multer({
