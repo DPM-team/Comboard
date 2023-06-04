@@ -1,7 +1,7 @@
 <template>
   <div class="organization-container" :title="name">
     <router-link @click="setOrganization()" to="organization" class="organization" @contextmenu.prevent="openOptions($event)">
-      <img :src="formatImagePath" />
+      <img :src="organizationImage" />
       <h1 class="organization-name">{{ newTitle }}</h1>
     </router-link>
   </div>
@@ -24,10 +24,12 @@ export default {
       default: "pamak.png",
     },
   },
+  data() {
+    return {
+      organizationImage: "",
+    };
+  },
   computed: {
-    formatImagePath() {
-      return require("../../assets/images/dashboard/organizations/" + this.organizationFileName);
-    },
     newTitle() {
       if (this.name.length > 14) {
         return this.name.substring(0, 14) + "...";
@@ -37,12 +39,39 @@ export default {
     },
   },
   methods: {
+    async takeOrganizationImage() {
+      try {
+        const blob = await this.$store.dispatch("takeOrganizationImage", {
+          organizationID: this.id,
+        });
+
+        if (blob.size !== 0) {
+          this.changeBlobToImage(blob);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    changeBlobToImage(blob) {
+      const fileSend = new File([blob], "");
+      const fileReader = new FileReader();
+
+      fileReader.onload = () => {
+        this.organizationImage = fileReader.result;
+      };
+
+      fileReader.readAsDataURL(fileSend);
+    },
     setOrganization() {
       this.$store.dispatch("selectOrganization", { organizationID: this.id });
     },
     openOptions(evt) {
       this.$emit("open-options", evt.pageX, evt.pageY, this.id);
     },
+  },
+  created() {
+    this.takeOrganizationImage();
   },
 };
 </script>

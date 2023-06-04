@@ -2,27 +2,27 @@
   <div>
     <organization-page-header><button class="rtn-button">Return to Dashboard</button><font-awesome-icon class="back-icon" :icon="['fas', 'circle-chevron-left']" /></organization-page-header>
     <div class="header__wrapper">
-      <div class="profile-header"><img class="backgroundImage" :src="backgroundImage" alt="User Background Image" /></div>
+      <div class="profile-header"><img class="backgroundImage" :src="banner" alt="User Background Image" /></div>
     </div>
     <div class="img__container">
-      <img :src="pfp" alt="User Profile Pic" />
+      <img :src="profilePhoto" alt="User Profile Pic" />
       <span></span>
     </div>
     <div class="main-area">
       <div class="settings">
         <h2 class="title">Organization name</h2>
-        <form enctype="multipart/form-data" class="organization-information" action="" method="post">
+        <form enctype="multipart/form-data" class="organization-information" @submit.prevent="updateData">
           <h2>Update your organization</h2>
           <div class="inputBox">
-            <input type="text" name="organizationName" class="" value="" required />
+            <input type="text" name="organizationName" class="" value="" />
             <span>Organization name</span>
           </div>
           <div class="inputBox">
-            <input type="text" name="phone" class="" value="" required />
+            <input type="text" name="phone" class="" value="" />
             <span>Phone</span>
           </div>
           <div class="inputBox">
-            <input type="email" name="email" class="" value="" required />
+            <input type="email" name="email" class="" value="" />
             <span>Email</span>
           </div>
           <div class="inputBox">
@@ -38,11 +38,11 @@
             <span>Bio</span>
           </div>
           <div class="inputBox">
-            <input type="file" name="profile-picture" value="" />
+            <input type="file" name="profile-picture" value="" ref="file" />
             <span>Organization picture</span>
           </div>
           <div class="inputBox">
-            <input type="file" name="profile-banner" value="" />
+            <input type="file" name="profile-banner" value="" ref="banner" />
             <span>Organization banner</span>
           </div>
           <div class="inputBox">
@@ -74,7 +74,6 @@ export default {
   data() {
     return {
       userID: "",
-      organizationID: "",
       firstname: "Dionisis",
       lastname: "Lougaris",
       location: "Thessaloniki",
@@ -82,8 +81,8 @@ export default {
       linkedinLink: "https://www.linkedin.com/in/dionisis-lougaris/",
       mailLink: "mailto:example@gmail.com",
       bio: "Hello fellow Uom Members, I am Dionisis and I am a senior at the Uom Computer Science Dept.",
-      pfp: "https://www.uom.gr/site/images/logos/UOMLOGOGR.jpg",
-      backgroundImage: "https://parallaximag.gr/wp-content/uploads/pamak-1280x720.jpg",
+      profilePhoto: "https://www.uom.gr/site/images/logos/UOMLOGOGR.jpg",
+      banner: "https://parallaximag.gr/wp-content/uploads/pamak-1280x720.jpg",
       members: [
         { id: 1, fullname: "Dionisis Lougaris" },
         { id: 2, fullname: "Panos Machairas" },
@@ -96,10 +95,112 @@ export default {
         { id: 3, title: "Project3" },
         { id: 4, title: "Project4" },
       ],
+      // message: ""
     };
+  },
+  methods: {
+    updateData() {
+      this.updateOrganizationPhoto();
+      this.updateOrganizationBanner();
+    },
+    async takeOrganizationImage() {
+      try {
+        const blob = await this.$store.dispatch("takeOrganizationImage", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        if (blob.size !== 0) {
+          this.changeBlobToImage(blob);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    async takeOrganizationBanner() {
+      try {
+        const blob = await this.$store.dispatch("takeOrganizationBanner", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+        });
+
+        if (blob.size !== 0) {
+          this.changeBlobToBanner(blob);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    changeBlobToImage(blob) {
+      const fileSend = new File([blob], "");
+      const fileReader = new FileReader();
+
+      fileReader.onload = () => {
+        this.profilePhoto = fileReader.result;
+      };
+
+      fileReader.readAsDataURL(fileSend);
+    },
+
+    changeBlobToBanner(blob) {
+      const fileSend = new File([blob], "");
+      const fileReader = new FileReader();
+
+      fileReader.onload = () => {
+        this.banner = fileReader.result;
+      };
+
+      fileReader.readAsDataURL(fileSend);
+    },
+
+    async updateOrganizationPhoto() {
+      try {
+        const file = this.$refs.file?.files[0] || null;
+        if (!file) {
+          return;
+        }
+        const blob = await this.$store.dispatch("updateOrganizationPhoto", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+          file,
+        });
+
+        if (blob.size !== 0) {
+          this.changeBlobToImage(blob);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async updateOrganizationBanner() {
+      try {
+        const file = this.$refs.banner?.files[0] || null;
+        if (!file) {
+          return;
+        }
+        const blob = await this.$store.dispatch("updateBannerImage", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+          file,
+        });
+
+        if (blob.size !== 0) {
+          const fileSend = new File([blob], `${file.name}`);
+          const fileReader = new FileReader();
+
+          fileReader.onload = () => {
+            this.banner = fileReader.result;
+          };
+
+          fileReader.readAsDataURL(fileSend);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
   created() {
     // document.body.classList.add("no-scrolling");
+
+    this.takeOrganizationImage();
+    this.takeOrganizationBanner();
 
     this.userID = this.$store.getters.loggedUserID;
     this.organizationID = this.$store.getters.selectedOrganizationID;

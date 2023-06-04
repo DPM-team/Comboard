@@ -12,7 +12,7 @@
         <img v-if="profilePhoto !== ''" class="user-pfp" :src="profilePhoto" />
         <img v-else class="user-pfp" src="../../../assets/images/common-images/user-profile.png" />
       </div>
-      <input v-model="postContent" required class="post-input" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
+      <input v-model="postContent" required class="post-input post-text" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
       <!-- <input type="button" name="file" id="file" @click="openModal" /> -->
       <font-awesome-icon class="post-image-btn" :icon="['far', 'image']" @click="toggleModal" />
 
@@ -21,6 +21,8 @@
           <form @submit.prevent="createdPost">
             <base-card v-if="warning" :width="100" :bgColor="'#D9AC0C'">You must at least add text or media</base-card>
             <base-message v-if="postMessage" mode="success" :message="postMessage"></base-message>
+            <textarea v-model="postContent" type="text" placeholder="Share your thoughts..." class="post-input" @input="setWarning(false)"></textarea>
+            <div style="display: flex"><img v-if="postMedia" class="post-img" alt="Selected Image" ref="preview" /></div>
             <div class="button-container">
               <label class="button" for="image">Add Image</label>
               <input id="image" type="file" ref="file" @input="getFile" />
@@ -29,10 +31,8 @@
                 <font-awesome-icon :icon="['fas', 'trash-can']" />
               </div>
             </div>
-            <input v-model="postContent" type="text" class="post-input" @input="setWarning(false)" />
             <input type="submit" @click="createPost" class="post-button" value="Post" />
           </form>
-          <div style="display: flex"><img v-if="postMedia" class="post-img" alt="Selected Image" ref="preview" /></div>
         </template>
       </base-dialog>
 
@@ -140,7 +140,7 @@ export default {
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px;
-  width: 150px;
+  width: 200px;
   margin: 0 auto;
 }
 input[type="file"] {
@@ -249,9 +249,12 @@ input[type="file"] {
   font-size: 13px;
   margin: 10px 0;
   border: none;
-  border-bottom: 1px solid var(--color-fourth);
   outline: none;
   resize: none;
+}
+
+.post-text {
+  border-bottom: 1px solid var(--color-fourth);
 }
 
 @media (max-width: 770px) {
