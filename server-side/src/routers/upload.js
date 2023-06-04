@@ -36,6 +36,8 @@ router.get("/api/storage/search/files", authentication, uploadController.searchS
 
 router.get("/api/storage/file/:fileID", uploadController.getStorageUploadedFile);
 
+router.delete("/api/storage/file", authentication, uploadController.deleteStorageFile);
+
 const uploadUserProfile = multer({
   limits: {
     fileSize: 1000000,

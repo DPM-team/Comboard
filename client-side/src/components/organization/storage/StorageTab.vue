@@ -63,6 +63,7 @@ export default {
       /* For files searching */
       filteredFiles: [],
       searchingFiles: false,
+      m: "",
       previousSearch: "",
     };
   },
@@ -151,8 +152,25 @@ export default {
     renameFile() {
       console.log("Rename");
     },
-    deleteFile() {
-      console.log("Delete");
+    async deleteFile() {
+      try {
+        const successMessage = this.$store.dispatch("deleteStorageFile", {
+          organizationID: this.$store.getters.selectedOrganizationID,
+          fileID: this.activeFileID,
+        });
+
+        this.m = successMessage.message;
+
+        const fileIndex = this.files.findIndex((file) => {
+          return file._id === this.activeFileID;
+        });
+
+        if (fileIndex > -1) {
+          this.files.splice(fileIndex, 1);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     },
     async searchFile(insertedChars) {
       if (this.previousSearch !== insertedChars) {

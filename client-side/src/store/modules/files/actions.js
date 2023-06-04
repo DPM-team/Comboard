@@ -97,4 +97,28 @@ export default {
       throw new Error(error.message || "Failed to get files.");
     }
   },
+  async deleteStorageFile(context, payload) {
+    const organizationID = payload.organizationID;
+    const file = payload.fileID;
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+    };
+
+    try {
+      const response = await fetch(`/api/storage/file?organizationID=${organizationID}&fileID=${file}`, requestOptions);
+
+      // Check if the response is successful
+      if (!response.ok) {
+        throw new Error();
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
 };

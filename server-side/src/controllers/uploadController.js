@@ -1,5 +1,6 @@
 const Data = require("../models/data.js");
 const File = require("../models/file.js");
+const mongoose = require("mongoose");
 
 const storageFileUpload = async (req, res) => {
   try {
@@ -125,9 +126,52 @@ const getStorageUploadedFile = async (req, res) => {
   }
 };
 
+const deleteStorageFile = async (req, res) => {
+  try {
+    const organizationID = req.query.organizationID;
+    const fileID = req.query.fileID;
+
+    if (!organizationID) {
+      throw new Error();
+    }
+
+    if (!fileID) {
+      console.log();
+    }
+
+    // We get the user's data for a specific organization
+    const userOrgData = await Data.findOne({ userID: req.user._id, organizationID }).select("files");
+
+    if (!userOrgData) {
+      return res.status(404).json({ error: "User's data for this organization doesn't found!" });
+    }
+
+    if (!userOrgData.files.includes(mongoose.Types.ObjectId(fileID))) {
+      throw new Error();
+    }
+
+    const file = await File.findById(fileID);
+    await file.delete();
+
+    const fileIndex = userOrgData.files.forEach((file) => {
+      return fileID === file.toString();
+    });
+
+    if (fileIndex > -1) {
+      userOrgData.files.splice(fileIndex, 1);
+    }
+
+    return res.status(200).json({ successMessage: "File has deleted successfully" });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   storageFileUpload,
   getStorageFiles,
   searchStorageFiles,
   getStorageUploadedFile,
+  deleteStorageFile,
 };
