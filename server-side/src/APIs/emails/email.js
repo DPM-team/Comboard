@@ -219,7 +219,7 @@ body {font-family: 'Chivo', sans-serif;}
 </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="b16a4afb-f245-4156-968e-8080176990ea" data-mc-module-version="2019-10-22">
 <tbody>
   <tr>
-    <td style="padding:18px 40px 40px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: inherit"><span style="font-size: 24px; color: #0a3c5f">You have invited to join&nbsp;${param1}</span></div><div></div></div></td>
+    <td style="padding:18px 40px 40px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: inherit"><span style="font-size: 24px; color: #0a3c5f">You have been invited to join&nbsp;${param1}</span></div><div></div></div></td>
   </tr>
 </tbody>
 </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="b16a4afb-f245-4156-968e-8080176990ea.2" data-mc-module-version="2019-10-22">

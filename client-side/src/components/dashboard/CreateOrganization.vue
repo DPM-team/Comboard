@@ -2,6 +2,7 @@
   <base-section @keyup.esc="closeDialog">
     <base-dialog v-if="dialogIsOpen" title="Share your organization's key!" :overlay="false" @close="closeDialog">
       <template #main>
+        <base-message v-if="emailSended" mode="success" :message="emailSuccessMessage"></base-message>
         <h3>Here is your key to copy!</h3>
         <br />
         <div class="key--container">
@@ -15,7 +16,7 @@
           <input class="send-key--input" type="email" name="receiver-email" placeholder="Send to..." v-model="receiverEmail" required />
           <font-awesome-icon class="send-key--icon" icon="user-plus" size="lg" title="Send the key" @click.prevent="sendKey()" />
         </form>
-        <base-message v-if="wrongEmailFormatMessage" mode="error" message="Wrong email format!"></base-message>
+        <base-message v-if="emailError" mode="error" :message="emailErrorMessage"></base-message>
       </template>
       <template #actions>
         <base-button @click="goToDashboard()">Completed</base-button>
@@ -67,8 +68,13 @@ export default {
       errorMessage: "",
       dialogIsOpen: false,
       isCopied: false,
+      /* For sending the key via email */
+      receivers: new Array(),
       receiverEmail: "",
-      wrongEmailFormatMessage: "",
+      emailError: false,
+      emailErrorMessage: "",
+      emailSended: false,
+      emailSuccessMessage: "",
     };
   },
   methods: {
@@ -99,21 +105,40 @@ export default {
     },
     async sendKey() {
       if (this.receiverEmail.trim() && this.validateEmail(this.receiverEmail)) {
-        this.wrongEmailFormatMessage = false;
+        this.emailError = false;
+        this.emailErrorMessage = "";
 
-        try {
-          await this.$store.dispatch("sendJoinInvitation", {
-            organizationName: this.organizationObj.name,
-            organizationPublicKey: this.orgKeyToJoin,
-            receiverEmail: this.receiverEmail,
-          });
+        if (!this.receivers.includes(this.receiverEmail)) {
+          this.emailError = false;
+          this.emailErrorMessage = "";
 
-          this.receiverEmail = "";
-        } catch (error) {
-          console.log(error);
+          this.receivers.push(this.receiverEmail);
+
+          try {
+            await this.$store.dispatch("sendJoinInvitation", {
+              organizationName: this.organizationObj.name,
+              organizationPublicKey: this.orgKeyToJoin,
+              receiverEmail: this.receiverEmail,
+            });
+
+            this.emailSuccessMessage = `Request has sended with success to ${this.receiverEmail}`;
+            this.emailSended = true;
+
+            this.receiverEmail = "";
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          this.emailSended = false;
+          this.emailSuccessMessage = "";
+          this.emailError = true;
+          this.emailErrorMessage = "Request has already sended!";
         }
       } else {
-        this.wrongEmailFormatMessage = true;
+        this.emailSended = false;
+        this.emailSuccessMessage = "";
+        this.emailErrorMessage = "Wrong email format!";
+        this.emailError = true;
       }
     },
     goToDashboard() {
@@ -121,7 +146,10 @@ export default {
     },
     closeDialog() {
       this.dialogIsOpen = false;
-      this.wrongEmailFormatMessage = false;
+      this.emailErrorMessage = "";
+      this.emailError = false;
+      this.emailSuccessMessage = "";
+      this.emailSended = false;
     },
     openDialog() {
       this.dialogIsOpen = true;
