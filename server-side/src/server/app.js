@@ -16,10 +16,16 @@ const connectionRouter = require("../routers/connections.js");
 const notificationsRouter = require("../routers/notifications.js");
 const tasksRouter = require("../routers/tasks.js");
 const errorRouter = require("../routers/error.js");
+const socketio = require("socket.io");
 
 const app = express();
 // We use http module because in socket.io library, we need to pass as argument the HTTP server, but express alone, creates the server behind the scenes and we don't have access to the HTTP server
 const server = http.createServer(app);
+const io = socketio(server);
+
+io.on("connection", () => {
+  console.log("e");
+});
 
 app.use(express.json());
 app.use(
