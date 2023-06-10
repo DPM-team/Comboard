@@ -1,7 +1,7 @@
 <template>
   <div>
     <organization-page-header><back-header-button></back-header-button></organization-page-header>
-    <div v-if="teamObj">
+    <div v-if="teamObj && loaded">
       <router-view name="dialog"></router-view>
       <div class="team-page-container">
         <div class="left-col">
@@ -10,21 +10,28 @@
             <span class="highlight">{{ teamObj?.name }}</span>
           </h1>
           <p>{{ teamObj?.description }}</p>
-          <h2 class="supervisor" v-if="supervisorObj">Supervisor: {{ supervisorObj?.fullname }}</h2>
+          <h2 class="supervisor" @click="viewSupervisor()">Supervisor: {{ supervisorObj?.fullname }}</h2>
         </div>
         <div class="right-col">
           <div class="projects-list">
             <h2 class="my-h2">Projects of {{ teamObj?.name }}</h2>
             <p class="my-p" v-if="projects.length === 0 && loaded">No projects found</p>
             <ul v-else>
-              <button-options-item-list v-for="project in projects" :key="project.id" :text="project.name" :isPrivateProfile="false"></button-options-item-list>
+              <button-options-item-list
+                v-for="project in projects"
+                :key="project.id"
+                :text="project.name"
+                :isPrivateProfile="false"
+                itemCategory="project"
+                :itemID="project.id"
+              ></button-options-item-list>
             </ul>
           </div>
           <div class="members-list">
             <h2 class="my-h2">Team members</h2>
             <p class="my-p" v-if="members.length === 0 && loaded">No members found</p>
             <ul v-else>
-              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false"></button-options-item-list>
+              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false" itemCategory="user" :itemID="member.id"></button-options-item-list>
             </ul>
           </div>
         </div>
@@ -89,6 +96,9 @@ export default {
         console.log(error.message || "Something went wrong!");
       }
     },
+    viewSupervisor() {
+      this.$router.push(`/organization/user/${this.supervisorObj.id}/posts`);
+    },
   },
   async created() {
     this.loaded = false;
@@ -98,8 +108,9 @@ export default {
       await this.getTeamSupervisor();
       await this.loadTeamProjects();
       this.loaded = true;
-      document.body.classList.remove("no-scrolling");
     }
+
+    document.body.classList.remove("no-scrolling");
   },
 };
 </script>
@@ -108,6 +119,7 @@ export default {
 .supervisor {
   font-size: 30px;
   text-align: center;
+  cursor: pointer;
 }
 
 .my-h2 {

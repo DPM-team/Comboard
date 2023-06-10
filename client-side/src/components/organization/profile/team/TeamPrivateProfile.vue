@@ -3,7 +3,7 @@
     <organization-page-header>
       <back-header-button></back-header-button>
     </organization-page-header>
-    <div v-if="teamObj && gotAccess">
+    <div v-if="teamObj && gotAccess && loaded">
       <router-view name="dialog"></router-view>
       <div class="team-page-container">
         <div class="left-col">
@@ -18,7 +18,7 @@
               <input type="text" name="teamName" class="" value="" :placeholder="teamObj.name" required />
             </div>
             <span class="input-title">Team Supervisor</span>
-            <h3>{{ supervisorName }}</h3>
+            <h3 class="supervisor-name--text" @click="viewSupervisor()">{{ supervisorObj.fullname }}</h3>
             <div class="inputBox">
               <span class="input-title">Description</span>
               <textarea type="text" name="description" value="" :placeholder="teamObj.description" />
@@ -37,14 +37,21 @@
             <h2 class="my-h2">Projects of {{ teamObj?.name }}</h2>
             <p class="my-p" v-if="projects.length === 0 && loaded">No projects found</p>
             <ul v-else>
-              <button-options-item-list v-for="project in projects" :key="project.id" :text="project.name" :isPrivateProfile="false"></button-options-item-list>
+              <button-options-item-list
+                v-for="project in projects"
+                :key="project.id"
+                :text="project.name"
+                :isPrivateProfile="false"
+                itemCategory="project"
+                :itemID="project.id"
+              ></button-options-item-list>
             </ul>
           </div>
           <div class="members-list">
             <h2 class="my-h2">Team members</h2>
             <p class="my-p" v-if="members.length === 0 && loaded">No members found</p>
             <ul v-else>
-              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false"></button-options-item-list>
+              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false" itemCategory="user" :itemID="member.id"></button-options-item-list>
             </ul>
           </div>
           <h3 class="create-project-title">Create a project for {{ teamObj.name }}</h3>
@@ -73,7 +80,7 @@ export default {
     return {
       teamObj: null,
       gotAccess: false,
-      supervisorName: "",
+      supervisorObj: null,
       photo: "",
       members: [],
       projects: [],
@@ -106,9 +113,7 @@ export default {
     },
     async getTeamSupervisor() {
       try {
-        const supervisorObj = await this.$store.dispatch("getTeamSupervisor", { teamID: this.teamID });
-
-        this.supervisorName = supervisorObj.fullname;
+        this.supervisorObj = await this.$store.dispatch("getTeamSupervisor", { teamID: this.teamID });
       } catch (error) {
         console.log(error.message || "Something went wrong!");
       }
@@ -155,6 +160,9 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    viewSupervisor() {
+      this.$router.push(`/organization/user/${this.supervisorObj.id}/posts`);
     },
   },
   async created() {
@@ -286,6 +294,10 @@ ul {
   font-size: 20px;
   color: var(--color-fourth);
   font-weight: 600;
+}
+
+.supervisor-name--text {
+  cursor: pointer;
 }
 
 .team-information .inputBox {

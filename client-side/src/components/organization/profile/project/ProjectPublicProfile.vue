@@ -3,7 +3,7 @@
     <organization-page-header>
       <back-header-button></back-header-button>
     </organization-page-header>
-    <div v-if="projectObj">
+    <div v-if="projectObj && loaded">
       <router-view name="dialog"></router-view>
       <div class="project-page-container">
         <div class="left-col">
@@ -11,7 +11,7 @@
           <h1 class="project-name">
             <span class="highlight">{{ projectObj?.name }}</span>
           </h1>
-          <h3 class="supervisor" v-if="supervisorObj">Supervisor: {{ supervisorObj?.fullname }}</h3>
+          <h3 class="supervisor" v-if="supervisorObj" @click="viewSupervisor()">Supervisor: {{ supervisorObj?.fullname }}</h3>
           <p>Status: {{ projectObj?.completed ? "Completed!" : "On going..." }}</p>
           <p v-if="projectObj?.description">{{ projectObj?.description }}</p>
           <p>Goal (for who?): {{ projectObj?.belongsTo }}</p>
@@ -21,7 +21,7 @@
             <h2 class="my-h2">Project members</h2>
             <p class="my-p" v-if="members.length === 0 && loaded">No members found</p>
             <ul v-else>
-              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false"></button-options-item-list>
+              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false" itemCategory="user" :itemID="member.id"></button-options-item-list>
             </ul>
           </div>
         </div>
@@ -79,6 +79,9 @@ export default {
         console.log(error.message || "Something went wrong!");
       }
     },
+    viewSupervisor() {
+      this.$router.push(`/organization/user/${this.supervisorObj.id}/posts`);
+    },
   },
   async created() {
     this.loaded = false;
@@ -97,20 +100,26 @@ export default {
 .supervisor {
   font-size: 25px;
   text-align: center;
+  cursor: pointer;
 }
+
 .my-h2 {
   color: var(--color-primary);
 }
+
 .my-p {
   padding-top: 10px;
 }
+
 .image-container {
   display: flex;
   justify-content: center;
 }
+
 .project-picture {
   width: 70%;
 }
+
 .left-col p {
   text-align: center;
   font-size: 18px;

@@ -3,7 +3,7 @@
     <organization-page-header>
       <back-header-button></back-header-button>
     </organization-page-header>
-    <div v-if="projectObj && gotAccess">
+    <div v-if="projectObj && gotAccess && loaded">
       <router-view name="dialog"></router-view>
       <div class="project-page-container">
         <div class="left-col">
@@ -14,7 +14,7 @@
           <form enctype="multipart/form-data" class="project-information" action="" method="post">
             <h2>Update your project's profile</h2>
             <span class="input-title">Supervisor:</span>
-            <h3 v-if="supervisorObj">{{ supervisorObj?.fullname }}</h3>
+            <h3 v-if="supervisorObj" class="supervisor-name--text" @click="viewSupervisor()">{{ supervisorObj?.fullname }}</h3>
             <div class="inputBox">
               <span class="input-title">Project name:</span>
               <input type="text" name="projectName" class="" :placeholder="projectObj.name" required />
@@ -40,7 +40,7 @@
             <h2 class="my-h2">Project members</h2>
             <p class="my-p" v-if="members.length === 0 && loaded">No members found</p>
             <ul v-else>
-              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false"></button-options-item-list>
+              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false" itemCategory="user" :itemID="member.id"></button-options-item-list>
             </ul>
           </div>
         </div>
@@ -102,6 +102,9 @@ export default {
       } catch (error) {
         console.log(error.message || "Something went wrong!");
       }
+    },
+    viewSupervisor() {
+      this.$router.push(`/organization/user/${this.supervisorObj.id}/posts`);
     },
   },
   async created() {
@@ -234,6 +237,10 @@ ul {
   position: relative;
   width: 100%;
   margin-top: 10px;
+}
+
+.supervisor-name--text {
+  cursor: pointer;
 }
 
 .project-information .inputBox input[type="text"],

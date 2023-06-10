@@ -1,5 +1,5 @@
 <template>
-  <li>
+  <li @click="moveToProfile()">
     <div class="item">
       <h2 class="item--text">{{ text }}</h2>
       <button class="remove-btn" v-if="isPrivateProfile">Remove</button>
@@ -19,6 +19,33 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    itemID: {
+      type: String,
+      required: true,
+    },
+    itemCategory: {
+      type: String,
+      required: true,
+      validator: function (value) {
+        return value === "team" || value === "user" || value === "project";
+      },
+    },
+  },
+  methods: {
+    moveToProfile() {
+      switch (this.itemCategory) {
+        case "team":
+          this.$router.push(`/organization/team-public/${this.itemID}`);
+          break;
+        case "user":
+          this.$router.push(`/organization/user/${this.itemID}/posts`);
+          break;
+        case "project":
+          this.$router.push(`/organization/project-public/${this.itemID}`);
+          break;
+        default:
+      }
     },
   },
 };
