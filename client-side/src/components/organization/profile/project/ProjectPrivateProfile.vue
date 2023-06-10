@@ -1,30 +1,34 @@
 <template>
   <div>
-    <organization-page-header><back-header-button></back-header-button></organization-page-header>
-    <div v-if="teamObj">
+    <organization-page-header>
+      <back-header-button></back-header-button>
+    </organization-page-header>
+    <div v-if="projectObj && gotAccess">
       <router-view name="dialog"></router-view>
-      <div class="team-page-container">
+      <div class="project-page-container">
         <div class="left-col">
-          <h1 class="team-name">
+          <h1 class="project-name">
             <!-- Blue highlight effect -->
-            <span class="highlight">{{ teamObj.name }}</span>
+            <span class="highlight">{{ projectObj.name }}</span>
           </h1>
-          <form enctype="multipart/form-data" class="team-information" action="" method="post">
-            <h2>Update your teams profile</h2>
-            <h3>Param: {{ teamID }}</h3>
+          <form enctype="multipart/form-data" class="project-information" action="" method="post">
+            <h2>Update your project's profile</h2>
+            <span class="input-title">Supervisor:</span>
+            <h3 v-if="supervisorObj">{{ supervisorObj?.fullname }}</h3>
             <div class="inputBox">
-              <span class="input-title">Team name</span>
-              <input type="text" name="teamName" class="" value="" :placeholder="teamObj.name" required />
-            </div>
-            <span class="input-title">Supervisor id</span>
-            <h3>{{ teamObj.supervisor }}</h3>
-            <div class="inputBox">
-              <span class="input-title">Deadline</span>
-              <input type="date" name="deadline" :value="teamObj.deadline" />
+              <span class="input-title">Project name:</span>
+              <input type="text" name="projectName" class="" :placeholder="projectObj.name" required />
             </div>
             <div class="inputBox">
-              <span class="input-title">Description</span>
-              <textarea type="text" name="description" value="" :placeholder="teamObj.description" />
+              <span class="input-title">Project's goal (for who?):</span>
+              <input type="text" name="projectGoal" class="" :placeholder="projectObj.belongsTo" required />
+            </div>
+            <div class="inputBox">
+              <span class="input-title">Status: {{ projectObj.completed ? "Completed!" : "On going!" }}</span>
+            </div>
+            <div class="inputBox">
+              <span class="input-title">Description:</span>
+              <textarea type="text" name="description" :placeholder="projectObj.description" />
             </div>
             <div class="inputBox">
               <input type="submit" name="submit-non-sensitive" value="Save" />
@@ -33,15 +37,16 @@
         </div>
         <div class="right-col">
           <div class="members-list">
-            <h2 class="my-h2">Team members</h2>
-            <ul>
-              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="true"></button-options-item-list>
+            <h2 class="my-h2">Project members</h2>
+            <p class="my-p" v-if="members.length === 0 && loaded">No members found</p>
+            <ul v-else>
+              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false"></button-options-item-list>
             </ul>
           </div>
         </div>
       </div>
     </div>
-    <h3 v-else>{{ errorMessage }}</h3>
+    <loading-spinner v-if="!loaded"></loading-spinner>
   </div>
 </template>
 
@@ -52,70 +57,94 @@ import ButtonOptionsItemList from "../ButtonOptionsItemList.vue";
 
 export default {
   components: { OrganizationPageHeader, ButtonOptionsItemList, BackHeaderButton },
-  //   props: {
-  //     teamID: {
-  //       type: String,
-  //       required: true,
-  //     },
-  //   },
+  props: {
+    projectID: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
-      //needs to be changed
-      teamObj: { name: "test", description: "dassdasadsda", supervisor: "fdsfd", deadline: "2023/06/25" },
-      errorMessage: "",
-      members: [
-        { id: 1, fullname: "Dionisis Lougaris" },
-        { id: 2, fullname: "Panos Machairas" },
-        { id: 3, fullname: "Minas Charakopoulos" },
-        { id: 4, fullname: "Giorgos Stefou" },
-      ],
-      teamID: "123123",
+      projectObj: null,
+      supervisorObj: null,
+      loaded: false,
+      gotAccess: false,
+      members: [],
     };
   },
   methods: {
-    async loadTeamData() {
+    async loadProjectData() {
       try {
-        this.teamObj = await this.$store.dispatch("getTeamData", { teamID: this.teamID });
-        this.errorMessage = "";
+        this.projectObj = await this.$store.dispatch("getProjectData", { projectID: this.projectID });
+
+        if (this.projectObj.supervisor != this.$store.getters.loggedUserID) {
+          this.$router.push("/permission-denied");
+        }
+
+        this.gotAccess = true;
       } catch (error) {
-        this.errorMessage = error.message || "Something went wrong!";
+        console.log(error.message || "Something went wrong!");
+        this.$router.push("/not-found");
+      }
+
+      return this.projectObj;
+    },
+    async loadProjectMembers() {
+      try {
+        this.members = await this.$store.dispatch("getProjectMembers", { projectID: this.projectID });
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
       }
     },
-    createProjectLink() {
-      return {
-        name: "create-project",
-        params: { teamID: this.teamID },
-      };
+    async getProjectSupervisor() {
+      try {
+        this.supervisorObj = await this.$store.dispatch("getProjectSupervisor", { projectID: this.projectID });
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
     },
   },
-  created() {
-    this.loadTeamData();
+  async created() {
+    this.loaded = false;
+
+    if (await this.loadProjectData()) {
+      await this.loadProjectMembers();
+      await this.getProjectSupervisor();
+      this.loaded = true;
+    }
+
     document.body.classList.remove("no-scrolling");
   },
 };
 </script>
+
 <style scoped>
 .my-h2 {
   color: var(--color-primary);
 }
+
 .members-list {
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   width: 70%;
   margin-top: 40px;
 }
+
 ul {
   list-style-type: none;
 }
+
 .create-project-title {
   font-size: 24px;
   padding-top: 50px;
   padding-bottom: 20px;
 }
+
 .search-area-demo {
   height: 100px;
   margin-top: 50px;
 }
+
 .router-button {
   padding: 0.5rem 1.2rem;
   font-family: inherit;
@@ -125,12 +154,14 @@ ul {
   cursor: pointer;
   text-decoration: none;
 }
+
 .router-button:hover,
 .router-button:active {
   background-color: #000875;
   border-color: #000875;
 }
-.team-name {
+
+.project-name {
   padding-top: 40px;
   font-size: 58px;
   line-height: 1.35;
@@ -138,6 +169,7 @@ ul {
   text-align: center;
   font-size: 64px;
 }
+
 .highlight {
   position: relative;
 }
@@ -153,54 +185,59 @@ ul {
   z-index: -1;
   opacity: 0.7;
   transform: scale(1.07, 1.05) skewX(-15deg);
-  background-image: var(--gradient-team);
+  background-image: var(--gradient-project);
 }
 
-.team-page-container {
+.project-page-container {
   display: flex;
   flex-wrap: wrap;
 }
+
 .left-col {
   width: 60%;
   padding-left: 40px;
   box-sizing: border-box;
 }
+
 .right-col {
   width: 40%;
   padding-left: 40px;
 
   box-sizing: border-box;
 }
+
 .input-title {
   color: var(--color-primary);
   font-size: 14px;
 }
-.team-information {
+
+.project-information {
   width: 90%;
   padding: 20px;
   /* background: white; */
 }
 
-.team-information h2 {
+.project-information h2 {
   margin-bottom: 10px;
   font-size: 28px;
   color: var(--color-fourth);
   font-weight: 600;
 }
-.team-information h3 {
+
+.project-information h3 {
   font-size: 20px;
   color: var(--color-fourth);
   font-weight: 600;
 }
 
-.team-information .inputBox {
+.project-information .inputBox {
   position: relative;
   width: 100%;
   margin-top: 10px;
 }
 
-.team-information .inputBox input[type="text"],
-.team-information .inputBox textarea {
+.project-information .inputBox input[type="text"],
+.project-information .inputBox textarea {
   width: 100%;
   padding: 5px 0;
   font-size: 16px;
@@ -211,7 +248,7 @@ ul {
   resize: none;
 }
 
-.team-information .inputBox input[type="submit"] {
+.project-information .inputBox input[type="submit"] {
   padding: 0.75rem 1.5rem;
   font-family: inherit;
   background-color: var(--color-primary);
@@ -220,11 +257,12 @@ ul {
   cursor: pointer;
 }
 
-.team-information .inputBox input[type="submit"]:hover,
+.project-information .inputBox input[type="submit"]:hover,
 .team-information .inputBox input[type="submit"]:active {
   background-color: #000875;
   border-color: #000875;
 }
+
 @media (max-width: 900px) {
   .left-col {
     width: 100%;

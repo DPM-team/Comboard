@@ -1,6 +1,8 @@
 <template>
   <div>
-    <organization-page-header><back-header-button></back-header-button></organization-page-header>
+    <organization-page-header>
+      <back-header-button></back-header-button>
+    </organization-page-header>
     <div v-if="projectObj">
       <router-view name="dialog"></router-view>
       <div class="project-page-container">
@@ -9,9 +11,10 @@
           <h1 class="project-name">
             <span class="highlight">{{ projectObj?.name }}</span>
           </h1>
-          <p>{{ projectObj?.description }}</p>
-          <p>{{ projectObj?.belongsTo }}</p>
-          <h2 class="supervisor" v-if="supervisorObj">Supervisor: {{ supervisorObj?.fullname }}</h2>
+          <h3 class="supervisor" v-if="supervisorObj">Supervisor: {{ supervisorObj?.fullname }}</h3>
+          <p>Status: {{ projectObj?.completed ? "Completed!" : "On going..." }}</p>
+          <p v-if="projectObj?.description">{{ projectObj?.description }}</p>
+          <p>Goal (for who?): {{ projectObj?.belongsTo }}</p>
         </div>
         <div class="right-col">
           <div class="members-list">
@@ -79,18 +82,20 @@ export default {
   },
   async created() {
     this.loaded = false;
+
     if (await this.loadProjectData()) {
       await this.loadProjectMembers();
       await this.getProjectSupervisor();
       this.loaded = true;
-      document.body.classList.remove("no-scrolling");
     }
+
+    document.body.classList.remove("no-scrolling");
   },
 };
 </script>
 <style scoped>
 .supervisor {
-  font-size: 30px;
+  font-size: 25px;
   text-align: center;
 }
 .my-h2 {
@@ -199,12 +204,12 @@ ul {
     text-align: center;
   }
   .supervisor {
-    font-size: 25px;
+    font-size: 20px;
   }
 }
 @media (max-width: 400px) {
   .supervisor {
-    font-size: 22px;
+    font-size: 18px;
   }
 }
 </style>

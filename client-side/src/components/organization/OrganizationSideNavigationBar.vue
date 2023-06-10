@@ -49,12 +49,12 @@
             <span class="nav-item">Storage</span>
           </router-link>
         </li>
-        <!-- <li>
+        <li>
           <div class="env-lighting-buttons">
             <font-awesome-icon class="icon sun" icon="fa-solid fa-sun" />
             <font-awesome-icon class="icon moon" icon="fa-solid fa-moon" />
           </div>
-        </li> -->
+        </li>
       </ul>
     </nav>
   </div>
@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     displayUserFullname() {
-      return this.$store.getters.fullname;
+      return this.$store.getters.name;
     },
   },
   methods: {

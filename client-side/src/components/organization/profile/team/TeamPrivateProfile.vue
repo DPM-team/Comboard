@@ -1,6 +1,8 @@
 <template>
   <div>
-    <organization-page-header><back-header-button></back-header-button></organization-page-header>
+    <organization-page-header>
+      <back-header-button></back-header-button>
+    </organization-page-header>
     <div v-if="teamObj && gotAccess">
       <router-view name="dialog"></router-view>
       <div class="team-page-container">
@@ -72,7 +74,6 @@ export default {
       teamObj: null,
       gotAccess: false,
       supervisorName: "",
-      errorMessage: "",
       photo: "",
       members: [],
       projects: [],
@@ -89,9 +90,8 @@ export default {
         }
 
         this.gotAccess = true;
-        this.errorMessage = "";
       } catch (error) {
-        this.errorMessage = error.message || "Something went wrong!";
+        console.log(error.message || "Something went wrong!");
         this.$router.push("/not-found");
       }
 
@@ -152,8 +152,8 @@ export default {
 
           fileReader.readAsDataURL(file);
         }
-      } catch (e) {
-        this.errorMessage = e;
+      } catch (error) {
+        console.log(error);
       }
     },
   },
