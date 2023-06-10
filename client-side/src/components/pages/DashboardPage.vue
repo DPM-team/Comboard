@@ -59,7 +59,7 @@ export default {
     },
     closeDialog() {
       this.dialogIsOpen = false;
-
+      this.organizationKeyInput = "";
       this.submitMessage = "";
     },
     openDialog() {

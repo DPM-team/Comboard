@@ -138,7 +138,7 @@ const joinOrganization = async function (req, res) {
     if (!organizationObj.users.includes(userID)) {
       organizationObj.users.push(userID);
     } else {
-      return res.status(404).json({ error: "User is already added!" });
+      return res.status(404).json({ error: "Already member!" });
     }
 
     // Save the updated organization document

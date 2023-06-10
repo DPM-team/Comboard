@@ -1,11 +1,14 @@
 <template>
   <form @submit.prevent="createPost">
     <div class="create-post-box">
-      <div class="visibility-button-container"><font-awesome-icon @click="toggleVisibilityOptions" class="visibility-button" :icon="['fas', 'earth-europe']" /></div>
+      <div class="visibility-button-container">
+        <font-awesome-icon @click="toggleVisibilityOptions" class="visibility-button" :icon="['fas', 'earth-europe']" />
+        <h5 class="visibility-selected--preview">{{ visibilityPost }}</h5>
+      </div>
       <div v-if="showVisibilityOptions" class="visibilty-options">
-        <input type="radio" name="visibility" value="Connections" required @click="toogleVisibility" />
+        <input type="radio" name="visibility" value="Connections" required @click="toogleVisibility" :checked="visibilityPost === 'Connections'" />
         <span>Connections</span>
-        <input type="radio" name="visibility" value="Organization" required @click="toogleVisibility" checked />
+        <input type="radio" name="visibility" value="Organization" required @click="toogleVisibility" :checked="visibilityPost === 'Organization'" />
         <span>Organization</span>
       </div>
       <div class="pfp-container">
@@ -15,14 +18,15 @@
       <input v-model="postContent" required class="post-input post-text" type="text" id="create-post" name="create-post" placeholder="Share your thoughts..." />
       <!-- <input type="button" name="file" id="file" @click="openModal" /> -->
       <font-awesome-icon class="post-image-btn" :icon="['far', 'image']" @click="toggleModal" />
-
       <base-dialog v-if="modal" :title="'Add an image to your post!'" :overlay="true" @close="toggleModal">
         <template #main>
           <form @submit.prevent="createdPost">
             <base-card v-if="warning" :width="'300px'" :bgColor="'#D9AC0C'">You must at least add text or media</base-card>
             <base-message v-if="postMessage" mode="success" :message="postMessage"></base-message>
             <textarea v-model="postContent" type="text" placeholder="Share your thoughts..." class="post-input" @input="setWarning(false)"></textarea>
-            <div style="display: flex"><img v-if="postMedia" class="post-img" alt="Selected Image" ref="preview" /></div>
+            <div style="display: flex">
+              <img v-if="postMedia" class="post-img" alt="Selected Image" ref="preview" />
+            </div>
             <div class="button-container">
               <label class="button" for="image">Add Image</label>
               <input id="image" type="file" ref="file" @input="getFile" />
@@ -35,7 +39,6 @@
           </form>
         </template>
       </base-dialog>
-
       <input class="post-button" value="Post" type="submit" />
     </div>
   </form>
@@ -44,6 +47,7 @@
 <script>
 import BaseCard from "../../basic-components/BaseCard.vue";
 import BaseDialog from "../../basic-components/BaseDialog.vue";
+
 export default {
   components: { BaseDialog, BaseCard },
   props: ["firstname", "pictureLink"],
@@ -152,6 +156,7 @@ export default {
   width: 200px;
   margin: 0 auto;
 }
+
 input[type="file"] {
   display: none;
 }
@@ -182,26 +187,37 @@ input[type="file"] {
 .button-container {
   display: inline-block;
 }
+
 .post-image-btn {
   color: var(--color-primary);
   margin-left: 10px;
   font-size: 18px;
 }
+
 .visibilty-options {
   display: block;
   width: 100%;
   padding-right: 30px;
 }
+
 .visibilty-options input[type="radio"],
 .visibilty-options span {
   font-size: 13px;
   float: right;
   margin-right: 4px;
 }
+
 .visibility-button-container {
-  display: block;
+  display: flex;
+  flex-direction: row-reverse;
   width: 100%;
 }
+
+.visibility-selected--preview {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
 .visibility-button {
   color: var(--color-primary);
   float: right;
@@ -210,6 +226,7 @@ input[type="file"] {
   cursor: pointer;
   font-size: 18px;
 }
+
 .create-post-box {
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
@@ -224,6 +241,7 @@ input[type="file"] {
   margin: 20px auto;
   padding-bottom: 20px;
 }
+
 .pfp-container {
   width: 35px;
   height: 35px;
@@ -232,10 +250,12 @@ input[type="file"] {
   border-radius: 50%;
   margin-right: 35px;
 }
+
 .user-pfp {
   width: 100%;
   border-radius: 50%;
 }
+
 .post-button {
   background-color: var(--color-primary);
   color: white;
@@ -252,6 +272,7 @@ input[type="file"] {
   margin-left: 35px;
   display: inline-block;
 }
+
 .post-input {
   width: 350px;
   padding: 5px 0;
@@ -280,6 +301,7 @@ input[type="file"] {
     margin-left: 25px;
   }
 }
+
 @media (max-width: 600px) {
   .post-input {
     width: 200px;
@@ -295,6 +317,7 @@ input[type="file"] {
     margin-left: 20px;
   }
 }
+
 @media (max-width: 500px) {
   .post-input {
     width: 180px;
@@ -310,6 +333,7 @@ input[type="file"] {
     margin-left: 15px;
   }
 }
+
 @media (max-width: 430px) {
   .post-input {
     width: 160px;
@@ -325,6 +349,7 @@ input[type="file"] {
     margin-left: 13px;
   }
 }
+
 @media (max-width: 400px) {
   .post-image-btn {
     display: none;
