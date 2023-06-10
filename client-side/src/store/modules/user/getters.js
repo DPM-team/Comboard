@@ -11,4 +11,7 @@ export default {
   surname(state) {
     return state.surname;
   },
+  fullname(state) {
+    return state.name + " " + state.surname;
+  },
 };

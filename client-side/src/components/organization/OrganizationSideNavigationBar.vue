@@ -11,6 +11,9 @@
           <img v-else class="organization-logo" src="../../assets/images/common-images/default-organization-photo.png" alt="Organization name" @click="viewMyOrganization()" />
         </li>
         <li>
+          <p class="user-fullname--view">Welcome, {{ displayUserFullname }}</p>
+        </li>
+        <li>
           <router-link to="/organization/network">
             <font-awesome-icon class="icon" icon="fa-solid fa-people-group" />
             <span class="nav-item">Network</span>
@@ -63,6 +66,11 @@ export default {
     return {
       organizationImage: "",
     };
+  },
+  computed: {
+    displayUserFullname() {
+      return this.$store.getters.fullname;
+    },
   },
   methods: {
     viewMyOrganization() {
@@ -177,6 +185,12 @@ a {
   padding: 20px;
 }
 
+.user-fullname--view {
+  color: white;
+  margin-top: 5px;
+  text-align: center;
+}
+
 .icon {
   position: relative;
   top: 2px;
@@ -194,10 +208,6 @@ a:hover {
   background: var(--color-secondary);
 }
 
-/* .organization-side-navbar:hover {
-  width: 280px;
-  transition: all 0.5s ease;
-} */
 .sun,
 .moon {
   color: var(--color-primary);
@@ -222,12 +232,9 @@ a:hover {
   position: absolute;
   bottom: 0;
   margin-bottom: 30px;
-
-  /* display: flex; */
 }
 
 /* Responsiveness */
-
 @media (max-width: 1250px) {
   .organization-side-navbar {
     width: 180px;
