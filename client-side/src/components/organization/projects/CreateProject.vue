@@ -115,11 +115,11 @@ export default {
   padding: 0.75rem;
   border: 1.5px solid #ccc;
   border-color: #1e306084;
-  /* border-radius: 0.25rem; */
   background: no-repeat left;
   padding-left: 15px;
-  /* margin: 1rem auto; */
+  margin-bottom: 5px;
 }
+
 .textarea-control {
   margin: 0.5rem 0;
 }

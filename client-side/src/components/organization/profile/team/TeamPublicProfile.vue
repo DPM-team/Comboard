@@ -92,6 +92,7 @@ export default {
   },
   async created() {
     this.loaded = false;
+
     if (await this.loadTeamData()) {
       await this.loadTeamMembers();
       await this.getTeamSupervisor();
@@ -102,21 +103,26 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .supervisor {
   font-size: 30px;
   text-align: center;
 }
+
 .my-h2 {
   color: var(--color-primary);
 }
+
 .my-p {
   padding-top: 10px;
 }
+
 .image-container {
   display: flex;
   justify-content: center;
 }
+
 .team-picture {
   width: 70%;
 }
@@ -127,9 +133,11 @@ export default {
   padding: 40px;
   margin-top: 10px;
 }
+
 .left-col h2 {
   text-align: center;
 }
+
 .members-list,
 .projects-list {
   padding: 20px;
@@ -137,6 +145,7 @@ export default {
   width: 70%;
   margin: 20px auto;
 }
+
 ul {
   list-style-type: none;
 }
@@ -154,6 +163,7 @@ ul {
   margin-top: 40px;
   text-align: center;
 }
+
 .highlight {
   position: relative;
 }
@@ -176,11 +186,13 @@ ul {
   display: flex;
   flex-wrap: wrap;
 }
+
 .left-col {
   width: 60%;
   box-sizing: border-box;
   padding-left: 40px;
 }
+
 .right-col {
   width: 40%;
   /* padding-left: 40px; */
@@ -194,10 +206,12 @@ ul {
     padding-bottom: 40px;
     padding-left: 0;
   }
+
   .right-col {
     width: 100%;
   }
 }
+
 @media (max-width: 500px) {
   .team-name {
     font-size: 45px;
@@ -206,10 +220,12 @@ ul {
     margin-top: 40px;
     text-align: center;
   }
+
   .supervisor {
     font-size: 25px;
   }
 }
+
 @media (max-width: 400px) {
   .supervisor {
     font-size: 22px;

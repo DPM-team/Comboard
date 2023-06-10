@@ -248,6 +248,7 @@ const getOrganizationTeams = async (req, res) => {
         id: teamObj._id,
         name: teamObj.name,
         description: teamObj.description,
+        supervisorID: teamObj.supervisor.toString(),
       };
     });
 

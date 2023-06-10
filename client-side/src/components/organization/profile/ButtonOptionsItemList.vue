@@ -1,26 +1,41 @@
 <template>
   <li>
     <div class="item">
-      <h1>{{ text }}</h1>
-      <button class="remove-btn" v-if="isPrivateProfile">Remove</button><button>View</button>
+      <h2 class="item--text">{{ text }}</h2>
+      <button class="remove-btn" v-if="isPrivateProfile">Remove</button>
+      <button>View</button>
     </div>
   </li>
 </template>
+
 <script>
 export default {
-  data() {
-    return {};
+  props: {
+    text: {
+      type: String,
+      required: true,
+    },
+    isPrivateProfile: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
-  props: ["text", "isPrivateProfile"],
 };
 </script>
+
 <style scoped>
 .item {
   margin-top: 10px;
+  display: flex;
 }
-.item h1 {
+
+.item h2 {
   font-size: 17px;
+  margin-top: 5px;
+  margin-right: 10px;
 }
+
 button {
   margin-top: 3px;
   padding: 0.3rem 0.75rem;
@@ -30,6 +45,11 @@ button {
   color: white;
   cursor: pointer;
 }
+
+button:hover {
+  background-color: var(--color-third);
+}
+
 .remove-btn {
   margin-right: 3px;
   margin-top: 3px;

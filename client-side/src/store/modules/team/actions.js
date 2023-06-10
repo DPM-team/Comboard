@@ -25,6 +25,7 @@ export default {
       const successData = await response.json();
 
       successData.createdTeam.id = successData?.createdTeam._id;
+      successData.createdTeam.supervisorID = successData?.createdTeam.supervisor;
       context.commit("addTeamThatICreate", { newTeamObj: successData?.createdTeam });
 
       //Add the created team to the organiation's teams

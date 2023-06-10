@@ -4,7 +4,7 @@
       <h1>Access Denied! (401)</h1>
       <img src="../../assets/images/common-images/unauthorized-error.jpg" alt="Error Image" width="300" />
       <p>
-        You don't have permission to view this page. Login first!
+        You don't have permission to view this page!
         <br />
         401 - Unauthorized
         <br />

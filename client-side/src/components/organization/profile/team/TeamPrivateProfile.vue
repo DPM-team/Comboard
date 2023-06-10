@@ -1,7 +1,7 @@
 <template>
   <div>
     <organization-page-header><back-header-button></back-header-button></organization-page-header>
-    <div v-if="teamObj">
+    <div v-if="teamObj && gotAccess">
       <router-view name="dialog"></router-view>
       <div class="team-page-container">
         <div class="left-col">
@@ -10,21 +10,20 @@
             <span class="highlight">{{ teamObj.name }}</span>
           </h1>
           <form enctype="multipart/form-data" class="team-information" method="post" @submit.prevent="updateTeam">
-            <h2>Update your teams profile</h2>
-            <h3>Param: {{ teamID }}</h3>
+            <h2>Update your team's profile</h2>
             <div class="inputBox">
               <span class="input-title">Team name</span>
               <input type="text" name="teamName" class="" value="" :placeholder="teamObj.name" required />
             </div>
-            <span class="input-title">Supervisor id</span>
-            <h3>{{ teamObj.supervisor }}</h3>
+            <span class="input-title">Team Supervisor</span>
+            <h3>{{ supervisorName }}</h3>
             <div class="inputBox">
               <span class="input-title">Description</span>
               <textarea type="text" name="description" value="" :placeholder="teamObj.description" />
             </div>
             <div class="inputBox">
+              <span class="team-profile--banner" id="fixed">Team banner</span>
               <input type="file" name="profile-banner" ref="file" />
-              <span id="fixed">Profile banner</span>
             </div>
             <div class="inputBox">
               <input type="submit" name="submit-non-sensitive" value="Save" />
@@ -32,18 +31,26 @@
           </form>
         </div>
         <div class="right-col">
-          <h3 class="create-project-title">Create a project for {{ teamObj.name }}</h3>
-          <router-link class="router-button" :to="createProjectLink()">Create Project</router-link>
-          <div class="members-list">
-            <h2 class="my-h2">Team members</h2>
-            <ul>
-              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="true"></button-options-item-list>
+          <div class="projects-list">
+            <h2 class="my-h2">Projects of {{ teamObj?.name }}</h2>
+            <p class="my-p" v-if="projects.length === 0 && loaded">No projects found</p>
+            <ul v-else>
+              <button-options-item-list v-for="project in projects" :key="project.id" :text="project.name" :isPrivateProfile="false"></button-options-item-list>
             </ul>
           </div>
+          <div class="members-list">
+            <h2 class="my-h2">Team members</h2>
+            <p class="my-p" v-if="members.length === 0 && loaded">No members found</p>
+            <ul v-else>
+              <button-options-item-list v-for="member in members" :key="member.id" :text="member.fullname" :isPrivateProfile="false"></button-options-item-list>
+            </ul>
+          </div>
+          <h3 class="create-project-title">Create a project for {{ teamObj.name }}</h3>
+          <router-link class="router-button" :to="createProjectLink()">Create Project</router-link>
         </div>
       </div>
     </div>
-    <h3 v-else>{{ errorMessage }}</h3>
+    <loading-spinner v-if="!loaded"></loading-spinner>
   </div>
 </template>
 
@@ -63,23 +70,54 @@ export default {
   data() {
     return {
       teamObj: null,
+      gotAccess: false,
+      supervisorName: "",
       errorMessage: "",
       photo: "",
-      members: [
-        { id: 1, fullname: "Dionisis Lougaris" },
-        { id: 2, fullname: "Panos Machairas" },
-        { id: 3, fullname: "Minas Charakopoulos" },
-        { id: 4, fullname: "Giorgos Stefou" },
-      ],
+      members: [],
+      projects: [],
+      loaded: false,
     };
   },
   methods: {
     async loadTeamData() {
       try {
         this.teamObj = await this.$store.dispatch("getTeamData", { teamID: this.teamID });
+
+        if (this.teamObj.supervisor != this.$store.getters.loggedUserID) {
+          this.$router.push("/permission-denied");
+        }
+
+        this.gotAccess = true;
         this.errorMessage = "";
       } catch (error) {
         this.errorMessage = error.message || "Something went wrong!";
+        this.$router.push("/not-found");
+      }
+
+      return this.teamObj;
+    },
+    async loadTeamMembers() {
+      try {
+        this.members = await this.$store.dispatch("getTeamMembers", { teamID: this.teamID });
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
+    },
+    async getTeamSupervisor() {
+      try {
+        const supervisorObj = await this.$store.dispatch("getTeamSupervisor", { teamID: this.teamID });
+
+        this.supervisorName = supervisorObj.fullname;
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
+      }
+    },
+    async loadTeamProjects() {
+      try {
+        this.projects = await this.$store.dispatch("getTeamProjects", { teamID: this.teamID });
+      } catch (error) {
+        console.log(error.message || "Something went wrong!");
       }
     },
     updateTeam() {
@@ -94,14 +132,16 @@ export default {
     async updateTeamPhoto() {
       try {
         const file = this.$refs.file?.files[0] || null;
+
         if (!file) {
           return;
         }
+
         const blob = await this.$store.dispatch("updateTeamPhoto", {
           file,
           teamID: this.teamID,
         });
-        console.log(blob);
+
         if (blob.size !== 0) {
           const file = new File([blob]);
           const fileReader = new FileReader();
@@ -117,34 +157,48 @@ export default {
       }
     },
   },
-  created() {
-    this.loadTeamData();
+  async created() {
+    this.loaded = false;
+
+    if (await this.loadTeamData()) {
+      await this.loadTeamMembers();
+      await this.getTeamSupervisor();
+      await this.loadTeamProjects();
+      this.loaded = true;
+    }
+
     document.body.classList.remove("no-scrolling");
   },
 };
 </script>
+
 <style scoped>
 .my-h2 {
   color: var(--color-primary);
 }
+
 .members-list {
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   width: 70%;
   margin-top: 40px;
 }
+
 ul {
   list-style-type: none;
 }
+
 .create-project-title {
   font-size: 24px;
   padding-top: 50px;
   padding-bottom: 20px;
 }
+
 .search-area-demo {
   height: 100px;
   margin-top: 50px;
 }
+
 .router-button {
   padding: 0.5rem 1.2rem;
   font-family: inherit;
@@ -154,11 +208,13 @@ ul {
   cursor: pointer;
   text-decoration: none;
 }
+
 .router-button:hover,
 .router-button:active {
   background-color: #000875;
   border-color: #000875;
 }
+
 .team-name {
   padding-top: 40px;
   font-size: 58px;
@@ -167,6 +223,7 @@ ul {
   text-align: center;
   font-size: 64px;
 }
+
 .highlight {
   position: relative;
 }
@@ -189,21 +246,29 @@ ul {
   display: flex;
   flex-wrap: wrap;
 }
+
+.team-profile--banner {
+  margin-right: 10px;
+}
+
 .left-col {
   width: 60%;
   padding-left: 40px;
   box-sizing: border-box;
 }
+
 .right-col {
   width: 40%;
   padding-left: 40px;
 
   box-sizing: border-box;
 }
+
 .input-title {
   color: var(--color-primary);
   font-size: 14px;
 }
+
 .team-information {
   width: 90%;
   padding: 20px;
@@ -216,6 +281,7 @@ ul {
   color: var(--color-fourth);
   font-weight: 600;
 }
+
 .team-information h3 {
   font-size: 20px;
   color: var(--color-fourth);
@@ -254,15 +320,18 @@ ul {
   background-color: #000875;
   border-color: #000875;
 }
+
 @media (max-width: 900px) {
   .left-col {
     width: 100%;
     padding-left: 0;
   }
+
   .right-col {
     width: 100%;
   }
 }
+
 @media (max-width: 400px) {
   .create-project-title {
     font-size: 22px;
