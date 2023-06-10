@@ -158,6 +158,7 @@ const getUserProjects = async (req, res) => {
         id: projectObj._id,
         name: projectObj.name,
         description: projectObj.description,
+        supervisorID: projectObj.supervisor.toString(),
       };
     });
 

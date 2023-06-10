@@ -279,7 +279,13 @@ const getOrganizationProjects = async (req, res) => {
     for (const teamObj of organizationObj.teams) {
       for (const projectID of teamObj.projects) {
         const projectObj = await Project.findById(projectID);
-        projects.push({ id: projectObj._id, name: projectObj.name, description: projectObj.description });
+
+        projects.push({
+          id: projectObj._id,
+          name: projectObj.name,
+          description: projectObj.description,
+          supervisorID: projectObj.supervisor.toString(),
+        });
       }
     }
 

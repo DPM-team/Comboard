@@ -4,8 +4,8 @@
       <header>
         <h3>{{ projectName }}</h3>
         <nav>
-          <router-link :to="'/organization/project-public/' + projectID">View Project</router-link>
-          <router-link :to="'/organization/project-private/' + projectID">Edit Project</router-link>
+          <router-link class="view-project--link" :to="'/organization/project-public/' + projectID">View Project</router-link>
+          <router-link v-if="accessToEdit()" class="edit-project--link" :to="'/organization/project-private/' + projectID">Edit Project</router-link>
         </nav>
       </header>
       <p>{{ projectDescription }}</p>
@@ -27,6 +27,15 @@ export default {
     projectDescription: {
       type: String,
       required: true,
+    },
+    supervisorID: {
+      type: String,
+      required: true,
+    },
+  },
+  methods: {
+    accessToEdit() {
+      return this.supervisorID === this.$store.getters.loggedUserID;
     },
   },
 };
@@ -63,16 +72,22 @@ p {
 a {
   text-decoration: none;
   color: var(--color-primary);
-  margin-left: 5px;
+  margin-left: 10px;
 }
 
-a:hover,
-a:active {
-  color: var(--color-third);
+.edit-project--link {
+  color: rgb(255, 180, 40);
 }
-@media (max-width: 480px) {
-  a {
-    font-size: 12px;
-  }
+
+.view-project--link {
+  color: var(--color-primary);
+}
+
+.edit-project--link:hover {
+  opacity: 0.7;
+}
+
+.view-project--link:hover {
+  opacity: 0.7;
 }
 </style>
