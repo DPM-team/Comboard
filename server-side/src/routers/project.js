@@ -6,6 +6,8 @@ const router = new express.Router();
 
 router.post("/api/project/create", projectController.createProject);
 
+router.put("/api/project/update", authentication, projectController.updateProjectData);
+
 router.get("/api/project", authentication, projectController.getProject);
 
 router.get("/api/project/members", authentication, projectController.getProjectMembers);

@@ -137,9 +137,58 @@ const getProjectSupervisor = async (req, res) => {
   }
 };
 
+const updateProjectData = async (req, res) => {
+  const allowedUpdates = new Array("name", "description", "belongsTo", "completed");
+
+  try {
+    const projectID = req.body.projectID;
+    const updates = Object.keys(req.body.updates);
+
+    if (!projectID) {
+      return res.status(400).json({ error: "'projectID' is required!" });
+    }
+
+    if (!updates) {
+      return res.status(400).json({ error: "'updates' are required!" });
+    }
+
+    const isValidOperation = updates.every((item) => {
+      return allowedUpdates.includes(item);
+    });
+
+    if (!isValidOperation) {
+      return res.status(400).json({ error: "Invalid updates!" });
+    }
+
+    const projectObj = await Project.findById(projectID);
+
+    if (!projectObj) {
+      return res.status(404).json({ error: "Provided project doesn't exists!" });
+    }
+
+    updates.forEach((field) => {
+      projectObj[field] = req.body.updates[field];
+    });
+
+    await projectObj.save();
+
+    res.status(200).json({
+      successMessage: "The project has been successfully updated!",
+      newName: projectObj?.name,
+      newDescription: projectObj?.description,
+      newGoal: projectObj?.belongsTo,
+      newStatus: projectObj?.completed,
+    });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
+  }
+};
+
 module.exports = {
   createProject,
   getProject,
   getProjectMembers,
   getProjectSupervisor,
+  updateProjectData,
 };

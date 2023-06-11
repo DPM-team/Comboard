@@ -207,4 +207,31 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
+  async updateProjectData(context, payload) {
+    const projectID = payload.projectID;
+    const updates = payload.updates;
+
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ projectID, updates }),
+    };
+
+    try {
+      const response = await fetch(`/api/project/update`, requestOptions);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
+    }
+  },
 };

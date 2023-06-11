@@ -186,7 +186,7 @@ export default {
         });
 
         if (blob.size !== 0) {
-          const file = new File([blob]);
+          const file = new File([blob], "");
           const fileReader = new FileReader();
 
           fileReader.onload = () => {

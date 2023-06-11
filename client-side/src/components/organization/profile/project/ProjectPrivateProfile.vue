@@ -11,28 +11,33 @@
             <!-- Blue highlight effect -->
             <span class="highlight">{{ projectObj.name }}</span>
           </h1>
-          <form enctype="multipart/form-data" class="project-information" action="" method="post">
+          <form enctype="multipart/form-data" class="project-information" method="post" @submit.prevent="updateProject()">
             <h2>Update your project's profile</h2>
             <span class="input-title">Supervisor:</span>
             <h3 v-if="supervisorObj" class="supervisor-name--text" @click="viewSupervisor()">{{ supervisorObj?.fullname }}</h3>
             <div class="inputBox">
               <span class="input-title">Project name:</span>
-              <input type="text" name="projectName" class="" :placeholder="projectObj.name" required />
+              <input type="text" name="projectName" :placeholder="projectObj.name" v-model="newProjectName" />
             </div>
             <div class="inputBox">
               <span class="input-title">Project's goal (for who?):</span>
-              <input type="text" name="projectGoal" class="" :placeholder="projectObj.belongsTo" required />
+              <input type="text" name="projectGoal" :placeholder="projectObj.belongsTo" v-model="newProjectGoal" />
             </div>
             <div class="inputBox">
-              <span class="input-title">Status: {{ projectObj.completed ? "Completed!" : "On going!" }}</span>
+              <span class="input-title">Status:</span>
+              <label class="input-title radio-button--label" for="project-completed">Completed!</label>
+              <input type="radio" id="project-completed" name="project-status" :value="true" :checked="projectObj.completed" v-model="newProjectStatus" />
+              <label class="input-title radio-button--label" for="project-on-going">On going...</label>
+              <input type="radio" id="project-on-going" name="project-status" :value="false" :checked="!projectObj.completed" v-model="newProjectStatus" />
             </div>
             <div class="inputBox">
               <span class="input-title">Description:</span>
-              <textarea type="text" name="description" :placeholder="projectObj.description" />
+              <textarea type="text" name="description" :placeholder="projectObj.description" v-model="newProjectDescription" />
             </div>
             <div class="inputBox">
               <input type="submit" name="submit-non-sensitive" value="Save" />
             </div>
+            <base-message v-if="updatesMessage" class="updates-message" :mode="messageMode" :message="updatesMessage"></base-message>
           </form>
         </div>
         <div class="right-col">
@@ -70,12 +75,21 @@ export default {
       loaded: false,
       gotAccess: false,
       members: [],
+      /* For project update */
+      newProjectName: "",
+      newProjectGoal: "",
+      newProjectDescription: "",
+      newProjectStatus: null,
+      updatesMessage: "",
+      messageMode: "",
     };
   },
   methods: {
     async loadProjectData() {
       try {
         this.projectObj = await this.$store.dispatch("getProjectData", { projectID: this.projectID });
+
+        this.newProjectStatus = this.projectObj.completed;
 
         if (this.projectObj.supervisor != this.$store.getters.loggedUserID) {
           this.$router.push("/permission-denied");
@@ -101,6 +115,54 @@ export default {
         this.supervisorObj = await this.$store.dispatch("getProjectSupervisor", { projectID: this.projectID });
       } catch (error) {
         console.log(error.message || "Something went wrong!");
+      }
+    },
+    async updateProject() {
+      let updated = false;
+      const updates = new Object();
+
+      if (this.newProjectName.trim() && this.newProjectName !== this.projectObj.name) {
+        updates.name = this.newProjectName;
+        updated = true;
+      }
+
+      if (this.newProjectDescription.trim() && this.newProjectDescription !== this.projectObj.description) {
+        updates.description = this.newProjectDescription;
+        updated = true;
+      }
+
+      if (this.newProjectGoal.trim() && this.newProjectGoal !== this.projectObj.belongsTo) {
+        updates.belongsTo = this.newProjectGoal;
+        updated = true;
+      }
+
+      if (this.newProjectStatus !== this.projectObj.completed) {
+        updates.completed = this.newProjectStatus;
+        updated = true;
+      }
+
+      if (updated) {
+        try {
+          const successData = await this.$store.dispatch("updateProjectData", { projectID: this.projectID, updates });
+
+          this.messageMode = "success";
+          this.updatesMessage = successData.successMessage;
+          this.projectObj.name = successData.newName;
+          this.projectObj.description = successData.newDescription;
+          this.projectObj.belongsTo = successData.newGoal;
+          this.newProjectStatus = this.projectObj.completed = successData.newStatus;
+          this.newProjectName = "";
+          this.newProjectDescription = "";
+          this.newProjectGoal = "";
+        } catch (error) {
+          this.messageMode = "error";
+          this.updatesMessage = error.message || "Something went wrong!";
+        }
+
+        setTimeout(() => {
+          this.messageMode = "";
+          this.updatesMessage = "";
+        }, 3000);
       }
     },
     viewSupervisor() {
@@ -148,6 +210,11 @@ ul {
   margin-top: 50px;
 }
 
+.radio-button--label {
+  margin-left: 12px;
+  margin-right: 3px;
+}
+
 .router-button {
   padding: 0.5rem 1.2rem;
   font-family: inherit;
@@ -189,6 +256,10 @@ ul {
   opacity: 0.7;
   transform: scale(1.07, 1.05) skewX(-15deg);
   background-image: var(--gradient-project);
+}
+
+.updates-message {
+  margin-top: 10px;
 }
 
 .project-page-container {
@@ -264,8 +335,7 @@ ul {
   cursor: pointer;
 }
 
-.project-information .inputBox input[type="submit"]:hover,
-.team-information .inputBox input[type="submit"]:active {
+.project-information .inputBox input[type="submit"]:hover {
   background-color: #000875;
   border-color: #000875;
 }
