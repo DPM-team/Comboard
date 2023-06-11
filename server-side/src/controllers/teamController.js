@@ -203,17 +203,45 @@ const addProjectToTeam = async (req, res) => {
   }
 };
 
-const deleteTeam = async function (req, res) {
-  try {
-    const deletedTeam = await Team.findOneAndDelete({ _id: req.params.identifier });
+const updateTeamData = async (req, res) => {
+  const allowedUpdates = new Array("name", "description");
 
-    if (!deletedTeam) {
-      return res.status(404).send("Team doesn't found!");
+  try {
+    const teamID = req.body.teamID;
+    const updates = Object.keys(req.body.updates);
+
+    if (!teamID) {
+      return res.status(400).json({ error: "'TeamID' is required!" });
     }
 
-    res.status(200).send(deletedTeam);
+    if (!updates) {
+      return res.status(400).json({ error: "'updates' are required!" });
+    }
+
+    const isValidOperation = updates.every((item) => {
+      return allowedUpdates.includes(item);
+    });
+
+    if (!isValidOperation) {
+      return res.status(400).json({ error: "Invalid updates!" });
+    }
+
+    const teamObj = await Team.findById(teamID);
+
+    if (!teamObj) {
+      return res.status(404).json({ error: "Provided team doesn't exists!" });
+    }
+
+    updates.forEach((field) => {
+      teamObj[field] = req.body.updates[field];
+    });
+
+    await teamObj.save();
+
+    res.status(200).json({ successMessage: "The Team has been successfully updated!", newName: teamObj?.name, newDescription: teamObj?.description });
   } catch (error) {
-    res.status(500).send(error);
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Server error." });
   }
 };
 
@@ -222,7 +250,7 @@ module.exports = {
   createTeam,
   getTeamMembers,
   getTeamSupervisor,
-  deleteTeam,
   getTeamProjects,
   addProjectToTeam,
+  updateTeamData,
 };

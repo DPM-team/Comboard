@@ -11,17 +11,17 @@
             <!-- Blue highlight effect -->
             <span class="highlight">{{ teamObj.name }}</span>
           </h1>
-          <form enctype="multipart/form-data" class="team-information" method="post" @submit.prevent="updateTeam">
+          <form enctype="multipart/form-data" class="team-information" method="post" @submit.prevent="updateTeam()">
             <h2>Update your team's profile</h2>
             <div class="inputBox">
               <span class="input-title">Team name</span>
-              <input type="text" name="teamName" class="" value="" :placeholder="teamObj.name" required />
+              <input type="text" name="teamName" :placeholder="teamObj.name" v-model="newTeamName" />
             </div>
             <span class="input-title">Team Supervisor</span>
             <h3 class="supervisor-name--text" @click="viewSupervisor()">{{ supervisorObj.fullname }}</h3>
             <div class="inputBox">
               <span class="input-title">Description</span>
-              <textarea type="text" name="description" value="" :placeholder="teamObj.description" />
+              <textarea type="text" name="description" :placeholder="teamObj.description" v-model="newTeamDescription" />
             </div>
             <div class="inputBox">
               <span class="team-profile--banner" id="fixed">Team banner</span>
@@ -30,6 +30,7 @@
             <div class="inputBox">
               <input type="submit" name="submit-non-sensitive" value="Save" />
             </div>
+            <base-message v-if="updatesMessage" class="updates-message" :mode="messageMode" :message="updatesMessage"></base-message>
           </form>
         </div>
         <div class="right-col">
@@ -85,6 +86,11 @@ export default {
       members: [],
       projects: [],
       loaded: false,
+      /* For team update */
+      newTeamDescription: "",
+      newTeamName: "",
+      updatesMessage: "",
+      messageMode: "",
     };
   },
   methods: {
@@ -125,8 +131,40 @@ export default {
         console.log(error.message || "Something went wrong!");
       }
     },
-    updateTeam() {
-      this.updateTeamPhoto();
+    async updateTeam() {
+      let updated = false;
+      const updates = new Object();
+
+      if (this.newTeamName.trim() && this.newTeamName !== this.teamObj.name) {
+        updates.name = this.newTeamName;
+        updated = true;
+      }
+
+      if (this.newTeamDescription.trim() && this.newTeamDescription !== this.teamObj.description) {
+        updates.description = this.newTeamDescription;
+        updated = true;
+      }
+
+      if (updated) {
+        try {
+          const successData = await this.$store.dispatch("updateTeamData", { teamID: this.teamID, updates });
+
+          this.messageMode = "success";
+          this.updatesMessage = successData.successMessage;
+          this.teamObj.name = successData.newName;
+          this.teamObj.description = successData.newDescription;
+          this.newTeamName = "";
+          this.newTeamDescription = "";
+        } catch (error) {
+          this.messageMode = "error";
+          this.updatesMessage = error.message || "Something went wrong!";
+        }
+
+        setTimeout(() => {
+          this.messageMode = "";
+          this.updatesMessage = "";
+        }, 3000);
+      }
     },
     createProjectLink() {
       return {
@@ -248,6 +286,10 @@ ul {
   opacity: 0.7;
   transform: scale(1.07, 1.05) skewX(-15deg);
   background-image: var(--gradient-team);
+}
+
+.updates-message {
+  margin-top: 10px;
 }
 
 .team-page-container {

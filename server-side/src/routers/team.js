@@ -12,6 +12,8 @@ router.get("/api/team/", teamController.getTeam);
 // Router to create a new organization team
 router.post("/api/team/create", teamController.createTeam);
 
+router.put("/api/team/update", authentication, teamController.updateTeamData);
+
 router.get("/api/team/members", teamController.getTeamMembers);
 
 router.get("/api/team/projects", teamController.getTeamProjects);
@@ -72,7 +74,5 @@ router.put(
     res.status(400).send({ error: error.message });
   }
 );
-
-router.delete("/api/team/:identifier", teamController.deleteTeam);
 
 module.exports = router;
