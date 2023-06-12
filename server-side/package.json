@@ -24,7 +24,7 @@
     "phone": "^3.1.37",
     "randomstring": "^1.2.3",
     "sharp": "^0.31.3",
-    "socketio": "^1.0.0",
+    "socket.io": "^4.6.2",
     "valid-url": "^1.0.9",
     "validator": "^13.7.0"
   },
