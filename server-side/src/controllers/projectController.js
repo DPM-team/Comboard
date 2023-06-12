@@ -181,7 +181,7 @@ const updateProjectData = async (req, res) => {
     });
   } catch (error) {
     console.error(error); // Log the error for debugging purposes
-    res.status(500).json({ error: "Server error." });
+    res.status(500).json({ error: error.message });
   }
 };
 

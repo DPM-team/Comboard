@@ -336,6 +336,57 @@ const updateProfileData = async (req, res) => {
   }
 };
 
+const updateUserNonSensitiveData = async (req, res) => {
+  const allowedUpdates = new Array("name", "surname", "telephone", "address", "gender", "birthday", "linkedinLink");
+
+  try {
+    const userID = req.body.userID;
+    const updates = Object.keys(req.body.updates);
+
+    if (!userID) {
+      return res.status(400).json({ error: "'userID' is required!" });
+    }
+
+    if (!updates) {
+      return res.status(400).json({ error: "'updates' are required!" });
+    }
+
+    const isValidOperation = updates.every((item) => {
+      return allowedUpdates.includes(item);
+    });
+
+    if (!isValidOperation) {
+      return res.status(400).json({ error: "Invalid updates!" });
+    }
+
+    const userObj = await User.findById(userID);
+
+    if (!userObj) {
+      return res.status(404).json({ error: "Provided user doesn't exists!" });
+    }
+
+    updates.forEach((field) => {
+      userObj[field] = req.body.updates[field];
+    });
+
+    await userObj.save();
+
+    res.status(200).json({
+      successMessage: "Data has been successfully updated!",
+      newFirstname: userObj?.name,
+      newLastname: userObj?.surname,
+      newTelephone: userObj?.telephone,
+      newAddress: userObj?.address,
+      newGender: userObj?.gender,
+      newBirthday: userObj?.birthday,
+      newLinkedinLink: userObj?.linkedinLink,
+    });
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getUser,
   getUserOrganizationData,
@@ -346,4 +397,5 @@ module.exports = {
   addTeamToUser,
   addProjectToUser,
   updateProfileData,
+  updateUserNonSensitiveData,
 };

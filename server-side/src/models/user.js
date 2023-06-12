@@ -43,7 +43,7 @@ const userSchema = mongoose.Schema(
     email: {
       type: String,
       unique: true,
-      required: [true, "Emails is required!"],
+      required: [true, "Email is required!"],
       trim: true,
       lowercase: true,
       validate: function (value) {
@@ -82,7 +82,7 @@ const userSchema = mongoose.Schema(
       required: false,
     },
     birthday: {
-      type: Date,
+      type: String,
       required: false,
     },
     linkedinLink: {

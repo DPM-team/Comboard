@@ -1,9 +1,17 @@
 export default {
-  async getUser(_, payload) {
+  async getUser(context, payload) {
     const userID = payload.userID;
 
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+    };
+
     try {
-      const response = await fetch(`/api/user?userID=${userID}`);
+      const response = await fetch(`/api/user?userID=${userID}`, requestOptions);
 
       const data = await response.json();
 
@@ -280,6 +288,33 @@ export default {
     } catch (e) {
       console.log(e);
       throw new Error();
+    }
+  },
+  async updateUserNonSensitiveData(context, payload) {
+    const userID = payload.userID;
+    const updates = payload.updates;
+
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ userID, updates }),
+    };
+
+    try {
+      const response = await fetch(`/api/user/update`, requestOptions);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
     }
   },
 };

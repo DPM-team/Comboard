@@ -5,7 +5,9 @@ const userController = require("../controllers/userController.js");
 const router = express.Router();
 
 // Router to get the user
-router.get("/api/user", userController.getUser);
+router.get("/api/user", authentication, userController.getUser);
+
+router.put("/api/user/update", authentication, userController.updateUserNonSensitiveData)
 
 router.get("/api/user/orgdata", authentication, userController.getUserOrganizationData);
 

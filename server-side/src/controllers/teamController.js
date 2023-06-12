@@ -241,7 +241,7 @@ const updateTeamData = async (req, res) => {
     res.status(200).json({ successMessage: "The Team has been successfully updated!", newName: teamObj?.name, newDescription: teamObj?.description });
   } catch (error) {
     console.error(error); // Log the error for debugging purposes
-    res.status(500).json({ error: "Server error." });
+    res.status(500).json({ error: error.message });
   }
 };
 
