@@ -7,7 +7,9 @@ const router = express.Router();
 // Router to get the user
 router.get("/api/user", authentication, userController.getUser);
 
-router.put("/api/user/update", authentication, userController.updateUserNonSensitiveData)
+router.put("/api/user/update", authentication, userController.updateUserNonSensitiveData);
+
+router.put("/api/user/update/sensitive", authentication, userController.updateUserSensitiveData);
 
 router.get("/api/user/orgdata", authentication, userController.getUserOrganizationData);
 

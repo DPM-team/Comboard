@@ -49,16 +49,21 @@
           <label id="fixed">Email <span class="required--field">*</span></label>
         </div>
         <div class="inputBox">
-          <input type="password" name="password" />
-          <label id="fixed">Password</label>
+          <input type="password" name="new-password" v-model="currPassword" />
+          <label id="fixed">Current Password <span class="required--field">*</span></label>
         </div>
         <div class="inputBox">
-          <input type="password" name="confirm-password" />
-          <label id="fixed">Confirm password</label>
+          <input type="password" name="new-password" />
+          <label id="fixed">New Password</label>
+        </div>
+        <div class="inputBox">
+          <input type="password" name="confirm-new-password" />
+          <label id="fixed">Confirm new password</label>
         </div>
         <div class="inputBox">
           <input type="submit" name="submit-sensitive" value="Update" id="submit-sensitive" />
         </div>
+        <base-message v-if="updatesMessageForSensitive" class="updates-message" :mode="messageModeForSensitive" :message="updatesMessageForSensitive"></base-message>
       </form>
     </div>
   </div>
@@ -86,6 +91,7 @@ export default {
       updatesMessageForNonSensitive: "",
       messageModeForNonSensitive: "",
       /* Sensitive data for update */
+      currPassword: "",
       newUsername: "",
       newEmail: "",
       updatesMessageForSensitive: "",
@@ -93,7 +99,7 @@ export default {
     };
   },
   methods: {
-    async loadUserNonSensitiveData() {
+    async loadUserData() {
       try {
         this.loading = true;
 
@@ -178,12 +184,58 @@ export default {
         }, 3000);
       }
     },
-    updateSensitiveInfo() {
-      console.log(2);
+    async updateSensitiveInfo() {
+      let updated = false;
+      const updates = new Object();
+
+      if (this.newUsername.trim() && this.newUsername !== this.userObj?.username) {
+        updates.username = this.newUsername;
+        updated = true;
+      }
+
+      if (this.newEmail.trim() && this.newEmail !== this.userObj?.email) {
+        updates.email = this.newEmail;
+        updated = true;
+      }
+
+      if (updated) {
+        try {
+          if (!this.currPassword.trim()) {
+            throw new Error("You need to confirm your password!");
+          }
+
+          const successData = await this.$store.dispatch("updateUserSensitiveData", {
+            userID: this.$store.getters.loggedUserID,
+            updates,
+            credentials: {
+              username: this.userObj?.username,
+              password: this.currPassword,
+            },
+          });
+          /* Configure the success mesage */
+          this.messageModeForSensitive = "success";
+          this.updatesMessageForSensitive = successData.successMessage;
+          /* Update the data on the front - end */
+          this.userObj.username = successData.newUsername;
+          this.userObj.email = successData.newEmail;
+          /* Init the new values */
+          this.newUsername = "";
+          this.newEmail = "";
+          this.currPassword = "";
+        } catch (error) {
+          this.messageModeForSensitive = "error";
+          this.updatesMessageForSensitive = error.message || "Something went wrong!";
+        }
+
+        setTimeout(() => {
+          this.messageModeForSensitive = "";
+          this.updatesMessageForSensitive = "";
+        }, 3000);
+      }
     },
   },
   created() {
-    this.loadUserNonSensitiveData();
+    this.loadUserData();
   },
 };
 </script>
