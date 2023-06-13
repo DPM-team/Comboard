@@ -3,11 +3,9 @@
 </template>
 
 <script>
-import { socket } from "@/socket";
 export default {
   name: "App",
   created() {
-    socket;
     this.$store.dispatch("tryAutoLogin");
     this.$store.dispatch("tryAutoOrganizationLoad");
   },

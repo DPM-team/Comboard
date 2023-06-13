@@ -87,6 +87,7 @@
             <button @click="acceptConnection(notification.from, notification._id, true)">Accept</button>
             <button @click="acceptConnection(notification.from, notification._id, false)">Delete</button>
           </div>
+          <div v-else>n={{ notification }}</div>
         </li>
       </div>
       <p class="notification-item" v-else>No Notifications</p>
@@ -97,6 +98,7 @@
 <script>
 import HeaderToggleOption from "../../organization/HeaderToggleOption.vue";
 import BaseSpinner from "../../basic-components/BaseSpinner.vue";
+import { socket } from "@/socket";
 
 export default {
   components: { HeaderToggleOption, BaseSpinner },
@@ -219,6 +221,9 @@ export default {
   },
   async created() {
     await this.setPhoto();
+    socket.on("member", (payload) => {
+      this.notifications.unshift(payload);
+    });
   },
 };
 </script>

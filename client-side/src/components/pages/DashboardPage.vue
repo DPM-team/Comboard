@@ -28,6 +28,7 @@ import DashboardHeader from "../layout/headers/DashboardHeader.vue";
 import BaseCard from "../basic-components/BaseCard.vue";
 import OrganizationList from "../dashboard/OrganizationList.vue";
 import DashboardSearchbarContainer from "../dashboard/DashboardSearchbarContainer.vue";
+import { state, socket } from "@/socket";
 
 export default {
   components: { DashboardHeader, DashboardFooter, BaseCard, OrganizationList, DashboardSearchbarContainer },
@@ -41,6 +42,9 @@ export default {
   },
   created() {
     document.body.classList.remove("no-scrolling");
+    if (!state.connected) {
+      socket.connect();
+    }
   },
   methods: {
     async submitFormToJoin() {
@@ -52,6 +56,7 @@ export default {
 
         this.submitMessage = successData.message;
         this.messageType = "success";
+        socket.emit("join", { name: this.$store.getters.name, surname: this.$store.getters.surname, room: successData.organizationID });
       } catch (error) {
         this.submitMessage = error.message || "Failed to join organization.";
         this.messageType = "error";

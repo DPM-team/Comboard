@@ -13,6 +13,7 @@
 <script>
 import OrganizationSideNavigationBar from "../organization/OrganizationSideNavigationBar.vue";
 import OrganizationPageHeader from "../layout/headers/OrganizationPageHeader.vue";
+import { socket } from "@/socket";
 
 export default {
   components: { OrganizationSideNavigationBar, OrganizationPageHeader },
@@ -23,10 +24,12 @@ export default {
     };
   },
   created() {
-    document.body.classList.add("no-scrolling");
-
     this.userID = this.$store.getters.loggedUserID;
     this.organizationID = this.$store.getters.selectedOrganizationID;
+
+    document.body.classList.add("no-scrolling");
+    socket.connect();
+    socket.emit("organization-dashboard", { room: this.organizationID });
   },
 };
 </script>

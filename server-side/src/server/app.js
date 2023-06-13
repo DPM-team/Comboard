@@ -17,6 +17,7 @@ const notificationsRouter = require("../routers/notifications.js");
 const tasksRouter = require("../routers/tasks.js");
 const errorRouter = require("../routers/error.js");
 const socketio = require("socket.io");
+const { lchown } = require("fs");
 
 const app = express();
 // We use http module because in socket.io library, we need to pass as argument the HTTP server, but express alone, creates the server behind the scenes and we don't have access to the HTTP server
@@ -24,6 +25,13 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 io.on("connection", (socket) => {
+  socket.on("join", ({ name, surname, room }) => {
+    socket.join(room);
+    socket.broadcast.to(room).emit("member", { name, surname });
+  });
+  socket.on("organization-dashboard", ({ room }) => {
+    socket.join(room);
+  });
   socket.on("disconnect", () => {
     console.log(this);
   });
