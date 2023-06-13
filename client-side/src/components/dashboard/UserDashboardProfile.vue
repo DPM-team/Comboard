@@ -53,11 +53,11 @@
           <label id="fixed">Current Password <span class="required--field">*</span></label>
         </div>
         <div class="inputBox">
-          <input type="password" name="new-password" />
+          <input type="password" name="new-password" v-model="newPassword" />
           <label id="fixed">New Password</label>
         </div>
         <div class="inputBox">
-          <input type="password" name="confirm-new-password" />
+          <input type="password" name="confirm-new-password" v-model="confirmNewPassword" />
           <label id="fixed">Confirm new password</label>
         </div>
         <div class="inputBox">
@@ -94,6 +94,9 @@ export default {
       currPassword: "",
       newUsername: "",
       newEmail: "",
+      /* To change the password */
+      newPassword: "",
+      confirmNewPassword: "",
       updatesMessageForSensitive: "",
       messageModeForSensitive: "",
     };
@@ -198,6 +201,23 @@ export default {
         updated = true;
       }
 
+      if (this.newPassword.trim()) {
+        if (this.newPassword === this.confirmNewPassword) {
+          updates.password = this.newPassword;
+          updated = true;
+        } else {
+          this.messageModeForSensitive = "error";
+          this.updatesMessageForSensitive = "New password should be confirmed correctly!";
+
+          setTimeout(() => {
+            this.messageModeForSensitive = "";
+            this.updatesMessageForSensitive = "";
+          }, 3000);
+
+          return;
+        }
+      }
+
       if (updated) {
         try {
           if (!this.currPassword.trim()) {
@@ -221,11 +241,14 @@ export default {
           /* Init the new values */
           this.newUsername = "";
           this.newEmail = "";
-          this.currPassword = "";
         } catch (error) {
           this.messageModeForSensitive = "error";
           this.updatesMessageForSensitive = error.message || "Something went wrong!";
         }
+
+        this.currPassword = "";
+        this.newPassword = "";
+        this.confirmNewPassword = "";
 
         setTimeout(() => {
           this.messageModeForSensitive = "";

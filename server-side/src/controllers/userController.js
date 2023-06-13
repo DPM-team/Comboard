@@ -388,7 +388,7 @@ const updateUserNonSensitiveData = async (req, res) => {
 };
 
 const updateUserSensitiveData = async (req, res) => {
-  const allowedUpdates = new Array("username", "email");
+  const allowedUpdates = new Array("username", "email", "password");
 
   try {
     const userID = req.body.userID;
