@@ -9,7 +9,7 @@
         <div class="left-col">
           <h1 class="team-name">
             <!-- Blue highlight effect -->
-            <span class="highlight">{{ teamObj.name }}</span>
+            <span class="highlight hover--cursor" title="View team" @click="viewTeamPublicProfile()">{{ teamObj.name }}</span>
           </h1>
           <form enctype="multipart/form-data" class="team-information" method="post" @submit.prevent="updateTeam()">
             <h2>Update your team's profile</h2>
@@ -202,6 +202,9 @@ export default {
     viewSupervisor() {
       this.$router.push(`/organization/user/${this.supervisorObj.id}/posts`);
     },
+    viewTeamPublicProfile() {
+      this.$router.push(`/organization/team-public/${this.teamID}`);
+    },
   },
   async created() {
     this.loaded = false;
@@ -221,6 +224,10 @@ export default {
 <style scoped>
 .my-h2 {
   color: var(--color-primary);
+}
+
+.hover--cursor {
+  cursor: pointer;
 }
 
 .members-list {
