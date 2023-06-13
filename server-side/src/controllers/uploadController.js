@@ -112,6 +112,8 @@ const searchStorageFiles = async (req, res) => {
 
 const getStorageUploadedFile = async (req, res) => {
   try {
+    const preview = req.query.preview;
+
     const fileObj = await File.findById(req.params.fileID);
 
     if (!fileObj) {
@@ -124,15 +126,19 @@ const getStorageUploadedFile = async (req, res) => {
       return res.status(200).send(fileObj.binary);
     }
 
-    const buffer = await sharp(fileObj.binary)
-      .resize({
-        width: 300,
-        height: 200,
-      })
-      .png()
-      .toBuffer();
+    if (preview) {
+      const buffer = await sharp(fileObj.binary)
+        .resize({
+          width: 300,
+          height: 200,
+        })
+        .png()
+        .toBuffer();
 
-    res.status(200).send(buffer);
+      return res.status(200).send(buffer);
+    }
+
+    res.status(200).send(fileObj.binary);
   } catch (error) {
     console.error(error); // Log the error for debugging purposes
     res.status(500).send("Server error.");
