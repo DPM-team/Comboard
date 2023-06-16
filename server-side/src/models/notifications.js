@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const notificationsSchema = mongoose.Schema(
   {
-    userID: {
+    entity: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
     },

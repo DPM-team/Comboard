@@ -38,7 +38,7 @@ export default {
 
       context.commit("setUserInfo", {
         name: successData.userObj.name,
-        surname: successData.surname,
+        surname: successData.userObj.surname,
       });
     } catch (error) {
       throw new Error(error.message || "Internal Server Error: Failed to authenticate.");
@@ -73,10 +73,16 @@ export default {
 
       localStorage.setItem("userID", successData.userObj._id);
       localStorage.setItem("token", successData.generatedToken);
+      localStorage.setItem("name", successData.userObj.name);
+      localStorage.setItem("surname", successData.userObj.surname);
 
       context.commit("setUser", {
         userID: successData.userObj._id,
         token: successData.generatedToken,
+      });
+      context.commit("setUserInfo", {
+        name: successData.userObj.name,
+        surname: successData.userObj.surname,
       });
     } catch (error) {
       throw new Error(error.message || "Internal Server Error: Failed to register.");

@@ -2,6 +2,7 @@ const express = require("express");
 require("../database/mongoose");
 const http = require("http");
 const bodyParser = require("body-parser");
+const Notification = require("../models/notifications");
 
 // Import routers
 const connectRouter = require("../routers/connect.js");
@@ -25,12 +26,22 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 io.on("connection", (socket) => {
-  socket.on("join", ({ name, surname, room }) => {
+  socket.on("join", async ({ userID, name, surname, room }) => {
     socket.join(room);
-    socket.broadcast.to(room).emit("member", { name, surname });
+    //This is for organization's members
+    const entityOrganization = room;
+    const notification = new Notification({ entity: entityOrganization, from: userID, content: `New member Organization ${name} ${surname} has added on Board!`, type: "member" });
+    await notification.save();
+    socket.broadcast.to(room).emit("member", notification);
   });
   socket.on("organization-dashboard", ({ room }) => {
     socket.join(room);
+
+    socket.on("request-connection", (userID) => {
+      socket.on(`connection-${userID}`, () => {
+        console.log();
+      });
+    });
   });
   socket.on("disconnect", () => {
     console.log(this);
