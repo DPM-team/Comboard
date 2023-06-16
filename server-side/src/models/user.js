@@ -107,6 +107,16 @@ const userSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       refs: "File",
     }),
+    organizationInvitations: new Array({
+      organizationKey: {
+        type: String,
+        required: true,
+      },
+      organizationName: {
+        type: String,
+        required: true,
+      },
+    }),
   },
   {
     timestamps: true,

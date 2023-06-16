@@ -345,4 +345,76 @@ export default {
       throw new Error(error.message); // Throw error to be caught in the component
     }
   },
+  async getOrganizationInvitations(context) {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+    };
+
+    try {
+      const response = await fetch(`/api/user/invitations`, requestOptions);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
+    }
+  },
+  async removeOrganizationInvitation(context, payload) {
+    const organizationKey = payload.organizationKey;
+
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ organizationKey }),
+    };
+
+    try {
+      const response = await fetch(`/api/user/invitation`, requestOptions);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
+    }
+  },
+  async clearOrganizationInvitations(context) {
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+    };
+
+    try {
+      const response = await fetch(`/api/user/invitations/clear`, requestOptions);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return data;
+      } else {
+        throw new Error(data.error); // Throw error to be caught in the component
+      }
+    } catch (error) {
+      throw new Error(error.message); // Throw error to be caught in the component
+    }
+  },
 };

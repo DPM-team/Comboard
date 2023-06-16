@@ -345,11 +345,41 @@ export default {
         throw new Error(errorObj.error);
       }
 
-      const successData = await response.json();
+      await response.json();
 
-      console.log(successData);
+      context.dispatch("sendJoinInvitationAsNotification", { receiverEmail, organizationKey: organizationPublicKey, organizationName });
     } catch (error) {
       throw new Error(error.message || "Failed send invitation.");
+    }
+  },
+  async sendJoinInvitationAsNotification(context, payload) {
+    const receiverEmail = payload.receiverEmail;
+    const organizationKey = payload.organizationKey;
+    const organizationName = payload.organizationName;
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.rootGetters.loggedUserToken}`,
+      },
+      body: JSON.stringify({ organizationName, organizationKey, receiverEmail }),
+    };
+
+    try {
+      // Make a POST request to the API endpoint
+      const response = await fetch(`/api/user/invite`, requestOptions);
+
+      // Check if the response is successful
+      if (!response.ok) {
+        // Handle error response
+        const errorObj = await response.json();
+        throw new Error(errorObj.error);
+      }
+
+      await response.json();
+    } catch (error) {
+      throw new Error(error.message || "Failed send the notification.");
     }
   },
 };

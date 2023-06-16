@@ -23,6 +23,7 @@ export default {
   --color-fourth: #0c4771;
   --color-fifth: #bfe2fa;
   --color-sixth: #168630;
+  --color-warning: #9b0d0d;
   --gradient-primary: linear-gradient(#ffffff, var(--color-secondary));
   --gradient-team: linear-gradient(#ffffff, rgb(70, 78, 239));
   --gradient-project: linear-gradient(#ffffff, rgb(255, 255, 93));

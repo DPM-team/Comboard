@@ -13,6 +13,14 @@ router.put("/api/user/update/sensitive", authentication, userController.updateUs
 
 router.get("/api/user/orgdata", authentication, userController.getUserOrganizationData);
 
+router.post("/api/user/invite", authentication, userController.createOrgInvitationNotification);
+
+router.get("/api/user/invitations", authentication, userController.getOrgInvitationNotifications);
+
+router.put("/api/user/invitation", authentication, userController.removeOrgInvitationNotification);
+
+router.put("/api/user/invitations/clear", authentication, userController.clearOrgInvitationsNotifications);
+
 // Router to get all the organizations that a user is member
 router.get("/api/user/organizations", userController.getUserOrganizations);
 

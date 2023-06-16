@@ -438,6 +438,121 @@ const updateUserSensitiveData = async (req, res) => {
   }
 };
 
+const createOrgInvitationNotification = async (req, res) => {
+  try {
+    const receiverEmail = req.body.receiverEmail;
+    const organizationKey = req.body.organizationKey;
+    const organizationName = req.body.organizationName;
+
+    if (!receiverEmail) {
+      return res.status(400).json({ error: "'receiverEmail' is required!" });
+    }
+
+    if (!organizationKey) {
+      return res.status(400).json({ error: "organizationKey is required!" });
+    }
+
+    if (!organizationName) {
+      return res.status(400).json({ error: "organizationName is required!" });
+    }
+
+    const userObj = await User.findOne({ email: receiverEmail });
+
+    if (!userObj) {
+      return res.status(200).json({ error: "User not found, so we can't send the notification!" });
+    }
+
+    userObj.organizationInvitations.push({ organizationKey, organizationName });
+
+    await userObj.save();
+
+    res.status(200).json({ successMessage: "Invitation is sended as notification with success!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+const getOrgInvitationNotifications = async (req, res) => {
+  try {
+    const userID = req.user._id;
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    const userObj = await User.findById(userID);
+
+    if (!userObj) {
+      return res.status(400).json({ error: "User not found!" });
+    }
+
+    res.status(200).json({ invitations: userObj.organizationInvitations });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+const removeOrgInvitationNotification = async (req, res) => {
+  try {
+    const userID = req.user._id;
+    const organizationKey = req.body.organizationKey;
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    if (!organizationKey) {
+      return res.status(400).json({ error: "organizationKey is required!" });
+    }
+
+    const userObj = await User.findById(userID);
+
+    if (!userObj) {
+      return res.status(400).json({ error: "User not found!" });
+    }
+
+    let removed = false;
+
+    userObj.organizationInvitations = userObj.organizationInvitations.filter((invitationObj) => {
+      return invitationObj.organizationKey !== organizationKey;
+    });
+
+    await User.findByIdAndUpdate(userID, { organizationInvitations: userObj.organizationInvitations });
+
+    res.status(200).json({ message: "Notification removed with success!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+const clearOrgInvitationsNotifications = async (req, res) => {
+  try {
+    const userID = req.user._id;
+
+    if (!userID) {
+      return res.status(400).json({ error: "UserID is required!" });
+    }
+
+    const userObj = await User.findById(userID);
+
+    if (!userObj) {
+      return res.status(400).json({ error: "User not found!" });
+    }
+
+    userObj.organizationInvitations = [];
+
+    await User.findByIdAndUpdate(userID, { organizationInvitations: userObj.organizationInvitations });
+
+    res.status(200).json({ message: "Notifications removed with success!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 module.exports = {
   getUser,
   getUserOrganizationData,
@@ -450,4 +565,8 @@ module.exports = {
   updateProfileData,
   updateUserNonSensitiveData,
   updateUserSensitiveData,
+  createOrgInvitationNotification,
+  getOrgInvitationNotifications,
+  removeOrgInvitationNotification,
+  clearOrgInvitationsNotifications,
 };

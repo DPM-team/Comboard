@@ -30,11 +30,20 @@
       </nav>
     </header>
     <header-toggle-option v-if="notificationOptionsAreVisible" :position="'notifications-toggle'">
-      <base-spinner class="notification-item" v-if="spinner"></base-spinner>
-      <div v-if="notifications.length > 0">
-        <li class="notification-item" v-for="notification in notifications" :key="notification._id"></li>
+      <p v-if="invitations.length === 0 && invitationsLoaded" class="notification-item">No invitations</p>
+      <div v-else-if="invitations.length > 0 && invitationsLoaded" class="scroll">
+        <li class="notification-item" v-for="invitation in invitations" :key="invitation._id">
+          <p>You have invited to join '{{ invitation?.organizationName }}'</p>
+          <div class="options--buttons">
+            <button class="invitation--option invitation-accept--option" @click="joinOrganization(invitation?.organizationKey)">Accept</button>
+            <button class="invitation--option invitation-decline--option" @click="declineInvitation(invitation?.organizationKey)">Decline</button>
+          </div>
+        </li>
       </div>
-      <p class="notification-item" v-else>No Notifications</p>
+      <div class="general--buttons">
+        <button class="notifications--btn clear--btn" @click="clearInvitations()">Clear All</button>
+        <button class="notifications--btn close--btn" @click="closeInvitations()">Close</button>
+      </div>
     </header-toggle-option>
   </div>
 </template>
@@ -43,11 +52,61 @@
 import HeaderToggleOption from "../../organization/HeaderToggleOption.vue";
 
 export default {
-  data() {
-    return { notificationOptionsAreVisible: false, notifications: [] };
-  },
   components: { HeaderToggleOption },
+  data() {
+    return {
+      notificationOptionsAreVisible: false,
+      invitations: [],
+      invitationsLoaded: false,
+    };
+  },
   methods: {
+    async loadInvitations() {
+      try {
+        const successData = await this.$store.dispatch("getOrganizationInvitations");
+        this.invitations = successData.invitations;
+        this.invitationsLoaded = true;
+      } catch (error) {
+        console.log(error.message || "Failed to load invitations.");
+      }
+    },
+    async joinOrganization(organizationKey) {
+      try {
+        await this.$store.dispatch("joinOrganization", { organizationKey, userID: this.$store.getters.loggedUserID });
+      } catch (error) {
+        console.log(error.message || "Failed to join organization.");
+      }
+
+      this.removeInvitation(organizationKey);
+    },
+    declineInvitation(organizationKey) {
+      this.removeInvitation(organizationKey);
+    },
+    async removeInvitation(organizationKey) {
+      try {
+        await this.$store.dispatch("removeOrganizationInvitation", { organizationKey });
+
+        this.invitations = this.invitations.filter((invitationObj) => {
+          return invitationObj.organizationKey !== organizationKey;
+        });
+      } catch (error) {
+        console.log(error.message || "Failed to remove the invitation.");
+      }
+    },
+    async clearInvitations() {
+      if (this.invitations.length > 0) {
+        try {
+          await this.$store.dispatch("clearOrganizationInvitations");
+
+          this.invitations = [];
+        } catch (error) {
+          console.log(error.message || "Failed to remove all invitations");
+        }
+      }
+    },
+    closeInvitations() {
+      this.notificationOptionsAreVisible = false;
+    },
     async logout() {
       try {
         await this.$store.dispatch("logout");
@@ -60,26 +119,88 @@ export default {
       this.notificationOptionsAreVisible = !this.notificationOptionsAreVisible;
     },
   },
+  created() {
+    this.loadInvitations();
+  },
 };
 </script>
 
 <style scoped>
+.options--buttons {
+  margin-top: 5px;
+}
+
+.scroll {
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.invitation--option {
+  margin-right: 7px;
+  color: white;
+  padding: 6px 5px 6px 5px;
+  cursor: pointer;
+  border: none;
+}
+
+.invitation--option:hover {
+  opacity: 0.8;
+}
+
+.invitation-accept--option {
+  background-color: var(--color-third);
+}
+
+.invitation-decline--option {
+  background-color: var(--color-warning);
+}
+
 .list-item {
   padding: 15px;
   color: white;
   border-bottom: solid white 1px;
   cursor: pointer;
 }
+
 .notification-item {
-  padding: 15px;
+  padding: 15px 15px 5px 15px;
   color: var(--color-primary);
   border-bottom: solid var(--color-primary) 1px;
+  border-left: solid var(--color-primary) 1px;
+  border-right: solid var(--color-primary) 1px;
   background-color: white;
 }
+
+.general--buttons {
+  display: flex;
+}
+
+.notifications--btn {
+  width: 50%;
+  padding: 7px 3px 7px 3px;
+  border: none;
+  cursor: pointer;
+}
+
+.notifications--btn:hover {
+  opacity: 0.8;
+}
+
+.clear--btn {
+  background-color: var(--color-warning);
+  color: white;
+}
+
+.close--btn {
+  background-color: var(--color-third);
+  color: white;
+}
+
 .list-item:hover {
   background: white;
   color: var(--color-primary);
 }
+
 .notification-item:hover {
   cursor: pointer;
 }
