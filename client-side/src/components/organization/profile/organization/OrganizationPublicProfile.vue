@@ -85,7 +85,7 @@ export default {
     async takeOrganizationImage() {
       try {
         const blob = await this.$store.dispatch("takeOrganizationImage", {
-          organizationID: this.this.$store.getters.selectedOrganizationID,
+          organizationID: this.$store.getters.selectedOrganizationID,
         });
 
         if (blob.size !== 0) {

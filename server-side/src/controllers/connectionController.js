@@ -28,7 +28,7 @@ const toogleConnection = async (req, res) => {
       userFromRequestData.pendingRequestsSend.push(userToRequest._id);
       userToRequestData.pendingRequestsReceive.push(userFromRequest._id);
       const notification = new Notification({
-        userID: userToRequest._id,
+        entity: userToRequest._id,
         from: userFromRequest._id,
         type: "connection",
       });

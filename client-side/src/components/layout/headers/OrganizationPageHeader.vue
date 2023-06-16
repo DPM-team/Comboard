@@ -14,6 +14,7 @@
           <li class="header-li" @click="toggleNotificationOptions">
             <a class="header-a">
               <font-awesome-icon class="menu-icon" icon="fa-solid fa-bell" />
+              <div>{{ notifications.length }}</div>
             </a>
           </li>
           <li class="header-li" @click="toggleMessageOptions">
@@ -81,16 +82,16 @@
     </header-toggle-option>
     <header-toggle-option v-if="notificationOptionsAreVisible" :position="'notifications-toggle'">
       <base-spinner class="notification-item" v-if="spinner"></base-spinner>
-      <div v-if="notifications.length > 0">
+      <div v-else-if="notifications.length > 0 && !spinner">
         <li class="notification-item" v-for="notification in notifications" :key="notification._id">
           <div v-if="notification.type === 'connection'">
             <button @click="acceptConnection(notification.from, notification._id, true)">Accept</button>
             <button @click="acceptConnection(notification.from, notification._id, false)">Delete</button>
           </div>
-          <div v-else>n={{ notification }}</div>
+          <div v-else-if="notification.type === 'member'" class="notification-item">{{ notification.content }}</div>
         </li>
       </div>
-      <p class="notification-item" v-else>No Notifications</p>
+      <p class="notification-item" v-else>No Notifications {{ notifications.length }}</p>
     </header-toggle-option>
   </div>
 </template>
@@ -186,11 +187,6 @@ export default {
         this.messageOptionsAreVisible = !this.messageOptionsAreVisible;
       }
       this.notificationOptionsAreVisible = !this.notificationOptionsAreVisible;
-      if (this.notificationOptionsAreVisible) {
-        this.spinner = true;
-        await this.loadNotifications();
-        this.spinner = false;
-      }
     },
     toggleMobileOptionsMenu() {
       console.log("clicked");
@@ -221,8 +217,12 @@ export default {
   },
   async created() {
     await this.setPhoto();
+    this.spinner = true;
+    await this.loadNotifications();
+    this.spinner = false;
     socket.on("member", (payload) => {
       this.notifications.unshift(payload);
+      console.log(payload);
     });
   },
 };

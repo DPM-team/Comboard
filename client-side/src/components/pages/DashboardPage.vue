@@ -56,7 +56,7 @@ export default {
 
         this.submitMessage = successData.message;
         this.messageType = "success";
-        socket.emit("join", { name: this.$store.getters.name, surname: this.$store.getters.surname, room: successData.organizationID });
+        socket.emit("join", { userID: this.$store.getters.loggedUserID, name: this.$store.getters.name, surname: this.$store.getters.surname, room: successData.organizationID });
       } catch (error) {
         this.submitMessage = error.message || "Failed to join organization.";
         this.messageType = "error";
