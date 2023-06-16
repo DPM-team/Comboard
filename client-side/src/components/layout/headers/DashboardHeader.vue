@@ -8,6 +8,7 @@
         <ul class="header-ul">
           <li class="header-li">
             <a class="header-a">
+              <span class="notifications--count">{{ invitations?.length || 0 }}</span>
               <font-awesome-icon class="image-menu" :icon="['fas', 'bell']" @click="toggleNotificationOptions" />
             </a>
           </li>
@@ -228,13 +229,18 @@ export default {
 }
 
 .header-nav .header-ul .header-li .header-a {
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   padding: 5px 10px;
   border-radius: 3px;
   text-decoration: none;
   height: 1rem;
   cursor: pointer;
+}
+
+.notifications--count {
+  color: red;
+  margin-right: 0px;
 }
 
 .nav__logo {
