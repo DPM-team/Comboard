@@ -1,3 +1,4 @@
+const Organization = require("../models/organization.js");
 const User = require("../models/user.js");
 const Team = require("../models/team.js");
 const Data = require("../models/data.js");
@@ -459,7 +460,13 @@ const createOrgInvitationNotification = async (req, res) => {
     const userObj = await User.findOne({ email: receiverEmail });
 
     if (!userObj) {
-      return res.status(200).json({ error: "User not found, so we can't send the notification!" });
+      return res.status(400).json({ error: "User not found, so we can't send the notification!" });
+    }
+
+    const organizationObj = await Organization.findOne({ publicKey: organizationKey });
+
+    if (!organizationObj) {
+      return res.status(400).json({ error: "Organization with the specific key, doesn't exitst!" });
     }
 
     userObj.organizationInvitations.push({ organizationKey, organizationName });
