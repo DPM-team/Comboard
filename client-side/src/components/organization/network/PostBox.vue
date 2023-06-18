@@ -9,7 +9,7 @@
         </div>
         <h2>{{ firstname }} {{ lastname }}</h2>
         <h4>{{ dateFormat }}</h4>
-        <font-awesome-icon v-if="this.creatorID === this.$store.getters.loggedUserID" :icon="['fas', 'ellipsis']" class="ellipsis-info" ref="ellipsis" @click.prevent="openOptions($event)" />
+        <font-awesome-icon v-if="this.creatorID === this.$store.getters.loggedUserID" :icon="['fas', 'ellipsis-vertical']" class="ellipsis-info" ref="ellipsis" @click.prevent="openOptions($event)" />
       </div>
       <div class="paragraph-container">
         <p v-if="!editPostArea">{{ contentStringFinal }}</p>
@@ -234,18 +234,18 @@ export default {
       const toDay = new Date();
       const dateOfPost = this.date;
       if (dateOfPost.getFullYear() === toDay.getFullYear() && dateOfPost.getMonth() === toDay.getMonth() && dateOfPost.getDate() === toDay.getDate()) {
-        this.dateFormat = "To day";
+        this.dateFormat = "Today";
       } else {
         const day1 = moment(toDay);
         const day2 = moment(dateOfPost);
         let days = day1.diff(day2, "days");
 
         if (days <= 7) {
-          this.dateFormat = `${days === 0 ? ++days : days}  ${days !== 1 ? "days" : "day"} Ago`;
+          this.dateFormat = `${days === 0 ? ++days : days}  ${days !== 1 ? "days" : "day"} ago`;
         } else if (days > 7 && days <= 10) {
-          this.dateFormat = "1 week Ago";
+          this.dateFormat = "1 week ago";
         } else if (days <= 14) {
-          this.dateFormat = "2 Weeks Ago";
+          this.dateFormat = "2 Weeks ago";
         } else {
           this.dateFormat = dateOfPost.toLocaleDateString();
         }
@@ -360,7 +360,8 @@ export default {
 }
 
 .ellipsis-info {
-  margin-left: 2px;
+  margin-left: 50px;
+  margin-top: -50px;
 }
 
 .post-icon {
@@ -420,6 +421,10 @@ export default {
   .write-comment-input {
     width: 380px;
   }
+  .ellipsis-info {
+    margin-left: 40px;
+    margin-top: -40px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -443,6 +448,10 @@ export default {
   }
   .write-comment-input {
     width: 220px;
+  }
+  .ellipsis-info {
+    margin-left: 20px;
+    margin-top: -30px;
   }
 }
 
@@ -490,6 +499,10 @@ export default {
   .like-comment-container p {
     width: 60%;
     font-size: 12px;
+  }
+  .ellipsis-info {
+    margin-left: 15px;
+    margin-top: -25px;
   }
 }
 </style>
