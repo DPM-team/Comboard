@@ -48,5 +48,19 @@ input[type="file"] {
 
 .button-container {
   display: inline-block;
+  margin-top: 10px;
+}
+@media (max-width: 550px) {
+  .button {
+    font-size: 16px;
+    width: 80px;
+  }
+}
+@media (max-width: 450px) {
+  .button {
+    font-size: 14px;
+    padding: 6px;
+    width: 70px;
+  }
 }
 </style>
