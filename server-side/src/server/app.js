@@ -34,13 +34,22 @@ io.on("connection", (socket) => {
     await notification.save();
     socket.broadcast.to(room).emit("member", notification);
   });
+  socket.on("create-team", async (userID, room, team) => {
+    const notification = new Notification({ entity: room, from: userID, content: `New team with name ${team.name} has been created` });
+    await notification.save();
+    socket.broadcast.to(room).emit("create-team", notification);
+  });
+  socket.on("create-project", async (userID, room, project) => {
+    const notification = new Notification({ entity: room, from: userID, content: `New project with name ${project.name} has been created` });
+    await notification.save();
+    socket.broadcast.to(room).emit("create-project", notification);
+  });
   socket.on("organization-dashboard", ({ room }) => {
     socket.join(room);
 
-    socket.on("request-connection", (userID) => {
-      socket.on(`connection-${userID}`, () => {
-        console.log();
-      });
+    socket.on("request-connection", (userID, room) => {
+      socket.join(room);
+      socket.to().emit();
     });
   });
   socket.on("disconnect", () => {
@@ -71,4 +80,4 @@ app.use(tasksRouter);
 // This must be the last
 app.use(errorRouter);
 
-module.exports = server;
+module.exports = { server, io };

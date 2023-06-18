@@ -88,7 +88,7 @@
             <button @click="acceptConnection(notification.from, notification._id, true)">Accept</button>
             <button @click="acceptConnection(notification.from, notification._id, false)">Delete</button>
           </div>
-          <div v-else-if="notification.type === 'member'" class="notification-item">{{ notification.content }}</div>
+          <div v-else class="notification-item">{{ notification.content }}</div>
         </li>
       </div>
       <p class="notification-item" v-else>No Notifications {{ notifications.length }}</p>
@@ -222,7 +222,12 @@ export default {
     this.spinner = false;
     socket.on("member", (payload) => {
       this.notifications.unshift(payload);
-      console.log(payload);
+    });
+    socket.on("create-team", (payload) => {
+      this.notifications.unshift(payload);
+    });
+    socket.on("create-project", (payload) => {
+      this.notifications.unshift(payload);
     });
   },
 };

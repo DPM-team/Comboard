@@ -37,6 +37,7 @@ import MemberItem from "../teams/MemberItem.vue";
 import BaseSpinner from "../../basic-components/BaseSpinner.vue";
 import BaseMessage from "../../basic-components/BaseMessage.vue";
 import { VueDraggableNext } from "vue-draggable-next";
+import { state, socket } from "@/socket";
 
 export default {
   components: { BaseMessage, MemberItem, BaseSpinner, draggable: VueDraggableNext },
@@ -87,6 +88,11 @@ export default {
 
         this.submitMessage = successData.successMessage;
         this.messageType = "success";
+
+        if (!state.connecte) {
+          socket.connect();
+        }
+        socket.emit("create-project", this.$store.getters.loggedUserID, this.$store.getters.selectedOrganizationID, successData.createdProject);
 
         setTimeout(() => {
           this.submitMessage = "";

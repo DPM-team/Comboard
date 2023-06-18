@@ -36,6 +36,7 @@ import MemberItem from "./MemberItem.vue";
 import BaseSpinner from "../../basic-components/BaseSpinner.vue";
 import BaseMessage from "../../basic-components/BaseMessage.vue";
 import { VueDraggableNext } from "vue-draggable-next";
+import { socket } from "@/socket";
 
 export default {
   components: { BaseMessage, MemberItem, BaseSpinner, draggable: VueDraggableNext },
@@ -79,6 +80,8 @@ export default {
 
         this.submitMessage = successData.successMessage;
         this.messageType = "success";
+
+        socket.emit("create-team", this.$store.getters.loggedUserID, this.$store.getters.selectedOrganizationID, successData.createdTeam);
       } catch (error) {
         this.submitMessage = error.message || "Something went wrong!";
         this.messageType = "error";
