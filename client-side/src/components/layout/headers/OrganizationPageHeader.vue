@@ -11,10 +11,10 @@
           <img src="../../../assets/comboard-logo/main-logo-transparent.png" alt="Comboard logo" class="nav__logo" id="logo" />
         </a>
         <ul class="header-ul">
-          <li class="header-li" @click="toggleNotificationOptions">
+          <li class="header-li" id="notif-li" @click="toggleNotificationOptions">
             <a class="header-a">
+              <div class="notif-no">{{ notifications.length }}</div>
               <font-awesome-icon class="menu-icon" icon="fa-solid fa-bell" />
-              <div>{{ notifications.length }}</div>
             </a>
           </li>
           <li class="header-li" @click="toggleMessageOptions">
@@ -234,6 +234,16 @@ export default {
 </script>
 
 <style scoped>
+#notif-li {
+  display: flex;
+  width: 38px;
+}
+.notif-no {
+  font-size: 10px;
+  display: inline-block;
+  margin-right: 4px;
+  /* margin-top: -10px; */
+}
 .more-menu-icon {
   color: var(--color-primary);
   display: none;
