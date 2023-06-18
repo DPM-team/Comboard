@@ -12,9 +12,9 @@
         <font-awesome-icon v-if="this.creatorID === this.$store.getters.loggedUserID" :icon="['fas', 'ellipsis']" class="ellipsis-info" ref="ellipsis" @click.prevent="openOptions($event)" />
       </div>
       <div class="paragraph-container">
-        <p v-if="!editPostArea">{{ contentString }}</p>
+        <p v-if="!editPostArea">{{ contentStringFinal }}</p>
         <form v-else @submit.prevent="editPost">
-          <textarea v-model="contentString" class="edit-post"></textarea>
+          <textarea v-model="contentStringFinal" class="edit-post"></textarea>
           <input type="submit" value="Edit" />
         </form>
         <img class="post-img" v-if="media" :src="media" />
@@ -31,7 +31,7 @@
               <pfp-fullname-area v-for="user of usersLikePost" :key="user._id" :id="user._id" :firstname="user.name" :lastname="user.surname"></pfp-fullname-area>
             </div>
 
-            <p v-else>No users write now</p>
+            <p v-else>No users</p>
           </template>
         </base-dialog>
         <font-awesome-icon @click="writeComment" class="post-icon" icon="fa-regular fa-comment" />
@@ -90,7 +90,24 @@ export default {
       if (this.firstname.charAt(this.firstname.length - 1) === "s") return this.firstname + "' post";
       else return this.firstname + "'s post";
     },
+    contentStringFinal() {
+      var lines = [];
+      var currentLine = "";
+      for (var i = 0; i < this.contentString.length; i++) {
+        currentLine += this.contentString[i];
+        if (currentLine.length >= 20 && this.contentString[i] === " ") {
+          lines.push(currentLine.trim());
+          currentLine = "";
+        }
+      }
+      if (currentLine.length > 0) {
+        lines.push(currentLine.trim());
+      }
+
+      return lines.join("\n");
+    },
   },
+
   methods: {
     async toogleLike() {
       this.haveLike = !this.haveLike;
