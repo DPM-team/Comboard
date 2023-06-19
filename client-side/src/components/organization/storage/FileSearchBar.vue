@@ -63,9 +63,24 @@ input {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
   input {
-    width: 120px;
+    width: 100px;
+  }
+  .searchbar {
+    right: 20px;
+  }
+}
+
+@media (max-width: 1150px) {
+  .searchbar {
+    right: 120px;
+  }
+}
+
+@media (max-width: 700px) {
+  .searchbar {
+    right: 70px;
   }
 }
 </style>

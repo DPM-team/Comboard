@@ -217,6 +217,7 @@ export default {
   color: grey;
   display: inline-block;
   margin-top: 20px;
+  font-size: 8px;
 }
 
 .load-file {
