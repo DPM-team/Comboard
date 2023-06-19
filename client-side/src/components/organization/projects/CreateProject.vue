@@ -97,6 +97,7 @@ export default {
         setTimeout(() => {
           this.submitMessage = "";
           this.messageType = "";
+          this.closeDialog();
         }, 2000);
       } catch (error) {
         this.submitMessage = error.message || "Something went wrong!";
