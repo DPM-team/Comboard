@@ -32,8 +32,8 @@ export default {
   },
   computed: {
     newTitle() {
-      if (this.name.length > 14) {
-        return this.name.substring(0, 14) + "...";
+      if (this.name.length > 10) {
+        return this.name.substring(0, 10) + "...";
       } else {
         return this.name;
       }

@@ -201,6 +201,10 @@ a {
   margin-left: 10px;
 }
 
+img {
+  border-radius: 50%;
+}
+
 a:hover {
   background: var(--color-secondary);
 }

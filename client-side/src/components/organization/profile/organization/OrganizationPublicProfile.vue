@@ -24,7 +24,7 @@
           <h3 v-if="organizationObj.email">{{ organizationObj.email }}</h3>
           <h3 v-if="organizationObj.location">{{ organizationObj.location }}</h3>
           <p v-if="organizationObj.description">{{ organizationObj.description }}</p>
-          <base-button v-if="isModerator">Edit organization</base-button>
+          <base-button v-if="isModerator" class="edit-organization--btn" @click="goToOrganizationPrivateProfile()">Edit organization</base-button>
         </div>
         <div class="right__col">
           <div class="menu-ul">
@@ -72,6 +72,8 @@ export default {
           organizationID: this.$store.getters.selectedOrganizationID,
         });
 
+        this.isModerator = this.organizationObj.creatorID === this.$store.getters.loggedUserID;
+
         this.isLoading = false;
 
         if (!this.organizationObj) {
@@ -81,6 +83,9 @@ export default {
         console.log(error.message || "Something went wrong!");
         this.$router.push("/not-found");
       }
+    },
+    goToOrganizationPrivateProfile() {
+      this.$router.push("/organization/my-organization-private");
     },
     async takeOrganizationImage() {
       try {
@@ -203,6 +208,10 @@ export default {
 .main-area {
   display: flex;
   flex-wrap: wrap;
+}
+
+.edit-organization--btn {
+  margin-top: 10px;
 }
 
 .menu-ul {
