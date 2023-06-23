@@ -11,9 +11,6 @@
           <img v-else class="organization-logo" src="../../assets/images/common-images/default-organization-photo.png" alt="Organization name" @click="viewMyOrganization()" />
         </li>
         <li>
-          <p class="user-fullname--view">Welcome, {{ displayUserFullname }}</p>
-        </li>
-        <li>
           <router-link to="/organization/network">
             <font-awesome-icon class="icon" icon="fa-solid fa-people-group" />
             <span class="nav-item">Network</span>
@@ -202,6 +199,10 @@ a {
   position: relative;
   /* top: 12px; */
   margin-left: 10px;
+}
+
+img {
+  border-radius: 50%;
 }
 
 a:hover {

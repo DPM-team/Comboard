@@ -39,6 +39,7 @@ const getOrganizationPublicData = async (req, res) => {
       vatNumber: organization?.vatNumber,
       location: organization?.location,
       websiteURL: organization?.websiteURL,
+      creatorID: organization.creator,
     };
 
     res.status(200).json({ organizationObj });
