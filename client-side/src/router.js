@@ -47,6 +47,7 @@ import OrganizationProjects from "./components/organization/profile/organization
 import OrganizationMembers from "./components/organization/profile/organization/OrganizationMembers.vue";
 import PrivacyPolicyPage from "./components/pages/PrivacyPolicyPage.vue";
 import UserAgreementPage from "./components/pages/UserAgreementPage.vue";
+import ChatArea from "./components/organization/chat/chatArea.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -79,6 +80,11 @@ const router = createRouter({
         requiresNonAuthenticated: true,
       },
     },
+    {
+      path: "/chat",
+      component: ChatArea,
+    },
+
     {
       path: "/retrieve-password/",
       component: ForgotPasswordPage,

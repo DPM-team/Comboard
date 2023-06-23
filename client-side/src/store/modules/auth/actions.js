@@ -140,10 +140,20 @@ export default {
       localStorage.removeItem("token");
       localStorage.removeItem("name");
       localStorage.removeItem("surname");
+      localStorage.removeItem("profilePhoto");
 
       context.commit("setUser", {
         userID: null,
         token: null,
+      });
+
+      context.commit("setUseInfo", {
+        name: "",
+        surname: "",
+      });
+
+      context.commit("setProfilePhoto", {
+        profilePhoto: "",
       });
 
       context.dispatch("removeSelectedOrganization");

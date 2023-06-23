@@ -161,13 +161,13 @@ const answerRequestConnection = async (req, res) => {
       throw new Error("Not exists");
     }
 
-    const notification = await Notification.findById(notificationID).select("from userID");
+    const notification = await Notification.findById(notificationID).select("from entity");
 
     if (!notification) {
       return new Error();
     }
 
-    if (notification.from.toString() !== userOrgDataRequestConnection.userID.toString() || notification.userID.toString() !== req.user._id.toString()) {
+    if (notification.from.toString() !== userOrgDataRequestConnection.userID.toString() || notification.entity.toString() !== req.user._id.toString()) {
       return;
     }
 

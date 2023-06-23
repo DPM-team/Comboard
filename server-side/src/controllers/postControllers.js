@@ -126,7 +126,7 @@ const getCurrentPosts = async (req, res) => {
 
     // We get the user's data for a specific organization
     const userOrgData = await Data.findOne({ userID, organizationID })
-      .select("organizationID, connections")
+      .select("organizationID connections posts")
       .populate({
         path: "organizationID",
         model: "organization",
@@ -148,15 +148,33 @@ const getCurrentPosts = async (req, res) => {
             skip,
           },
         },
+      })
+      .populate({
+        path: "posts",
+        model: "post",
+        select: "-contentMedia",
+        match: {
+          createdAt: {
+            $gte: moment().subtract(7, "days").toDate(),
+          },
+        },
+        options: {
+          sort: {
+            createdAt: -1,
+          },
+          limit: 5,
+          skip,
+        },
       });
 
     if (!userOrgData) {
       throw new Error();
     }
 
+    console.log(userOrgData);
     const posts = new Array();
 
-    posts.push(...userOrgData.organizationID.posts);
+    posts.push(...userOrgData.posts, ...userOrgData.organizationID.posts);
 
     for (const connection of userOrgData.connections) {
       let connectionOrgaData = await Data.findOne({ userID: connection, orgID: req.query.organizationID })

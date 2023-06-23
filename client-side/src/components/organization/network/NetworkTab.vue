@@ -71,8 +71,8 @@ export default {
       this.posts.unshift({
         id: post._id,
         content: post.contentString,
-        name: "",
-        surname: "",
+        name: this.$store.getters.name,
+        surname: this.$store.getters.surname,
         creatorID: post.creatorID,
         pictureLink: `/api/users/${post.creatorID}/profilePhoto`,
         likes: post.likes,
