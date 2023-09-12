@@ -6,6 +6,7 @@ module.exports = defineConfig({
     port: 8080,
     proxy: {
       "^/api": {
+        changeOrigin: true,
         target: "https://comboard-service.onrender.com",
       },
     },
