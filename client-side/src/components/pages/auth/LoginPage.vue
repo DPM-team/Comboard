@@ -46,9 +46,17 @@ export default {
           username: this.username,
           password: this.password,
         });
-
+        console.log("");
+        console.log("");
+        console.log("");
+        console.log("");
+        console.log("");
+        console.log("");
+        console.log("");
+        console.log("");
         this.$router.push("/dashboard");
       } catch (error) {
+        console.log(error);
         this.errorMessage = error.message || "Failed to authenticate.";
       }
     },
