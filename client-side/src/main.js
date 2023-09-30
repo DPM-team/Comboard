@@ -153,7 +153,7 @@ library.add(
   faFilePowerpoint
 );
 
-const app = createApp(App);
+const app = createApp(h(App));
 
 // Custom directives
 app.directive("focus", {
