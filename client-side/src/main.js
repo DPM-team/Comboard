@@ -167,7 +167,7 @@ app.use(router);
 // Use store module
 app.use(store);
 
-app.use({ render: h(app) });
+app.use({ render: h(App) });
 
 // Use calendar plugin defaults (optional)
 app.use(setupCalendar, {});
