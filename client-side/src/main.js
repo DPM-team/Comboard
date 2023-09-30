@@ -1,4 +1,4 @@
-import { createApp } from "vue";
+import { createApp, h, render } from "vue";
 
 import router from "./router.js";
 import store from "./store/index.js";
@@ -166,6 +166,9 @@ app.directive("focus", {
 app.use(router);
 // Use store module
 app.use(store);
+
+app.use({ render: (h) => h(app) });
+
 // Use calendar plugin defaults (optional)
 app.use(setupCalendar, {});
 
