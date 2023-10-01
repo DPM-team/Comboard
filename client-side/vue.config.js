@@ -9,8 +9,5 @@ module.exports = defineConfig({
         target: "http://localhost:",
       },
     },
-    publicPath: "./",
-    outputDir: "dist",
-    assetsDir: "static",
   },
 });
