@@ -77,7 +77,7 @@ const getUserOrganizations = async (req, res) => {
     }
 
     const userObj = await User.findById(userID).populate("organizations");
-    console.log(userObj);
+
     if (!userObj) {
       return res.status(400).json({ error: "User not found!" });
     }
