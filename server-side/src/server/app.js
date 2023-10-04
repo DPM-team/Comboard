@@ -4,6 +4,7 @@ const http = require("http");
 const bodyParser = require("body-parser");
 const Notification = require("../models/notifications");
 const News = require("../models/news");
+const cors = require("cors");
 
 // Import routers
 const connectRouter = require("../routers/connect.js");
@@ -73,6 +74,12 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+
+app.use(
+  cors({
+    origin: "https://comboard.onrender.com",
+  })
+);
 
 // Config the routers
 app.use(connectRouter);
