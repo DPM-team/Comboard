@@ -82,6 +82,7 @@ const getUserOrganizations = async (req, res) => {
       return res.status(400).json({ error: "User not found!" });
     }
 
+    console.log(userObj);
     const organizations = userObj.organizations.map((organizationObj) => {
       return {
         id: organizationObj._id,
