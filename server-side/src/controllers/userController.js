@@ -76,13 +76,14 @@ const getUserOrganizations = async (req, res) => {
       return res.status(400).json({ error: "UserID is required!" });
     }
 
+    console.log(userID);
+
     const userObj = await User.findById(userID).populate("organizations");
 
     if (!userObj) {
       return res.status(400).json({ error: "User not found!" });
     }
 
-    console.log(userObj);
     const organizations = userObj.organizations.map((organizationObj) => {
       return {
         id: organizationObj._id,
