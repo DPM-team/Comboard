@@ -77,7 +77,8 @@ const getUserOrganizations = async (req, res) => {
     }
 
     console.log(userID);
-    console.log(await User.findById(userID));
+    const u = await User.findById(userID);
+    console.log(u);
     const userObj = await User.findById(userID).populate("organizations");
 
     if (!userObj) {
@@ -93,8 +94,7 @@ const getUserOrganizations = async (req, res) => {
 
     res.status(200).json({ organizations });
   } catch (error) {
-    // console.error(error);
-    // console.log(error, "show");
+    console.error(error);
     res.status(500).json({ error: "Server error" });
   }
 };
