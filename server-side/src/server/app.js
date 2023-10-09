@@ -74,8 +74,6 @@ app.use(
 );
 app.use(bodyParser.json());
 
-app.use();
-
 // Config the routers
 app.use(connectRouter);
 app.use(logoutRouter);
