@@ -92,6 +92,7 @@ const getUserOrganizations = async (req, res) => {
     res.status(200).json({ organizations });
   } catch (error) {
     console.error(error);
+    console.log(error, "show");
     res.status(500).json({ error: "Server error" });
   }
 };
